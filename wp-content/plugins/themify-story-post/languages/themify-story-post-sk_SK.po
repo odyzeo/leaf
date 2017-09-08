@@ -1,0 +1,31 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Themify Story Post\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-04-04 05:33+0000\n"
+"PO-Revision-Date: 2017-04-04 05:33+0000\n"
+"Last-Translator: marian <marian@web-design.sk>\n"
+"Language-Team: \n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=3; plural=( n == 1 ) ? 0 : ( n >= 2 && n <= 4 ) ? 1 : "
+"2;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/"
+
+#: themes/stack/story.php:47
+msgid "Edit"
+msgstr ""
+
+#. Name of the plugin
+msgid "Themify Story Post"
+msgstr ""
+
+#. Description of the plugin
+msgid "This plugin will add Story post type."
+msgstr ""
+
+#. Author of the plugin
+msgid "SIN"
+msgstr ""

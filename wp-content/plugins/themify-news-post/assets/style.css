@@ -1,0 +1,325 @@
+.module-news {
+	margin: 0/* -75px*/;
+	overflow:hidden;
+  position:relative;
+}
+
+.module-news .module-title{
+  display:none;
+}	
+
+.module-news #news-posts-list-out.count-1 {
+  display:none;
+}
+.module-news #news-posts-list-out {
+  position: relative;
+  z-index:2;
+  background:#363636;
+  width: 100%;
+  height:210px;
+  padding: 0px; }
+  .module-news #news-posts-list-out ul#news-posts-list {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 2000%;
+    height:100%;
+    list-style: none;
+    padding: 0 0 0 40%;
+    margin: 0; }
+    .module-news #news-posts-list-out ul#news-posts-list:after {
+      content: "";
+      display: block;
+      clear: both; }
+    .module-news #news-posts-list-out ul#news-posts-list li {
+      float: left;
+      overflow:visible;
+      padding: 0;
+      width: 1%;
+      text-align: center;
+      border: none;
+      text-transform: uppercase; }
+      .module-news #news-posts-list-out ul#news-posts-list li a {
+        display: block;
+        position:relative;
+        width: 100%;
+        height:210px;
+        box-sizing:border-box;
+        padding:20px 20px 20px 115px;
+        margin: 0 auto;
+        color:#fff;
+        text-align:left;
+        text-transform:none;
+        text-decoration: none; }
+        .module-news #news-posts-list-out ul#news-posts-list a:before {
+          content: "";
+          display: block;
+          position: absolute;
+          top:20px;
+          left:100px;
+          height: 72px;
+          width: 1px;
+          background: #fff;
+          -webkit-transition: all 0.2s ease-in-out;
+          -moz-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+         }
+        .module-news #news-posts-list-out ul#news-posts-list li.news-category-pre-studentov a:before {
+          background: #ffd000;
+         }
+        .module-news #news-posts-list-out ul#news-posts-list li.news-category-pre-slovakov-v-zahranici a:before {
+          background: #885fa3;
+         }
+        .module-news #news-posts-list-out ul#news-posts-list li.news-category-pre-mladych-profesionalov a:before {
+          background: #00b0e6;
+         }
+        .module-news #news-posts-list-out ul#news-posts-list li.news-category-pre-ucitelov a:before {
+          background: #e94256;
+         }
+        .module-news #news-posts-list-out ul#news-posts-list li.news-category-leaf-academy a:before {
+          background: #00c620;
+         }
+        .module-news #news-posts-list-out ul#news-posts-list li a.act, 
+        .module-news #news-posts-list-out ul#news-posts-list li a:hover {
+          background: #1d1d1d; }
+        .module-news #news-posts-list-out ul#news-posts-list a:after {
+          content: "";
+          display: block;
+          position: absolute;
+          left:50%;
+          bottom: 100%;
+          margin: 0 0 0 -30px;
+          border-style: solid;
+          border-width: 0px 30px 30px 30px;
+          border-color: transparent;
+          border-bottom-color: #1d1d1d;
+          -webkit-transition: all 0.2s ease-in-out;
+          -moz-transition: all 0.2s ease-in-out;
+          transition: all 0.2s ease-in-out;
+          opacity: 0; }
+        .module-news #news-posts-list-out ul#news-posts-list li a.act:after, 
+        .module-news #news-posts-list-out ul#news-posts-list li a:hover:after {
+          opacity: 1; }
+        .module-news #news-posts-list-out ul#news-posts-list a strong {
+          font-weight: bold;
+          font-size:18px;
+          display: block;
+          padding: 0;
+          line-height: 1.3; }
+        .module-news #news-posts-list-out ul#news-posts-list a .post-date {
+          font-weight: normal;
+          background:none;
+          font-size:18px;
+          display: block;
+          padding: 0;
+          margin:0 0 2em;
+          line-height: 1; }
+        .module-news #news-posts-list-out ul#news-posts-list a .post-date span{
+          font-size:100%;font-weight:normal;text-transform:uppercase;
+        }
+        .module-news #news-posts-list-out ul#news-posts-list a .post-date span.month:before,
+        .module-news #news-posts-list-out ul#news-posts-list a .post-date span.month:after{
+          content:" / ";display:inline;
+        }
+
+.module-news .builder-posts-wrap-out{
+  padding:40% 0 0;
+  position:relative;
+  z-index:1;
+}
+.module-news .builder-posts-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  }
+  .module-news .builder-posts-wrap-in {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10000%;
+    height: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    .module-news .builder-posts-wrap-in:after {
+      content: "";
+      display: block;
+      clear: both; }
+    .module-news .builder-posts-wrap-in article {
+      position: relative;
+      overflow:hidden;
+      height: 100%;
+      float: left;
+      display: table;
+      padding: 0;
+      margin:0;
+      width: 1%;
+      text-align: center;
+      border: none;}
+      .module-news .builder-posts-wrap-in article .news-post-slider-link,
+      .module-news .builder-posts-wrap-in article .post-image {
+        position:absolute;z-index:1;top:0;left:0;width:100%;height:100%;margin:0;
+      }
+      .module-news .builder-posts-wrap-in article .news-post-slider-link{z-index:3}
+      .module-news .builder-posts-wrap-in article .post-image img{
+        max-width:none;max-height:none;
+      }
+      .module-news .builder-posts-wrap-in article .post-content{
+        position:relative;z-index:2;display:table-cell;
+        vertical-align: middle;
+        padding: 0 75px;
+        box-sizing:border-box;
+      }
+      .module-news .builder-posts-wrap-in article .post-content .post-content-in {
+        font-size:50px;
+        color: #000;
+        position:relative;}
+      .module-news .builder-posts-wrap-in article .post-content .post-content-in p{
+        margin:1em 0;
+      }
+        .module-news .builder-posts-wrap-in article .post-content .post-content-in blockquote {
+          display:inline;
+          font-size:200%;
+          font-weight:bold;
+          background:#3FC539;
+          color:#fff;
+          line-height: 1.5;
+          padding:.05em 0;
+          margin: 0 0 .5em; }
+        .module-news .builder-posts-wrap-in article .post-content .post-content-in blockquote:before {
+          display:none; }
+        .module-news .builder-posts-wrap-in article .post-content .post-content-in blockquote p{
+          margin:0;display:inline;
+        }
+
+.module-news .left-arrow,
+.module-news .right-arrow {
+  position: absolute;z-index:2;
+  left:0;
+  z-index:3;
+}
+.module-news .right-arrow {
+  left:auto;
+  right:0;
+}
+
+
+/************************************************************************************
+NEWS POST
+*************************************************************************************/
+.single-news .featured-area {display:none}
+.single-news .list-post .post .post-image,
+.single-news .list-post .post .post-content {
+	padding-left: 0;
+}
+/*
+.single-news .news-post-wrap,
+.single-news .list-post .post .post-content {
+	float: right;
+	width:50%;
+}
+.single-news .list-post .post .post-image{
+	float:left;
+	width:45%;
+}
+*/
+.single-news #pagewrap {
+	/*padding-top: 102px;*/
+}
+.news-post-wrap {
+	text-align: center;
+	color: #C5C5C5;
+}
+.news-post-wrap a {
+	color: #fff;
+}
+.news-post-wrap span {
+	color: #fff;
+}
+.news-post-wrap .post-date {
+	background: none;
+	border-radius: 0;
+	height: auto;
+	width: auto;
+	margin: 0 0 1.0em;
+}
+.news-post-wrap .post-title {
+	margin: 0 0 0.550em;
+	font-size: 3.100em;
+	letter-spacing: 0.5px;
+}
+.single-news .news-post-wrap .post-title a {
+	color: inherit;
+}
+.single-news .post-content {
+	/*padding-top: 2.5%;*/
+}
+.news-post-wrap .post-meta {
+	margin: 0 0 27px;
+}
+
+
+@media (max-width:1600px){
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:44px}*/
+  body .module-news #news-posts-list-out ul#news-posts-list li a{padding-left:80px}
+  body .module-news #news-posts-list-out ul#news-posts-list a:before{left:70px}
+}
+
+@media (max-width:1400px){
+  /*
+  .module-news {
+  	margin: 0 -50px;
+  }
+  */
+  body .module-news .builder-posts-wrap-out{padding-top:45%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:36px}*/
+  body .module-news #news-posts-list-out ul#news-posts-list li a{padding-left:50px}
+  body .module-news #news-posts-list-out ul#news-posts-list a:before{left:40px}
+}
+
+@media (max-width:1200px){
+  .module-news {
+  	/*margin: 0 -20px;*/overflow:hidden
+  }
+  body .module-news .builder-posts-wrap-out{padding-top:50%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:30px}*/
+  body .module-news #news-posts-list-out ul#news-posts-list{width:3333.333333%;padding-left:33.333333%}
+}
+
+@media (max-width:960px){
+  body .module-news .builder-posts-wrap-out{padding-top:55%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:26px} */
+}
+
+@media (max-width:800px){
+  body .module-news .builder-posts-wrap-out{padding-top:60%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:25px}*/
+}
+
+@media (max-width:640px){
+  body .module-news .builder-posts-wrap-out{padding-top:75%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:24px} */
+  body .module-news #news-posts-list-out ul#news-posts-list{width:10000%;padding-left:0%}
+}
+
+@media (max-width:600px){
+  body .module-news .builder-posts-wrap-out{padding-top:80%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:20px} */
+}
+
+@media (max-width:500px){
+  body .module-news .builder-posts-wrap-out{padding-top:85%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:18px} */
+}
+
+@media (max-width:480px){
+  body .module-news .builder-posts-wrap-out{padding-top:90%}
+  /*body .module-news .builder-posts-wrap-in article .post-content .post-content-in{font-size:16px} */
+}
+
+@media (min-width:1024px){
+  body .module-news .builder-posts-wrap-out{padding-top:36%}
+}
+
