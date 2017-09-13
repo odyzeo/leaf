@@ -6,6 +6,7 @@ Template: themify-corporate
 */
 
 @import url('./fonts/Doko/font.css');
+@import url('./fonts/besom/font.css');
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,400i,700,700i&subset=latin-ext');
 @import url('https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i&subset=latin-ext');
 
@@ -1229,4 +1230,28 @@ html .page-title{width:auto}
 
 @media (max-width:1920px){
   #body #layout #loops-wrapper{padding-left:30px;padding-right:30px}
+}
+
+
+/**
+ * ZEO ADDED STYLES
+ */
+.d-block {
+    display: block!important;
+}
+
+.font-besom {
+    font-family: 'besom', sans-serif!important;
+}
+
+.logo-leaf-award {
+    width: 140px;
+    height: auto;
+}
+
+h5 {
+    margin-top: 20px;
+    margin-bottom: 0;
+    font-size: 57px!important;
+    font-family: 'besom', sans-serif!important;
 }
