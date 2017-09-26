@@ -219,7 +219,6 @@ function themify_register_custom_nav() {
 	register_nav_menus( array(
 		'main-nav' => __( 'Main Navigation', 'themify' ),
 		'footer-nav' => __( 'Footer Navigation', 'themify' ),
-		'award-nav' => __( 'Award Navigation', 'themify' ),
 	));
 }
 

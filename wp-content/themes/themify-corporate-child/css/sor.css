@@ -1,0 +1,84 @@
+
+#tg-mentor-search-form {
+    padding: 5px 0 10px 0;
+}
+#tg-mentor-search-form .tg-form-label {
+    margin: 0; padding: 5px 0; font-size: 95%;
+}
+#tg-mentor-search-form .btn-default {
+    margin: 1px 7px 5px 0;
+    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+}
+#tg-mentor-search-form .btn-default.active {
+    border-color: #007932;
+}
+
+#tg-mentor-search-result {
+    border-top: #e5e5e5 1px solid; padding: 0;
+}
+#tg-mentor-search-result h2 {
+    font-size: 220%; line-height: 130%;
+    color: #787878 !important;
+}
+#tg-mentor-search-result .tg-mentor {
+    padding: 10px 0 15px 0; border-bottom: #e5e5e5 1px solid;
+}
+#tg-mentor-search-result .tg-more, #tg-mentor-search-result .tg-show-less {
+    display: none;
+}
+
+#tg-mentor-search-result .tg-image {
+    float: left; width: 280px; max-height: 280px; margin: 10px auto; overflow:hidden;
+}
+#tg-mentor-search-result .tg-image img {
+        width: 100%;
+}
+#tg-mentor-search-result .tg-desc {
+    padding: 10px 0; margin: 0 0 0 330px; min-height: 300px;
+}
+#tg-mentor-search-result .tg-btn-linkedin {
+    display: inline-block; padding: 2px 7px; text-decoration: none; font-size: 85%;
+    background: #39569c; color: #fff; 
+    -moz-border-radius: 3px; -webkit-border-radius: 3px; border-radius: 3px;
+}
+#tg-mentor-search-result .tg-control {
+    margin: 0; padding: 2px 0 0 0;
+}
+
+@media (max-width: 768px) { 
+    #tg-mentor-search-result .tg-image {
+        float: none; width: auto; background: #f2f2f2; text-align: center;
+    }
+    #tg-mentor-search-result .tg-image img {
+        max-width: 280px;
+    }
+    #tg-mentor-search-result .tg-desc {
+        margin: 0; min-height: 0;
+    }
+    /*#tg-mentor-search-result .tg-image {
+        width: 180px; height: 180px;
+    }
+    #tg-mentor-search-result .tg-desc {
+         margin: 0 0 0 210px;
+    }*/
+}
+
+@media (max-width: 480px) { 
+    #tg-mentor-search-result .tg-image {
+        float: none; width: auto; background: #f2f2f2; text-align: center;
+    }
+    #tg-mentor-search-result .tg-image img {
+        max-width: 180px;
+    }
+    #tg-mentor-search-result .tg-desc {
+        margin: 0; min-height: 0;
+    }
+}
+
+#tg-mentor-single #tg-mentor-search-result {
+    border-top: none;
+}
+
+#tg-mentor-single #tg-mentor-search-result .tg-mentor {
+    border-bottom: none;
+}

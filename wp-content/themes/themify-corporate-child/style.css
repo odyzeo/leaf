@@ -1255,3 +1255,80 @@ h5 {
     font-size: 57px!important;
     font-family: 'besom', sans-serif!important;
 }
+
+.form {
+    margin-bottom: 20px;
+}
+
+.form__group {
+    margin-bottom: 20px;
+}
+
+.form__group .form__label {
+    margin: 0 10px 10px 0;
+}
+
+.form__label {
+    color: #fff;
+    background: #3fc539;
+}
+
+.form__label:hover {
+    cursor: pointer;
+}
+
+.form__checkbox {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    padding:0 !important;
+    border:0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+.form__checkbox + .form__label {
+    padding: 4px 11px;
+    border: 1px solid #3fc539;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 0 15px rgba(0,0,0,0) inset;
+    transition: all .3s ease;
+}
+
+.form__label--active,
+.form__checkbox:checked + .form__label {
+    box-shadow: 0 0 15px rgba(0,0,0,.4) inset;
+}
+
+.pagination {
+    margin: 0;
+    text-align: center;
+}
+
+.pagination li {
+    display: inline-block;
+    margin: 10px 5px;
+    list-style: none;
+}
+
+.page-numbers {
+    display: block;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+.page-numbers:not(.dots) {
+    border: 1px solid;
+}
+
+.page-numbers:not(.dots):not(.current):hover {
+    background-color: #3fc539;
+    color: #fff;
+    cursor: pointer;
+}
