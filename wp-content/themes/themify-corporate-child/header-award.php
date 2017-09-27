@@ -40,22 +40,6 @@
                     <div id="topbar">
 
                     </div>
-                    <div id="languages"><?php
-                        /* language list */
-                        $languages = icl_get_languages('skip_missing=0');
-                        if (/*false &&*/
-                        !empty($languages)) {
-                            $languageslangs = array();
-                            foreach ($languages as $l) {
-                                if ($l['active'])
-                                    /*echo '<a href="" class="active" onclick="jQuery(\'#languages-in\').fadeToggle();return false" title="'.$l['translated_name'].'">'.$l['language_code'].'</a>';*/
-                                    echo '<a href="" class="active" onclick="return false" title="' . $l['translated_name'] . '">' . $l['language_code'] . '</a>';
-                                else
-                                    $languageslangs[] = '<a href="' . $l['url'] . '" title="' . $l['translated_name'] . '">' . $l['language_code'] . '</a>';
-                            }
-                            if (!empty($languageslangs)) echo '<div id="languages-in">' . implode('', $languageslangs) . '</div>';
-                        }
-                        ?></div>
                 </div>
             </div>
             <a id="menu-icon" href="#mobile-menu"></a>

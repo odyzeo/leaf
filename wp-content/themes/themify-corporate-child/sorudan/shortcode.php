@@ -107,7 +107,7 @@ class SorShortcode {
                                 </h4>
 								<?php
 								if ( $mentor_category && $mentor_category != "" ) {
-									echo $mentor_category;
+									echo strip_tags($mentor_category, '<ul><li><a>');
 								} else {
 									$terms = wp_get_post_terms( $post->ID, Sor::TAXONOMY_TYPE_MENTOR, array(
 										'orderby' => 'term_order',

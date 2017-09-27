@@ -56,92 +56,123 @@ require_once( 'sorudan/shortcode.php' );
  * ENABLE IF NEW POST TYPE PAGE WANTED - 404 NOT FOUND
  * RUN ONLY ONCE
  */
-// flush_rewrite_rules( false );
+flush_rewrite_rules( false );
 
-// add_action( 'init', 'odyzeo_migration' );
+add_action( 'init', 'odyzeo_migration' );
 function odyzeo_migration() {
 	return;
 	/**
 	 * $mydb =
 	 */
 	/*
+
 	$deleteQuery = "
 	SELECT
 	  ID
 	FROM wp_posts
 	WHERE post_type = 'mentor'
 	";
-		$rows = $mydb->get_results($deleteQuery);
-		foreach ($rows as $obj) :
-		wp_delete_post($obj->ID, true);
-		var_dump($obj->ID);
+	$rows        = $mydb->get_results( $deleteQuery );
+	foreach ( $rows as $obj ) :
+		wp_delete_post( $obj->ID, true );
+		var_dump( $obj->ID );
+	endforeach;
+	exit;
+	*/
 
 
-		endforeach;
-		exit;
-
+	/*
 	$termQuery = "
-SELECT name
-FROM tg_terms
-LEFT JOIN tg_term_taxonomy ON tg_terms.term_id = tg_term_taxonomy.term_id
-WHERE tg_term_taxonomy.taxonomy = 'taxonomy_mentor'
-";
+		SELECT name
+		FROM tg_terms
+		LEFT JOIN tg_term_taxonomy ON tg_terms.term_id = tg_term_taxonomy.term_id
+		WHERE tg_term_taxonomy.taxonomy = 'taxonomy_mentor'
+	";
 
 	$rows = $mydb->get_results($termQuery);
 	foreach ($rows as $obj) :
 		$termId = wp_insert_term($obj->name, 'taxonomy_mentor');
 		var_dump($termId);
 	endforeach;
+	*/
+
+	function mapTerms( $key ) {
+		$termMapTable = array(
+			20 => 42, // Business, Consulting, Podnikanie
+			21 => 43, // Cudzie jazyky, Literatúra
+			22 => 44, // Ekonómia, Financie, Bankovníctvo
+			23 => 45, // Humanitné vedy: Psychológia, História, Filozofia, Religionistika
+			24 => 46, // Inžinierstvo, Robotika
+			25 => 39, // 47, // IT, Programovanie
+			26 => 47, // 48, // Marketing, Komunikácia, Médiá
+			27 => 48, // 49, // Matematika, Fyzika, Prírodné vedy, Výskum
+			28 => 49, // 50, // Medicína, Farmácia
+			29 => 50, // 51, // Neziskový sektor, Vzdelávanie, Think Tanky
+			30 => 51, // 52, // Politológia, Medzinárodné Vzťahy
+			31 => 40, // 53, // Právo
+			32 => 52, // 54, // Umenie, Dizajn, Architektúra
+		);
+
+		return $termMapTable[ $key ];
+	}
 
 	$mentorQuery = "
-SELECT
-  ID,
-  post_author,
-  post_date,
-  post_content,
-  post_title,
-  post_status,
-  comment_status,
-  post_name,
-  post_type,
-  menu_order,
-  meta_key,
-  meta_value
-FROM tg_posts
-  LEFT JOIN tg_postmeta ON tg_posts.ID = tg_postmeta.post_id
-WHERE post_type = 'mentor' AND meta_key IN ('sor_more_info', 'sor_mentor_linkedin', 'sor_mentor_category', 'sor_mentor_activity', 'sor_mentor_aboutme')
-ORDER BY ID
-";
+		SELECT
+		  ID,
+		  post_content,
+		  post_title,
+		  post_status,
+		  comment_status,
+		  post_type,
+		  meta_key,
+		  meta_value,
+		  GROUP_CONCAT(DISTINCT TRS.term_id) AS categories
+		FROM tg_posts TPS
+		  LEFT JOIN tg_postmeta AS PMT ON TPS.ID = PMT.post_id
+		  LEFT JOIN tg_term_relationships TRR ON TRR.object_id = TPS.ID
+		  LEFT JOIN tg_term_taxonomy TRX ON TRX.term_taxonomy_id = TRR.term_taxonomy_id AND TRX.taxonomy = 'taxonomy_mentor'
+		  LEFT JOIN tg_terms AS TRS ON TRS.term_id = TRX.term_id
+		WHERE post_type = 'mentor' AND meta_key IN ('post_image', 'sor_more_info', 'sor_mentor_linkedin', 'sor_mentor_category', 'sor_mentor_activity', 'sor_mentor_aboutme')
+		GROUP BY ID, meta_key
+		ORDER BY ID
+	";
 	$rows        = $mydb->get_results( $mentorQuery );
-	$newMentorId = 0;
-	$lastMentor  = 0;
-	$i           = 0;
+	$toImport = array();
+
 	foreach ( $rows as $obj ) :
+		if ( ! array_key_exists( $obj->ID, $toImport ) ) {
+			$categories    = explode( ',', $obj->categories );
+			$newCategories = array_map( "mapTerms", $categories );
 
-		if ( $lastMentor !== $obj->ID ) {
-			$lastMentor  = $obj->ID;
-			$newMentorId = 0;
-		}
-
-			$options = [
-				'ID'          => $newMentorId,
-				'post_title'  => $obj->post_title,
-				'post_author' => get_current_user_id(),
-				'post_status' => $obj->post_status,
-				'post_type'   => 'mentor',
+			$toImport[ $obj->ID ] = array(
+				'post_title'     => $obj->post_title,
+				'post_author'    => 4,
+				'post_status'    => $obj->post_status,
+				'post_type'      => 'mentor',
 				'comment_status' => $obj->comment_status,
-			];
-			if ( $newMentorId === 0 ) {
-				$newMentorId = wp_insert_post( $options );
-			} else {
-				wp_update_post( $options );
-			}
-			add_post_meta( $newMentorId, $obj->meta_key, $obj->meta_value );
-			var_dump( 'MENTOR', $lastMentor, $newMentorId );
-			$i ++;
+				'meta_input'     => array( $obj->meta_key => $obj->meta_value ),
+				'categories' => $newCategories,
+			);
+		} else {
+			$toImport[ $obj->ID ]['meta_input'][ $obj->meta_key ] = $obj->meta_value;
+		}
+	endforeach;
+
+	echo '<pre>';
+	var_dump(count($toImport));
+	echo '</pre>';
+
+	$i = 0;
+	foreach ( $toImport as $mentor ) :
+
+//		if ($i < 3) {
+			$newMentorId = wp_insert_post( $mentor );
+			wp_set_object_terms( $newMentorId, $mentor['categories'], 'taxonomy_mentor' );
+			echo '<br>new' . $newMentorId;
+			$i++;
+//		}
 
 	endforeach;
 
 	exit;
-	*/
 }
