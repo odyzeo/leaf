@@ -434,10 +434,47 @@ body.single-story .post-image a img{
   left:0;
 }
 
+body.single-story .downiconblock{position:relative;display:none}
+body.single-story a.downicon{
+  position:absolute;
+  bottom:30px;
+  left:50%;
+  width:63px;
+  height:63px;
+  margin:-5% 0 0 -32px;
+  background:url(./img/down.png) no-repeat 50% 50%;
+}
+
 @media (max-width:1024px){
   body.single-story .post-image{
     display:none
   }
+}
+
+@media (max-width:640px){
+  body.single-story .story-post-wrap,
+  body.single-story .story-post-wrap-out{
+    display:block;
+    width:auto;
+  }
+  body.single-story div.story-post-wrap{
+    padding-left:5%;
+    padding-right:5%;
+  }
+  body.single-story figure.post-image{
+    display:block;
+  }
+  body.single-story .downiconblock{display:block}
+}
+
+@media (max-width:400px){
+body.single-story a.downicon{
+  bottom:25px;
+  width:49px;
+  height:49px;
+  margin-left:-25px;
+  background-size:49px 49px;
+}
 }
 
 

@@ -100,7 +100,13 @@ global $themify;
 				<?php the_content(themify_check('setting-default_more_text')? themify_get('setting-default_more_text') : __('More &rarr;', 'themify')); ?>
 
 			<?php endif; //display content ?>
-
+             <?php
+             if(false){
+                global $wp;
+                $current_url = home_url(add_query_arg(array(),$wp->request));
+              ?>
+              <div class="fb-like" data-href="<?php echo $current_url;?>" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+              <?php } ?>
 		</div><!-- /.entry-content -->
 
 		<?php edit_post_link(__('Edit', 'themify'), '<span class="edit-button">[', ']</span>'); ?>

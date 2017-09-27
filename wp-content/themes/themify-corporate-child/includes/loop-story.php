@@ -24,7 +24,7 @@ foreach($categories as $cat){
 	<?php if( $themify->hide_image != 'yes' ) : ?>
     <!-- image -->
 		<?php get_template_part( 'includes/post-media', get_post_type() ); ?>
-
+    <div class="downiconblock"><a href="#story-content" class="downicon"></a></div>
 	<?php endif //hide image ?>
 
 	<?php if ( is_singular( 'story' ) ) : ?>
@@ -57,7 +57,7 @@ foreach($categories as $cat){
 
 		<?php endif; // is singular story ?>
 
-						<div class="entry-content">
+						<div id="story-content" class="entry-content">
 
 							<?php if ( 'excerpt' == $themify->display_content && ! is_attachment() ) : ?>
 
@@ -65,9 +65,17 @@ foreach($categories as $cat){
 
 							<?php elseif ( 'none' == $themify->display_content && ! is_attachment() ) : ?>
 
-							<?php else: ?>
-
+							<?php else: 
+              
+                global $wp;
+                $current_url = home_url(add_query_arg(array(),$wp->request));
+              ?>
+                
+                <div class="fb-like" data-href="<?php echo $current_url;?>" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                
 								<?php the_content(themify_check('setting-default_more_text')? themify_get('setting-default_more_text') : __('More &rarr;', 'themify')); ?>
+
+                <div class="fb-like" data-href="<?php echo $current_url;?>" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
 
 							<?php endif; //display content ?>
 
