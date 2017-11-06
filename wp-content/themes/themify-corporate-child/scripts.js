@@ -1,3 +1,58 @@
+jQuery(function(){
+	var startX=startY=-1;
+	function getCoord(e, c) {
+		return /touch/.test(e.type) ? (e.originalEvent || e).changedTouches[0]['page' + c] : e['page' + c];
+	}
+	function open_dropdown( $li ) {
+		$li.find( '.sub-menu, .children' ).first()
+			.show().css( 'visibility', 'visible' );
+
+		$li.addClass( 'dropdown-open' );
+		$li.find( '> a .sub-arrow' ).removeClass( 'closed' ).addClass( 'open' );
+		$li.trigger( 'dropdown_open' );
+	}
+
+	function close_dropdown( $li ) {
+		$li.find( '.sub-menu, .children' ).first()
+			.hide().css( 'visibility', 'hidden' );
+
+		$li.removeClass( 'dropdown-open' );
+		$li.find( '> a .sub-arrow' ).removeClass( 'open' ).addClass( 'closed' );
+		$li.trigger( 'dropdown_close' );
+	}
+	jQuery('body').off('touchstart', '.with-sub-arrow a').on('touchstart', '#mobile-menu li.menu-item-has-children > a', function(e){
+		e.stopPropagation();
+		startX = getCoord(e, 'X');
+		startY = getCoord(e, 'Y');
+	}).off( 'touchend', '.with-sub-arrow a').on( 'touchend', '#mobile-menu li.menu-item-has-children > a', function(e){
+		if ((Math.abs(getCoord(e, 'X') - startX) < 20 && Math.abs(getCoord(e, 'Y') - startY) < 20)||((startX==-1)&&(startY==-1))) {
+			var t=jQuery( this );
+      var x=t.children( '.sub-arrow' );
+      if( true/*x.length > 0*/ ) {
+				e.stopPropagation();
+
+				var url = t.attr('href')
+        if (url && url.indexOf('#') > -1) {
+          return false
+        }
+
+        var menu_item = t.closest( 'li' );
+  			if( menu_item.hasClass( 'dropdown-open' ) ) {
+  				close_dropdown( menu_item );
+  			} else {
+  				open_dropdown( menu_item );
+  			}
+				return false;
+			}
+		}
+	} );
+  // jQuery(window).load(function(){
+  //   jQuery('#mobile-menu li.current-menu-parent').each(function(){
+  //     open_dropdown( jQuery(this) );
+  //   });
+  // });
+});
+
 
 jQuery(function(){
 	jQuery('.module-post.sin-slider').each(function(){
