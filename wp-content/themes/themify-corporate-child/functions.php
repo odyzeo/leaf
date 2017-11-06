@@ -1,4 +1,30 @@
 <?php
+
+/*
+* Define a constant path to our single template folder
+*/
+define( 'SINGLE_PATH', get_stylesheet_directory() . '/single' );
+
+function leaf_single_template( $single ) {
+	global $wp_query, $post;
+
+	/**
+	 * Checks for single template by category
+	 * Check by category slug and ID
+	 */
+	foreach ( (array) get_the_category() as $cat ) :
+
+		if ( file_exists( SINGLE_PATH . '/single-cat-' . $cat->slug . '.php' ) ) {
+			return SINGLE_PATH . '/single-cat-' . $cat->slug . '.php';
+		} elseif ( file_exists( SINGLE_PATH . '/single-cat-' . $cat->term_id . '.php' ) ) {
+			return SINGLE_PATH . '/single-cat-' . $cat->term_id . '.php';
+		}
+
+	endforeach;
+}
+
+add_filter( 'single_template', 'leaf_single_template' );
+
 /**
  * Enqueues child theme stylesheet, loading first the parent theme stylesheet.
  */
@@ -6,6 +32,7 @@ function themify_child_register_custom_nav() {
 	register_nav_menus( array(
 		'award-nav'  => __( 'Award Navigation', 'themify' ),
 		'talent-nav' => __( 'TalentGuide Navigation', 'themify' ),
+		'irpu-nav'   => __( 'IRPU Navigation', 'themify' ),
 	) );
 }
 
