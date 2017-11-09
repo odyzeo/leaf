@@ -14,6 +14,7 @@
 </head>
 
 <body <?php body_class(); ?>>
+<?php get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
 <div id="pagewrap" class="hfeed site">
 
