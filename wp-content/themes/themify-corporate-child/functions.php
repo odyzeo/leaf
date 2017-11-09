@@ -21,6 +21,8 @@ function leaf_single_template( $single ) {
 		}
 
 	endforeach;
+
+	return $single;
 }
 
 add_filter( 'single_template', 'leaf_single_template' );
