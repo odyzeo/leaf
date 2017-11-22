@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-18 16:00+0000\n"
+"POT-Creation-Date: 2017-10-05 14:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/"
 
-#: loco.php:140
+#: loco.php:131
 #, php-format
 msgid ""
 "Loco requires the \"%s\" PHP extension. Ask your hosting provider to install "
@@ -23,6 +23,42 @@ msgstr ""
 
 #: src/Locale.php:205
 msgid "Invalid locale"
+msgstr ""
+
+#. Plural category for languages that have no plurals
+#: src/Locale.php:243
+msgctxt "Plural category"
+msgid "All forms"
+msgstr ""
+
+#. Plural category for singular quantity
+#: src/Locale.php:250
+msgctxt "Plural category"
+msgid "One"
+msgstr ""
+
+#. Plural category used in some multi-plural languages
+#: src/Locale.php:252
+msgctxt "Plural category"
+msgid "Two"
+msgstr ""
+
+#. Plural category used in some multi-plural languages
+#: src/Locale.php:254
+msgctxt "Plural category"
+msgid "Few"
+msgstr ""
+
+#. Plural category used in some multi-plural languages
+#: src/Locale.php:256
+msgctxt "Plural category"
+msgid "Many"
+msgstr ""
+
+#. General plural category not covered by other forms
+#: src/Locale.php:258
+msgctxt "Plural category"
+msgid "Other"
 msgstr ""
 
 #: src/admin/Navigation.php:41 src/mvc/AdminRouter.php:44
@@ -69,6 +105,18 @@ msgstr ""
 #: src/ajax/SaveController.php:100
 msgid "PO file saved, but MO file compilation failed"
 msgstr ""
+
+#. Where %2$s is the maximum size of a file that will be included and %3$s is the largest encountered
+#: src/ajax/SyncController.php:57
+#, php-format
+msgid ""
+"One file has been skipped because it's %3$s. (Max is %2$s). Check all "
+"strings are present before saving."
+msgid_plural ""
+"%s files over %2$s have been skipped. (Largest is %3$s). Check all strings "
+"are present before saving."
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/ajax/XgettextController.php:63
 msgid "Template file created"
@@ -401,7 +449,7 @@ msgstr ""
 
 #: src/mvc/AdminRouter.php:61 src/admin/config/PrefsController.php:48
 #: src/admin/config/SettingsController.php:77
-#: src/admin/config/VersionController.php:35 tpl/admin/help/tab-settings.php:2
+#: src/admin/config/VersionController.php:22 tpl/admin/help/tab-settings.php:2
 msgid "Plugin settings"
 msgstr ""
 
@@ -453,14 +501,14 @@ msgstr ""
 msgid "WordPress Core"
 msgstr ""
 
-#: src/package/Debugger.php:182
+#: src/package/Debugger.php:186
 #, php-format
 msgid "One string extracted from source code for \"%2$s\""
 msgid_plural "%s strings extracted from source code for \"%s\""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/package/Debugger.php:200
+#: src/package/Debugger.php:204
 #, php-format
 msgid "Configured domain has no extractable strings"
 msgid_plural "%u configured domains have no extractable strings"
@@ -475,49 +523,49 @@ msgstr ""
 msgid "Visit official site"
 msgstr ""
 
-#: src/package/Plugin.php:201
+#: src/package/Plugin.php:203
 #, php-format
 msgid "Plugin not found: %s"
 msgstr ""
 
-#: tpl/admin/root.php:16
+#: tpl/admin/root.php:10
 msgid "Welcome to Loco Translate"
 msgstr ""
 
 #. 1: help URL, 2: forum URL; Must be HTML encoded
-#: tpl/admin/root.php:21
+#: tpl/admin/root.php:14
 #, php-format
 msgid ""
 "If you have any questions, please try our <a href=\"%1$s\">help pages</a> or "
 "ask in the <a href=\"%2$s\">support forum</a>."
 msgstr ""
 
-#: tpl/admin/root.php:31
+#: tpl/admin/root.php:24
 msgid "Recently updated:"
 msgstr ""
 
-#: tpl/admin/root.php:34
+#: tpl/admin/root.php:27
 msgid "Translations have been recently modified in the following bundles"
 msgstr ""
 
-#: tpl/admin/root.php:43
+#: tpl/admin/root.php:36
 msgid "Active theme:"
 msgstr ""
 
-#: tpl/admin/root.php:47
+#: tpl/admin/root.php:40
 msgid "See all themes"
 msgstr ""
 
-#: tpl/admin/root.php:55
+#: tpl/admin/root.php:48
 msgid "Running plugins:"
 msgstr ""
 
-#: tpl/admin/root.php:58
+#: tpl/admin/root.php:51
 msgid ""
 "These plugins have recently loaded translation files into the admin area"
 msgstr ""
 
-#: tpl/admin/root.php:62
+#: tpl/admin/root.php:55
 msgid "See all plugins"
 msgstr ""
 
@@ -551,7 +599,11 @@ msgstr ""
 msgid "Advanced tab"
 msgstr ""
 
-#: src/admin/bundle/ConfController.php:128 tpl/admin/bundle/setup/core.php:17
+#: src/admin/bundle/ConfController.php:95
+msgid "Child theme declares the same Text Domain as the parent theme"
+msgstr ""
+
+#: src/admin/bundle/ConfController.php:139 tpl/admin/bundle/setup/core.php:17
 #: tpl/admin/bundle/setup/inc-nav.php:19
 msgid "Advanced configuration"
 msgstr ""
@@ -592,7 +644,7 @@ msgid "Edit template"
 msgstr ""
 
 #: src/admin/bundle/ViewController.php:126
-#: src/admin/init/InitPoController.php:153 tpl/admin/init/init-pot.php:33
+#: src/admin/init/InitPoController.php:153 tpl/admin/init/init-pot.php:40
 msgid "Create template"
 msgstr ""
 
@@ -662,64 +714,64 @@ msgid "Translations don't match template. Run sync to update from %s"
 msgstr ""
 
 #. button for adding a new string when manually editing a POT file
-#: src/admin/file/EditController.php:142
+#: src/admin/file/EditController.php:143
 msgctxt "Editor"
 msgid "Add"
 msgstr ""
 
 #. button for removing a string when manually editing a POT file
-#: src/admin/file/EditController.php:144
+#: src/admin/file/EditController.php:145
 msgctxt "Editor"
 msgid "Remove"
 msgstr ""
 
-#: src/admin/file/EditController.php:145
+#: src/admin/file/EditController.php:146
 msgid "Help"
 msgstr ""
 
 #. Button that saves translations to disk
-#: src/admin/file/EditController.php:147
+#: src/admin/file/EditController.php:148
 msgctxt "Editor"
 msgid "Save"
 msgstr ""
 
 #. Button that runs in-editor sync/operation
-#: src/admin/file/EditController.php:149
+#: src/admin/file/EditController.php:150
 msgctxt "Editor"
 msgid "Sync"
 msgstr ""
 
 #. Button that reloads current screen
-#: src/admin/file/EditController.php:151
+#: src/admin/file/EditController.php:152
 msgctxt "Editor"
 msgid "Revert"
 msgstr ""
 
 #. Button that toggles a translation's Fuzzy flag
-#: src/admin/file/EditController.php:153
+#: src/admin/file/EditController.php:154
 msgctxt "Editor"
 msgid "Fuzzy"
 msgstr ""
 
 #. Button for downloading a PO, MO or POT file
-#: src/admin/file/EditController.php:155
+#: src/admin/file/EditController.php:156
 msgctxt "Editor"
 msgid "Download"
 msgstr ""
 
 #. Placeholder text for text filter above editor
-#: src/admin/file/EditController.php:157
+#: src/admin/file/EditController.php:158
 msgid "Filter translations"
 msgstr ""
 
 #. Button that toggles invisible characters
-#: src/admin/file/EditController.php:159
+#: src/admin/file/EditController.php:160
 msgctxt "Editor"
 msgid "Toggle invisibles"
 msgstr ""
 
 #. Button that toggles between "code" and regular text editing modes
-#: src/admin/file/EditController.php:161
+#: src/admin/file/EditController.php:162
 msgctxt "Editor"
 msgid "Toggle code view"
 msgstr ""
@@ -1009,7 +1061,7 @@ msgstr ""
 msgid "Translator credit"
 msgstr ""
 
-#: tpl/admin/config/prefs.php:28 tpl/admin/config/settings.php:133
+#: tpl/admin/config/prefs.php:28 tpl/admin/config/settings.php:139
 msgid "Save settings"
 msgstr ""
 
@@ -1045,43 +1097,48 @@ msgstr ""
 msgid "Number of backups to keep of each file:"
 msgstr ""
 
-#: tpl/admin/config/settings.php:72
+#: tpl/admin/config/settings.php:71
+msgid "Maximum line length (zero disables wrapping)"
+msgstr ""
+
+#: tpl/admin/config/settings.php:78
 msgid "Add UTF-8 byte order mark"
 msgstr ""
 
-#: tpl/admin/config/settings.php:72
+#: tpl/admin/config/settings.php:78
 msgid "Not recommended"
 msgstr ""
 
-#: tpl/admin/config/settings.php:79
+#: tpl/admin/config/settings.php:85
 msgid "POT template files"
 msgstr ""
 
-#: tpl/admin/config/settings.php:84
+#: tpl/admin/config/settings.php:90
 msgid "Look for non-standard names:"
 msgstr ""
 
-#: tpl/admin/config/settings.php:92 tpl/admin/config/settings.php:96
+#: tpl/admin/config/settings.php:98 tpl/admin/config/settings.php:102
 msgid "File system credentials"
 msgstr ""
 
-#: tpl/admin/config/settings.php:101
+#: tpl/admin/config/settings.php:107
 msgid "Remember in session"
 msgstr ""
 
-#: tpl/admin/config/settings.php:106
+#: tpl/admin/config/settings.php:112
 msgid "See security notes"
 msgstr ""
 
-#: tpl/admin/config/settings.php:112
+#: tpl/admin/config/settings.php:118
 msgid "Grant access to roles"
 msgstr ""
 
-#: tpl/admin/config/settings.php:116
+#: tpl/admin/config/settings.php:122
 msgid "Allow full access to these roles"
 msgstr ""
 
 #: tpl/admin/config/version.php:11 tpl/admin/config/version.php:25
+#: tpl/admin/config/version.php:35
 #, php-format
 msgid "Version %s"
 msgstr ""
@@ -1092,6 +1149,10 @@ msgid "Upgrade to %s"
 msgstr ""
 
 #: tpl/admin/config/version.php:28
+msgid "You're running a development snapshot of Loco Translate"
+msgstr ""
+
+#: tpl/admin/config/version.php:38
 msgid "You're running the latest version of Loco Translate"
 msgstr ""
 
@@ -1224,6 +1285,13 @@ msgstr ""
 #: tpl/admin/file/info-pot.php:18
 msgid "Source text"
 msgstr ""
+
+#: tpl/admin/file/info-pot.php:19
+#, php-format
+msgid "1 word"
+msgid_plural "%s words"
+msgstr[0] ""
+msgstr[1] ""
 
 #: tpl/admin/file/info.php:14
 msgid "File doesn't exist"
@@ -1400,15 +1468,21 @@ msgstr ""
 msgid "%s on disk"
 msgstr ""
 
+#. Where %s is the size of a file
+#: tpl/admin/init/init-pot.php:18
+#, php-format
+msgid "largest is %s"
+msgstr ""
+
 #. Where %2$s is the size of a file
-#: tpl/admin/init/init-pot.php:19
+#: tpl/admin/init/init-pot.php:24
 #, php-format
 msgid "Excludes one file over %2$s"
 msgid_plural "Excludes %s files over %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: tpl/admin/init/init-pot.php:23
+#: tpl/admin/init/init-pot.php:30
 msgid "Strings will be extracted to:"
 msgstr ""
 

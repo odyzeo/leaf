@@ -19,7 +19,7 @@ if ($controls->is_action('install')) {
     $id = $extension->id;
     $slug = $extension->slug;
 
-    $source = 'https://www.thenewsletterplugin.com/wp-content/plugins/file-commerce-pro/get.php?f=' . $id .
+    $source = 'http://www.thenewsletterplugin.com/wp-content/plugins/file-commerce-pro/get.php?f=' . $id .
             '&k=' . urlencode(Newsletter::instance()->options['contract_key']);
 
     if (!class_exists('Plugin_Upgrader', false)) {
@@ -73,7 +73,7 @@ if (isset($_POST['email']) && check_admin_referer('subscribe')) {
     $body['nl'] = array('3', '4', '1');
     $body['optin'] = 'single';
     
-    wp_remote_post('https://www.thenewsletterplugin.com/?na=ajaxsub', array('body'=>$body));
+    wp_remote_post('http://www.thenewsletterplugin.com/?na=ajaxsub', array('body'=>$body));
     
     update_option('newsletter_subscribed', time(), false);
     

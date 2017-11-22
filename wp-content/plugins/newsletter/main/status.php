@@ -64,7 +64,9 @@ if ($controls->is_action('test')) {
         $r = $module->mail($controls->data['test_email'], 'Newsletter test email at ' . date(DATE_ISO8601), $text);
 
         $controls->messages .= 'Email sent with Newsletter';
-        if ($module->mail_method) {
+        if ($module->the_mailer) {
+            $controls->messages .= ' (with a mailer extension)';
+        } else if ($module->mail_method) {
             $controls->messages .= ' (with a mail delivery extension)';
         } else {
             $smtp_options = $module->get_smtp_options();
@@ -96,7 +98,7 @@ if ($controls->is_action('test')) {
             if (!empty($module->options['return_path'])) {
                 $controls->messages .= '- Try to remove the return path on main settings.<br>';
             }
-            
+
             $controls->messages .= '<a href="https://www.thenewsletterplugin.com/documentation/email-sending-issues" target="_blank">Read more</a>.';
 
             $parts = explode('@', $module->options['sender_email']);
@@ -159,7 +161,7 @@ $options = $module->get_options('status');
                                     A test has never run.
                                 <?php } else { ?>
                                     Last test failed with error "<?php echo esc_html($options['mail_error']) ?>".
-                                    
+
                                 <?php } ?>
                             <?php } else { ?>
                                 Last test was successful. If you didn't receive the test email:
@@ -169,7 +171,7 @@ $options = $module->get_options('status');
                                     <li>If previous points do not apply to you, ask for support to your provider reporting the emails from your blog are not delivered</li>
                                 </ol>
                             <?php } ?>
-                                <br>
+                            <br>
                             <a href="https://www.thenewsletterplugin.com/documentation/email-sending-issues" target="_blank">Read more to solve your issues, if any</a>.    
                             <br>
                             Email: <?php $controls->text_email('test_email') ?> <?php $controls->button('test', __('Send a test message')) ?>
@@ -253,7 +255,7 @@ $options = $module->get_options('status');
                         </td>
 
                     </tr>
-                    
+
                     <tr>
                         <td>Curl version</td>
                         <td>
@@ -266,17 +268,18 @@ $options = $module->get_options('status');
                         </td>
                         <td>
                             <?php if (!function_exists('curl_version')) { ?>
-                            cUrl is not available, ask the provider to install it and activate the PHP cUrl library
-                            <?php } else { 
-                            $version = curl_version();
-                            echo 'Version: ' . $version['version'] . '<br>';
-                            echo 'SSL Version: ' . $version['ssl_version'] . '<br>';
-                            
-                             } ?>
+                                cUrl is not available, ask the provider to install it and activate the PHP cUrl library
+                                <?php
+                            } else {
+                                $version = curl_version();
+                                echo 'Version: ' . $version['version'] . '<br>';
+                                echo 'SSL Version: ' . $version['ssl_version'] . '<br>';
+                            }
+                            ?>
                         </td>
 
                     </tr>
-                   
+
 
                     <?php
                     $value = (int) ini_get('max_execution_time');
@@ -306,6 +309,52 @@ $options = $module->get_options('status');
 
                         </td>
 
+                    </tr>
+
+                    <tr>
+                        <td>Home URL</td>
+                        <td>
+                            <?php if (strpos(home_url('/'), 'http') !== 0) { ?>
+                                <span class="tnp-ko">KO</span>
+                            <?php } else { ?>
+                                <span class="tnp-ok">OK</span>
+                            <?php } ?>
+
+                        </td>
+                        <td>
+                            Value: <?php echo home_url('/'); ?>
+                            <br>
+                            <?php if (strpos(home_url('/'), 'http') !== 0) { ?>
+                                Your home URL is not absolute, emails require absolute URLs.
+                                Probably you have a protocol agnostic plugin installed to manage both HTTPS and HTTP in your
+                                blog.
+                            <?php } else { ?>
+
+                            <?php } ?>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>WP_CONTENT_URL</td>
+                        <td>
+                            <?php if (strpos(WP_CONTENT_URL, 'http') !== 0) { ?>
+                                <span class="tnp-ko">KO</span>
+                            <?php } else { ?>
+                                <span class="tnp-ok">OK</span>
+                            <?php } ?>
+
+                        </td>
+                        <td>
+                            Value: <?php echo WP_CONTENT_URL; ?>
+                            <br>
+                            <?php if (strpos(WP_CONTENT_URL, 'http') !== 0) { ?>
+                                Your content URL is not absolute, emails require absolute URLs when they have images inside.
+                                Newsletter tries to deal with this problem but when a problem with images persists, you should try to remove
+                                from your wp-config.php the WP_CONTENT_URL define and check again.
+                            <?php } else { ?>
+
+                            <?php } ?>
+                        </td>
                     </tr>
 
                     <tr>
@@ -516,22 +565,22 @@ $options = $module->get_options('status');
                             <?php } ?>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <td>
                             Cron calls
                         </td>
                         <td>
-                            <?php if ($wp_cron_calls_avg > NEWSLETTER_CRON_INTERVAL*1.1) { ?>
+                            <?php if ($wp_cron_calls_avg > NEWSLETTER_CRON_INTERVAL * 1.1) { ?>
                                 <span class="tnp-ko">KO</span>
                             <?php } else { ?>
                                 <span class="tnp-ok">OK</span>
                             <?php } ?>
                         </td>
                         <td>
-                            <?php if ($wp_cron_calls_avg > NEWSLETTER_CRON_INTERVAL*1.1) { ?>
-                            The blog cron system is NOT triggere enough often.
-                            
+                            <?php if ($wp_cron_calls_avg > NEWSLETTER_CRON_INTERVAL * 1.1) { ?>
+                                The blog cron system is NOT triggere enough often.
+
                             <?php } else { ?>
 
                             <?php } ?>
@@ -612,10 +661,10 @@ $options = $module->get_options('status');
 
                     <?php
                     $res = true;
-                    $response = wp_remote_get('https://www.thenewsletterplugin.com/wp-content/versions/all.txt');
+                    $response = wp_remote_get('http://www.thenewsletterplugin.com/wp-content/versions/all.txt');
                     if (is_wp_error($response)) {
                         $res = false;
-                        $message = $reponse->get_error_message();
+                        $message = $response->get_error_message();
                     } else {
                         if (wp_remote_retrieve_response_code($response) != 200) {
                             $res = false;
@@ -642,7 +691,67 @@ $options = $module->get_options('status');
 
                             <?php } ?>
                         </td>
-                    </tr>                    
+                    </tr>    
+                    <?php
+                    // Send calls stats
+                    $send_calls = get_option('newsletter_diagnostic_send_calls', array());
+                    if (count($send_calls)) {
+                        $send_max = 0;
+                        $send_min = PHP_INT_MAX;
+                        $send_total_time = 0;
+                        $send_total_emails = 0;
+                        $send_completed = 0;
+                        for ($i = 0; $i < count($send_calls); $i++) {
+                            if (empty($send_calls[$i][2]))
+                                continue;
+
+                            $delta = $send_calls[$i][1] - $send_calls[$i][0];
+                            $send_total_time += $delta;
+                            $send_total_emails += $send_calls[$i][2];
+                            $send_mean = $delta / $send_calls[$i][2];
+                            if ($send_min > $send_mean) {
+                                $send_min = $send_mean;
+                            }
+                            if ($send_max < $send_mean) {
+                                $send_max = $send_mean;
+                            }
+                            if (isset($send_calls[$i][3])) {
+                                $send_completed++;
+                            }
+                        }
+                        $send_mean = $send_total_time / $send_total_emails;
+                        ?>
+                        <tr>
+                            <td>
+                                Send details
+                            </td>
+                            <td>
+                            <?php if ($send_mean > 1) { ?>
+                                <span class="tnp-ko">KO</span>
+                            <?php } else { ?>
+                                <span class="tnp-ok">OK</span>
+                            <?php } ?>
+                            </td>
+                            <td>
+                                <?php if ($send_mean > 1) { ?>
+                                <strong>Sending an email is taking more than 1 second, rather slow.</strong>
+                                <a href="https://www.thenewsletterplugin.com/documentation/status-panel#status-performance" target="_blank">Read more</a>.
+                                <?php } ?>
+                                Average time to send an email: <?php echo sprintf("%.2f", $send_mean) ?> seconds<br>
+                                <?php if ($send_mean > 0) { ?>
+                                Max speed: <?php echo sprintf("%.2f", 1.0/$send_mean*3600) ?> emails per hour<br>
+                                <?php } ?>
+                                
+                                Max mean time measured: <?php echo sprintf("%.2f", $send_max) ?> seconds<br>
+                                Min mean time measured: <?php echo sprintf("%.2f", $send_min) ?> seconds<br>
+                                Total email in the sample: <?php echo $send_total_emails ?><br>
+                                Runs in the sample: <?php echo count($send_calls); ?><br> 
+                                Runs prematurely interrupted: <?php echo sprintf("%.2f", (count($send_calls) - $send_completed) * 100.0 / count($send_calls)) ?>%<br>
+                            </td>
+                        </tr>    
+                        <?php
+                    }
+                    ?>
 
                     <tr>
                         <td>
@@ -687,11 +796,13 @@ $options = $module->get_options('status');
                         <td>
                             Your memory limit is set to <?php echo $memory ?> megabyte<br>
                             <?php if ($memory < 64) { ?>
-                                This value is too low you should increase it adding <code>define('WP_MEMORY_LIMIT', '64M');</code> to your wp-config.php.
+                                This value is too low you should increase it adding <code>define('WP_MEMORY_LIMIT', '64M');</code> to your <code>wp-config.php</code>.
+                                <a href="https://www.thenewsletterplugin.com/documentation/status-panel#status-memory" target="_blank">Read more</a>.
                             <?php } else if ($memory < 128) { ?>
-                                The value should be fine, it depends on how many plugin you're running and how many resource are required by your theme.
-                                Blank pages are usually syntoms of low memory. Eventually increase it adding <code>define('WP_MEMORY_LIMIT', '128M');</code>
-                                to your wp-config.php.
+                                The value should be fine, it depends on how many plugins you're running and how many resource are required by your theme.
+                                Blank pages may happen with low memory problems. Eventually increase it adding <code>define('WP_MEMORY_LIMIT', '128M');</code>
+                                to your <code>wp-config.php</code>.
+                                <a href="https://www.thenewsletterplugin.com/documentation/status-panel#status-memory" target="_blank">Read more</a>.
                             <?php } else { ?>
 
                             <?php } ?>

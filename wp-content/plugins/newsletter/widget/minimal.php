@@ -29,7 +29,7 @@ class NewsletterWidgetMinimal extends WP_Widget {
         
 
         $form = '<div class="tnp tnp-widget-minimal">';
-        $form .= '<form action="' . esc_attr(home_url('/')) . '?na=s" method="post">';
+        $form .= '<form action="' . esc_attr(home_url('/')) . '?na=s" method="post" onsubmit="return newsletter_check(this)">';
         if (isset($instance['nl']) && is_array($instance['nl'])) {
             foreach ($instance['nl'] as $a) {
                 $form .= "<input type='hidden' name='nl[]' value='" . ((int) trim($a)) . "'>\n";

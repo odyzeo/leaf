@@ -1,5 +1,7 @@
 <?php
-if (!defined('ABSPATH')) exit;
+
+if (!defined('ABSPATH'))
+    exit;
 
 require_once NEWSLETTER_INCLUDES_DIR . '/module.php';
 
@@ -18,7 +20,7 @@ class NewsletterUsers extends NewsletterModule {
     }
 
     function __construct() {
-        parent::__construct('users', '1.0.9');
+        parent::__construct('users', '1.1.4');
         add_action('init', array($this, 'hook_init'));
     }
 
@@ -56,6 +58,7 @@ class NewsletterUsers extends NewsletterModule {
   `list` int(11) NOT NULL DEFAULT '0',
   `profile` mediumtext,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated` int(11) NOT NULL DEFAULT '0',
   `followup_step` tinyint(4) NOT NULL DEFAULT '0',
   `followup_time` bigint(20) NOT NULL DEFAULT '0',
   `followup` tinyint(4) NOT NULL DEFAULT '0',
@@ -70,8 +73,9 @@ class NewsletterUsers extends NewsletterModule {
   `country` varchar(4) NOT NULL DEFAULT '',
   `region` varchar(100) NOT NULL DEFAULT '',
   `city` varchar(100) NOT NULL DEFAULT '',
-  
-  `unsub_email_id` int(11) NOT NULL DEFAULT '0',
+  `bounce_type` varchar(50) NOT NULL DEFAULT '',
+  `bounce_time` int(11) NOT NULL DEFAULT '0',
+  `unsub_email_id` int(11) NOT NULL DEFAULT '0',  
   `unsub_time` int(11) NOT NULL DEFAULT '0',\n";
 
         for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
@@ -83,12 +87,10 @@ class NewsletterUsers extends NewsletterModule {
         }
         // Leave as last
         $sql .= "`test` tinyint(4) NOT NULL DEFAULT '0',\n";
-        $sql .= "PRIMARY KEY (`id`),
-    UNIQUE KEY `email` (`email`)
-    ) ENGINE=MyISAM $charset_collate;";
+        $sql .= "PRIMARY KEY (`id`),\nUNIQUE KEY `email` (`email`),\nKEY `wp_user_id` (`wp_user_id`)\n) $charset_collate;";
 
         dbDelta($sql);
-    $this->upgrade_query("alter table " . NEWSLETTER_USERS_TABLE . " convert to character set $charset_collate");
+        $this->upgrade_query("alter table " . NEWSLETTER_USERS_TABLE . " convert to character set $charset_collate");
     }
 
     function admin_menu() {
@@ -182,40 +184,6 @@ class NewsletterUsers extends NewsletterModule {
         $text = str_replace("\r", ' ', $text);
         $text = str_replace(";", ' ', $text);
         return $text;
-    }
-
-    /**
-     * Returns a list of users marked as "test user".
-     * @global Newsletter $newsletter
-     * @return array
-     */
-    function get_test_users() {
-        $newsletter = Newsletter::instance();
-        return $newsletter->get_test_users();
-    }
-
-    /**
-     * @global Newsletter $newsletter
-     */
-    function delete_user($id) {
-        $newsletter = Newsletter::instance();
-        return $newsletter->delete_user($id);
-    }
-
-    /**
-     *
-     * @global Newsletter $newsletter
-     * @param int|string $id_or_email
-     * @param string $status
-     * @return boolean
-     */
-    function set_user_status($id_or_email, $status) {
-        $newsletter = Newsletter::instance();
-        return $newsletter->set_user_status($id_or_email, $status);
-    }
-
-    function set_user_field($id, $field, $value) {
-        $this->store->set_field(NEWSLETTER_USERS_TABLE, $id, $field, $value);
     }
 
 }

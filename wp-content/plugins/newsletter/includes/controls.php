@@ -355,7 +355,7 @@ class NewsletterControls {
             echo '</div>';
         }
         if (!empty($this->warnings)) {
-            foreach ($this->warnings as $warning) {
+            foreach ((array)$this->warnings as $warning) {
                 echo '<div class="tnp-warning">';
                 echo $warning;
                 echo '</div>';
@@ -516,6 +516,14 @@ class NewsletterControls {
 
         $this->select($name, $options);
     }
+    
+    function select_number($name, $min, $max) {
+        $options = array();
+        for ($i=$min; $i<=$max; $i++) {
+            $options['' . $i] = $i;
+        }
+        $this->select($name, $options);
+    }
 
     function page($name = 'page', $first = null) {
         $pages = get_pages();
@@ -585,15 +593,22 @@ class NewsletterControls {
         echo '<script>jQuery("#options-' . esc_attr($name) . '").select2({templateResult: tnp_select_images, templateSelection: tnp_select_images_selection});</script>';
     }
     
-    function select2($name, $options, $first = null, $multiple = false) {
+    function select2($name, $options, $first = null, $multiple = false, $style = null, $placeholder='') {
         
-        if ($multiple)
+        if ($multiple) {
             $option_name = "options[" . esc_attr($name) . "][]";
-        else $option_name = "options[" . esc_attr($name) . "]";
+        } else {
+            $option_name = "options[" . esc_attr($name) . "]";
+        }
         
+        if (is_null($style)) {
+            $style = 'width: 100%';
+        }
+
         $value = $this->get_value($name);
 
-        echo '<select id="options-' . esc_attr($name) . '" name="' . $option_name . '" style="width: 100%" ' . ($multiple ? 'multiple="multiple"' : '') . '>';
+        echo '<select id="options-', esc_attr($name), '" name="', $option_name, '" style="', $style, '"',
+                ($multiple ? ' multiple' : ''), ' placeholder="', esc_attr($placeholder), '">';
         if (!empty($first)) {
             echo '<option value="">' . esc_html($first) . '</option>';
         }
@@ -605,7 +620,7 @@ class NewsletterControls {
             echo '>' . esc_html($data) . '</option>';
         }
         echo '</select>';
-        echo '<script>jQuery("#options-' . esc_attr($name) . '").select2();</script>';
+        echo '<script>jQuery("#options-' . esc_attr($name) . '").select2({placeholder: "', esc_js($placeholder), '"});</script>';
     }
 
     function select_grouped($name, $groups) {
@@ -655,7 +670,7 @@ class NewsletterControls {
         echo htmlspecialchars($this->data[$name]);
     }
 
-    function value_date($name, $show_remaining) {
+    function value_date($name, $show_remaining = true) {
         $time = $this->get_value($name);
 
         echo gmdate(get_option('date_format') . ' ' . get_option('time_format'), $time + get_option('gmt_offset') * 3600);
@@ -686,7 +701,7 @@ class NewsletterControls {
     function text_email($name, $size = 40) {
         $value = $this->get_value($name);
         echo '<input name="options[' . esc_attr($name) . ']" type="email" placeholder="';
-        echo esc_attr(__('Valid email address', 'newsletter'));
+        echo esc_attr__('Valid email address', 'newsletter');
         echo '" size="' . esc_attr($size) . '" value="';
         echo esc_attr($value);
         echo '">';
@@ -725,7 +740,7 @@ class NewsletterControls {
         echo '<button class="button-secondary" onclick="this.form.btn.value=\'' . esc_attr($data) . '\';this.form.act.value=\'reset\';if (!confirm(\'';
         echo esc_attr(esc_js(__('Proceed?', 'newsletter')));
         echo '\')) return false;">';
-        //echo '<i class="fa fa-times"></i> ';
+        echo '<i class="fa fa-reply"></i> ';
         echo esc_html(__('Reset', 'newsletter'));
         echo '</button>';
     }
@@ -789,8 +804,12 @@ class NewsletterControls {
 
     function wp_editor($name, $settings = array()) {
         $value = $this->get_value($name);
-        wp_editor($value, $name, array_merge(array('textarea_name' => 'options[' . esc_attr($name) . ']', 'wpautop' => false), $settings));
-        echo '<p class="description">You can install <a href="https://wordpress.org/plugins/tinymce-advanced/" target="_blank">TinyMCE Advanced</a> for advanced editing features</p>';
+        wp_editor($value, $name, array_merge(array(
+            'tinymce' => array('content_css' => plugins_url('newsletter') . '/css/wp-editor.css?ver=' . filemtime(NEWSLETTER_DIR . '/css/wp-editor.css')),
+            'textarea_name' => 'options[' . esc_attr($name) . ']', 
+            'wpautop' => false
+            ), $settings));
+        //echo '<p class="description">You can install <a href="https://wordpress.org/plugins/tinymce-advanced/" target="_blank">TinyMCE Advanced</a> for advanced editing features</p>';
     }
 
     function textarea($name, $width = '100%', $height = '50') {
@@ -832,7 +851,8 @@ class NewsletterControls {
         }
 
         $this->text($prefix . '_subject', 90, 'Subject');
-
+        echo '<br><br>';
+        
         if ($editor == 'wordpress') {
             $this->wp_editor($prefix . '_message');
         } else if ($editor == 'textarea') {
@@ -848,7 +868,7 @@ class NewsletterControls {
         }
         echo '<input type="checkbox" id="' . esc_attr($name) . '" name="options[' . esc_attr($name) . ']" value="1"';
         if (!empty($this->data[$name])) {
-            echo ' checked="checked"';
+            echo ' checked';
         }
         echo '>';
         if ($label != '') {
@@ -968,12 +988,6 @@ class NewsletterControls {
             $this->checkbox2($name . '_' . $i, esc_html($options_profile['list_' . $i]));
             echo '</div>';
         }
-        echo '<div style="clear: both"></div>';
-        echo '</div>';
-        echo '<div class="hints">';
-        echo 'User\'s preferences can be activated from the "Subscription Form" panel. They can be used to simulate lists or create private groups. The number is the "preference number". ';
-        echo '<a href="https://www.thenewsletterplugin.com/plugins/newsletter/newsletter-preferences" target="_blank">Read more about preferences</a>.';
-        echo '</div>';
     }
 
     /**
@@ -1038,7 +1052,24 @@ class NewsletterControls {
             $lists['' . $i] = '(' . $i . ') ' . $options_profile['list_' . $i];
         }
         $this->select($name, $lists);
-        echo ' <a href="admin.php?page=newsletter_subscription_lists" target="_blank"><i class="fa fa-edit"></i></a></p>';
+        echo ' <a href="admin.php?page=newsletter_subscription_lists" target="_blank"><i class="fa fa-edit"></i></a>';
+    }
+    
+    /**
+     * Generates an associative array with the active lists to be used in a select.
+     * @param string $empty_label
+     * @return array
+     */
+    function get_list_options($empty_label = null) {
+        $options_profile = get_option('newsletter_profile');
+        $lists = array();
+        if ($empty_label) {
+            $lists[''] = $empty_label;
+        }
+        for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
+            $lists['' . $i] = '(' . $i . ') ' . $options_profile['list_' . $i];
+        }
+        return $lists;
     }
 
     function date($name) {
@@ -1171,7 +1202,13 @@ class NewsletterControls {
         }).on("select", function() {
             var media = tnp_uploader.state().get("selection").first();
             document.getElementById(name + "_id").value = media.id;
+            if (media.attributes.url.substring(0, 0) == "/") {
+                media.attributes.url = "' . site_url('/') . '" + media.attributes.url;
+            }
             document.getElementById(name + "_url").value = media.attributes.url;
+            if (media.attributes.sizes.medium.url.substring(0, 0) == "/") {
+                media.attributes.sizes.medium.url = "' . site_url('/') . '" + media.attributes.sizes.medium.url;
+            }
             document.getElementById(name + "_img").src = media.attributes.sizes.medium.url;
         }).open();
     }
@@ -1243,13 +1280,6 @@ class NewsletterControls {
     /**
      * @deprecated
      */
-    function save_user($subscriber) {
-        return NewsletterUsers::instance()->save_user($user);
-    }
-
-    /**
-     * @deprecated
-     */
     function get_test_subscribers() {
         return NewsletterUsers::instance()->get_test_users();
     }
@@ -1267,6 +1297,29 @@ class NewsletterControls {
         }
         echo '</select>&nbsp;px';
     }
+    
+    function css_font_family($name) {
+        $value = $this->get_value($name);
+
+        $fonts = array('Helvetica, Arial, sans-serif', 'Arial Black, Gadget, sans-serif', 'Garamond, serif', 'Courier, monospace', 'Cominc Sans MS, cursive', 'Impact, Charcoal, sans-serif',
+            'Tahoma, Geneva, sans-serif', 'Times New Roman, Times, serif', 'Verdana, Geneva, sans-serif');
+        
+        echo '<select id="options-' . esc_attr($name) . '" name="options[' . esc_attr($name) . ']">';
+        foreach ($fonts as $font) {
+            echo '<option value="', esc_attr($font), '"';
+            if ($value == $font) {
+                echo ' selected';
+            }
+            echo '>', esc_html($font), '</option>';
+        }
+        echo '</select>';
+    }   
+    
+    function css_text_align($name) {
+        $options = array('left'=>__('Left', 'newsletter'), 'right'=>__('Right', 'newsletter'), 
+            'center'=>__('Center', 'newsletter'));
+        $this->select($name, $options);
+    }     
 
     function css_border($name) {
         $value = $this->get_value($name . '_width');
@@ -1298,6 +1351,11 @@ class NewsletterControls {
         echo '</select>&nbsp;px';
     }
 
+    /**
+     * Media selector using the media library of WP. Produces a field which values is an array containing 'id' and 'url'.
+     * 
+     * @param string $name
+     */
     function media($name) {
         if (isset($this->data[$name])) {
             $media_id = (int) $this->data[$name]['id'];
@@ -1334,6 +1392,15 @@ class NewsletterControls {
         echo $output;
     }
 
+    /**
+     * Prints a formatted date using the formats and timezone of WP, including the current date and time and the
+     * time left to the passed time.
+     * 
+     * @param int $time
+     * @param int $now
+     * @param bool $left
+     * @return string
+     */
     static function print_date($time = null, $now = false, $left = false) {
         if (is_null($time)) {
             $time = time();
@@ -1352,6 +1419,52 @@ class NewsletterControls {
             $buffer .= ', ' . gmdate('H:i:s', $time - time()) . ' left';
         }
         return $buffer;
+    }
+    
+    /**
+     * Prints the help button near a form field. The label is used as icon title.
+     * 
+     * @param string $url
+     * @param string $label
+     */
+    static function help($url, $label='') {
+        echo '<a href="', $url, '" target="_blank" title="', esc_attr($label), '"><i class="fa fa-question-circle-o"></i></a>';
+    }
+    
+    static function idea($url, $label='') {
+        echo '<a href="', $url, '" target="_blank" title="', esc_attr($label), '"><i class="fa fa-lightbulb-o"></i></a>';
+    }
+    
+    static function field_help($url, $text = '') {
+        if (empty($text)) $text = __('Read more', 'newsletter');
+        echo '<i class="fa fa-question-circle"></i>&nbsp;<a href="', $url, '" target="_blank">', $text, '</a>';
+    }
+    
+    /**
+     * Prints a panel link to the documentation.
+     * 
+     * @param type $url
+     * @param type $text
+     */
+    static function panel_help($url, $text = '') {
+        if (empty($text)) $text = __('Need help?', 'newsletter');
+        echo '<div class="tnp-panel-help"><a href="', $url, '" target="_blank">', $text, '</a></div>';
+    }
+    
+    /**
+     * Prints an administration page link to the documentation (just under the administration page title.
+     * @param type $url
+     * @param type $text
+     */
+    static function page_help($url, $text = '') {
+        if (empty($text)) $text = __('Need help?', 'newsletter');
+        echo '<div class="tnp-page-help"><a href="', $url, '" target="_blank">', $text, '</a></div>';
+    }
+    
+    static function print_truncated($text, $size=50) {
+        if (mb_strlen($text) < $size) return esc_html($text);
+        $sub = mb_substr($text, 0, $size);
+        echo '<span title="', esc_attr($text), '">', esc_html($sub), '...</span>';
     }
 
 }

@@ -5,16 +5,16 @@ if (!defined('ABSPATH'))
 
 <div class="row">
     <div class="col-md-6">
-        <h3>Subscriptions by month (max 12 months)</h3>
+        <h3><?php _e('Subscriptions by month (max 12 months)', 'newsletter') ?></h3>
         <?php
         $months = $wpdb->get_results("select count(*) as c, concat(year(created), '-', date_format(created, '%m')) as d from " . NEWSLETTER_USERS_TABLE . " where status='C' group by concat(year(created), '-', date_format(created, '%m')) order by d desc limit 12");
         ?>
 
-        <table class="widefat" style="width: auto">
+        <table class="widefat">
             <thead>
                 <tr valign="top">
-                    <th>Date</th>
-                    <th>Subscribers</th>
+                    <th><?php _e('Year and month', 'newsletter') ?></th>
+                    <th><?php _e('Total', 'newsletter') ?></th>
                 </tr>
             </thead>
             <?php foreach ($months as &$day) { ?>
@@ -26,17 +26,18 @@ if (!defined('ABSPATH'))
         </table>
 
     </div>
+
     <div class="col-md-6">
-     
-        <h3>Subscriptions by day (max 90 days)</h3>
+
+        <h3><?php _e('Subscriptions by day (max 90 days)', 'newsletter') ?></h3>
         <?php
         $list = $wpdb->get_results("select count(*) as c, date(created) as d from " . NEWSLETTER_USERS_TABLE . " where status='C' group by date(created) order by d desc limit 90");
         ?>
-        <table class="widefat" style="width: auto">
+        <table class="widefat">
             <thead>
                 <tr valign="top">
-                    <th>Date</th>
-                    <th>Subscribers</th>
+                    <th><?php _e('Date', 'newsletter') ?></th>
+                    <th><?php _e('Total', 'newsletter') ?></th>
                 </tr>
             </thead>
             <?php foreach ($list as $day) { ?>
@@ -46,7 +47,7 @@ if (!defined('ABSPATH'))
                 </tr>
             <?php } ?>
         </table>
-   
+
     </div>
 
 </div>

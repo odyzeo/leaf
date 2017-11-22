@@ -215,7 +215,7 @@ class Loco_fs_FileWriter {
         while( $parent = $here->getParent() ){
             array_unshift( $stack, $this->mapPath( $here->getPath() ) );
             if( $parent->exists() ){
-                // have existant directory, now build full path
+                // have existent directory, now build full path
                 foreach( $stack as $path ){
                     if( ! $fs->mkdir( $path, $mode ) ){
                         throw new Loco_error_WriteException( __('Failed to create directory','loco-translate') );
@@ -249,7 +249,13 @@ class Loco_fs_FileWriter {
      * @return bool
      */
     public function disabled(){
-        return loco_constant('DISALLOW_FILE_MODS');
+        // WordPress >= 4.8
+        if( function_exists('wp_is_file_mod_allowed') ){
+            $context = apply_filters( 'loco_file_mod_allowed_context', 'download_language_pack', $this->file );
+            return ! wp_is_file_mod_allowed( $context );
+        }
+        // fall back to direct constant check
+        return (bool) loco_constant('DISALLOW_FILE_MODS');
     }
 
 }

@@ -1,9 +1,9 @@
 
 @import url(//fonts.googleapis.com/css?family=Montserrat:400,700);
-@import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:700);
+@import url(//fonts.googleapis.com/css?family=Open+Sans:400,600);
 @import url(//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
 @import url(css/dropdown.css);
-@import url(css/jquery-ui/jquery-ui.css);
+@import url(//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css);
 
 /* Bootstrap like */
 
@@ -60,34 +60,50 @@
 
 @media all and (max-width: 1100px) {
     .col-md-12 {width: 100%;}
-.col-md-11 {width: 100%;}
-.col-md-10 {width: 100%;}
-.col-md-9 {width: 100%;}
-.col-md-8 {width: 100%;}
-.col-md-7 {width: 100%;}
-.col-md-6 {width: 100%;}
-.col-md-5 {width: 100%;}
-.col-md-4 {width: 100%;}
-.col-md-3 {width: 100%;}
-.col-md-2 {width: 100%;}
-.col-md-1 {width: 100%;}
+    .col-md-11 {width: 100%;}
+    .col-md-10 {width: 100%;}
+    .col-md-9 {width: 100%;}
+    .col-md-8 {width: 100%;}
+    .col-md-7 {width: 100%;}
+    .col-md-6 {width: 100%;}
+    .col-md-5 {width: 100%;}
+    .col-md-4 {width: 100%;}
+    .col-md-3 {width: 100%;}
+    .col-md-2 {width: 100%;}
+    .col-md-1 {width: 100%;}
 }
 
 
 /* Global Fonts */
 
-#tnp-wrap {
+#tnp-wrap, 
+#tnp-header, 
+#tnp-body p, 
+#tnp-body td,
+#tnp-body td p,
+#tnp-body input,
+#tnp-body select,
+#tnp-body textarea {
     font-family: "Open Sans", sans-serif;
 }
 
+#tnp-body h1, 
+#tnp-body h2, 
+#tnp-body h3, 
+#tnp-body h4 {
+    font-family: "Montserrat", sans-serif;
+}
 
-/* HEADER *********************************************************************/
+
+/*******************************************************************************
+ * Header
+ */
+
 #tnp-header {
     text-align: left;
     font-size: 12px;
-    xheight: 110px;
     color: #fff;
-    font-family: "Montserrat",sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 #tnp-header input {
@@ -134,54 +150,6 @@
     margin: 15px 0;
 }
 
-/* Admin header for extensions */
-#newsletter-header-ext {
-    text-align: left;
-    background-color: #fff;
-    padding: 10px;
-    font-size: 12px;
-    border: 1px solid #ccc;
-    float: right;
-    width: 300px;
-}
-
-#newsletter-header-ext a {
-    margin-right: 10px;
-    text-decoration: none;
-}
-
-#newsletter-path {
-
-}
-
-#newsletter-nav {
-    margin-bottom: 15px;
-}
-
-.newsletter-separator {
-    clear: both;
-    height: 5px;
-}
-
-/*
-.tnp-wrap, .tnp-wrap td, .tnp-wrap th, .tnp-wrap input, .tnp-wrap textarea {
-    font-size: 13px;
-    font-family: sans-serif;
-    line-height: 130%;
-}
-*/
-
-#tnp-body,
-#tnp-body p,
-#tnp-body td,
-#tnp-body th,
-#tnp-body input,
-#tnp-body select,
-#tnp-body textarea
-{
-    xfont-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
-}
-
 /* Default font colors for our dark background page body */
 #tnp-body h1, 
 #tnp-body h2, 
@@ -189,12 +157,6 @@
 #tnp-body h4, 
 #tnp-body p {
     color: #fff;
-}
-
-#tnp-body td h1,  
-#tnp-body td h2,
-#tnp-body td h3 {
-    font-family: "Montserrat",sans-serif!important;
 }
 
 #tnp-body a, #tnp-body a:hover, #tnp-body a:visited, #tnp-body a:active {
@@ -223,6 +185,11 @@
     text-shadow: none;
 }
 
+/* Icon in button media selector */
+#tnp-body span.wp-media-buttons-icon:before {
+    color: #fff;
+}
+
 /* Standard button */
 #tnp-body .tnp-button {
     color: #fff;
@@ -234,6 +201,8 @@
 #tnp-body .button-primary.tnp-button-white, #tnp-body .tnp-button.tnp-button-white {
     color: #444!important;
     background-color: #fff!important;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
 }
 
 /* Form tables correction */
@@ -244,7 +213,7 @@
     color: #444;
 }
 
-#tnp-body th, 
+#tnp-body tbody th, 
 #tnp-body td, 
 #tnp-body td p,
 #tnp-body td .button,
@@ -260,10 +229,14 @@
     color: #27AE60; /* Green */
 }
 
+
+/* Tables of class form-table */
 #tnp-body .form-table {
     background-color: #fff;
     border: 1px solid #ECF0F1;
     margin-top: 2em;
+    border-spacing: 4px;
+    border-collapse: separate;
 }
 
 #tnp-body .form-table th {
@@ -272,9 +245,6 @@
     max-width: 200px;
     color: #000000;
     background-color: #ECF0F1;
-    border-bottom: 4px solid #fff;
-
-    
 }
 
 #tnp-body .form-table th small {
@@ -302,12 +272,34 @@
     text-align: left;
     font-weight: bold;
 }
-/* End of a table inside a form table */
 
-/* Wide fat tables */
+
+/*******************************************************************************
+ * Wide fat tables 
+ */
+
+#tnp-body .widefat {
+    width: auto;
+}
+
 #tnp-body .widefat th {
     text-align: left;
 }
+
+#tnp-body .widefat thead {
+    background-color: #3498DB;
+    font-family: "Montserrat", sans-serif;
+    color: #fff !important;
+}
+
+#tnp-body .widefat thead tr th {
+    color: #fff !important;
+}
+
+#tnp-body .widefat td, .widefat th {
+    vertical-align: middle;
+}
+
 
 /* Buttons on widgets top bar */
 #tnp-body .tnp-widget h3 a, 
@@ -344,40 +336,6 @@
     color: #fff;
 }
 
-#tnp-body #tabs .ui-widget-header {
-    background: #28313C;
-    border: 0;
-}
-
-#tnp-body #tabs .ui-tabs-panel {
-    padding: 15px!important;
-    background-color: #fff;
-}
-
-#tnp-body #tabs a.ui-tabs-anchor,
-#tnp-body #tabs a.ui-tabs-anchor:visited {
-    color: #444;
-}
-
-
-
-div.submit {
-    margin-top: 5px;
-    padding: 5px;
-}
-
-.bordered-table {
-    border-collapse: collapse;
-}
-
-.bordered-table td, .bordered-table th {
-    border: 1px solid #ccc;
-    padding: 3px;
-}
-
-.newsletter-button {
-    font-size: 10px;
-}
 table.clicks td {
     border: 1px solid #666;
     padding: 2px;
@@ -398,34 +356,6 @@ table.clicks {
 }
 .grid th {
     background-color: #aaa;
-}
-
-
-
-.hints {
-    xborder: 1px solid #e4e4ee;
-    xbackground-color: #f4f4ff;
-    xpadding: 5px;
-    margin-top: 10px;
-    xborder-radius: 4px 4px;
-    font-size: 13px;
-    color: #666;
-    font-style: italic;
-    xbackground-color: #fcf8e3;
-    xborder-color: #faebcc;
-}
-
-.intro {
-    font-size: 11px;
-    margin: 6px 6px 8px;
-}
-
-
-.newsletter-badge {
-    color: #fff;
-    background-color: #666;
-    border-radius: 5px;
-    padding: 1px 5px;
 }
 
 .tnp-checkboxes label {
@@ -493,15 +423,11 @@ table.clicks {
     display: inline;
 }
 
-.ui-tabs .ui-tabs-nav li a {
-    font-size: 14px;
-}
 
 
 
-.widefat td, .widefat th {
-    vertical-align: middle;
-}
+
+
 
 /*
 .form-table td label {
@@ -604,65 +530,6 @@ table.clicks {
     margin-bottom: 1em;
 }
 
-.newsletter-buttons-bottom {
-}
-
-.newsletter-buttons-top {
-}
-
-/* Text under the panel title to explain the panel purpose. */
-/*
-.preamble {
-    margin-bottom: 15px;
-    border-radius: 3px;
-    background-color: #f4f4f4;
-    padding: 10px;
-    background-image: url("images/preamble.png");
-    background-repeat: no-repeat;
-    background-position: left;
-    padding-left: 65px;
-    font-size: 13px;
-    font-family: sans-serif;
-}
-
-.preamble p {
-    margin: 0;
-}
-*/
-
-.newsletter-preamble {
-    margin-bottom: 15px;
-    xborder-radius: 3px;
-    xbackground-color: #f4f4f4;
-    xpadding: 10px;
-    xbackground-image: url("images/preamble.png");
-    xbackground-repeat: no-repeat;
-    xbackground-position: left;
-    xpadding-left: 65px;
-    font-size: 13px;
-    xfont-family: sans-serif;
-}
-
-.newsletter-preamble p {
-    margin: 0;
-}
-
-.tab-preamble {
-    font-size: 13px;
-    line-height: normal;
-    xfont-family: sans-serif;
-    xcolor: #3a87ad;
-    xbackground-color: #d9edf7;
-    xborder: 1px solid #bce8f1;
-    xpadding: 15px;
-    xmargin-bottom: 20px;
-    xborder-radius: 4px;
-}
-
-.tab-preamble p {
-    margin: 0 0 5px 0;
-}
-
 .tnp-paginator {
     margin-top: 10px;
     margin-bottom: 5px;
@@ -734,9 +601,6 @@ table.clicks {
     color: #444;
 }
 
-.tnp-wrap a[target=_blank] {
-}
-
 /* .tnp-wrap a[target=_blank]:after {
     content: "»";
 }*/
@@ -768,11 +632,6 @@ table.clicks {
 }
 
 /* CSS General Font Styles */
-
-.tnp-wrap p {
-    /*font-family: "Montserrat";*/
-    font-weight: 400;
-}
 
 p.description {
     font-size: 12px !important;
@@ -812,26 +671,6 @@ p.description {
     margin-left: 10px;
 }
 
-/* Stefano 4.0 */
-
-.ui-tabs {
-    border-color: #28313C;
-    background-color: #28313C;
-    border: 0;
-}
-
-.ui-tabs .ui-tabs-nav {
-    margin: 0;
-    padding: .2em .2em 0 0;
-    background-color: #f2f2f2;
-}
-
-.ui-tabs .ui-tabs-panel {
-    padding: 1em 0;
-    background-color: #f2f2f2;
-    margin: 0;
-    border: 0;
-}
 
 /* Altrimenti si crea una striscia bianca in mezzo alla pagina! */
 
@@ -864,9 +703,9 @@ p.description {
     /* background-color: #34495E; */
     /* color: #fff !important; */
     margin-bottom: 10px;
-/*    width: 200px;*/
+    /*    width: 200px;*/
     /* text-align: right; */
-/*    border-bottom: 2px solid #27AE60;*/
+    /*    border-bottom: 2px solid #27AE60;*/
 }
 
 
@@ -1090,16 +929,16 @@ p.description {
 
 /* Footer */
 
-#tnp-footer div {
-    width: 33%;
-    display: inline-block;
-}
-
 #tnp-footer {
     margin-top: 10px;
     padding: 20px 10px 10px 40px;
     background-color: #28313C;
     font-family: "Montserrat", sans-serif;
+}
+
+#tnp-footer div {
+    width: 33%;
+    display: inline-block;
 }
 
 #tnp-footer a {
@@ -1363,10 +1202,69 @@ table.widefat {
     margin: 5px;
 }
 
+/*******************************************************************************
+ * Overrides some jQuery UI styles, specially for tabs and only inside the 
+ * #tnp-body div 
+ */
 
-/* Extension Panel */
+#tnp-body .ui-widget {
+    font-family: "Montserrat", sans-serif;
+}
+
+#tnp-body #tabs .ui-widget-header {
+    background: #28313C;
+    border: 0;
+}
+
+#tnp-body #tabs .ui-tabs-panel {
+    padding: 15px!important;
+    background-color: #fff;
+}
+
+#tnp-body #tabs a.ui-tabs-anchor,
+#tnp-body #tabs a.ui-tabs-anchor:visited {
+    color: #444;
+}
+
+#tnp-body .ui-tabs .ui-tabs-nav li a {
+    font-size: 14px;
+}
+
+#tnp-body .ui-tabs {
+    border-color: #28313C;
+    background-color: #28313C;
+    border: 0;
+}
+
+#tnp-body .ui-tabs .ui-tabs-nav {
+    margin: 0;
+    padding: .2em .2em 0 0;
+    background-color: #f2f2f2;
+}
+
+#tnp-body .ui-tabs .ui-tabs-panel {
+    padding: 1em 0;
+    background-color: #f2f2f2;
+    margin: 0;
+    border: 0;
+}
+
+#tnp-body .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background: #fff !important;
+    font-weight: normal;
+    font-family: "Montserrat", sans-serif;
+}
+
+#tnp-body .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    border: none;
+    background: #ECF0F1;
+    font-family: "Montserrat", sans-serif;
+}
 
 
+/*******************************************************************************
+ * Extension Panel 
+ */
 
 .tnp-extension-premium-box, .tnp-extension-free-box, .tnp-integration-box {
     width: 300px; 
@@ -1389,18 +1287,6 @@ table.widefat {
     font-size: 14px;
     margin-top: 0px;
 }
-
-/*.tnp-extension-premium-box {
-    border-top: 10px solid #F39C12;
-}
-
-.tnp-extension-free-box {
-    border-top: 10px solid #2ECC71;
-}
-
-.tnp-integration-box {
-    border-top: 10px solid #3498DB;
-}*/
 
 .tnp-extension-premium-box h3 {
     font-family: "Montserrat", sans-serif;
@@ -1601,16 +1487,26 @@ img.tnp-extensions-free-badge {
     margin-bottom: 20px;
 }
 
-/* Michael - Nuovo Stile Tabelle Plugin */
 
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-    background: #fff !important;
-    font-weight: normal;
-    font-family: "Montserrat", sans-serif;
+/* Theme options and theme preview styles */
+
+#tnp-body div.tnp-emails-theme-options {
+    background-color: #fff;
+    padding: 10px;
+    margin-top: 14px;
 }
 
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-    border: none;
-    background: #ECF0F1;
-    font-family: "Montserrat", sans-serif;
+#tnp-body div.tnp-emails-theme-options table.form-table {
+    margin: 0;
+}
+
+#tnp-body div.tnp-emails-theme-options h3 {
+    color: #000;
+}
+
+.tnp-emails-edit #options-subject {
+    font-size: 20px;
+    display: inline-block;
+    margin-bottom: 10px;
+    width: 100%;
 }

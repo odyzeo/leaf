@@ -1,64 +1,47 @@
 <?php
-defined( 'ABSPATH' ) or die( 'Cheatin\' uh?' );
+defined( 'ABSPATH' ) || die( 'Cheatin\' uh?' );
 
+add_action( 'imagify_assets_enqueued', '_imagify_ngg_admin_print_styles' );
 /**
- * Add some JS for NGG compatibility
+ * Add some CSS and JS for NGG compatibility.
  *
- * @since 1.5
+ * @since  1.5
+ * @since  1.6.10 Use the new class Imagify_Assets.
  * @author Jonathan Buttigieg
+ * @author Grégory Viguier
  */
-add_action( 'admin_print_styles', '_imagify_ngg_admin_print_styles', PHP_INT_MAX );
 function _imagify_ngg_admin_print_styles() {
-	$current_screen = get_current_screen();
-	
-	/**
-	 * Scripts loaded in /wp-admin/admin.php?page=nggallery-manage-gallery
-	 */
-	if ( isset( $current_screen ) && ( 'nggallery-manage-images' === $current_screen->base || 'nggallery-manage-gallery' === $current_screen->base ) ) {
-		$upload_data = array(
-			'bulkActionsLabels' => array( 
-				'optimize' => __( 'Optimize', 'imagify' ),
-				'restore'  => __( 'Restore Original', 'imagify' ),
-			),
-		);
-		wp_localize_script( 'imagify-js-upload', 'imagifyUpload', $upload_data );
-		
-		wp_enqueue_script( 'imagify-js-chart' );
-		wp_enqueue_script( 'imagify-js-upload' );
-	}
-	
-	/**
-	 * Scripts loaded in /wp-admin/admin.php?page=imagify-ngg-bulk-optimization
-	 */
-	if ( isset( $current_screen ) && false !== strpos( $current_screen->base, '_page_imagify-ngg-bulk-optimization' ) ) {
-		wp_enqueue_script( 'heartbeat' );
+	$assets = Imagify_Assets::get_instance();
 
-		$bulk_data = get_imagify_localize_script_translations( 'bulk' );
-		$bulk_data['heartbeat_id'] = 'update_ngg_bulk_data';
-		$bulk_data['ajax_action']  = 'imagify_ngg_get_unoptimized_attachment_ids';
-		$bulk_data['ajax_context'] = 'NGG';
-		
-		/** This filter is documented in inc/admin/enqueue.php */
-		$bulk_data['buffer_size']  = apply_filters( 'imagify_bulk_buffer_size', 4 );
-				
-		wp_localize_script( 'imagify-js-bulk', 'imagifyBulk', $bulk_data );
-		wp_enqueue_script( 'imagify-js-chart' );
-		wp_enqueue_script( 'imagify-js-async' );
-		wp_enqueue_script( 'imagify-js-bulk' );
+	/**
+	 * Manage Gallery Images.
+	 */
+	if ( imagify_is_screen( 'nggallery-manage-images' ) || isset( $_GET['gid'] ) && ! empty( $_GET['pid'] ) && imagify_is_screen( 'nggallery-manage-gallery' ) ) { // WPCS: CSRF ok.
+		$assets->enqueue_style( 'admin' )->enqueue_script( 'library' );
+		return;
 	}
-}
 
-/**
- * Add Intercom on Options page an Bulk Optimization
- *
- * @since 1.5
- * @author Jonathan Buttigieg
- */
-add_action( 'admin_footer', '_imagify_ngg_admin_print_intercom' );
-function _imagify_ngg_admin_print_intercom() {
-	$current_screen = get_current_screen();
-	
-	if ( isset( $current_screen ) && false !== strpos( $current_screen->base, '_page_imagify-ngg-bulk-optimization' ) ) {
-		_imagify_admin_print_intercom();	
+	/**
+	 * NGG Bulk Optimization.
+	 */
+	$bulk_screen_id = imagify_get_ngg_bulk_screen_id();
+
+	if ( ! imagify_is_screen( $bulk_screen_id ) ) {
+		return;
 	}
+
+	$assets->remove_deferred_localization( 'bulk', 'imagifyBulk' );
+
+	$l10n = $assets->get_localization_data( 'bulk', array(
+		'heartbeatId' => 'update_ngg_bulk_data',
+		'ajaxAction'  => 'imagify_ngg_get_unoptimized_attachment_ids',
+		'ajaxContext' => 'NGG',
+		/** This filter is documented in inc/classes/class-imagify-assets.php */
+		'bufferSize'  => apply_filters( 'imagify_bulk_buffer_size', 4 ),
+	) );
+
+	$assets->enqueue_assets( array( 'pricing-modal', 'bulk' ) )->localize( 'imagifyBulk', $l10n );
+
+	// Intercom.
+	add_action( 'admin_footer-' . $bulk_screen_id, array( $assets, 'print_support_script' ) );
 }

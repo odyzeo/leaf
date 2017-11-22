@@ -61,7 +61,13 @@ class NewsletterEmails extends NewsletterModule {
     function tnpc_render_callback() {
         $block_options = get_option('newsletter_main');
         $block = $this->get_block($_POST['b']);
-        if ($block) {
+        if (!$block) {
+            die('Not found');
+        }
+        if (strpos($block['filename'], '.block')) {
+            include NEWSLETTER_DIR . '/emails/tnp-composer/blocks/' . $block['filename'] . '.php';
+            wp_die();
+        } else {
 
             if (isset($_POST['options']) && is_array($_POST['options'])) {
                 $options = stripslashes_deep($_POST['options']);
@@ -76,7 +82,13 @@ class NewsletterEmails extends NewsletterModule {
 
             $data = '';
             foreach ($options as $key => $value) {
-                $data .= 'options[' . $key . ']=' . urlencode($value) . '&';
+                if (!is_array($value)) {
+                    $data .= 'options[' . $key . ']=' . urlencode($value) . '&';
+                } else {
+                    foreach ($value as $v) {
+                        $data .= 'options[' . $key . '][]=' . urlencode($v) . '&';
+                    }
+                }
             }
 
             if (isset($_POST['full'])) {
@@ -90,8 +102,6 @@ class NewsletterEmails extends NewsletterModule {
             }
             wp_die();
         }
-        include NEWSLETTER_DIR . '/emails/tnp-composer/blocks/' . sanitize_file_name($_POST['b']) . '.php';
-        wp_die(); // this is required to terminate immediately and return a proper response
     }
 
     function tnpc_preview_callback() {
@@ -119,26 +129,39 @@ class NewsletterEmails extends NewsletterModule {
 
         switch ($newsletter->action) {
             case 'v':
-                // TODO: Change to Newsletter::instance()->get:email(), not urgent
-                $email = $this->get_email((int) $_GET['id']);
+            case 'view':
+                $email = $this->get_email($_GET['id']);
                 if (empty($email)) {
+                    header("HTTP/1.0 404 Not Found");
                     die('Email not found');
                 }
+                
+                $user = NewsletterSubscription::instance()->get_user_from_request();
+                
+                if (!is_user_logged_in() || !(current_user_can('editor') || current_user_can('administrator'))) {
+               
+                    if ($email->status == 'new') {
+                        header("HTTP/1.0 404 Not Found");
+                        die('Not sent yet');
+                    }   
 
-                if ($email->private == 1) {
-                    die('No available for online view');
+                    if ($email->private == 1) {
+                        if (!$user) {
+                            header("HTTP/1.0 404 Not Found");
+                            die('No available for online view');
+                        }
+                        $sent = $wpdb->get_row($wpdb->prepare("select * from " . NEWSLETTER_SENT_TABLE . " where email_id=%d and user_id=%d limit 1", $email->id, $user->id));
+                        if (!$sent) {
+                            header("HTTP/1.0 404 Not Found");
+                            die('No available for online view');
+                        }
+                    }
                 }
 
-                $user = NewsletterSubscription::instance()->get_user_from_request();
+
                 header('Content-Type: text/html;charset=UTF-8');
                 header('X-Robots-Tag: noindex,nofollow,noarchive');
                 header('Cache-Control: no-cache,no-store,private');
-
-                // TODO: To be removed
-                if (is_file(WP_CONTENT_DIR . '/extensions/newsletter/view.php')) {
-                    include WP_CONTENT_DIR . '/extensions/newsletter/view.php';
-                    die();
-                }
 
                 echo $newsletter->replace($email->message, $user, $email->id);
 
@@ -170,17 +193,18 @@ class NewsletterEmails extends NewsletterModule {
                 echo file_get_contents(__DIR__ . '/tnp-composer/css/newsletter.css');
                 $dirs = apply_filters('newsletter_blocks_dir', array());
                 foreach ($dirs as $dir) {
-
+                    $dir = str_replace('\\', '/', $dir);
                     $list = NewsletterEmails::instance()->scan_blocks_dir($dir);
 
                     foreach ($list as $key => $data) {
-                        if (!file_exists($data['dir'] . '/style.css')) continue;
+                        if (!file_exists($data['dir'] . '/style.css'))
+                            continue;
                         echo "\n\n";
                         echo "/* ", $data['name'], " */\n";
                         echo file_get_contents($data['dir'] . '/style.css');
                     }
                 }
-                
+
                 die();
                 break;
 
@@ -310,7 +334,7 @@ class NewsletterEmails extends NewsletterModule {
         $this->add_admin_page('edit', 'Email Edit');
         $this->add_admin_page('theme', 'Email Themes');
         $this->add_admin_page('composer', 'The Composer');
-        $this->add_admin_page('cpreview', 'The Composer Preview');
+        //$this->add_admin_page('cpreview', 'The Composer Preview');
     }
 
     /**
@@ -430,16 +454,22 @@ class NewsletterEmails extends NewsletterModule {
             $filename = $path_parts['filename'];
             $section = substr($filename, 0, strpos($filename, '-'));
             $index = substr($filename, strpos($filename, '-') + 1, 2);
-            $blocks[$index]['name'] = substr($filename, strrpos($filename, '-') + 1);
-            $blocks[$index]['filename'] = $filename;
-            $blocks[$index]['icon'] = plugins_url('newsletter') . '/emails/tnp-composer/blocks/' . $filename . '.png';
-            $blocks[$index]['section'] = $section;
-            $blocks[$index]['description'] = '';
+            $block = array();
+            $block['name'] = substr($filename, strrpos($filename, '-') + 1);
+            $block['filename'] = $filename;
+            $block['icon'] = plugins_url('newsletter') . '/emails/tnp-composer/blocks/' . $filename . '.png';
+            $block['section'] = $section;
+            $block['description'] = '';
+            $blocks[$filename] = $block;
         }
 
+        $list = $this->scan_blocks_dir(__DIR__ . '/blocks');
+
+        $blocks = array_merge($blocks, $list);
         $dirs = apply_filters('newsletter_blocks_dir', array());
 
         foreach ($dirs as $dir) {
+            $dir = str_replace('\\', '/', $dir);
             $list = $this->scan_blocks_dir($dir);
             $blocks = array_merge($blocks, $list);
         }
@@ -447,6 +477,16 @@ class NewsletterEmails extends NewsletterModule {
     }
 
     function get_block($id) {
+        switch ($id) {
+//            case 'content-05-image.block': $id = '/plugins/newsletter/emails/blocks/image';
+//                break;
+            case 'content-04-cta.block': $id = '/plugins/newsletter/emails/blocks/cta';
+                break;
+//            case 'content-02-heading.block': $id = '/plugins/newsletter/emails/blocks/heading';
+//                break;
+        }
+
+        // TODO: Correct id for compatibility
         $blocks = $this->get_blocks();
         if (!isset($blocks[$id])) {
             return null;

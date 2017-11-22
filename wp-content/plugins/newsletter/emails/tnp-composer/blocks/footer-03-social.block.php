@@ -1,9 +1,11 @@
-<?php $social_icon_url = plugins_url('newsletter') . '/emails/themes/default/images'; ?>
+<?php 
+$social_icon_url = plugins_url('newsletter') . '/emails/themes/default/images'; 
+?>
 <!-- SOCIAL -->
 <table border="0" cellpadding="0" cellspacing="0" width="100%" class="tnpc-row" data-id="footer-03">
     <tr>
         <td bgcolor="#ffffff" align="center" style="padding: 20px 0px;" class="edit-block">
-            <!-- UNSUBSCRIBE COPY -->
+
             <table width="500" border="0" cellspacing="0" cellpadding="0" align="center" class="responsive-table">
                 <tr>
                     <td align="center" style="font-size: 12px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
@@ -44,17 +46,17 @@
                         <?php } ?>
                         <?php if (!empty($block_options['soundcloud_url'])) { $configured = true; ?>
                             <span class="tnpc-row-edit" data-type="image">
-                                <a href="<?php echo $block_options['soundcloud'] ?>"><img src="<?php echo $social_icon_url ?>/soundcloud.png" alt="SoundCloud"></a>
+                                <a href="<?php echo $block_options['soundcloud_url'] ?>"><img src="<?php echo $social_icon_url ?>/soundcloud.png" alt="SoundCloud"></a>
                             </span>
                         <?php } ?>
                         <?php if (!empty($block_options['instagram_url'])) { $configured = true; ?>
                             <span class="tnpc-row-edit" data-type="image">
-                                <a href="<?php echo $block_options['instagram'] ?>"><img src="<?php echo $social_icon_url ?>/instagram.png" alt="Instagram"></a>
+                                <a href="<?php echo $block_options['instagram_url'] ?>"><img src="<?php echo $social_icon_url ?>/instagram.png" alt="Instagram"></a>
                             </span>
                         <?php } ?>
                         <?php if (!empty($block_options['vimeo_url'])) { $configured = true; ?>
                             <span class="tnpc-row-edit" data-type="image">
-                                <a href="<?php echo $block_options['vimeo'] ?>"><img src="<?php echo $social_icon_url ?>/vimeo.png" alt="Vimeo"></a>
+                                <a href="<?php echo $block_options['vimeo_url'] ?>"><img src="<?php echo $social_icon_url ?>/vimeo.png" alt="Vimeo"></a>
                             </span>
                         <?php } ?>
                         <?php if (!$configured) { ?>
@@ -66,4 +68,5 @@
             </table>
     </tr>
 </table>
+<!-- /SOCIAL -->
 

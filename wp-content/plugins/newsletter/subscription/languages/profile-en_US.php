@@ -12,6 +12,7 @@ $options['name_rules'] = 0;
 $options['surname'] = 'Last name';
 $options['surname_error'] = 'The last name is not correct';
 $options['surname_status'] = 0;
+$options['sex_status'] = 0;
 $options['sex'] = 'I\'m';
 
 $options['privacy'] = 'Subscribing I accept the privacy rules of this site';
