@@ -6,7 +6,7 @@
 
 .module-story .module-title{
   display:block;
-  margin: 0;
+  margin: 0 !important;
   text-align: center;
   text-transform: none;
   font-size: 100%;
@@ -64,6 +64,22 @@
 .module-story .module-title-anim .module-title-anim-in strong{
   color:#3FC539;
 }	
+
+.module-story .story-hint{
+  display:none;
+  background:#5FE351;
+}
+.module-story .story-hint-text{
+  display:table-cell;
+  vertical-align:middle;
+  text-align:left;
+  padding:50px 50px 50px 125px;
+  background:url(../images/click.png) no-repeat 30px 50%;
+  color:#000;
+  font-size:30px;
+  font-weight:bold;
+  font-family>'Nunito',sans-serif;
+}
 
 .module-story .grid7{clear:both;position:relative;margin:-5px -5px 0}
 
@@ -755,6 +771,17 @@ ANIMATION
   
   .module-story .module-title-anim{font-size:300%}
   .module-story .module-title-anim .module-title-anim-in2{vertical-align:top}
+  
+  .module-story .story-hint{
+    display:table;
+    width:100%;
+    border:none;
+  }
+  
+  .module-story .module-title span{
+    display:none;
+  }
+  
   /*
   .module-story .loops-wrapper.grid7 .post{width:50%;padding-top:50%}
   .module-story .loops-wrapper.grid7 .post:nth-of-type(n){clear:none}
@@ -778,7 +805,7 @@ ANIMATION
 
   /**/
   .module-story .loops-wrapper.grid7 .post:nth-of-type(n) .post-content{
-  	left:0%;
+    left:0%;
   	right:auto;
     top:100%;
     width:300%;
@@ -832,10 +859,25 @@ ANIMATION
   }
   /**/
   
+  .module-story .loops-wrapper.grid7 .post:nth-of-type(n) .post-content,
+  .module-story .loops-wrapper.grid7 .post:nth-of-type(n) .post-content:before{
+    display:none !important;
+  }
+  
 }
 
 @media (max-width:600px){
   .module-story .loops-wrapper.grid7 .post:nth-of-type(n) .post-content .entry-content{display:none}
+}
+
+@media (max-width:540px){
+  .module-story .story-hint-text{
+    font-size:24px;
+    padding:30px 30px 30px 110px;
+    background-position:20px 50%;
+  }
+  body .module-story .loops-wrapper.grid7 .post-image div.module-story-all{font-size:120%}
+  .module-story .loops-wrapper.grid7 .post-image .module-story-all strong span{padding:10px}
 }
 
 @media (max-width:480px){
@@ -871,6 +913,7 @@ ANIMATION
     border-bottom-color: #3FC539;
   }
   */
+  body .module-story .loops-wrapper.grid7 .post-image div.module-story-all{font-size:100%}
   
 }
 

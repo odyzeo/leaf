@@ -73,7 +73,7 @@ $paged = $this->get_paged_query();
         <?php if ($mod_title_story != ''): ?>
             <?php echo $mod_settings['before_title'] .'<strong>'. wp_kses_post(apply_filters('themify_builder_module_title', $mod_title_story, $fields_args)) .'</strong><span>'. wp_kses_post(apply_filters('themify_builder_module_title', $mod_subtitle_story, $fields_args)) .'</span>'. $mod_settings['after_title']; ?>
         <?php endif; ?>
-
+        <div class="story-hint"><div class="story-hint-text"><?php _e('Click on the photo and get to know the stories of our graduates', 'themify');?></div></div>
         <?php
         do_action('themify_builder_before_template_content_render');
 
