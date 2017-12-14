@@ -1,0 +1,143 @@
+@import './helpers';
+@import './variables';
+
+/* -----------------------------------------------------------------------------
+  ROOT ELEMENTS
+
+----------------------------------------------------------------------------- */
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+}
+
+body {
+    position: relative;
+    color: @color--default;
+    background-color: #fff;
+    font-family: @font-family--default;
+    font-weight: 400;
+    font-size: @font-size;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-weight: 400;
+}
+
+h1,
+h2 {
+    font-family: @font-family--primary;
+    line-height: 1.24;
+
+    @media (min-width: @tablet-width-min) {
+        line-height: 1.17;
+    }
+}
+
+h1 {
+    font-size: @font-size--xlarge;
+
+    @media (min-width: @tablet-width-min) {
+        font-size: @font-size--xxlarge;
+    }
+}
+
+h2 {
+    font-size: @font-size--large;
+
+    @media (min-width: @tablet-width-min) {
+        font-size: @font-size--xlarge;
+    }
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.link {
+    color: @color--primary;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.alignnone {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.alignleft,
+.alignright {
+    margin-top: 5px;
+}
+
+.alignleft {
+    float: left;
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+.alignright {
+    float: right;
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+.wp-caption-text {
+    color: @color--warm-grey-two;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.post-tags {
+    margin-top: auto;
+    margin-bottom: 10px;
+}
+
+.post-tag {
+    color: @color--warm-grey-two;
+    font-style: italic;
+    font-family: @font-family--primary;
+    text-transform: lowercase;
+    transition: all .3s ease;
+
+    &:hover {
+        color: @color--black;
+    }
+}
+
+.author__title {
+    color: @color--warm-grey-three;
+    .spaced-title();
+}
+
+.author__link {
+    color: @color--black;
+
+    &:hover {
+        color: @color--primary;
+        text-decoration: underline;
+    }
+}
+
+figure {
+    max-width: 100%;
+}

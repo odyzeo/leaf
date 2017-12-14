@@ -1,0 +1,30 @@
+@import '../helpers';
+@import '../variables';
+@import '../../fonts/icomoon/variables';
+
+.menu-primary {
+    font-size: 0;
+
+    li {
+        display: inline-block;
+        list-style: none;
+    }
+
+    a {
+        display: inline-block;
+        padding: 5px 15px;
+        color: @color--default;
+        font-size: @font-size;
+        font-weight: 700;
+    }
+
+    a:hover,
+    .current-menu-parent a,
+    .current-menu-item a {
+        color: @color--primary;
+    }
+
+    .menu-item-type-custom a:after {
+        .new-window();
+    }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "zombi",
+  "version": "1.0.0",
+  "description": "Zombi wordpress template",
+  "main": "gulpfile.js",
+  "scripts": {
+    "start": "gulp",
+    "translate": "wpi18n makepot --type theme --domain-path ../../languages/themes --pot-file vedome.pot"
+  },
+  "author": "output",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "browser-sync": "^2.17.5",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "3.0.2",
+    "gulp-babel": "^7.0.0",
+    "gulp-concat": "2.5.2",
+    "gulp-less": "3.0.3",
+    "gulp-plumber": "1.0.1",
+    "node-wp-i18n": "^1.0.1",
+    "velocity-animate": "^1.5.0",
+    "webpack-stream": "^4.0.0"
+  },
+  "dependencies": {
+    "simplelightbox": "^1.11.1",
+    "swiper": "^4.0.3"
+  }
+}

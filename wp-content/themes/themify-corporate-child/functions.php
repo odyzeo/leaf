@@ -3,6 +3,7 @@
 /*
 * Define a constant path to our single template folder
 */
+define( 'WP_LEAF_VERSION', '1.0.0' );
 define( 'SINGLE_PATH', get_stylesheet_directory() . '/single' );
 
 function leaf_single_template( $single ) {
@@ -41,6 +42,7 @@ function themify_child_register_custom_nav() {
 add_action( 'init', 'themify_child_register_custom_nav' );
 
 function themify_custom_enqueue_child_theme_styles() {
+	wp_enqueue_script( 'app', get_theme_file_uri( '/app.js' ), array( 'jquery' ), WP_LEAF_VERSION );
 	wp_enqueue_script( 'parent-theme-js', get_stylesheet_directory_uri() . '/scripts.js', array( 'jquery' ), '1.0', true );
 	wp_enqueue_style( 'parent-theme-css', get_template_directory_uri() . '/style.css' );
 }

@@ -1,0 +1,146 @@
+@import '../variables';
+
+.footer {
+    padding: 20px 0;
+    border-top: 5px solid #40b153;
+    background-color: #1f1f1f;
+
+    .widget {
+        margin: 0;
+    }
+
+    .widget,
+    .widgettitle,
+    .widget a {
+        color: #fff;
+    }
+
+    .widget {
+        font-size: 13px;
+        line-height: 1.54;
+    }
+
+    .widget-title {
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 1.33;
+    }
+
+    .social-links a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        margin-right: 10px;
+
+        border-radius: 50%;
+        border: solid 1px #333333;
+        background-color: #1f1f1f;
+        color: #fff;
+        transition: all .3s ease;
+
+        &:hover {
+            background-color: #333333;
+        }
+    }
+
+    .social-link-item:last-child a {
+        margin-right: 0;
+    }
+
+    @media (min-width: @tablet-width-min) {
+        padding: 40px 0 50px;
+    }
+}
+
+.footer__row {
+    display: flex;
+    flex-wrap: wrap;
+
+    @media (min-width: @laptop-width-min) {
+        flex-wrap: nowrap;
+    }
+}
+
+.footer__col {
+    flex: 1 0 100%;
+    max-width: 100%;
+
+    @media (min-width: @tablet-width-min) {
+        flex: 1 0 240px;
+        max-width: 240px;
+    }
+}
+
+.footer__right {
+    flex: 1 0 100%;
+    max-width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    @media (min-width: @tablet-width-min) {
+        flex: 1 0 auto;
+        align-items: flex-end;
+    }
+}
+
+.footer__newsletter {
+    width: 100%;
+
+    .es_shortcode_form {
+        display: flex;
+    }
+
+    .es_button,
+    .es_textbox {
+        padding-bottom: 0;
+    }
+
+    .es_textbox {
+        flex: 1 0 auto;
+    }
+
+    .es_textbox_class {
+        margin: 0;
+        border-radius: 3px;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        background-color: #131313;
+        color: #fff;
+
+        &:focus {
+            background-color: #131313;
+        }
+    }
+
+    .es_textbox_class,
+    .es_textbox_button {
+        padding: 13px 15px;
+    }
+
+    .es_textbox_button {
+        width: auto;
+        height: 100%;
+        font-size: 12px;
+        font-weight: 500;
+        text-transform: uppercase;
+        border-radius: 3px;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .es_shortcode_form_email {
+        display: none;
+    }
+}
+
+.footer__subtitle {
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 2;
+}

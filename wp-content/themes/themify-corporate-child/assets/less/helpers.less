@@ -1,0 +1,116 @@
+@import './variables';
+@import './mixins';
+
+.text-ellipsis-2 {
+    .ellipsis(2);
+}
+
+.text-xxsmall {
+    font-size: @font-size--xxsmall !important;
+}
+
+.text-xsmall {
+    font-size: @font-size--xsmall !important;
+}
+
+.text-small {
+    font-size: @font-size--small !important;
+}
+
+.text-medium {
+    font-size: @font-size--medium !important;
+}
+
+.text-large {
+    font-size: @font-size--large !important;
+}
+
+.text-uppercase {
+    text-transform: uppercase !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-gray {
+    color: #9ba0a2;
+}
+
+.text-secondary {
+    color: @color--secondary;
+}
+
+.v-middle {
+    display: flex;
+    align-items: center;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+.fullimage {
+    width: 100%;
+    height: 100%;
+    background: transparent no-repeat ~"center/cover";
+}
+
+.new-window() {
+    padding-left: 2px;
+    font-size: 12px;
+    font-family: 'icomoon', serif !important;
+    vertical-align: middle;
+    content: @icon-new-window;
+}
+
+.line {
+    position: relative;
+    text-align: center;
+
+    &:after {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background-color: @color--black;
+        content: '';
+        z-index: -1;
+    }
+}
+
+.line__title {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #fff;
+    letter-spacing: 2px;
+}
+
+.closer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #fff;
+    border-radius: 60px;
+    -webkit-appearance: none;
+    box-shadow: 0 3px 15px 0 rgba(0, 0, 0, 0.35);
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.spaced-title {
+    text-transform: lowercase;
+    letter-spacing: 2px;
+}

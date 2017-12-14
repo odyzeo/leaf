@@ -1,0 +1,49 @@
+@import '../helpers';
+@import '../variables';
+@import '../../fonts/icomoon/variables';
+
+@menu-secondary-padding-horizontal: 10px;
+
+.menu-secondary {
+    margin-left: (@mobile-container-padding - @menu-secondary-padding-horizontal);
+    margin-right: (@mobile-container-padding - @menu-secondary-padding-horizontal);
+    font-size: 0;
+    white-space: nowrap;
+
+    li {
+        display: inline-block;
+        list-style: none;
+    }
+
+    a {
+        display: inline-block;
+        padding: 20px @menu-secondary-padding-horizontal;
+        color: #4b4b4b;
+        font-size: @font-size;
+    }
+
+    a:hover,
+    .current-menu-parent a,
+    .current-menu-item a {
+        position: relative;
+        color: @color--primary;
+
+        &:after {
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+            left: 10px;
+            height: 2px;
+            background-color: @color--primary;
+            content: '';
+        }
+    }
+
+    .menu-item-type-custom a:after {
+        .new-window();
+    }
+
+    @media (min-width: @tablet-width-min) {
+        margin-right: -@menu-secondary-padding-horizontal;
+    }
+}

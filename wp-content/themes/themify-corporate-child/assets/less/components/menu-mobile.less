@@ -1,0 +1,36 @@
+@import '../variables';
+
+.js-menu-mobile {
+    display: none;
+}
+
+.menu-mobile {
+    margin-bottom: 10px;
+
+    li {
+        display: block;
+        list-style: none;
+    }
+
+    a {
+        display: block;
+        color: @color--default;
+        font-size: @font-size--medium;
+        font-style: inherit;
+        font-family: @font-family--primary;
+        line-height: 2.3;
+    }
+
+    a:hover,
+    .current-menu-item a {
+        color: @color--primary;
+    }
+
+    .menu-item-type-custom a:after {
+        padding-left: 2px;
+        font-size: 12px;
+        font-family: 'icomoon', serif !important;
+        vertical-align: middle;
+        content: @icon-new-window;
+    }
+}

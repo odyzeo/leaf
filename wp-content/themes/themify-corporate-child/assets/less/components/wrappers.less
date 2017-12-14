@@ -1,0 +1,130 @@
+@import '../variables';
+@import '../helpers/flex';
+
+.wrappers {
+
+}
+
+.menu-strip {
+    background-color: @color--white;
+
+    .menu-strip__container {
+
+        @media (max-width: @tablet-width-max) {
+            padding: 0;
+        }
+    }
+
+    .menu-strip__title {
+        display: none;
+        font-family: @font-family--primary;
+
+        @media (min-width: @tablet-width-min) {
+            display: block;
+            flex: 1;
+            font-size: 26px;
+            line-height: 62px;
+        }
+    }
+}
+
+.names {
+    display: none;
+
+    @media (min-width: @tablet-width-min) {
+        display: block;
+        background-color: @color--primary;
+        color: #fff;
+        line-height: 30px;
+        text-align: right;
+    }
+}
+
+.names__container {
+    padding: 0 10px;
+
+    @media (min-width: @header-treshold) {
+        padding: 0 @desktop-container-padding;
+    }
+}
+
+
+.load-more {
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.load-more__btn {
+
+    @media (max-width: @tablet-width-max) {
+        width: 100%;
+    }
+}
+
+.intro {
+    position: relative;
+
+    @media (min-width: @tablet-width-min) {
+        margin-bottom: @flex-margin;
+    }
+}
+
+.intro__image {
+    height: @intro-height;
+
+    @media (min-width: @tablet-width-min) {
+        height: @intro-height-tablet;
+    }
+}
+
+.intro__container {
+    padding: 0 10px;
+
+    @media (min-width: @tablet-width-min) {
+        display: flex;
+        justify-content: flex-end;
+        padding: 0 30px 0 50px; // To align with flex
+        position: absolute;
+        bottom: @flex-margin;
+        left: 0;
+        right: 0;
+    }
+}
+
+.intro__article {
+    margin-top: -40px;
+    padding: 20px 20px 30px;
+    flex-basis: 100%;
+    max-width: 100%;
+    background-color: rgba(255, 255, 255, 1);
+
+    @media (max-width: @tablet-width-max) {
+        border-radius: 2px;
+    }
+
+    @media (min-width: @tablet-width-min) {
+        flex-basis: 100/3*2%;
+        max-width: 100/3*2%;
+        padding: 40px;
+        background-color: rgba(255, 255, 255, .9);
+    }
+}
+
+.intro__article--white {
+
+    @media (min-width: @tablet-width-min) {
+        background-color: #fff;
+    }
+}
+
+.posts {
+
+}
+
+.posts__container {
+    padding-top: 30px;
+
+    @media (min-width: @tablet-width-min) {
+        padding-top: @flex-margin;
+    }
+}

@@ -1,0 +1,123 @@
+/* -----------------------------------------------------------------------------
+
+  VARIABLES
+
+----------------------------------------------------------------------------- */
+
+@popup-mask-opacity: .7;
+@popup-padding: 10px;
+@popup-width: 480px;
+
+@z-popup-mask: 10000;
+@z-popup: (@z-popup-mask + 1);
+@z-popup-inner: (@z-popup + 1);
+
+/* -----------------------------------------------------------------------------
+
+  MASK COMPONENT
+
+----------------------------------------------------------------------------- */
+
+html,
+body {
+
+    &.has-active-popup {
+        overflow: hidden;
+        height: 100%; // Jumps window to top but keeps the input cursor in popup OK
+    }
+}
+
+.popup-mask {
+    position: fixed;
+    z-index: @z-popup-mask;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 0;
+    height: 0;
+    background-color: #000;
+    opacity: 0;
+    transition: opacity 0.3s, width 0s 0.3s, height 0s 0.3s;
+}
+
+.popup-mask.is-active {
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.popup {
+    position: fixed;
+    z-index: @z-popup;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 0;
+    opacity: 0;
+    padding: @popup-padding;
+    transition: opacity 0.3s, width 0s 0.3s, height 0s 0.3s;
+    -webkit-overflow-scrolling: touch;
+}
+
+.popup.is-active {
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 1;
+    outline: none;
+    transition: opacity 0.3s;
+}
+
+.popup__inner {
+    position: relative;
+    width: 100%;
+    margin: auto;
+    background: #fff;
+    overflow: hidden;
+    z-index: @z-popup-inner;
+    transform: translate(0, 0);
+
+    @media (min-width: (@popup-width + 2 * @popup-padding)) {
+        width: @popup-width;
+    }
+}
+
+.popup__header {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-radius: 2px 2px 0 0;
+    background: url(/images/bgr-popup.jpg) no-repeat ~"center / cover";
+}
+
+.popup__title {
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-size: 40px;
+    font-family: 'Roboto Condensed', sans-serif;
+    line-height: 1;
+    text-align: center;
+}
+
+.popup__body {
+    padding: 20px;
+
+    @media (min-width: @popup-width) {
+        padding: 40px;
+    }
+}
+
+.popup__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 19px 19px 20px 20px;
+
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 11px;
+}

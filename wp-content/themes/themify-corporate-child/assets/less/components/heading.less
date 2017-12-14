@@ -1,0 +1,33 @@
+@import '../variables';
+
+.heading {
+    position: relative;
+    padding: 20px 0;
+    background-color: @color--primary;
+    color: #fff;
+    z-index: -2;
+
+    @media (min-width: @tablet-width-min) {
+        display: none;
+    }
+}
+
+.heading__bgr {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: url(assets/svg/logo-monochrome.svg) no-repeat ~"center right" @color--primary;
+    opacity: .2;
+    z-index: -1;
+}
+
+.heading__title {
+    font-size: @font-size--medium;
+    line-height: 1.31;
+
+    @media (min-width: @tablet-width-min) {
+        font-size: @font-size--large;
+    }
+}

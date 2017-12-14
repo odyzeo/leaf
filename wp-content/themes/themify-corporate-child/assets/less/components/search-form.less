@@ -1,0 +1,91 @@
+@import '../variables';
+@import '../../fonts/icomoon/style';
+
+.search-form {
+    position: relative;
+    margin-bottom: 10px;
+
+    &:before {
+        position: absolute;
+        top: 7px;
+        left: 10px;
+        z-index: 1;
+        font-size: 18px;
+        font-family: 'icomoon', serif;
+        content: @icon-search;
+        color: @color--warm-grey;
+    }
+
+    .search-field {
+        width: 100%;
+        padding: 13px 15px 13px 35px;
+        border: none;
+        border-radius: 2px;
+        background-color: @color--white-two;
+        -webkit-appearance: none;
+        font-size: 16px;
+    }
+
+    .search-submit,
+    .screen-reader-text {
+        .visually-hidden;
+    }
+}
+
+.search-fixed {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100000;
+    display: none;
+
+    &.search-fixed--active {
+
+        .search-form {
+            transform: translateY(0);
+        }
+    }
+
+    .search-form {
+        position: relative;
+        margin-bottom: 10px;
+        transform: translateY(-50px);
+        transition: all .3s ease;
+
+        &:before {
+            content: '';
+        }
+
+        .search-field {
+            padding: 20px 15px;
+            background-color: #fff;
+
+            &:focus {
+                outline: none;
+            }
+        }
+    }
+}
+
+.search-fixed__overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(51, 51, 51, 0.9);
+}
+
+.search-fixed__closer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.search-fixed__container {
+    width: 520px;
+    max-width: 100%;
+    margin: 220px auto 100px;
+}

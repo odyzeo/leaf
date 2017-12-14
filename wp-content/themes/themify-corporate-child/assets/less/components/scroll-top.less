@@ -1,0 +1,39 @@
+@import '../variables';
+
+.scroll-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: @color--white;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all .3s ease;
+
+    &:hover {
+
+        .icon-arrow--top {
+            opacity: 1;
+        }
+    }
+
+    &--active {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @media (max-width: @mobile-width-max) {
+        display: none;
+    }
+}
+
+.icon-arrow--top {
+    display: inline-block;
+    transform: rotate(270deg);
+    opacity: .5;
+}
