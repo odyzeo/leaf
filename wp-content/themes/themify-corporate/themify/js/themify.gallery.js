@@ -53,17 +53,17 @@ ThemifyGallery = {
 					$link = ( $self.find( '> a' ).length > 0 ) ? $self.find( '> a' ).attr( 'href' ) : $self.attr('href'),
 					$type = ThemifyGallery.getFileType($link),
 					$is_video = ThemifyGallery.isVideo($link),
-					$groupItems = $type == 'inline' || $type == 'iframe' ? [] : ($self.data('rel')?$('a[data-rel="'+$self.data('rel')+'"]'):$self.closest( '.themify_builder_row, .loops-wrapper' ).find( '.themify_lightbox > img' ).parent()),
+					$groupItems = $type === 'inline' || $type === 'iframe' ? [] : ($self.data('rel')?$('a[data-rel="'+$self.data('rel')+'"]'):$self.closest( '.themify_builder_row, .loops-wrapper' ).find( '.themify_lightbox > img' ).parent()),
 					index = $groupItems.length > 1 ? $groupItems.index( this ) : 0,
-					$title = (typeof $(this).children('img').attr('alt') !== 'undefined') ? $(this).children('img').attr('alt') : $(this).attr('title'),
+					$title = (typeof $(this).children('img').prop('alt') !== 'undefined') ? $(this).children('img').prop('alt') : $(this).prop('title'),
 					$iframe_width = $is_video ? '100%' : (ThemifyGallery.getParam('width', $link)) ? ThemifyGallery.getParam('width', $link) : '94%',
 					$iframe_height = $is_video ? '100%' : (ThemifyGallery.getParam('height', $link)) ? ThemifyGallery.getParam('height', $link) : '100%';
-				if($iframe_width.indexOf("%") == -1) $iframe_width += 'px';
-				if($iframe_height.indexOf("%") == -1) $iframe_height += 'px';
+				if($iframe_width.indexOf("%") === -1) $iframe_width += 'px';
+				if($iframe_height.indexOf("%") === -1) $iframe_height += 'px';
 
 				if($is_video){
 					if( ThemifyGallery.isYoutube( $link ) ) {
-						// for youtube videos, sanitize the URL properly
+							// for youtube videos, sanitize the URL properly
 						$link = ThemifyGallery.getYoutubePath( $link );
 					}
 					else if( ThemifyGallery.isVimeo( $link ) ) {
@@ -75,9 +75,9 @@ ThemifyGallery = {
 
 					$groupItems.each( function( i, el ) {
 						targetItems.push( {
-							src: ThemifyGallery.getiFrameLink( $(el).attr( 'href' ) ),
-							title: (typeof $(el).find('img').attr('alt') !== 'undefined') ? $(el).find('img').attr('alt') : '',
-							type: ThemifyGallery.getFileType( $(el).attr( 'href' ) )
+							src: ThemifyGallery.getiFrameLink( $(el).prop( 'href' ) ),
+							title: (typeof $(el).find('img').prop('alt') !== 'undefined') ? $(el).find('img').prop('alt') : '',
+							type: ThemifyGallery.getFileType( $(el).prop( 'href' ) )
 						} );
 					} );
 
@@ -144,6 +144,7 @@ ThemifyGallery = {
 						}
 					});
 				}
+
 				if($is_video){
 					$args['mainClass'] += ' video-frame';
 				} else {
@@ -164,15 +165,15 @@ ThemifyGallery = {
 					$(ThemifyGallery.config.lightboxContentImages, $(this)).filter( function(){
 						if(!$(this).parent().hasClass('gallery-icon') && !$(this).hasClass('themify_lightbox')){
 							links.push($(this));
-							var description = $(this).attr('title');
+							var description = $(this).prop('title');
 							if($(this).next('.wp-caption-text').length > 0){
 								// If there's a caption set for the image, use it
 								description = $(this).next('.wp-caption-text').html();
 							} else {
 								// Otherwise, see if there's an alt attribute set
-								description = $(this).children('img').attr('alt');
+								description = $(this).children('img').prop('alt');
 							}
-							images.push({ src: $(this).attr('href'), title: description, type: 'image' });
+							images.push({ src: $(this).prop('href'), title: description, type: 'image' });
 							return $(this);
 						}
 					}).each(function(index) {
@@ -214,24 +215,24 @@ ThemifyGallery = {
 			// Images in WP Gallery
 			if(themifyScript.lightbox.lightboxGalleryOn){
 				$(context).on('click', ThemifyGallery.config.lightboxGallery, function(event){
-					if( 'image' !== ThemifyGallery.getFileType( $(this).attr( 'href' ) ) ) {
+					if( 'image' !== ThemifyGallery.getFileType( $(this).prop( 'href' ) ) ) {
 						return;
 					}
 					event.preventDefault();
 					var $gallery = $(ThemifyGallery.config.lightboxGallery, $(this).parent().parent().parent()),
 						images = [];
 					$gallery.each(function() {
-						var description = $(this).attr('title');
+						var description = $(this).prop('title');
 						if($(this).parent().next('.gallery-caption').length > 0){
 							// If there's a caption set for the image, use it
 							description = $(this).parent().next('.wp-caption-text').html();
 						} else if ( $(this).children('img').length > 0 ) {
 							// Otherwise, see if there's an alt attribute set
-							description = $(this).children('img').attr('alt');
+							description = $(this).children('img').prop('alt');
 						} else if ( $(this).find('.gallery-caption').find('.entry-content').length > 0 ) {
 							description = $(this).find('.gallery-caption').find('.entry-content').text();
 						}
-						images.push({ src: $(this).attr('href'), title: description, type: 'image' });
+						images.push({ src: $(this).prop('href'), title: description, type: 'image' });
 					});
 					var $args = {
 						gallery: {
@@ -261,7 +262,7 @@ ThemifyGallery = {
 	
 	countItems : function(type){
 		var context = this.config.context;
-		if('lightbox' == type) return $(this.config.lightbox, context).length + $(this.config.lightboxGallery, context).length + $(ThemifyGallery.config.lightboxContentImages, context).length;
+		if('lightbox' === type) return $(this.config.lightbox, context).length + $(this.config.lightboxGallery, context).length + $(ThemifyGallery.config.lightboxContentImages, context).length;
 		else return $(this.config.fullscreen, context).length + $(ThemifyGallery.config.lightboxContentImages, context).length;
 	},
 
@@ -278,7 +279,7 @@ ThemifyGallery = {
 			return 'image';
 		} else if(itemSrc.match(/\bajax=true\b/i)) {
 			return 'ajax';
-		} else if(itemSrc.substr(0,1) == '#') {
+		} else if(itemSrc.substr(0,1) === '#') {
 			return 'inline';
 		} else {
 			return 'iframe';
@@ -308,17 +309,17 @@ ThemifyGallery = {
 	 * this enables us to detect the page is in an iframe in the server
 	 */
 	getiFrameLink : function( link ) {
-		if( ThemifyGallery.getFileType( link ) == 'iframe' && ThemifyGallery.isVideo( link ) === null ) {
+		if( ThemifyGallery.getFileType( link ) === 'iframe' && ThemifyGallery.isVideo( link ) === null ) {
 			link = Themify.UpdateQueryString( 'iframe', 'true', link )
 		}
 		return link;
 	},
 	getParam: function(name, url){
 		name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
-		var regexS = "[\\?&]"+name+"=([^&#]*)";
-		var regex = new RegExp(regexS);
-		var results = regex.exec(url);
-		return(results==null) ? "" : results[1];
+		var regexS = "[\\?&]"+name+"=([^&#]*)",
+                    regex = new RegExp(regexS),
+                    results = regex.exec(url);
+		return results==null ? "" : results[1];
 	}
 };
 

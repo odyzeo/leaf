@@ -35,7 +35,7 @@ $warning |= empty($status_options['mail']);
 ?>
 
 <div class="tnp-drowpdown" id="tnp-header">
-    <a href="?page=newsletter_main_index"><img src="<?php echo plugins_url('newsletter'); ?>/images/header/tnp-logo-red-header.png" class="tnp-header-logo"style="vertical-align: bottom;"></a>
+    <a href="?page=newsletter_main_index"><img src="<?php echo plugins_url('newsletter'); ?>/images/header/tnp-logo-red-header.png" class="tnp-header-logo" style="vertical-align: bottom;"></a>
     <ul>
         <li><a href="#"><i class="fa fa-users"></i> <?php _e('Subscribers', 'newsletter') ?> <i class="fa fa-chevron-down"></i></a>
             <ul>
@@ -58,8 +58,8 @@ $warning |= empty($status_options['mail']);
             <ul>
                 <li><a href="?page=newsletter_subscription_options"><i class="fa fa-sign-in"></i> <?php _e('Subscription', 'newsletter') ?>
                         <small><?php _e('The subscription process in detail', 'newsletter') ?></small></a></li>
-                        
-      
+
+
                 <li>
                     <a href="?page=newsletter_subscription_profile"><i class="fa fa-check-square-o"></i> <?php _e('Subscription Form Fields, Buttons, Labels', 'newsletter') ?>
                         <small><?php _e('When and what data to collect', 'newsletter') ?></small></a>
@@ -72,7 +72,7 @@ $warning |= empty($status_options['mail']);
                     <a href="?page=newsletter_subscription_unsubscription"><i class="fa fa-sign-out"></i> <?php _e('Unsubscription', 'newsletter') ?>
                         <small><?php _e('How to give the last goodbye (or avoid it!)', 'newsletter') ?></small></a>
                 </li>
-               
+
                 <li>
                     <a href="?page=newsletter_subscription_forms"><i class="fa fa-pencil"></i> <?php _e('Custom Forms', 'newsletter') ?>
                         <small><?php _e('Hand coded form storage', 'newsletter') ?></small></a>
@@ -83,7 +83,7 @@ $warning |= empty($status_options['mail']);
                 </li>
                 <?php
                 newsletter_print_entries('subscription');
-                ?>            
+                ?>
             </ul>
         </li>
         <li><a href="#"><i class="fa fa-newspaper-o"></i> <?php _e('Newsletters', 'newsletter') ?> <i class="fa fa-chevron-down"></i></a>
@@ -103,7 +103,7 @@ $warning |= empty($status_options['mail']);
                         <small><?php _e('Delivery speed, sender details, ...', 'newsletter') ?></small></a></li>
                 <li><a href="?page=newsletter_main_info"><i class="fa fa-info"></i> <?php _e('Company Info', 'newsletter') ?>
                         <small><?php _e('Social, address, logo and general info', 'newsletter') ?></small></a></li>
-                
+
                 <?php if (!class_exists('NewsletterSmtp')) { ?>
                 <li>
                     <a href="?page=newsletter_main_smtp"><i class="fa fa-envelope-o"></i> <?php _e('SMTP', 'newsletter') ?>
@@ -111,13 +111,13 @@ $warning |= empty($status_options['mail']);
                     </a>
                 </li>
                 <?php } ?>
-                
+
                 <?php
                 newsletter_print_entries('settings');
                 ?>
             </ul>
         </li>
-        
+
         <li>
             <a href="?page=newsletter_main_status"><i class="fa fa-thermometer"></i> <?php _e('Status', 'newsletter') ?>
             <?php if ($warning) { ?>
@@ -125,7 +125,7 @@ $warning |= empty($status_options['mail']);
             <?php } ?>
             </a>
         </li>
-        
+
         <?php
         if (empty(Newsletter::instance()->options['contract_key']) && !defined('NEWSLETTER_LICENSE_KEY')) {
             ?>
@@ -136,25 +136,18 @@ $warning |= empty($status_options['mail']);
             ?>
             <?php if (empty(Newsletter::instance()->options['licence_expires'])) { ?>
                 <li class="tnp-professional-extensions-button-red">
-                    <a href="?page=newsletter_main_main">            
-                        <i class="fa fa-hand-paper-o" style="color: white"></i> <?php _e('Licence not valid', 'newsletter') ?>
-                    </a>
+                    <a href="?page=newsletter_main_main"><i class="fa fa-hand-paper-o" style="color: white"></i> <?php _e('Licence not valid', 'newsletter') ?></a>
                 <?php } else { ?>
                     <?php if (Newsletter::instance()->options['licence_expires'] > time()) { ?>
                     <li class="tnp-professional-extensions-button">
-                        <a href="?page=newsletter_main_extensions">
-                            <i class="fa fa-check-square-o"></i> <?php _e('Licence active', 'newsletter') ?>
-                        </a>
+                        <a href="?page=newsletter_main_extensions"><i class="fa fa-check-square-o"></i> <?php _e('Licence active', 'newsletter') ?></a>
                     <?php } elseif (Newsletter::instance()->options['licence_expires'] < time()) { ?>
                     <li class="tnp-professional-extensions-button-red">
-                        <a href="?page=newsletter_main_main">
-                            <i class="fa fa-hand-paper-o" style="color: white"></i> <?php _e('Licence expired', 'newsletter') ?>
-                        </a>
+                        <a href="?page=newsletter_main_main"><i class="fa fa-hand-paper-o" style="color: white"></i> <?php _e('Licence expired', 'newsletter') ?></a>
                     <?php } ?>
                 <?php } ?>
-                </a>
             </li>
-        <?php } ?>        
+        <?php } ?>
     </ul>
 </div>
 

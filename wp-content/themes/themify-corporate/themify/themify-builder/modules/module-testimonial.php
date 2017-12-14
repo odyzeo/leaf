@@ -4,10 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Testimonial
  * Description: Display testimonial custom post type
  */
-class TB_Testimonial_Module extends Themify_Builder_Module {
+class TB_Testimonial_Module extends Themify_Builder_Component_Module {
 	function __construct() {
 		parent::__construct(array(
-			'name' => __( 'Testimonial', 'themify' ),
+			'name' => __('Testimonial', 'themify'),
 			'slug' => 'testimonial'
 		));
 
@@ -16,13 +16,13 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 		///////////////////////////////////////
 		$this->meta_box = $this->set_metabox();
 		$this->initialize_cpt( array(
-			'plural' => __( 'Testimonials', 'themify' ),
-			'singular' => __( 'Testimonial', 'themify' ),
+			'plural' => __('Testimonials', 'themify'),
+			'singular' => __('Testimonial', 'themify'),
 			'menu_icon' => 'dashicons-testimonial'
 		));
 
-		if ( ! shortcode_exists( 'themify_' . $this->slug .'_posts' ) ) {
-			add_shortcode( 'themify_' . $this->slug . '_posts', array( $this, 'do_shortcode' ) );
+		if ( ! shortcode_exists( 'themify_'. $this->slug .'_posts' ) ) {
+			add_shortcode( 'themify_'.$this->slug.'_posts', array( $this, 'do_shortcode' ) );
 		}
 	}
 
@@ -31,39 +31,42 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 		$category = isset( $module['mod_settings']['category_testimonial'] ) ? $module['mod_settings']['category_testimonial'] : '';
 		$slug_query = isset( $module['mod_settings']['query_slug_testimonial'] ) ? $module['mod_settings']['query_slug_testimonial'] : '';
 
-		if ( 'category' == $type ) {
-			return sprintf( '%s : %s', __( 'Category', 'themify' ), $category );
+		if ( 'category' === $type ) {
+			return sprintf( '%s : %s', __('Category', 'themify'), $category );
 		} else {
-			return sprintf( '%s : %s', __( 'Slugs', 'themify' ), $slug_query );
+			return sprintf( '%s : %s', __('Slugs', 'themify'), $slug_query );
 		}
 	}
 
 	public function get_options() {
-		$options = array(
+                $is_img_enabled = Themify_Builder_Model::is_img_php_disabled();
+		$image_sizes = !$is_img_enabled?themify_get_image_sizes_list( false ):array();
+		return array(
 			array(
 				'id' => 'mod_title_testimonial',
 				'type' => 'text',
-				'label' => __( 'Module Title', 'themify' ),
+				'label' => __('Module Title', 'themify'),
 				'class' => 'large'
 			),
 			array(
 				'id' => 'layout_testimonial',
 				'type' => 'layout',
-				'label' => __( 'Testimonial Layout', 'themify' ),
+				'label' => __('Testimonial Layout', 'themify'),
+                                'mode'=>'sprite',
 				'options' => array(
-					array( 'img' => 'grid4.png', 'value' => 'grid4', 'label' => __( 'Grid 4', 'themify' ) ),
-					array( 'img' => 'grid3.png', 'value' => 'grid3', 'label' => __( 'Grid 3', 'themify' ) ),
-					array( 'img' => 'grid2.png', 'value' => 'grid2', 'label' => __( 'Grid 2', 'themify' ) ),
-					array( 'img' => 'fullwidth.png', 'value' => 'fullwidth', 'label' => __( 'fullwidth', 'themify' ) )
+					array('img' => 'grid4', 'value' => 'grid4', 'label' => __('Grid 4', 'themify')),
+					array('img' => 'grid3', 'value' => 'grid3', 'label' => __('Grid 3', 'themify')),
+					array('img' => 'grid2', 'value' => 'grid2', 'label' => __('Grid 2', 'themify')),
+					array('img' => 'fullwidth', 'value' => 'fullwidth', 'label' => __('fullwidth', 'themify'))
 				)
 			),
 			array(
 				'id' => 'type_query_testimonial',
 				'type' => 'radio',
-				'label' => __( 'Query by', 'themify' ),
+				'label' => __('Query by', 'themify'),
 				'options' => array(
-					'category' => __( 'Category', 'themify' ),
-					'post_slug' => __( 'Slug', 'themify' )
+					'category' => __('Category', 'themify'),
+					'post_slug' => __('Slug', 'themify')
 				),
 				'default' => 'category',
 				'option_js' => true,
@@ -71,126 +74,117 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			array(
 				'id' => 'category_testimonial',
 				'type' => 'query_category',
-				'label' => __( 'Category', 'themify' ),
+				'label' => __('Category', 'themify'),
 				'options' => array(
 					'taxonomy' => 'testimonial-category'
 				),
-				'help' => sprintf(__( 'Add more <a href="%s" target="_blank">testimonials</a>', 'themify' ), admin_url('post-new.php?post_type=testimonial')),
-				'wrap_with_class' => 'tf-group-element tf-group-element-category'
+				'help' => sprintf(__('Add more <a href="%s" target="_blank">testimonials</a>', 'themify'), admin_url('post-new.php?post_type=testimonial')),
+				'wrap_with_class' => 'tb-group-element tb-group-element-category'
 			),
 			array(
 				'id' => 'query_slug_testimonial',
 				'type' => 'text',
-				'label' => __( 'Testimonial Slugs', 'themify' ),
+				'label' => __('Testimonial Slugs', 'themify'),
 				'class' => 'large',
-				'wrap_with_class' => 'tf-group-element tf-group-element-post_slug',
-				'help' => '<br/>' . __( 'Insert Testimonial slug. Multiple slug should be separated by comma (,)', 'themify' )
+				'wrap_with_class' => 'tb-group-element tb-group-element-post_slug',
+				'help' => '<br/>' . __( 'Insert Testimonial slug. Multiple slug should be separated by comma (,)', 'themify')
 			),
 			array(
 				'id' => 'post_per_page_testimonial',
 				'type' => 'text',
-				'label' => __( 'Limit', 'themify' ),
+				'label' => __('Limit', 'themify'),
 				'class' => 'xsmall',
-				'help' => __( 'number of posts to show', 'themify' )
+				'help' => __('number of posts to show', 'themify')
 			),
 			array(
 				'id' => 'offset_testimonial',
 				'type' => 'text',
-				'label' => __( 'Offset', 'themify' ),
+				'label' => __('Offset', 'themify'),
 				'class' => 'xsmall',
-				'help' => __( 'number of post to displace or pass over', 'themify' )
+				'help' => __('number of post to displace or pass over', 'themify')
 			),
 			array(
 				'id' => 'order_testimonial',
 				'type' => 'select',
-				'label' => __( 'Order', 'themify' ),
-				'help' => __( 'Descending = show newer posts first', 'themify' ),
+				'label' => __('Order', 'themify'),
+				'help' => __('Descending = show newer posts first', 'themify'),
 				'options' => array(
-					'desc' => __( 'Descending', 'themify' ),
-					'asc' => __( 'Ascending', 'themify' )
+					'desc' => __('Descending', 'themify'),
+					'asc' => __('Ascending', 'themify')
 				)
 			),
 			array(
 				'id' => 'orderby_testimonial',
 				'type' => 'select',
-				'label' => __( 'Order By', 'themify' ),
+				'label' => __('Order By', 'themify'),
 				'options' => array(
-					'date' => __( 'Date', 'themify' ),
-					'id' => __( 'Id', 'themify' ),
-					'author' => __( 'Author', 'themify' ),
-					'title' => __( 'Title', 'themify' ),
-					'name' => __( 'Name', 'themify' ),
-					'modified' => __( 'Modified', 'themify' ),
-					'rand' => __( 'Random', 'themify' ),
-					'comment_count' => __( 'Comment Count', 'themify' )
+					'date' => __('Date', 'themify'),
+					'id' => __('Id', 'themify'),
+					'author' => __('Author', 'themify'),
+					'title' => __('Title', 'themify'),
+					'name' => __('Name', 'themify'),
+					'modified' => __('Modified', 'themify'),
+					'rand' => __('Random', 'themify'),
+					'comment_count' => __('Comment Count', 'themify')
 				)
 			),
 			array(
 				'id' => 'display_testimonial',
 				'type' => 'select',
-				'label' => __( 'Display', 'themify' ),
+				'label' => __('Display', 'themify'),
 				'options' => array(
-					'content' => __( 'Content', 'themify' ),
-					'excerpt' => __( 'Excerpt', 'themify' ),
-					'none' => __( 'None', 'themify' )
+					'content' => __('Content', 'themify'),
+					'excerpt' => __('Excerpt', 'themify'),
+					'none' => __('None', 'themify')
 				)
 			),
 			array(
 				'id' => 'hide_feat_img_testimonial',
 				'type' => 'select',
-				'label' => __( 'Hide Featured Image', 'themify' ),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
+				'label' => __('Hide Featured Image', 'themify'),
 				'options' => array(
-					'yes' => __( 'Yes', 'themify' ),
-					'no' => __( 'No', 'themify' )
+                                        ''=>'',
+					'yes' => __('Yes', 'themify'),
+					'no' => __('No', 'themify')
 				)
 			),
 			array(
 				'id' => 'image_size_testimonial',
 				'type' => 'select',
-				'label' => Themify_Builder_Model::is_img_php_disabled() ? __( 'Image Size', 'themify' ) : false,
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
-				'hide' => ! Themify_Builder_Model::is_img_php_disabled(),
-				'options' => themify_get_image_sizes_list( false )
+				'label' =>__('Image Size', 'themify'),
+				'hide' => !$is_img_enabled,
+				'options' => $image_sizes
 			),
 			array(
 				'id' => 'img_width_testimonial',
 				'type' => 'text',
-				'label' => __( 'Image Width', 'themify' ),
+				'label' => __('Image Width', 'themify'),
 				'class' => 'xsmall'
 			),
 			array(
 				'id' => 'img_height_testimonial',
 				'type' => 'text',
-				'label' => __( 'Image Height', 'themify' ),
+				'label' => __('Image Height', 'themify'),
 				'class' => 'xsmall'
 			),
 			array(
 				'id' => 'hide_post_title_testimonial',
 				'type' => 'select',
-				'label' => __( 'Hide Post Title', 'themify' ),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
+				'label' => __('Hide Post Title', 'themify'),
 				'options' => array(
-					'yes' => __( 'Yes', 'themify' ),
-					'no' => __( 'No', 'themify' )
+                                        ''=>'',
+					'yes' => __('Yes', 'themify'),
+					'no' => __('No', 'themify')
 				)
 			),
 			array(
 				'id' => 'hide_page_nav_testimonial',
 				'type' => 'select',
-				'label' => __( 'Hide Page Navigation', 'themify' ),
+				'label' => __('Hide Page Navigation', 'themify'),
 				'options' => array(
-					'yes' => __( 'Yes', 'themify' ),
-					'no' => __( 'No', 'themify' )
+                                        ''=>'',
+					'yes' => __('Yes', 'themify'),
+					'no' => __('No', 'themify')
 				)
 			),
 			// Additional CSS
@@ -201,349 +195,61 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			array(
 				'id' => 'css_testimonial',
 				'type' => 'text',
-				'label' => __( 'Additional CSS Class', 'themify' ),
+				'label' => __('Additional CSS Class', 'themify'),
 				'class' => 'large exclude-from-reset-field',
-				'help' => sprintf( '<br/><small>%s</small>', __( 'Add additional CSS class(es) for custom styling', 'themify' ) )
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
 			)
 		);
-		return $options;
 	}
 
-	public function get_animation() {
-		$animation = array(
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . esc_html__( 'Appearance Animation', 'themify' ) . '</h4>')
-			),
-			array(
-				'id' => 'multi_Animation Effect',
-				'type' => 'multi',
-				'label' => __( 'Effect', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'animation_effect',
-						'type' => 'animation_select',
-						'label' => __( 'Effect', 'themify' )
-					),
-					array(
-						'id' => 'animation_effect_delay',
-						'type' => 'text',
-						'label' => __( 'Delay', 'themify' ),
-						'class' => 'xsmall',
-						'description' => __( 'Delay (s)', 'themify' ),
-					),
-					array(
-						'id' => 'animation_effect_repeat',
-						'type' => 'text',
-						'label' => __( 'Repeat', 'themify' ),
-						'class' => 'xsmall',
-						'description' => __( 'Repeat (x)', 'themify' ),
-					),
-				)
-			)
-		);
-
-		return $animation;
-	}
 
 	public function get_styling() {
 		$general = array(
 			// Background
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Background', 'themify' ) . '</h4>' ),
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __( 'Background Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => array( '.module-testimonial .post' )
-			),
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.module-testimonial .post', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
 			// Font
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Font', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'font_family',
-				'type' => 'font_select',
-				'label' => __( 'Font Family', 'themify' ),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => array( '.module-testimonial .post-title', '.module-testimonial .post-title a' ),
-			),
-			array(
-				'id' => 'font_color',
-				'type' => 'color',
-				'label' => __( 'Font Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.module-testimonial .post', '.module-testimonial h1', '.module-testimonial h2', '.module-testimonial h3:not(.module-title)', '.module-testimonial h4', '.module-testimonial h5', '.module-testimonial h6', '.module-testimonial .post-title', '.module-testimonial .post-title a' ),
-			),
-			array(
-				'id' => 'multi_font_size',
-				'type' => 'multi',
-				'label' => __( 'Font Size', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'font_size',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => '.module-testimonial .post'
-					),
-					array(
-						'id' => 'font_size_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height',
-				'type' => 'multi',
-				'label' => __( 'Line Height', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'line_height',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => '.module-testimonial .post'
-					),
-					array(
-						'id' => 'line_height_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
-			array(
-				'id' => 'text_align',
-				'label' => __( 'Text Align', 'themify' ),
-				'type' => 'radio',
-				'meta' => Themify_Builder_Model::get_text_align(),
-				'prop' => 'text-align',
-				'selector' => '.module-testimonial .post',
-			),
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family(array( '.module-testimonial .post-title', '.module-testimonial .post-title a' )),
+                        self::get_color(array( '.module-testimonial .post', '.module-testimonial h1', '.module-testimonial h2', '.module-testimonial h3:not(.module-title)', '.module-testimonial h4', '.module-testimonial h5', '.module-testimonial h6', '.module-testimonial .post-title', '.module-testimonial .post-title a' ),'font_color',__('Font Color', 'themify')),
+                        self::get_font_size('.module-testimonial .post'),
+                        self::get_line_height('.module-testimonial .post'),
+                        self::get_letter_spacing('.module-testimonial .post'),
+                        self::get_text_align('.module-testimonial .post'),
+                        self::get_text_transform('.module-testimonial .post'),
+                        self::get_font_style('.module-testimonial .post'),
 			// Link
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_link',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Link', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'link_color',
-				'type' => 'color',
-				'label' => __( 'Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-testimonial a'
-			),
-			array(
-				'id' => 'link_color_hover',
-				'type' => 'color',
-				'label' => __( 'Color Hover', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-testimonial a:hover'
-			),
-			array(
-				'id' => 'text_decoration',
-				'type' => 'select',
-				'label' => __( 'Text Decoration', 'themify' ),
-				'meta'	=> Themify_Builder_Model::get_text_decoration(),
-				'prop' => 'text-decoration',
-				'selector' => '.module-testimonial a'
-			),
-			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Padding', 'themify' ) . '</h4>' ),
-			),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-testimonial .post', 'top' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-testimonial .post', 'right' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-testimonial .post', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-testimonial .post', 'left' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-testimonial .post', 'all' ),
+                        self::get_seperator('link',__('Link', 'themify')),
+                        self::get_color( '.module-testimonial a','link_color'),
+                        self::get_color('.module-testimonial a:hover','link_color_hover',__('Color Hover', 'themify')),
+                        self::get_text_decoration('.module-testimonial a'),
+			 // Padding
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.module-testimonial .post'),
 			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Margin', 'themify') . '</h4>' ),
-			),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-testimonial .post', 'top' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-testimonial .post', 'right' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-testimonial .post', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-testimonial .post', 'left' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-testimonial .post', 'all' ),
-			// Border
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_border',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Border', 'themify' ) . '</h4>' )
-			),
-			Themify_Builder_Model::get_field_group( 'border', '.module-testimonial .post', 'top' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-testimonial .post', 'right' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-testimonial .post', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-testimonial .post', 'left' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-testimonial .post', 'all' )
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.module-testimonial .post'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.module-testimonial .post')
 		);
 
 		$testimonial_title = array(
 			// Font
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Font', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'font_family_title',
-				'type' => 'font_select',
-				'label' => __( 'Font Family', 'themify' ),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => array( '.module-testimonial .post-title', '.module-testimonial .post-title a' )
-			),
-			array(
-				'id' => 'font_color_title',
-				'type' => 'color',
-				'label' => __( 'Font Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.module-testimonial .post-title', '.module-testimonial .post-title a' )
-			),
-			array(
-				'id' => 'font_color_title_hover',
-				'type' => 'color',
-				'label' => __( 'Color Hover', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.module-testimonial .post-title:hover', '.module-testimonial .post-title a:hover' )
-			),
-			array(
-				'id' => 'multi_font_size_title',
-				'type' => 'multi',
-				'label' => __( 'Font Size', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'font_size_title',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => '.module-testimonial .post-title'
-					),
-					array(
-						'id' => 'font_size_title_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height_title',
-				'type' => 'multi',
-				'label' => __( 'Line Height', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'line_height_title',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => '.module-testimonial .post-title'
-					),
-					array(
-						'id' => 'line_height_title_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family(array( '.module-testimonial .post-title', '.module-testimonial .post-title a' ),'font_family_title'),
+                        self::get_color(array( '.module-testimonial .post-title', '.module-testimonial .post-title a' ),'font_color_title',__('Font Color', 'themify')),
+                        self::get_color(array( '.module-testimonial .post-title:hover', '.module-testimonial .post-title a:hover' ),'font_color_title_hover',__('Color Hover', 'themify')),
+                        self::get_font_size('.module-testimonial .post-title','font_size_title'),
+                        self::get_line_height('.module-testimonial .post-title','line_height_title')
 		);
 
 		$testimonial_content = array(
 			// Font
-			array(
-				'id' => 'font_family_content',
-				'type' => 'font_select',
-				'label' => __( 'Font Family', 'themify' ),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => '.module-testimonial .testimonial-post .post-content'
-			),
-			array(
-				'id' => 'font_color_content',
-				'type' => 'color',
-				'label' => __( 'Font Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-testimonial .testimonial-post .post-content'
-			),
-			array(
-				'id' => 'multi_font_size_content',
-				'type' => 'multi',
-				'label' => __( 'Font Size', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'font_size_content',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => '.module-testimonial .testimonial-post .post-content'
-					),
-					array(
-						'id' => 'font_size_content_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height_content',
-				'type' => 'multi',
-				'label' => __( 'Line Height', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'line_height_content',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => '.module-testimonial .testimonial-post .post-content'
-					),
-					array(
-						'id' => 'line_height_content_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
+                        self::get_font_family('.module-testimonial .testimonial-post .post-content','font_family_content'),
+                        self::get_color('.module-testimonial .testimonial-post .post-content','font_color_content',__('Font Color', 'themify')),
+                        self::get_font_size('.module-testimonial .testimonial-post .post-content','font_size_content'),
+                        self::get_line_height('.module-testimonial .testimonial-post .post-content','line_height_content')
 		);
 
 		return array(
@@ -552,27 +258,31 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 				'id' => 'module-styling',
 				'tabs' => array(
 					'general' => array(
-					'label' => __( 'General', 'themify' ),
-					'fields' => $general
+                                            'label' => __('General', 'themify'),
+                                            'fields' => $general
 					),
-					'module-title' => array(
+                                        'module-title' => array(
 						'label' => __( 'Module Title', 'themify' ),
-						'fields' => Themify_Builder_Model::module_title_custom_style( $this->slug )
+						'fields' => self::module_title_custom_style( $this->slug )
 					),
 					'title' => array(
-						'label' => __( 'Testimonial Title', 'themify' ),
+						'label' => __('Testimonial Title', 'themify'),
 						'fields' => $testimonial_title
 					),
 					'content' => array(
-						'label' => __( 'Testimonial Content', 'themify' ),
+						'label' => __('Testimonial Content', 'themify'),
 						'fields' => $testimonial_content
 					)
 				)
-			),
+			)
 		);
 
 	}
-
+        
+        public function get_visual_type() {
+            return 'ajax';            
+        }
+        
 	function set_metabox() {
 		// Testimonial Meta Box Options
 		$meta_box = array(
@@ -587,7 +297,7 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			// Testimonial Author Name
 			array(
 				'name' 		=> '_testimonial_name',
-				'title' 	=> __( 'Testimonial Author Name', 'themify' ),
+				'title' 	=> __('Testimonial Author Name', 'themify'),
 				'description' => '',
 				'type' 		=> 'textbox',
 				'meta'		=> array()
@@ -595,7 +305,7 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			// Testimonial Author Link
 			array(
 				'name' 		=> '_testimonial_link',
-				'title' 	=> __( 'Testimonial Author Link', 'themify' ),
+				'title' 	=> __('Testimonial Author Link', 'themify'),
 				'description' => '',
 				'type' 		=> 'textbox',
 				'meta'		=> array()
@@ -603,7 +313,7 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			// Testimonial Author Company
 			array(
 				'name' 		=> '_testimonial_company',
-				'title' 	=> __( 'Testimonial Author Company', 'themify' ),
+				'title' 	=> __('Testimonial Author Company', 'themify'),
 				'description' => '',
 				'type' 		=> 'textbox',
 				'meta'		=> array()
@@ -611,7 +321,7 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			// Testimonial Author Position
 			array(
 				'name' 		=> '_testimonial_position',
-				'title' 	=> __( 'Testimonial Author Position', 'themify' ),
+				'title' 	=> __('Testimonial Author Position', 'themify'),
 				'description' => '',
 				'type' 		=> 'textbox',
 				'meta'		=> array()
@@ -631,7 +341,7 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			'image_h' => 80,
 			'display' => 'content', // excerpt, none
 			'more_link' => false, // true goes to post type archive, and admits custom link
-			'more_text' => __( 'More &rarr;', 'themify' ),
+			'more_text' => __('More &rarr;', 'themify'),
 			'limit' => 4,
 			'category' => 0, // integer category ID
 			'order' => 'DESC', // ASC
@@ -669,7 +379,17 @@ class TB_Testimonial_Module extends Themify_Builder_Module {
 			'mod_settings' => $sync
 		);
 
-		return $ThemifyBuilder->retrieve_template( 'template-' . $this->slug . '.php', $module, '', '', false );
+		return self::retrieve_template( 'template-' . $this->slug . '.php', $module, '', '', false );
+	}
+
+	/**
+	 * Render plain content for static content.
+	 * 
+	 * @param array $module 
+	 * @return string
+	 */
+	public function get_plain_content( $module ) {
+		return ''; // no static content for dynamic content
 	}
 }
 
@@ -711,6 +431,6 @@ endif;
 ///////////////////////////////////////
 // Module Options
 ///////////////////////////////////////
-if( $this->is_cpt_active( 'testimonial' ) ) {
+if( Themify_Builder_Model::is_cpt_active( 'testimonial' ) ) {
 	Themify_Builder_Model::register_module( 'TB_Testimonial_Module' );
 }

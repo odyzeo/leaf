@@ -40,7 +40,7 @@ class Themify_CustomCSS_Control extends Themify_Control {
 
 		<div class="themify-customizer-brick">
 			<a class="themify-expand ti ti-new-window"></a>
-			<textarea <?php $this->link(); ?> data-value="<?php esc_attr_e(base64_encode($css)) ?>" class="customcss <?php esc_attr_e($this->type); ?>_control themify-customizer-value-field" rows="20"></textarea>
+			<textarea <?php $this->link(); ?> data-value="<?php echo esc_attr(base64_encode($css)) ?>" class="customcss <?php echo esc_attr($this->type); ?>_control themify-customizer-value-field" rows="20"></textarea>
 		</div>
 		<?php
 	}

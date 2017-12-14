@@ -25,12 +25,22 @@ $.fn.fixedHeader = function(options){
 			$body = $('body'),
 			resizeId;
 
-		function onResize(){
-			thisHeight = $this.height();
+		if(themifyScript.sticky_header){
+			var img = '<img id="sticky_header_logo" src="' + themifyScript.sticky_header.src + '"';
+				if(themifyScript.sticky_header.imgwidth){
+					img+=' width="'+themifyScript.sticky_header.imgwidth+'"';
+				}
+				if(themifyScript.sticky_header.imgheight){
+					img+=' height="'+themifyScript.sticky_header.imgheight+'"';
+				}
+				img+='/>';
+			$('#site-logo a').prepend(img);
 		}
 
 		function onScroll(){
 			var scrollTop = $window.scrollTop();
+			thisHeight = $this.height();
+
 			if(scrollTop > thisHeight) {
 				$this.addClass(settings.fixedClass);
 				$parent.css('padding-top', thisHeight);
@@ -42,11 +52,7 @@ $.fn.fixedHeader = function(options){
 			}
 		};
 
-		$window.on('scroll.fixedHeader touchstart.touchScroll touchmove.touchScroll', onScroll)
-		.on('resize', function(){
-			clearTimeout(resizeId);
-			resizeId = setTimeout(onResize, 500);
-		});
+		$window.on( 'scroll.fixedHeader touchstart.touchScroll touchmove.touchScroll', onScroll );
 	});
 };
 
@@ -139,10 +145,17 @@ EntryFilter = {
 		}
 	},
 	layout: function(){
-		var $entries = $('.loops-wrapper.portfolio'),
-			layout = $entries.hasClass( 'list-post' ) ? 'vertical' : 'fitRows';
-		$entries.isotope({
-			layoutMode: layout,
+		var $entries = $('.loops-wrapper.portfolio.masonry:not(.fullwidth)');
+
+		if( ! $entries.has( '.grid-sizer' ).length && ! $entries.has( '.gutter-sizer' ).length ) {
+			$entries.prepend('<div class="grid-sizer"></div><div class="gutter-sizer"></div>');
+		}
+
+		$entries.addClass( 'masonry-done' ).isotope({
+			masonry: {
+				columnWidth: $entries.find( '.grid-sizer' ).length ? '.grid-sizer' : null,
+				gutter: $entries.find('.gutter-sizer').length ? '.gutter-sizer' : null
+			},
 			transformsEnabled: false,
 			itemSelector : '.portfolio-post',
 			isOriginLeft : ! $( 'body' ).hasClass( 'rtl' )
@@ -156,7 +169,7 @@ $(document).ready(function() {
 	var $body = $('body'),$skills = $('.progress-bar');
 
 	// make portfolio overlay clickable
-	$( 'body' ).on( 'click', '.loops-wrapper.grid4.portfolio .post-image + .post-content, .loops-wrapper.grid3.portfolio .post-image + .post-content, .loops-wrapper.grid2.portfolio .post-image + .post-content', function(e){
+	$( 'body' ).on( 'click', '.loops-wrapper.grid4.portfolio.overlay .post-image + .post-content, .loops-wrapper.grid3.portfolio.overlay .post-image + .post-content, .loops-wrapper.grid2.portfolio.overlay .post-image + .post-content', function(e){
 		if( $( e.target ).is( 'a' ) || $( e.target ).parent().is( 'a' ) ) return;
 		var $link = $( this ).closest( '.post' ).find( 'a[data-post-permalink]' );
 		if( $link.length > 0 && ! $link.hasClass( 'themify_lightbox' ) ) {

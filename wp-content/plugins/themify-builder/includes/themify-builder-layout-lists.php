@@ -1,50 +1,44 @@
-<div class="lightbox_inner">
-	<form id="themify_builder_load_template_form" method="POST">
-		
-		<p><?php _e('Builder Layouts are the pre-designed layouts which you can apply to any page for quicker prototyping. Click on the thumbnail to apply. <strong>Warning:</strong> your current Builder content on the page will be override with the Layout.', 'themify') ?></p>
+<div class="themify_builder_options_tab_wrapper">
+	<div class="themify_builder_options_tab_content">
+		<form id="themify_builder_load_template_form" method="POST">
+			<div id="themify_builder_lightbox_options_tab_items">
+				<li class="title"><?php _e('Layouts', 'themify'); ?></li>
+			</div>
+			<div id="themify_builder_lightbox_actions_items"></div>
 
-		<?php if ( count( $posts ) > 0 ): ?>
-		<ul class="themify_builder_layout_lists">
-			<?php global $post; $temp_post = $post; ?>
-			
-			<?php foreach( $posts as $post ): setup_postdata( $post ); ?>
-			<li class="layout_preview_list">
-				<div class="layout_preview">
-					<div class="thumbnail" data-layout-slug="<?php echo esc_attr( $post->post_name ); ?>">
-						<?php
-						if ( has_post_thumbnail() ) {
-							the_post_thumbnail( 'thumbnail', array( 150, 150 ) );
-						} else {
-							echo sprintf( '<img src="%s">', 'http://placehold.it/150x150' );
-						} ?>
-					</div>
-					<!-- /thumbnail -->
-					<div class="layout_action">
-						<div class="layout_title">
-							<?php the_title(); ?>
-						</div>
-						<!-- /template_title -->
-					</div>
-					<!-- /template_action -->
-				</div>
-				<!-- /template_preview -->
-			</li>
-			<?php endforeach; wp_reset_postdata(); $post = $temp_post; ?>
-		</ul>
-		<?php endif; ?>
-		<div class="clearfix"></div>
+			<?php if ( !empty( $this->provider_instances )): ?>
+                            <?php $first = true;?>
+                            <div id="themify_builder_options_styling">
+                                    <div class="themify_builder_tabs">
+                                            <ul class="clearfix">
+                                                <?php $instances = array()?>
+                                                    <?php foreach( $this->provider_instances as $provider => $instance ) : ?>
+                                                            <?php if( $instance->has_layouts() ) : ?>
+                                                                <?php $instances[] = $instance;?>
+                                                                <li class="title<?php if($first): $first = false;?> current<?php endif;?>"><a href="#themify_builder_tabs_<?php echo $provider; ?>"><?php echo $instance->get_label(); ?></a></li>
+                                                            <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                            </ul>
+                                            <?php  foreach($instances as $instance ) : ?>
+                                                    <?php $instance->get_list_output();
+                                                        $instance->print_template_form();
+                                                        
+                                                    ?>
+                                            <?php endforeach; ?>
 
-		<p class="add_new_template">
-			<a href="<?php echo admin_url('post-new.php?post_type=' . $this->layout->post_type_name); ?>" target="_blank">
-				<span class="themify_builder_icon add"></span>
-				<?php _e('Add new layout', 'themify') ?>
+                                    </div>
+                            </div>
+			<?php endif; ?>
+			<div class="clearfix"></div>
+			<a href="<?php echo admin_url('post-new.php?post_type=' . $this->layout->post_type_name); ?>" target="_blank" class="add_new">
+                            <span class="themify_builder_icon add"></span>
+                            <?php _e('Add new layout', 'themify') ?>
 			</a>
-			&nbsp;
-			<a href="<?php echo admin_url('edit.php?post_type=' . $this->layout->post_type_name); ?>" target="_blank">
-				<span class="themify_builder_icon ti-folder"></span>
-				<?php _e('Manage Layouts', 'themify') ?>
+			<a href="<?php echo admin_url('edit.php?post_type=' . $this->layout->post_type_name); ?>" target="_blank" class="add_new">
+                            <span class="themify_builder_icon ti-folder"></span>
+                            <?php _e('Manage Layouts', 'themify') ?>
 			</a>
-		</p>
 
-	</form>
-</div> <!-- /lightbox_inner -->
+		</form>
+	</div>
+</div>

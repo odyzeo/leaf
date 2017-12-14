@@ -472,6 +472,10 @@ img.mfp-img {
 	background: #fff !important;
 	position: relative !important;
 }
+.standard-frame .mfp-iframe[src*="player.vimeo.com"],
+.standard-frame .mfp-iframe[src*="youtube.com"] {
+	background: transparent !important;
+}
 .mfp-wrap .mfp-inline-holder .mfp-content {
 	width: 80%;
 	background: #fff;

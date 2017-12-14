@@ -865,6 +865,14 @@ if ( ! function_exists( 'themify_default_portfolio_single_layout' ) ) {
 				</span>
 			</p>';
 
+		$output .= '
+			<p>
+				<span class="label">' . __('Portfolio Comments', 'themify') . '</span>
+				<label for="setting-portfolio_comments">
+					<input type="checkbox" id="setting-portfolio_comments" name="setting-portfolio_comments" '. checked( themify_get( 'setting-portfolio_comments' ), 'on', false ) .'/> ' . __('Enable portfolio comments', 'themify') . '
+				</label>
+			</p>';
+
 		return $output;
 	}
 }

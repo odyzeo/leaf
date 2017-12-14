@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Widget
  * Description: Display any available widgets
  */
-class TB_Widget_Module extends Themify_Builder_Module {
+class TB_Widget_Module extends Themify_Builder_Component_Module {
 	function __construct() {
 		parent::__construct(array(
 			'name' => __('Widget', 'themify'),
@@ -16,7 +16,7 @@ class TB_Widget_Module extends Themify_Builder_Module {
 	}
 
 	public function get_options() {
-		$options = array(
+		return array(
 			array(
 				'id' => 'mod_title_widget',
 				'type' => 'text',
@@ -30,399 +30,15 @@ class TB_Widget_Module extends Themify_Builder_Module {
 				'class' => 'large',
 				'help' => __('Select Available Widgets', 'themify'),
 				'separated' => 'bottom',
-				'break' => true
+				'break' => true,
+                                'render_callback' => array(
+					'binding' => false
+				)
 			),
 			array(
 				'id' => 'instance_widget',
 				'type' => 'widget_form',
 				'label' => false
-			)
-		);
-		return $options;
-	}
-
-	public function get_styling() {
-		$styling = array(
-			// Animation
-			array(
-				'id' => 'separator_animation',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Animation', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'animation_effect',
-				'type' => 'animation_select',
-				'label' => __( 'Effect', 'themify' ),
-				'class' => ''
-			),
-			// Background
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Background', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'background_image',
-				'type' => 'image',
-				'label' => __('Background Image', 'themify'),
-				'class' => 'xlarge',
-				'prop' => 'background-image',
-				'selector' => '.module-widget',
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __('Background Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => '.module-widget',
-			),
-			// Background repeat
-			array(
-				'id' 		=> 'background_repeat',
-				'label'		=> __('Background Repeat', 'themify'),
-				'type' 		=> 'select',
-				'default'	=> '',
-				'meta'		=> array(
-					array('value' => 'repeat', 'name' => __('Repeat All', 'themify')),
-					array('value' => 'repeat-x', 'name' => __('Repeat Horizontally', 'themify')),
-					array('value' => 'repeat-y', 'name' => __('Repeat Vertically', 'themify')),
-					array('value' => 'repeat-none', 'name' => __('Do not repeat', 'themify')),
-					array('value' => 'fullcover', 'name' => __('Fullcover', 'themify'))
-				),
-				'prop' => 'background-repeat',
-				'selector' => '.module-widget',
-			),
-			// Font
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Font', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'font_family',
-				'type' => 'select',
-				'label' => __('Font Family', 'themify'),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => array( '.module-widget', '.module-widget a' ),
-			),
-			array(
-				'id' => 'font_color',
-				'type' => 'color',
-				'label' => __('Font Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.module-widget', '.module-widget a' ),
-			),
-			array(
-				'id' => 'multi_font_size',
-				'type' => 'multi',
-				'label' => __('Font Size', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'font_size',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => array( '.module-widget', '.module-widget a' ),
-					),
-					array(
-						'id' => 'font_size_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height',
-				'type' => 'multi',
-				'label' => __('Line Height', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'line_height',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => array( '.module-widget', '.module-widget a' ),
-					),
-					array(
-						'id' => 'line_height_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'text_align',
-				'label' => __( 'Text Align', 'themify' ),
-				'type' => 'radio',
-				'meta' => array(
-					array( 'value' => '', 'name' => __( 'Default', 'themify' ), 'selected' => true ),
-					array( 'value' => 'left', 'name' => __( 'Left', 'themify' ) ),
-					array( 'value' => 'center', 'name' => __( 'Center', 'themify' ) ),
-					array( 'value' => 'right', 'name' => __( 'Right', 'themify' ) ),
-					array( 'value' => 'justify', 'name' => __( 'Justify', 'themify' ) )
-				),
-				'prop' => 'text-align',
-				'selector' => array( '.module-widget' ),
-			),
-			// Link
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_link',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Link', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'link_color',
-				'type' => 'color',
-				'label' => __('Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.module-widget a' ),
-			),
-			array(
-				'id' => 'text_decoration',
-				'type' => 'select',
-				'label' => __( 'Text Decoration', 'themify' ),
-				'meta'	=> array(
-					array('value' => '',   'name' => '', 'selected' => true),
-					array('value' => 'underline',   'name' => __('Underline', 'themify')),
-					array('value' => 'overline', 'name' => __('Overline', 'themify')),
-					array('value' => 'line-through',  'name' => __('Line through', 'themify')),
-					array('value' => 'none',  'name' => __('None', 'themify'))
-				),
-				'prop' => 'text-decoration',
-				'selector' => array( '.module-widget a' ),
-			),
-			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Padding', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_padding_top',
-				'type' => 'multi',
-				'label' => __('Padding', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'padding_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-top',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'padding_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-right',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'padding_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-bottom',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'padding_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-left',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'padding_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Margin', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_margin_top',
-				'type' => 'multi',
-				'label' => __('Margin', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'margin_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-top',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'margin_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-right',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'margin_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-bottom',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'margin_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-left',
-						'selector' => '.module-widget',
-					),
-					array(
-						'id' => 'margin_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
 			),
 			// Additional CSS
 			array(
@@ -433,66 +49,282 @@ class TB_Widget_Module extends Themify_Builder_Module {
 				'id' => 'custom_css_widget',
 				'type' => 'text',
 				'label' => __('Additional CSS Class', 'themify'),
-				'description' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') ),
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') ),
 				'class' => 'large exclude-from-reset-field'
 			)
 		);
-		return $styling;
 	}
 
-	function widget_fields( $field, $mod_name ) {
+
+	public function get_styling() {
+		$general = array(
+			// Background
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_image('.module-widget'),
+                        self::get_color('.module-widget', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
+						self::get_repeat('.module-widget'),
+			// Font
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family(array( '.module-widget', '.module-widget a' )),
+                        self::get_color(array( '.module-widget', '.module-widget a' ),'font_color',__('Font Color', 'themify')),
+                        self::get_font_size(array( '.module-widget', '.module-widget a' )),
+                        self::get_line_height(array( '.module-widget', '.module-widget a' )),
+                        self::get_letter_spacing('.module-widget'),
+                        self::get_text_align('.module-widget'),
+                        self::get_text_transform('.module-widget'),
+                        self::get_font_style('.module-widget'),
+                        // Link
+                        self::get_seperator('link',__('Link', 'themify')),
+                        self::get_color( '.module-widget a','link_color'),
+                        self::get_color('.module-widget a:hover','link_color_hover',__('Color Hover', 'themify')),
+                        self::get_text_decoration('.module-widget a'),
+                        // Padding
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.module-widget'),
+			// Margin
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.module-widget'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.module-widget')
+		);
+                return array(
+			array(
+				'type' => 'tabs',
+				'id' => 'module-styling',
+				'tabs' => array(
+					'general' => array(
+                                            'label' => __( 'General', 'themify' ),
+                                            'fields' => $general
+					),
+					'module-title' => array(
+                                            'label' => __( 'Module Title', 'themify' ),
+                                            'fields' => self::module_title_custom_style( $this->slug )
+					)
+				)
+			)
+		);
+	}
+
+        public function get_visual_type() {
+            return 'ajax';            
+        }
+        
+	public function widget_fields( $field, $mod_name ) {
+                if ( $mod_name !== 'widget' ){
+                    return;
+                }
 		global $wp_widget_factory;
 		$output = '';
-
-		if ( $mod_name != 'widget' ) return;
-
 		switch ( $field['type'] ) {
 			case 'widget_select':
-				$output .= '<select name="'. esc_attr( $field['id'] ) .'" id="'. esc_attr( $field['id'] ) .'" class="tfb_lb_option module-widget-select-field">';
+				$output= '<div class="selectwrapper"><select name="'. $field['id'] .'" id="'. $field['id']  .'" class="tb_lb_option module-widget-select-field"'. themify_builder_get_control_binding_data( $field ) .'>';
 				$output .= '<option></option>';
 				foreach ($wp_widget_factory->widgets as $class => $widget ) {
 					$output .= '<option value="' . esc_attr( $class ) . '" data-idbase="' . esc_attr( $widget->id_base ) . '">' . esc_html( $widget->name ) . '</option>';
 				}
-				$output .= '</select>';
+				$output .= '</select></div>';
 			break;
-			
+
 			case 'widget_form':
-			$output .= '<div id="'. esc_attr( $field['id'] ) .'" class="module-widget-form-container module-widget-form-placeholder tfb_lb_option"></div>';
-			break;	
+			$output= '<div id="'. $field['id'] .'" class="module-widget-form-container module-widget-form-placeholder tb_lb_option"'. themify_builder_get_control_binding_data( $field ) .'></div>';
+			break;
 		}
 		echo $output;
 	}
+        
 
-	function widget_get_form() {
-		if ( ! wp_verify_nonce( $_POST['tfb_load_nonce'], 'tfb_load_nonce' ) ) die(-1);
-		
+        /*
+         * Sanitize keys for widget fields
+         * This is required to provide backward compatibility with how widget data was saved.
+         *
+         * @return array
+         * @since 3.2.0
+         */
+        public static function sanitize_widget_instance( $instance ) {
+                $new_instance = array();
+                if (is_array($instance) && !empty($instance) ) {
+                        foreach ($instance as $key => $val) {
+                                /* check if the keys are "clean" */
+                                if( false === strpos( $key, '[' ) ) {
+                                        $new_instance[ $key ] = $val;
+                                } else {
+                                        preg_match_all('/\[([^\]]*)\]/', $key, $matches);
+                                        if (is_array($matches)) {
+                                            $count = count($matches);
+                                            if (isset($matches[$count - 1]) && isset($matches[$count - 1][1])) {
+                                                $new_instance[$matches[$count - 1][1]] = $val;
+                                            }
+                                        }
+                                }
+                        }
+                }
+
+                return $new_instance;
+        }
+
+	public function widget_get_form() {
+		if ( ! wp_verify_nonce( $_POST['tb_load_nonce'], 'tb_load_nonce' ) ) die(-1);
+
 		global $wp_widget_factory;
 		require_once ABSPATH . 'wp-admin/includes/widgets.php';
-
 		$widget_class = $_POST['load_class'];
 		if ( $widget_class == '') die(-1);
 
-		$get_instance = isset( $_POST['widget_instance'] ) ? $_POST['widget_instance'] : '';
-		$instance = array();
-		if ( is_array( $get_instance ) && count( $get_instance ) > 0 ) {
-			foreach ( $get_instance as $k => $s ) {
-				$instance = $s;
+		$instance = !empty( $_POST['widget_instance'] ) ? $_POST['widget_instance'] : array();
+
+		/**
+		 * Backward compatibility for versions prior to 3.2.0
+		 * Previsouly the widget $instance was stored as a multidimensional array
+		 */
+		if( ! isset( $instance['id_base'] ) ) {
+			if ( is_array( $instance ) && !empty( $instance )) {
+				foreach ( $instance as $k => $s ) {
+					$instance = $s;
+				}
 			}
 		}
 
-		$widget = new $widget_class
-		();
+		$instance = self::sanitize_widget_instance( $instance );
+                       
+		$widget = new $widget_class();
 		$widget->number = next_widget_id_number( $_POST['id_base'] );
-
 		ob_start();
+		$instance = stripslashes_deep( $instance );
+                $template  = '';
+                $src = array();
+		if($widget_class==='WP_Widget_Archives'){// WP checks checkbox === true in WP_Widget_Archives
+			if(!empty($instance['count'])){
+				$instance['count'] = true;
+			}
+			if(!empty($instance['dropdown'])){
+				$instance['dropdown'] = true;
+			}
+		}
+                elseif(method_exists($widget, 'render_control_template_scripts')){
+                    require_once ABSPATH . WPINC . '/media-template.php';
+                    ob_start();
+                    $widget->render_control_template_scripts();
+                    if($widget->id_base!=='text' && empty($_POST['tpl_loaded'])){
+                        wp_print_media_templates();
+                    }
+                    $template = ob_get_contents();
+                    ob_end_clean();
+                    global $wp_scripts;
+                    $type = str_replace('_','-',$widget->id_base).'-widget';
+                    if($widget->id_base==='text'){
+                        $type.='s'; 
+                    }
+                    wp_enqueue_script($type);
+                    if(isset($wp_scripts->registered[$type])){
+                        if($widget->id_base!=='text' && !empty($wp_scripts->registered[$type]->deps)){
+                            foreach($wp_scripts->registered[$type]->deps as $deps){
+                                $src[] = $wp_scripts->registered[$deps]->src;
+                            }
+                        }
+                        $src[] = $wp_scripts->registered[$type]->src;
+                    }
+                }
+               
 		$widget->form($instance);
 		$form = ob_get_clean();
 
+		$base_name = 'widget-' . $wp_widget_factory->widgets[$widget_class]->id_base . '\[' . $widget->number . '\]';
+		$form = preg_replace( "/{$base_name}/", '', $form ); // remove extra names
+		$form = str_replace( array( '[', ']' ), '', $form ); // remove extra [ & ] characters
 		$widget->form = $form;
+                
+                /**
+                 * The widget-id is not used to save widget data, it is however needed for compatibility
+                 * with how core renders the module forms.
+                 */
+		$form= '<div><div class="widget-inside">
+			<div class="form">
+			<div class="widget-content">'
+                        .$form.
+			'</div>
+			<input type="hidden" class="id_base" name="id_base" value="' . esc_attr( $widget->id_base ) . '" />
+			<input type="hidden" class="widget-id" name="widget-id" value="' . time() . '" />
+			</div>
+		</div><br/></div>';
+		die(json_encode(array(
+                        'form'=>$form,
+                        'template'=>$template,
+                        'src'=>$src
+                    ))
+                );
+	}
 
-		echo $widget->form;
-		echo '<br/>';
-		die();
+	/**
+	 * Render plain content for static content.
+	 * 
+	 * @param array $module 
+	 * @return string
+	 */
+	public function get_plain_content( $module ) {
+		$mod_settings = wp_parse_args( $module['mod_settings'], array(
+			'mod_title_widget' => '',
+			'class_widget' => '',
+			'instance_widget' => array(),
+		) );
+		$text = '';
+
+		if ( '' !== $mod_settings['mod_title_widget'] ) 
+			$text .= sprintf( '<h3>%s</h3>', $mod_settings['mod_title_widget'] );
+
+		if ( 'Themify_Twitter' == $mod_settings['class_widget'] ) {
+			$mod_settings['instance_widget'] = self::sanitize_widget_instance( $mod_settings['instance_widget'] );
+			$username = isset( $mod_settings['instance_widget']['username'] ) ? $mod_settings['instance_widget']['username'] : '';
+			$text .= sprintf( '<p>https://twitter.com/%s</p>', $username );
+			return $text;
+		}
+
+		if ( 'Themify_Social_Links' == $mod_settings['class_widget'] ) 
+			return $this->_themify_social_links_plain_content();
+		
+		return parent::get_plain_content( $module );
+	}
+
+	protected function _themify_social_links_plain_content() {
+		if ( ! function_exists('themify_get_data') ) return;
+
+		$data = themify_get_data();
+		$pre = 'setting-link_';
+		$out = '';
+
+		$field_ids = isset( $data[$pre.'field_ids'] ) ? json_decode( $data[$pre.'field_ids'] ) : '';
+
+		if ( is_array( $field_ids ) || is_object( $field_ids ) ) {
+			$out .= '<ul>';
+			foreach($field_ids as $key => $fid){
+
+				$title_name = $pre.'title_'.$fid;
+
+				if ( function_exists( 'icl_t' ) ) {
+					$title_val = icl_t('Themify', $title_name, $data[$title_name]);
+				} else {
+					$title_val = isset($data[$title_name])? $data[$title_name] : '';
+				}
+
+				$link_name = $pre.'link_'.$fid;
+				$link_val = isset($data[$link_name])? trim( $data[$link_name] ) : '';
+				if ( '' == $link_val ) {
+					continue;
+				}
+
+				if('' != $link_val){
+					$out .= sprintf('
+						<li>
+							<a href="%s">%s</a>
+						</li>',
+						esc_url( $link_val ),
+						$title_val
+					);
+				}
+			}
+			$out .= '</ul>';
+		}
+		return $out;
 	}
 }
 

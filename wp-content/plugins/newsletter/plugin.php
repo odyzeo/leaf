@@ -4,7 +4,7 @@
   Plugin Name: Newsletter
   Plugin URI: https://www.thenewsletterplugin.com/plugins/newsletter
   Description: Newsletter is a cool plugin to create your own subscriber list, to send newsletters, to build your business. <strong>Before update give a look to <a href="https://www.thenewsletterplugin.com/category/release">this page</a> to know what's changed.</strong>
-  Version: 5.1.4
+  Version: 5.1.7
   Author: Stefano Lissa & The Newsletter Team
   Author URI: https://www.thenewsletterplugin.com
   Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
@@ -14,7 +14,7 @@
  */
 
 // Used as dummy parameter on css and js links
-define('NEWSLETTER_VERSION', '5.1.4');
+define('NEWSLETTER_VERSION', '5.1.7');
 
 global $wpdb, $newsletter;
 
@@ -200,12 +200,12 @@ class Newsletter extends NewsletterModule {
         if (!$install_time) {
             update_option('newsletter_install_time', time(), false);
         }
-        
+
         Newsletter::instance()->upgrade();
         NewsletterUsers::instance()->upgrade();
         NewsletterEmails::instance()->upgrade();
         NewsletterSubscription::instance()->upgrade();
-        NewsletterStatistics::instance()->upgrade();        
+        NewsletterStatistics::instance()->upgrade();
     }
 
     function first_install() {
@@ -214,6 +214,7 @@ class Newsletter extends NewsletterModule {
 
         $dismissed['wpmail'] = 1;
         update_option('newsletter_dismissed', $dismissed);
+        update_option('newsletter_show_welcome', '1', false);
     }
 
     function upgrade() {
@@ -343,7 +344,9 @@ class Newsletter extends NewsletterModule {
         add_menu_page('Newsletter', 'Newsletter', ($this->options['editor'] == 1) ? 'manage_categories' : 'manage_options', 'newsletter_main_index', '', plugins_url('newsletter') . '/images/menu-icon.png', '30.333');
 
         $this->add_menu_page('index', 'Dashboard');
+        $this->add_menu_page('welcome', 'Welcome');
         $this->add_menu_page('main', 'Settings and More');
+
 
         $this->add_admin_page('smtp', 'SMTP');
         $this->add_admin_page('status', 'Status');
@@ -413,6 +416,8 @@ class Newsletter extends NewsletterModule {
                     exit();
                 }
             }
+            
+            
         }
 
         $action = isset($_REQUEST['na']) ? $_REQUEST['na'] : '';
@@ -455,7 +460,12 @@ class Newsletter extends NewsletterModule {
     }
 
     function hook_admin_init() {
-        
+        // Verificare il contesto
+        if (isset($_GET['page']) && $_GET['page'] === 'newsletter_main_welcome') return;
+        if (get_option('newsletter_show_welcome')) {
+            delete_option('newsletter_show_welcome');
+            wp_redirect(admin_url('admin.php?page=newsletter_main_welcome'));
+        } 
     }
 
     function hook_admin_head() {
@@ -580,7 +590,8 @@ class Newsletter extends NewsletterModule {
             // Before try to send, check the limits.
             if (!$test && $this->limits_exceeded()) {
                 $result = false;
-                if ($this->the_mailer != null) $this->the_mailer->flush();
+                if ($this->the_mailer != null)
+                    $this->the_mailer->flush();
                 break;
             }
 
@@ -621,13 +632,31 @@ class Newsletter extends NewsletterModule {
 
             $status = $r ? 0 : 1;
 
-            $wpdb->query($wpdb->prepare("insert into " . $wpdb->prefix . 'newsletter_sent (user_id, email_id, time, status, error) values (%d, %d, %d, %d, %s) on duplicate key update time=%d, status=%d, error=%s', $user->id, $email->id, time(), $status, $this->mail_last_error, time(), $status, $this->mail_last_error));
+            $this->save_sent($user, $email);
 
             $this->email_limit--;
             $count++;
         }
-        if ($this->the_mailer != null) $this->the_mailer->flush();
-        
+        if ($this->the_mailer != null) {
+            $this->logger->debug('Flushing');
+            $result = $this->the_mailer->flush();
+            if (is_wp_error($result)) {
+                //$this->logger->debug($result);
+                /* @var $result WP_Error */
+                $wp_error_data = $result->get_error_data();
+                if (is_array($wp_error_data)) {
+                    foreach ($wp_error_data as &$item) {
+                        if (!isset($item['email'])) {
+                            continue;
+                        }
+                        $this->save_sent($item['email'], $email, 1, $item['error']);
+                    }
+                }
+            } else {
+                $this->logger->debug('No errors');
+            }
+        }
+
         $end_time = microtime(true);
 
         if ($count > 0) {
@@ -642,6 +671,31 @@ class Newsletter extends NewsletterModule {
         return $result;
     }
 
+    function save_sent($user, $email, $status = 0, $error = '') {
+        global $wpdb;
+        //$this->logger->debug('Saving sent data');
+        $user_id = 0;
+        if (is_numeric($user))
+            $user_id = $user;
+        else if (is_array($user) && isset($user['id']))
+            $user_id = $user['id'];
+        else if (is_object($user) && isset($user->id))
+            $user_id = $user->id;
+        else if (is_string($user)) {
+            // is an email
+            $user = $this->get_user($user);
+            if ($user)
+                $user_id = $user->id;
+        }
+
+        $email_id = $this->to_int_id($email);
+
+        if (!$user_id)
+            return;
+        //$this->logger->debug('Query');
+        $wpdb->query($wpdb->prepare("insert into " . $wpdb->prefix . 'newsletter_sent (user_id, email_id, time, status, error) values (%d, %d, %d, %d, %s) on duplicate key update time=%d, status=%d, error=%s', $user_id, $email_id, time(), $status, $error, time(), $status, $error));
+    }
+
     /**
      * This function checks is, during processing, we are getting to near to system limits and should stop any further
      * work (when returns true).
@@ -652,7 +706,7 @@ class Newsletter extends NewsletterModule {
         if (!$this->limits_set) {
             $this->logger->debug('limits_exceeded> Setting the limits for the first time');
 
-            @set_time_limit(NEWSLETTER_CRON_INTERVAL+30);
+            @set_time_limit(NEWSLETTER_CRON_INTERVAL + 30);
 
             $max_time = (int) (@ini_get('max_execution_time') * 0.95);
             if ($max_time == 0 || $max_time > NEWSLETTER_CRON_INTERVAL) {
@@ -663,7 +717,7 @@ class Newsletter extends NewsletterModule {
 
             $this->logger->info('limits_exceeded> Max time set to ' . $max_time);
 
-            $max = (int)$this->options['scheduler_max'];
+            $max = (int) $this->options['scheduler_max'];
             if (!$max) {
                 $max = 100;
             }
@@ -705,11 +759,12 @@ class Newsletter extends NewsletterModule {
     function register_mail_method($callable) {
         $this->mail_method = $callable;
     }
-    
+
     var $the_mailer = null;
+
     function register_mailer($mailer) {
         $this->the_mailer = $mailer;
-    }    
+    }
 
     var $mail_last_error = '';
 
@@ -757,7 +812,7 @@ class Newsletter extends NewsletterModule {
             return true;
         }
 
-                    
+
         if ($this->mail_method != null) {
             //$this->logger->debug('mail> alternative mail method found');
             return call_user_func($this->mail_method, $to, $subject, $message, $headers);

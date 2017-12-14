@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Slider
  * Description: Display slider content
  */
-class TB_Slider_Module extends Themify_Builder_Module {
+class TB_Slider_Module extends Themify_Builder_Component_Module {
 	function __construct() {
 		parent::__construct(array(
 			'name' => __('Slider', 'themify'),
@@ -16,7 +16,7 @@ class TB_Slider_Module extends Themify_Builder_Module {
 
 	public function setup_slider_cpt() {
 		global $ThemifyBuilder;
-		if( $ThemifyBuilder->is_cpt_active( 'slider' ) ) {
+		if( Themify_Builder_Model::is_cpt_active( 'slider' ) ) {
 			///////////////////////////////////////
 			// Load Post Type
 			///////////////////////////////////////
@@ -34,14 +34,11 @@ class TB_Slider_Module extends Themify_Builder_Module {
 		}
 	}
 
-	public function get_title( $module ) {
-		return isset( $module['mod_settings']['mod_title_slider'] ) ? esc_html( $module['mod_settings']['mod_title_slider'] ) : '';
-	}
-
 	public function get_options() {
-		global $ThemifyBuilder;
 
 		$visible_opt = array(1 => 1, 2, 3, 4, 5, 6, 7);
+                $is_img_enabled = Themify_Builder_Model::is_img_php_disabled();
+		$image_sizes = !$is_img_enabled?themify_get_image_sizes_list( false ):array();
 		$auto_scroll_opt = array(
 			'off' => __( 'Off', 'themify' ),
 			1 => __( '1 sec', 'themify' ),
@@ -53,24 +50,37 @@ class TB_Slider_Module extends Themify_Builder_Module {
 			7 => __( '7 sec', 'themify' ),
 			8 => __( '8 sec', 'themify' ),
 			9 => __( '9 sec', 'themify' ),
-			10 => __( '10 sec', 'themify' )
+			10 => __( '10 sec', 'themify' ),
+			15 => __( '15 sec', 'themify' ),
+			20 => __( '20 sec', 'themify' ),
 		);
-		$image_sizes = themify_get_image_sizes_list( false );
 		$display = array(
-			'blog' => __('Blog Posts', 'themify'),
+			'blog' => __('Posts', 'themify'),
 			'image' => __('Images', 'themify'),
 			'video' => __('Videos', 'themify'),
 			'text' => __('Text', 'themify')
 		);
+		$slider_enabled = Themify_Builder_Model::is_cpt_active( 'slider' );
+		$portfolio_enabled = Themify_Builder_Model::is_cpt_active( 'portfolio' );
+		$testimonial_enabled = Themify_Builder_Model::is_cpt_active( 'testimonial' );
 
-		if( $ThemifyBuilder->is_cpt_active( 'slider' ) ) {
+		$post_types = Themify_Builder_Model::get_public_post_types();
+		$taxonomies = Themify_Builder_Model::get_public_taxonomies();
+
+		if( $slider_enabled ) {
 			$display['slider'] = __('Slider Posts', 'themify');
+			unset( $post_types['slider'] );
+			unset( $taxonomies['slider-category'] );
 		}
-		if( $ThemifyBuilder->is_cpt_active( 'portfolio' ) ) {
+		if( $portfolio_enabled ) {
 			$display['portfolio'] = __('Portfolio', 'themify');
+			unset( $post_types['portfolio'] );
+			unset( $taxonomies['portfolio-category'] );
 		}
-		if( $ThemifyBuilder->is_cpt_active( 'testimonial' ) ) {
+		if( $testimonial_enabled ) {
 			$display['testimonial'] = __('Testimonial', 'themify');
+			unset( $post_types['testimonial'] );
+			unset( $taxonomies['testimonial-category'] );
 		}
 
 		$options = array(
@@ -88,6 +98,20 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'default' => 'blog',
 				'option_js' => true
 			),
+			array(
+				'id' => 'post_type',
+				'type' => 'select',
+				'label' => __('Post Type', 'themify'),
+				'options' => $post_types,
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog'
+			),
+			array(
+				'id' => 'taxonomy',
+				'type' => 'select',
+				'label' => __('Taxonomy', 'themify'),
+				'options' => $taxonomies,
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog'
+			),
 			///////////////////////////////////////////
 			// Blog post option
 			///////////////////////////////////////////
@@ -97,9 +121,11 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'label' => __('Category', 'themify'),
 				'options' => array(),
 				'help' => sprintf(__('Add more <a href="%s" target="_blank">blog posts</a>', 'themify'), admin_url('post-new.php')),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog'
 			),
-			array(
+		);
+		if( $slider_enabled ) {
+			$options[] = array(
 				'id' => 'slider_category_slider',
 				'type' => 'query_category',
 				'label' => __('Category', 'themify'),
@@ -107,9 +133,11 @@ class TB_Slider_Module extends Themify_Builder_Module {
 					'taxonomy' => 'slider-category'
 				),
 				'help' => sprintf(__('Add more <a href="%s" target="_blank">slider posts</a>', 'themify'), admin_url('post-new.php?post_type=slider')),
-				'wrap_with_class' => 'tf-group-element tf-group-element-slider'
-			),
-			array(
+				'wrap_with_class' => 'tb-group-element tb-group-element-slider'
+			);
+		}
+		if( $portfolio_enabled ) {
+			$options[] = array(
 				'id' => 'portfolio_category_slider',
 				'type' => 'query_category',
 				'label' => __('Category', 'themify'),
@@ -117,9 +145,11 @@ class TB_Slider_Module extends Themify_Builder_Module {
 					'taxonomy' => 'portfolio-category'
 				),
 				'help' => sprintf(__('Add more <a href="%s" target="_blank">portfolio posts</a>', 'themify'), admin_url('post-new.php?post_type=portfolio')),
-				'wrap_with_class' => 'tf-group-element tf-group-element-portfolio'
-			),
-			array(
+				'wrap_with_class' => 'tb-group-element tb-group-element-portfolio'
+			);
+		}
+		if( $testimonial_enabled ) {
+			$options[] = array(
 				'id' => 'testimonial_category_slider',
 				'type' => 'query_category',
 				'label' => __('Category', 'themify'),
@@ -127,15 +157,17 @@ class TB_Slider_Module extends Themify_Builder_Module {
 					'taxonomy' => 'testimonial-category'
 				),
 				'help' => sprintf(__('Add more <a href="%s" target="_blank">testimonial posts</a>', 'themify'), admin_url('post-new.php?post_type=testimonial')),
-				'wrap_with_class' => 'tf-group-element tf-group-element-testimonial'
-			),
+				'wrap_with_class' => 'tb-group-element tb-group-element-testimonial'
+			);
+		}
+		$options = array_merge( $options, array(
 			array(
 				'id' => 'posts_per_page_slider',
 				'type' => 'text',
 				'label' => __('Query', 'themify'),
 				'class' => 'xsmall',
 				'help' => __('number of posts to query', 'themify'),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-portfolio tf-group-element-slider tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-portfolio tb-group-element-slider tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'offset_slider',
@@ -143,7 +175,7 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'label' => __('Offset', 'themify'),
 				'class' => 'xsmall',
 				'help' => __('number of post to displace or pass over', 'themify'),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-portfolio tf-group-element-slider tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-portfolio tb-group-element-slider tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'order_slider',
@@ -154,7 +186,7 @@ class TB_Slider_Module extends Themify_Builder_Module {
 					'desc' => __('Descending', 'themify'),
 					'asc' => __('Ascending', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'orderby_slider',
@@ -170,7 +202,7 @@ class TB_Slider_Module extends Themify_Builder_Module {
 					'rand' => __('Random', 'themify'),
 					'comment_count' => __('Comment Count', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'display_slider',
@@ -181,77 +213,62 @@ class TB_Slider_Module extends Themify_Builder_Module {
 					'excerpt' => __('Excerpt', 'themify'),
 					'none' => __('None', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'hide_post_title_slider',
 				'type' => 'select',
 				'label' => __('Hide Post Title', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'unlink_post_title_slider',
 				'type' => 'select',
 				'label' => __('Unlink Post Title', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio'
 			),
 			array(
 				'id' => 'hide_feat_img_slider',
 				'type' => 'select',
 				'label' => __('Hide Featured Image', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-testimonial'
 			),
 			array(
 				'id' => 'unlink_feat_img_slider',
 				'type' => 'select',
 				'label' => __('Unlink Featured Image', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio'
 			),
 			array(
 				'id' => 'open_link_new_tab_slider',
 				'type' => 'select',
 				'label' => __('Open link in a new tab', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-testimonial'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-testimonial'
 			),
 
 			///////////////////////////////////////////
@@ -265,29 +282,57 @@ class TB_Slider_Module extends Themify_Builder_Module {
 						'id' => 'img_url_slider',
 						'type' => 'image',
 						'label' => __('Image URL', 'themify'),
-						'class' => 'xlarge'
+						'class' => 'xlarge',
+						'render_callback' => array(
+							'repeater' => 'img_content_slider'
+						)
 					),
 					array(
 						'id' => 'img_title_slider',
 						'type' => 'text',
 						'label' => __('Image Title', 'themify'),
-						'class' => 'fullwidth'
+						'class' => 'fullwidth',
+						'render_callback' => array(
+							'repeater' => 'img_content_slider'
+						)
 					),
 					array(
 						'id' => 'img_link_slider',
 						'type' => 'text',
 						'label' => __('Image Link', 'themify'),
-						'class' => 'fullwidth'
+						'class' => 'fullwidth',
+						'render_callback' => array(
+							'repeater' => 'img_content_slider'
+						)
+					),
+					array(
+						'id' => 'img_link_params',
+						'type' => 'select',
+						'label' => '&nbsp;',
+						'options' => array(
+							'' => '',
+							'lightbox' => __( 'Open link in lightbox', 'themify' ),
+							'newtab' => __( 'Open link in new tab', 'themify' )
+						),
+						'render_callback' => array(
+							'repeater' => 'img_content_slider'
+						)
 					),
 					array(
 						'id' => 'img_caption_slider',
 						'type' => 'textarea',
 						'label' => __('Image Caption', 'themify'),
 						'class' => 'fullwidth',
-						'rows' => 6
+						'rows' => 6,
+						'render_callback' => array(
+							'repeater' => 'img_content_slider'
+						)
 					)
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-image'
+				'wrap_with_class' => 'tb-group-element tb-group-element-image',
+				'render_callback' => array(
+					'control_type' => 'repeater'
+				)
 			),
 
 			///////////////////////////////////////////
@@ -305,35 +350,53 @@ class TB_Slider_Module extends Themify_Builder_Module {
 						'help' => array(
 							'new_line' => true,
 							'text' => __('YouTube, Vimeo, etc', 'themify')
+						),
+						'render_callback' => array(
+							'repeater' => 'video_content_slider'
 						)
 					),
 					array(
 						'id' => 'video_title_slider',
 						'type' => 'text',
 						'label' => __('Video Title', 'themify'),
-						'class' => 'fullwidth'
+						'class' => 'fullwidth',
+						'render_callback' => array(
+							'repeater' => 'video_content_slider'
+						)
 					),
 					array(
 						'id' => 'video_title_link_slider',
 						'type' => 'text',
 						'label' => __('Video Title Link', 'themify'),
-						'class' => 'fullwidth'
+						'class' => 'fullwidth',
+						'render_callback' => array(
+							'repeater' => 'video_content_slider'
+						)
 					),
 					array(
 						'id' => 'video_caption_slider',
 						'type' => 'textarea',
 						'label' => __('Video Caption', 'themify'),
 						'class' => 'fullwidth',
-						'rows' => 6
+						'rows' => 6,
+						'render_callback' => array(
+							'repeater' => 'video_content_slider'
+						)
 					),
 					array(
 						'id' => 'video_width_slider',
 						'type' => 'text',
 						'label' => __('Video Width', 'themify'),
-						'class' => 'xsmall'
+						'class' => 'xsmall',
+						'render_callback' => array(
+							'repeater' => 'video_content_slider'
+						)
 					)
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-video'
+				'wrap_with_class' => 'tb-group-element tb-group-element-video',
+				'render_callback' => array(
+					'control_type' => 'repeater'
+				)
 			),
 
 			///////////////////////////////////////////
@@ -348,10 +411,16 @@ class TB_Slider_Module extends Themify_Builder_Module {
 						'type' => 'wp_editor',
 						'label' => false,
 						'class' => 'fullwidth builder-field',
-						'rows' => 6
+						'rows' => 6,
+						'render_callback' => array(
+							'repeater' => 'text_content_slider'
+						)
 					)
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-text'
+				'wrap_with_class' => 'tb-group-element tb-group-element-text',
+				'render_callback' => array(
+					'control_type' => 'repeater'
+				)
 			),
 
 			array(
@@ -359,24 +428,25 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'type' => 'layout',
 				'label' => __('Slider Layout', 'themify'),
 				'separated' => 'top',
+                                'mode'=>'sprite',
 				'options' => array(
-					array('img' => 'slider-default.png', 'value' => 'slider-default', 'label' => __('Slider Default', 'themify')),
-					array('img' => 'slider-image-top.png', 'value' => 'slider-overlay', 'label' => __('Slider Overlay', 'themify')),
-					array('img' => 'slider-caption-overlay.png', 'value' => 'slider-caption-overlay', 'label' => __('Slider Caption Overlay', 'themify')),
-					array('img' => 'slider-agency.png', 'value' => 'slider-agency', 'label' => __('Agency', 'themify'))
+					array('img' => 'slider-default', 'value' => 'slider-default', 'label' => __('Slider Default', 'themify')),
+					array('img' => 'slider-image-top', 'value' => 'slider-overlay', 'label' => __('Slider Overlay', 'themify')),
+					array('img' => 'slider-caption-overlay', 'value' => 'slider-caption-overlay', 'label' => __('Slider Caption Overlay', 'themify')),
+					array('img' => 'slider-agency', 'value' => 'slider-agency', 'label' => __('Agency', 'themify'))
+				),
+				'render_callback' => array(
+					'binding' => 'live',
+					'selector' => '' // apply to the container module
 				)
 			),
 			array(
 				'id' => 'image_size_slider',
 				'type' => 'select',
-				'label' => Themify_Builder_Model::is_img_php_disabled() ? __('Image Size', 'themify') : false,
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
-				'hide' => Themify_Builder_Model::is_img_php_disabled() ? false : true,
+				'label' => __('Image Size', 'themify'),
+				'hide' => !$is_img_enabled,
 				'options' => $image_sizes,
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-image'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-image'
 			),
 			array(
 				'id' => 'img_w_slider',
@@ -384,7 +454,7 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'label' => __('Image Width', 'themify'),
 				'class' => 'xsmall',
 				'help' => 'px',
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-image'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-image'
 			),
 			array(
 				'id' => 'img_h_slider',
@@ -392,7 +462,7 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'label' => __('Image Height', 'themify'),
 				'class' => 'xsmall',
 				'help' => 'px',
-				'wrap_with_class' => 'tf-group-element tf-group-element-blog tf-group-element-slider tf-group-element-portfolio tf-group-element-image'
+				'wrap_with_class' => 'tb-group-element tb-group-element-blog tb-group-element-slider tb-group-element-portfolio tb-group-element-image'
 			),
 
 			array(
@@ -449,9 +519,8 @@ class TB_Slider_Module extends Themify_Builder_Module {
 						'id' => 'pause_on_hover_slider',
 						'type' => 'select',
 						'options' => array(
-							'resume' => __('Resume', 'themify'),
-							'immediate' => __('Immediate', 'themify'),
-							'false' => __('Disable', 'themify')
+							'resume' => __('Yes', 'themify'),
+							'false' => __('No', 'themify')
 						),
 						'help' => __('Pause On Hover', 'themify')
 					),
@@ -480,6 +549,25 @@ class TB_Slider_Module extends Themify_Builder_Module {
 						'options' => array(
 							'yes' => __('Yes', 'themify'),
 							'no' => __('No', 'themify')
+						),
+                                                'binding' => array(
+                                                        'no' => array(
+                                                            'hide' => array('show_arrow_buttons_vertical')
+                                                        ),
+                                                        'select'=>array(
+                                                            'value'=>'no',
+                                                            'show'=>array('show_arrow_buttons_vertical')
+                                                        )
+                                                )
+					),
+                                        array(
+						'id' => 'show_arrow_buttons_vertical',
+						'type' => 'checkbox',
+                                                'label' => false,
+						'help' =>false,
+                                                'wrap_with_class'=>'',
+						'options' => array(
+							array( 'name' => 'vertical', 'value' =>__('Display arrow buttons vertical middle on the left/right side', 'themify') )
 						)
 					),
 					array(
@@ -495,499 +583,15 @@ class TB_Slider_Module extends Themify_Builder_Module {
 						'class' => 'xsmall',
 						'unit' => 'px',
 						'help' => __('Right margin space between slides', 'themify')
-					)
-				)
-			)
-		);
-		return $options;
-	}
-
-	public function get_styling() {
-		$styling = array(
-			// Animation
-			array(
-				'id' => 'separator_animation',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Animation', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'animation_effect',
-				'type' => 'animation_select',
-				'label' => __( 'Effect', 'themify' ),
-				'class' => ''
-			),
-			// Background
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Background', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __('Background Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => '.module-slider',
-			),
-			// Font
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Font', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'font_family',
-				'type' => 'font_select',
-				'label' => __('Font Family', 'themify'),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => array( '.module-slider .slide-content', '.module-slider .slide-content .slide-title', '.module-slider .slide-content .slide-title a' )
-			),
-			array(
-				'id' => 'font_color',
-				'type' => 'color',
-				'label' => __('Font Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'border-left-style',
-				'selector' => array( '.module-slider .slide-content', '.module-slider .slide-content h1', '.module-slider .slide-content h2', '.module-slider .slide-content h3', '.module-slider .slide-content h4', '.module-slider .slide-content h5', '.module-slider .slide-content h6', '.module-slider .slide-content .slide-title', '.module-slider .slide-content .slide-title a' ),
-			),
-			array(
-				'id' => 'multi_font_size',
-				'type' => 'multi',
-				'label' => __('Font Size', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'font_size',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => '.module-slider .slide-content'
 					),
 					array(
-						'id' => 'font_size_unit',
+						'id' => 'height_slider',
 						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height',
-				'type' => 'multi',
-				'label' => __('Line Height', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'line_height',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => '.module-slider .slide-content'
-					),
-					array(
-						'id' => 'line_height_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'text_align',
-				'label' => __( 'Text Align', 'themify' ),
-				'type' => 'radio',
-				'meta' => array(
-					array( 'value' => '', 'name' => __( 'Default', 'themify' ), 'selected' => true ),
-					array( 'value' => 'left', 'name' => __( 'Left', 'themify' ) ),
-					array( 'value' => 'center', 'name' => __( 'Center', 'themify' ) ),
-					array( 'value' => 'right', 'name' => __( 'Right', 'themify' ) ),
-					array( 'value' => 'justify', 'name' => __( 'Justify', 'themify' ) )
-				),
-				'prop' => 'text-align',
-				'selector' => '.module-slider .slide-content'
-			),
-			// Link
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_link',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Link', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'link_color',
-				'type' => 'color',
-				'label' => __('Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-slider a'
-			),
-			array(
-				'id' => 'text_decoration',
-				'type' => 'select',
-				'label' => __( 'Text Decoration', 'themify' ),
-				'meta'	=> array(
-					array('value' => '',   'name' => '', 'selected' => true),
-					array('value' => 'underline',   'name' => __('Underline', 'themify')),
-					array('value' => 'overline', 'name' => __('Overline', 'themify')),
-					array('value' => 'line-through',  'name' => __('Line through', 'themify')),
-					array('value' => 'none',  'name' => __('None', 'themify'))
-				),
-				'prop' => 'text-decoration',
-				'selector' => '.module-slider a'
-			),
-			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Padding', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_padding_top',
-				'type' => 'multi',
-				'label' => __('Padding', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'padding_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-top',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'padding_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-right',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'padding_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-bottom',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'padding_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-left',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'padding_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Margin', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_margin_top',
-				'type' => 'multi',
-				'label' => __('Margin', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'margin_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-top',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'margin_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-right',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'margin_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-bottom',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'margin_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-left',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'margin_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Border
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_border',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Border', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_border_top',
-				'type' => 'multi',
-				'label' => __('Border', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'border_top_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-top-color',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_top_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-top-width',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_top_style',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-top-style',
-						'selector' => '.module-slider',
-					),
-				)
-			),
-			array(
-				'id' => 'multi_border_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_right_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-right-color',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_right_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-right-width',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_right_style',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-right-style',
-						'selector' => '.module-slider',
-					)
-				)
-			),
-			array(
-				'id' => 'multi_border_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_bottom_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-bottom-color',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_bottom_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-bottom-width',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_bottom_style',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-bottom-style',
-						'selector' => '.module-slider',
-					)
-				)
-			),
-			array(
-				'id' => 'multi_border_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_left_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-left-color',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_left_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-left-width',
-						'selector' => '.module-slider',
-					),
-					array(
-						'id' => 'border_left_style',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-left-style',
-						'selector' => '.module-slider',
+						'options' => array(
+							'variable' => __('Variable', 'themify'),
+							'auto' => __('Auto', 'themify')
+						),
+						'help' => __('Height <small class="description">"Auto" measures the highest slide and all other slides will be set to that size. "Variable" makes every slide has it\'s own height.</small>', 'themify')
 					)
 				)
 			),
@@ -1001,10 +605,102 @@ class TB_Slider_Module extends Themify_Builder_Module {
 				'type' => 'text',
 				'label' => __('Additional CSS Class', 'themify'),
 				'class' => 'large exclude-from-reset-field',
-				'description' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
+			)
+		) );
+		return $options;
+	}
+
+	public function get_default_settings() {
+		return array(
+			'posts_per_page_slider' => 4,
+			'display_slider' => 'none',
+			'img_w_slider' => 360,
+			'img_h_slider' => 200,
+			'visible_opt_slider' => 3,
+                        'post_type'=>'post'
+		);
+	}
+        
+        public function get_visual_type() {
+            return 'ajax';            
+        }
+
+	public function get_styling() {
+		$general = array(
+                         // Background
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.module-slider', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
+			// Font
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family(array( '.module-slider .slide-content', '.module-slider .slide-content .slide-title', '.module-slider .slide-content .slide-title a' )),
+                        self::get_color(array( '.module-slider .slide-content', '.module-slider .slide-content h1', '.module-slider .slide-content h2', '.module-slider .slide-content h3', '.module-slider .slide-content h4', '.module-slider .slide-content h5', '.module-slider .slide-content h6', '.module-slider .slide-content .slide-title', '.module-slider .slide-content .slide-title a' ),'font_color',__('Font Color', 'themify')),
+                        self::get_font_size('.module-slider .slide-content'),
+                        self::get_line_height('.module-slider .slide-content'),
+                        self::get_letter_spacing('.module-slider .slide-content'),
+                        self::get_text_align('.module-slider .slide-content'),
+                        self::get_text_transform('.module-slider .slide-content'),
+                        self::get_font_style('.module-slider .slide-content'),
+			// Link
+                        self::get_seperator('link',__('Link', 'themify')),
+                        self::get_color( '.module-slider a','link_color'),
+                        self::get_color('.module-slider a:hover','link_color_hover',__('Color Hover', 'themify')),
+                        self::get_text_decoration('.module-slider a'),
+			 // Padding
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.module-slider'),
+			// Margin
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.module-slider'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.module-slider')
+		);
+
+		$title = array(
+			// Font
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family(array( '.module-slider .slide-content .slide-title', '.module-slider .slide-content .slide-title a' ),'font_family_title'),
+                        self::get_color(array( '.module-slider .slide-content .slide-title', '.module-slider .slide-content .slide-title a' ),'font_color_title',__('Font Color', 'themify')),
+                        self::get_color(array( '.module-slider .slide-content .slide-title:hover', '.module-slider .slide-content .slide-title a:hover' ),'font_color_title_hover',__('Color Hover', 'themify')),
+                        self::get_font_size( '.module-slider .slide-content .slide-title','font_size_title'),
+                        self::get_line_height('.module-slider .slide-content .slide-title','line_height_title')
+		);
+
+		$content = array(
+			// Font
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family(array( '.module-slider .slide-content', '.module-slider .slide-content .slide-title a' ),'font_family_content'),
+                        self::get_color(array( '.module-slider .slide-content', '.module-slider .slide-content .slide-title a' ),'font_color_content',__('Font Color', 'themify')),
+                        self::get_font_size( '.module-slider .slide-content','font_size_content'),
+                        self::get_line_height('.module-slider .slide-content','line_height_content')
+		);
+                $content = array_merge($content,self::get_multi_columns(' .slide-content'));
+		return array(
+			array(
+				'type' => 'tabs',
+				'id' => 'module-styling',
+				'tabs' => array(
+					'general' => array(
+                                            'label' => __('General', 'themify'),
+                                            'fields' => $general
+					),
+                                        'module-title' => array(
+						'label' => __( 'Module Title', 'themify' ),
+						'fields' => self::module_title_custom_style( $this->slug )
+					),
+					'title' => array(
+						'label' => __('Slider Title', 'themify'),
+						'fields' => $title
+					),
+					'content' => array(
+						'label' => __('Slider Content', 'themify'),
+						'fields' => $content
+					)
+				)
 			)
 		);
-		return $styling;
+
 	}
 
 	function set_metabox() {
@@ -1108,7 +804,21 @@ class TB_Slider_Module extends Themify_Builder_Module {
 			'settings' => $sync
 		);
 
-		return $ThemifyBuilder->retrieve_template( 'template-' . $this->slug .'-' . $this->slug . '.php', $module, '', '', false );
+		return self::retrieve_template( 'template-' . $this->slug .'-' . $this->slug . '.php', $module, '', '', false );
+	}
+
+	/**
+	 * Render plain content for static content.
+	 * 
+	 * @param array $module 
+	 * @return string
+	 */
+	public function get_plain_content( $module ) {
+		$mod_settings = wp_parse_args( $module['mod_settings'], array(
+			'layout_display_slider' => 'blog'
+		) );
+		if ( 'blog' == $mod_settings['layout_display_slider'] ) return '';
+		return parent::get_plain_content( $module );
 	}
 }
 

@@ -1,66 +1,95 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH'))
+    exit; // Exit if accessed directly
 /**
  * Template Gallery
  * 
  * Access original fields: $mod_settings
  * @author Themify
  */
+if (TFCache::start_cache($mod_name, self::$post_id, array('ID' => $module_ID))):
 
-$fields_default = array(
-	'mod_title_gallery' => '',
-	'layout_gallery' => 'grid',
-	'image_size_gallery' => 'thumbnail',
-	'shortcode_gallery' => '',
-	'thumb_w_gallery' => '',
-	'thumb_h_gallery' => '',
-	'appearance_gallery' => '',
-	'css_gallery' => '',
-	'gallery_images' => array(),
-	'link_opt' => '',
-	'rands' => '',
-	'animation_effect' => ''
-);
+    $fields_default = array(
+        'mod_title_gallery' => '',
+        'layout_gallery' => 'grid',
+        'image_size_gallery' => 'thumbnail',
+        'shortcode_gallery' => '',
+        'thumb_w_gallery' => '',
+        'thumb_h_gallery' => '',
+        's_image_w_gallery' => '',
+        's_image_h_gallery' => '',
+        's_image_size_gallery' => 'full',
+        'appearance_gallery' => '',
+        'css_gallery' => '',
+        'gallery_images' => array(),
+        'gallery_columns' => 3,
+        'link_opt' => false,
+        'link_image_size' => 'full',
+        'rands' => '',
+        'animation_effect' => '',
+        'gallery_pagination' => false,
+        'gallery_per_page' => '',
+        'gallery_image_title' => false,
+        'gallery_exclude_caption'=>false,
+        'layout_masonry' => ''
+    );
+    $fields_args = wp_parse_args($mod_settings, $fields_default);
+    unset($mod_settings);
+    $animation_effect = self::parse_animation_effect($fields_args['animation_effect'], $fields_args);
+    if ($fields_args['appearance_gallery'] !== '') {
+        $fields_args['appearance_gallery'] = self::get_checkbox_data($fields_args['appearance_gallery']);
+    }
+    $columns = $fields_args['gallery_columns'];
+    if ($fields_args['shortcode_gallery'] !== '') {
+        $fields_args['gallery_images'] = Themify_Builder_Model::get_images_from_gallery_shortcode($fields_args['shortcode_gallery']);
+        if (!$fields_args['link_opt']) {
+            $fields_args['link_opt'] = Themify_Builder_Model::get_gallery_param_option($fields_args['shortcode_gallery']);
+        }
+        if (!empty($fields_args['gallery_columns'])) {
+            $columns = $fields_args['gallery_columns'];
+        }
+        else{
+            $columns = Themify_Builder_Model::get_gallery_param_option($fields_args['shortcode_gallery'], 'columns');
+            if(empty($columns)){
+                $columns = $fields_default['gallery_columns'];
+            }
+        }
+        $sc_image_size = Themify_Builder_Model::get_gallery_param_option($fields_args['shortcode_gallery'], 'size');
+        if (!empty($sc_image_size)) {
+            $fields_args['image_size_gallery'] = $sc_image_size;
+        }
+    }
 
-if ( isset( $mod_settings['appearance_gallery'] ) ) 
-	$mod_settings['appearance_gallery'] = $this->get_checkbox_data( $mod_settings['appearance_gallery'] );
+    $masonry_class = $fields_args['layout_masonry'] === 'masonry' && 'grid' === $fields_args['layout_gallery'] ? 'gallery-masonry' : '';
 
-if ( isset( $mod_settings['shortcode_gallery'] ) ) {
-	$mod_settings['gallery_images'] = $this->get_images_from_gallery_shortcode( $mod_settings['shortcode_gallery'] );
-	$mod_settings['link_opt'] = $this->get_gallery_param_option( $mod_settings['shortcode_gallery'] );
-}
+    $container_class = implode(' ', apply_filters('themify_builder_module_classes', array(
+        'module', 'module-' . $mod_name, $module_ID, 'gallery', 'gallery-columns-' . $columns, $masonry_class, 'layout-' . $fields_args['layout_gallery'], $fields_args['appearance_gallery'], $fields_args['css_gallery'], $animation_effect
+                    ), $mod_name, $module_ID, $fields_args)
+    );
+    $container_props = apply_filters('themify_builder_module_container_props', array(
+        'id' => $module_ID,
+        'class' => $container_class
+            ), $fields_args, $mod_name, $module_ID);
+    ?>
+    <!-- module gallery -->
+    <div <?php echo self::get_element_attributes($container_props); ?>>
+        <?php if ($fields_args['mod_title_gallery'] !== ''): ?>
+            <?php echo $fields_args['before_title'] . apply_filters('themify_builder_module_title', $fields_args['mod_title_gallery'], $fields_args). $fields_args['after_title']; ?>
+        <?php endif; ?>
 
-$fields_args = wp_parse_args( $mod_settings, $fields_default );
-extract( $fields_args, EXTR_SKIP );
-$animation_effect = $this->parse_animation_effect( $animation_effect );
+        <?php
+        if (!empty($fields_args['gallery_images'])) {
+            // render the template
+            self::retrieve_template('template-' . $mod_name . '-' . $fields_args['layout_gallery'] . '.php', array(
+                'module_ID' => $module_ID,
+                'mod_name' => $mod_name,
+                'columns' => $columns,
+                'settings' => $fields_args
+                    ), '', '', true);
+        }
+        ?>
 
-$columns = ( $shortcode_gallery != '' ) ? $this->get_gallery_param_option( $shortcode_gallery, 'columns' ) : '';
-$columns = ( $columns == '' ) ? 3 : $columns;
-$columns = intval( $columns );
-
-$container_class = implode(' ', 
-	apply_filters( 'themify_builder_module_classes', array(
-		'module', 'module-' . $mod_name, $module_ID, 'gallery', 'gallery-columns-' . $columns, 'layout-' . $layout_gallery, $appearance_gallery, $css_gallery, $animation_effect
-	), $mod_name, $module_ID, $fields_args )
-);
-?>
-<!-- module gallery -->
-<div id="<?php echo esc_attr( $module_ID ); ?>" class="<?php echo esc_attr( $container_class ); ?>">
-
-	<?php if ( $mod_title_gallery != '' ): ?>
-	<h3 class="module-title"><?php echo wp_kses_post( $mod_title_gallery ); ?></h3>
-	<?php endif; ?>
-
-	<?php
-	// render the template
-	$this->retrieve_template( 'template-'.$mod_name.'-'.$layout_gallery.'.php', array(
-		'module_ID' => $module_ID,
-		'mod_name' => $mod_name,
-		'gallery_images' => $gallery_images,
-		'columns' => $columns,
-		'settings' => ( isset( $fields_args ) ? $fields_args : array() )
-	), '', '', true );
-	?>
-
-</div>
-<!-- /module gallery -->
+    </div>
+    <!-- /module gallery -->
+<?php endif; ?>
+<?php TFCache::end_cache(); ?>

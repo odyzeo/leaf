@@ -105,6 +105,15 @@ function themify_theme_customizer_definition( $args ) {
 			'selector' => 'body',
 			'prop' => 'margin',
 		),
+		
+		'paragraph_margin' => array(
+			'control' => array(
+				'type'    => 'Themify_Margin_Control',
+				'label'	  => __( 'Paragraph Margin', 'themify' ),
+			),
+			'selector' => 'p',
+			'prop' => 'margin',
+		),
 
 		'end_body_acc' => $themify_customizer->accordion_end(),
 		// Accordion End   ---------------------------
@@ -721,47 +730,60 @@ function themify_theme_customizer_definition( $args ) {
 		'sticky_headerwrap_background' => array(
 			'control' => array(
 				'type'    => 'Themify_Background_Control',
-				'label'   => __( 'Header Wrap', 'themify' ),
+				'label'   => __( 'Sticky Header Wrap', 'themify' ),
 			),
-			'selector' => '#headerwrap.fixed-header',
+			'selector' => '#headerwrap.fixed-header, .transparent-header #headerwrap.fixed-header',
 			'prop' => 'background',
+		),
+
+		'sticky_header_imageselect' => array(
+			'control' => array(
+				'type'    => 'Themify_Image_Control',
+				'label'   => __( 'Sticky Header Logo', 'themify' ),
+				'image_options' => array(
+					'show_size_fields' => true,
+					'image_label' => ''
+				)
+			),
+			'selector' => '.fixed-header #headerwrap #site-logo a',
+			'prop' => 'logo',
 		),
 
 		'sticky_header_font' => array(
 			'control' => array(
 				'type'    => 'Themify_Font_Control',
-				'label'   => __( 'Header Font', 'themify' ),
+				'label'   => __( 'Sticky Header Font', 'themify' ),
 			),
-			'selector' => '.fixed-header #header, .fixed-header #site-description',
+			'selector' => '#headerwrap.fixed-header #header',
 			'prop' => 'font',
 		),
 
 		'sticky_header_font_color' => array(
 			'control' => array(
 				'type'    => 'Themify_Color_Control',
-				'label'   => __( 'Header Font Color', 'themify' ),
+				'label'   => __( 'Sticky Header Font Color', 'themify' ),
 				'show_label' => false,
 			),
-		'selector' => '.fixed-header #header, #headerwrap.fixed-header #searchform .icon-search:before, #headerwrap.fixed-header #searchform #s:hover',
+		'selector' => '#headerwrap.fixed-header #header',
 			'prop' => 'color',
 		),
 
 		'sticky_header_link_font' => array(
 			'control' => array(
 				'type'    => 'Themify_Text_Decoration_Control',
-				'label'   => __( 'Header Link', 'themify' ),
+				'label'   => __( 'Sticky Header Link', 'themify' ),
 			),
-			'selector' => '.fixed-header #header a',
+			'selector' => '#headerwrap.fixed-header #header a',
 			'prop' => 'font',
 		),
 
 		'sticky_header_link_color' => array(
 			'control' => array(
 				'type'    => 'Themify_Color_Control',
-				'label'   => __( 'Header Link Color', 'themify' ),
+				'label'   => __( 'Sticky Header Link Color', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '.fixed-header #header a',
+			'selector' => 'body:not(.mobile_menu_active) #headerwrap.fixed-header #header a, .mobile_menu_active #headerwrap.fixed-header #site-logo a, .mobile_menu_active #headerwrap.fixed-header #menu-icon',
 			'prop' => 'color',
 		),
 
@@ -769,9 +791,9 @@ function themify_theme_customizer_definition( $args ) {
 			'setting' => array( 'transport' => 'refresh' ),
 			'control' => array(
 				'type'    => 'Themify_Text_Decoration_Control',
-				'label'   => __( 'Header Link Hover', 'themify' ),
+				'label'   => __( 'Sticky Header Link Hover', 'themify' ),
 			),
-			'selector' => '.fixed-header #header a:hover',
+			'selector' => '#headerwrap.fixed-header #header a:hover',
 			'prop' => 'font',
 		),
 
@@ -780,7 +802,7 @@ function themify_theme_customizer_definition( $args ) {
 			'control' => array(
 				'type'    => 'Themify_Color_Control',
 			),
-			'selector' => '.fixed-header #header a:hover',
+			'selector' => 'body:not(.mobile_menu_active) #headerwrap.fixed-header #header a:hover, .mobile_menu_active #headerwrap.fixed-header #site-logo a:hover, .mobile_menu_active #headerwrap.fixed-header #menu-icon:hover',
 			'prop' => 'color',
 		),
 
@@ -996,7 +1018,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Menu Active Link', 'themify' ),
 				'color_label' => __( 'Background Color', 'themify' ),
 			),
-			'selector' => '#main-nav .current_page_item a,  #main-nav .current-menu-item a',
+			'selector' => 'body:not(.mobile_menu_active) #main-nav .current_page_item > a, body:not(.mobile_menu_active) #main-nav .current-menu-item > a',
 			'prop' => 'background',
 		),
 
@@ -1006,7 +1028,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Menu Active Link Color', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '#main-nav .current_page_item a,  #main-nav .current-menu-item a',
+			'selector' => 'body:not(.mobile_menu_active) #main-nav .current_page_item > a, body:not(.mobile_menu_active) #main-nav .current-menu-item > a',
 			'prop' => 'color',
 		),
 
@@ -1017,7 +1039,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Menu Active Link Hover', 'themify' ),
 				'color_label' => __( 'Background Color', 'themify' ),
 			),
-			'selector' => '#main-nav .current_page_item a:hover,  #main-nav .current-menu-item a:hover',
+			'selector' => 'body:not(.mobile_menu_active) #main-nav .current_page_item > a:hover, body:not(.mobile_menu_active) #main-nav .current-menu-item > a:hover',
 			'prop' => 'background',
 		),
 
@@ -1028,7 +1050,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Menu Active Link Hover Color', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '#main-nav .current_page_item a:hover,  #main-nav .current-menu-item a:hover',
+			'selector' => 'body:not(.mobile_menu_active) #main-nav .current_page_item > a:hover, body:not(.mobile_menu_active) #main-nav .current-menu-item > a:hover',
 			'prop' => 'color',
 		),
 
@@ -1076,7 +1098,7 @@ function themify_theme_customizer_definition( $args ) {
 				'type'    => 'Themify_Font_Control',
 				'label'   => __( 'Dropdown Link', 'themify' ),
 			),
-			'selector' => '#main-nav ul a, #main-nav .current_page_item ul a, #main-nav ul .current_page_item a, #main-nav .current-menu-item ul a, #main-nav ul .current-menu-item a',
+			'selector' => '#main-nav ul a, body:not(.mobile_menu_active) #main-nav .current_page_item ul a, body:not(.mobile_menu_active) #main-nav ul .current_page_item a, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a',
 			'prop' => 'font',
 		),
 
@@ -1086,7 +1108,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Dropdown Link Color', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '#main-nav ul a, #main-nav .current_page_item ul a, #main-nav ul .current_page_item a, #main-nav .current-menu-item ul a, #main-nav ul .current-menu-item a, .fixed-header #main-nav ul a',
+			'selector' => '#main-nav ul a, body:not(.mobile_menu_active) #main-nav .current_page_item ul a, body:not(.mobile_menu_active) #main-nav ul .current_page_item a, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a, body:not(.mobile_menu_active) #headerwrap.fixed-header #main-nav ul a',
 			'prop' => 'color',
 		),
 
@@ -1097,7 +1119,7 @@ function themify_theme_customizer_definition( $args ) {
 				'show_label' => false,
 				'color_label' => __( 'Background Color', 'themify' ),
 			),
-			'selector' => '#main-nav ul a, #main-nav .current_page_item ul a, #main-nav ul .current_page_item a, #main-nav .current-menu-item ul a, #main-nav ul .current-menu-item a',
+			'selector' => '#main-nav ul a, body:not(.mobile_menu_active) #main-nav .current_page_item ul a, body:not(.mobile_menu_active) #main-nav ul .current_page_item a, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a',
 			'prop' => 'background',
 		),
 
@@ -1107,7 +1129,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Dropdown Link Border', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '#main-nav ul a, #main-nav .current_page_item ul a, #main-nav ul .current_page_item a, #main-nav .current-menu-item ul a, #main-nav ul .current-menu-item a',
+			'selector' => '#main-nav ul a, body:not(.mobile_menu_active) #main-nav .current_page_item ul a, body:not(.mobile_menu_active) #main-nav ul .current_page_item a, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a',
 			'prop' => 'border',
 		),
 
@@ -1117,7 +1139,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Dropdown Link Padding', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '#main-nav ul a, #main-nav .current_page_item ul a, #main-nav ul .current_page_item a, #main-nav .current-menu-item ul a, #main-nav ul .current-menu-item a',
+			'selector' => '#main-nav ul a, body:not(.mobile_menu_active) #main-nav .current_page_item ul a, body:not(.mobile_menu_active) #main-nav ul .current_page_item a, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a',
 			'prop' => 'padding',
 		),
 
@@ -1127,7 +1149,7 @@ function themify_theme_customizer_definition( $args ) {
 				'label'   => __( 'Dropdown Link Margin', 'themify' ),
 				'show_label' => false,
 			),
-			'selector' => '#main-nav ul a, #main-nav .current_page_item ul a, #main-nav ul .current_page_item a, #main-nav .current-menu-item ul a, #main-nav ul .current-menu-item a',
+			'selector' => '#main-nav ul a, body:not(.mobile_menu_active) #main-nav .current_page_item ul a, body:not(.mobile_menu_active) #main-nav ul .current_page_item a, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a',
 			'prop' => 'margin',
 		),
 
@@ -1137,7 +1159,7 @@ function themify_theme_customizer_definition( $args ) {
 		    'type'    => 'Themify_Color_Transparent_Control',
 		    'label'   => __( 'Dropdown Link Hover', 'themify' ),
 		  ),
-		  'selector' => '#main-nav ul a:hover, #main-nav .current_page_item ul a:hover, #main-nav ul .current_page_item a:hover, #main-nav .current-menu-item ul a:hover, #main-nav ul .current-menu-item a:hover, .fixed-header #main-nav ul a:hover',
+		  'selector' => '#main-nav ul a:hover, body:not(.mobile_menu_active) #main-nav .current_page_item ul a:hover, body:not(.mobile_menu_active) #main-nav ul .current_page_item a:hover, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a:hover, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a:hover, body:not(.mobile_menu_active) #headerwrap.fixed-header #main-nav ul a:hover',
 		  'prop' => 'color',
 		),
 
@@ -1149,11 +1171,143 @@ function themify_theme_customizer_definition( $args ) {
 		    'show_label' => false,
 		    'color_label' => __( 'Background Color', 'themify' ),
 		  ),
-		  'selector' => '#main-nav ul a:hover, #main-nav .current_page_item ul a:hover, #main-nav ul .current_page_item a:hover, #main-nav .current-menu-item ul a:hover, #main-nav ul .current-menu-item a:hover',
+		  'selector' => '#main-nav ul a:hover, body:not(.mobile_menu_active) #main-nav .current_page_item ul a:hover, body:not(.mobile_menu_active) #main-nav ul .current_page_item a:hover, body:not(.mobile_menu_active) #main-nav .current-menu-item ul a:hover, body:not(.mobile_menu_active) #main-nav ul .current-menu-item a:hover',
 		  'prop' => 'background',
 		),
 
 		'end_nav_acc' => $themify_customizer->accordion_end(),
+		// Accordion End   ---------------------------
+
+		// Accordion Start
+		'start_mobile_menu_acc' => $themify_customizer->accordion_start( __( 'Mobile Menu', 'themify' ) ),
+		'mobile_menu_panel_background' => array(
+			'control' => array(
+				'type'    => 'Themify_Background_Control',
+				'label'   => __( 'Mobile Menu Panel', 'themify' ),
+				'show_label' => true,
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on',
+			'prop' => 'background',
+		),
+		'mobile_menu_font' => array(
+			'control' => array(
+				'type'    => 'Themify_Font_Control',
+				'label'   => __( 'Mobile Menu Link', 'themify' )
+			),
+			'selector' => '#pagewrap #headerwrap #mobile-menu.sidemenu-on nav li a',
+			'prop' => 'font',
+		),
+		'mobile_menu_link_color' => array(
+			'control' => array(
+				'type'    => 'Themify_Color_Control',
+				'color_label'   => __( 'Link Color', 'themify' )
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on nav li a',
+			'prop' => 'color',
+		),
+		'mobile_menu_hover_background' => array(
+			'control' => array(
+				'type'    => 'Themify_Color_Transparent_Control',
+				'label'   => __( 'Mobile Menu Link Hover', 'themify' ),
+				'color_label' => __( 'Background Color', 'themify' ),
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on nav a:hover, #headerwrap #mobile-menu.sidemenu-on nav .current-menu-item > a',
+			'prop' => 'background',
+		),
+		'mobile_menu_hover_color' => array(
+			'control' => array(
+				'type'    => 'Themify_Color_Control',
+				'label'   => __( 'Mobile Menu Link Hover Color', 'themify' ),
+				'show_label' => false,
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on nav a:hover, #headerwrap #mobile-menu.sidemenu-on nav .current-menu-item > a',
+			'prop' => 'color',
+		),
+		'mobile_menu_link_active_background' => array(
+			'setting' => array( 'transport' => 'refresh' ),
+			'control' => array(
+				'type'    => 'Themify_Color_Transparent_Control',
+				'label'   => __( 'Mobile Menu Active Link', 'themify' ),
+				'color_label' => __( 'Background Color', 'themify' ),
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item > a, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item > a',
+			'prop' => 'background',
+		),
+
+		'mobile_menu_link_active_color' => array(
+			'control' => array(
+				'type'    => 'Themify_Color_Control',
+				'label'   => __( 'Mobile Menu Active Link Color', 'themify' ),
+				'show_label' => false,
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item > a, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item > a',
+			'prop' => 'color',
+		),
+
+		'mobile_menu_link_active_hover_background' => array(
+			'setting' => array( 'transport' => 'refresh' ),
+			'control' => array(
+				'type'    => 'Themify_Color_Transparent_Control',
+				'label'   => __( 'Mobile Menu Active Link Hover', 'themify' ),
+				'color_label' => __( 'Background Color', 'themify' ),
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item > a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item > a:hover',
+			'prop' => 'background',
+		),
+
+		'mobile_menu_link_active_hover_color' => array(
+			'setting' => array( 'transport' => 'refresh' ),
+			'control' => array(
+				'type'    => 'Themify_Color_Control',
+				'label'   => __( 'Mobile Menu Active Link Hover Color', 'themify' ),
+				'show_label' => false,
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item > a:hover',
+			'prop' => 'color',
+		),
+
+		'mobile_menu_dropdown_link_font' => array(
+			'control' => array(
+				'type'    => 'Themify_Font_Control',
+				'label'   => __( 'Mobile Menu Dropdown Link', 'themify' ),
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav ul a, #headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item ul a, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current_page_item a, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item ul a, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current-menu-item a',
+			'prop' => 'font',
+		),
+
+		'mobile_menu_dropdown_link_color' => array(
+			'control' => array(
+				'type'    => 'Themify_Color_Control',
+				'label'   => __( 'Mobile Menu Dropdown Link Color', 'themify' ),
+				'show_label' => false,
+			),
+			'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav ul a, #headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item ul a, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current_page_item a, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item ul a, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current-menu-item a, #headerwrap.fixed-header #mobile-menu.sidemenu-on #main-nav ul a',
+			'prop' => 'color',
+		),
+
+		'mobile_menu_dropdown_link_hover_color' => array(
+		  'setting' => array( 'transport' => 'refresh' ),
+		  'control' => array(
+		    'type'    => 'Themify_Color_Control',
+		    'label'   => __( 'Mobile Menu Dropdown Link Hover', 'themify' ),
+		  ),
+		  'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav ul a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item ul a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current_page_item a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item ul a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current-menu-item a:hover, #headerwrap.fixed-header #mobile-menu.sidemenu-on #main-nav ul a:hover',
+		  'prop' => 'color',
+		),
+
+		'mobile_menu_dropdown_link_hover_background' => array(
+		  'setting' => array( 'transport' => 'refresh' ),
+		  'control' => array(
+		    'type'    => 'Themify_Color_Transparent_Control',
+		    'label'   => __( 'Mobile Menu Dropdown Link Hover Background', 'themify' ),
+		    'show_label' => false,
+		    'color_label' => __( 'Background Color', 'themify' ),
+		  ),
+		  'selector' => '#headerwrap #mobile-menu.sidemenu-on #main-nav ul a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav .current_page_item ul a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current_page_item a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav .current-menu-item ul a:hover, #headerwrap #mobile-menu.sidemenu-on #main-nav ul .current-menu-item a:hover',
+		  'prop' => 'background',
+		),
+		
+		'end_mobile_menu_acc' => $themify_customizer->accordion_end(),
 		// Accordion End   ---------------------------
 
 		// Accordion Start ---------------------------

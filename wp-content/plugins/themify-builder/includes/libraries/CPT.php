@@ -125,10 +125,9 @@ class CPT {
 				} else {
 
 					// define the method to be used
-					$cpt_method = 'get_'.$name;
 
 					// generate the name
-					$this->$name = $this->$cpt_method();
+					$this->$name = $this->{'get_'.$name}();
 
 				}
 
@@ -473,10 +472,9 @@ class CPT {
 				} else {
 
 					// define the fnction to be used
-					$cpt_method = 'get_'.$name;
 
 					// generate the name
-					$$name = $this->$cpt_method( $taxonomy_name );
+					$$name = $this->{'get_'.$name}( $taxonomy_name );
 
 				}
 
@@ -689,7 +687,7 @@ class CPT {
 			// if column is for the post ID
 			case 'post_id' :
 
-				echo $post->ID;
+				echo esc_attr( $post->ID );
 
 			break;
 

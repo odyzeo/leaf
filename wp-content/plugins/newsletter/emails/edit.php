@@ -6,6 +6,9 @@ $module = NewsletterEmails::instance();
 
 // Always required
 $email = Newsletter::instance()->get_email($_GET['id'], ARRAY_A);
+if (empty($email['query'])) {
+    $email['query'] = "select * from " . NEWSLETTER_USERS_TABLE . " where status='C'";
+}
 
 if (empty($email)) {
     echo 'Wrong email identifier';
@@ -21,27 +24,29 @@ if ($composer) {
 }
 
 // Preferences conversions
-if (!isset($email['options']['lists'])) {
+if (!$controls->is_action()) {
+    if (!isset($email['options']['lists'])) {
 
-    $options_profile = get_option('newsletter_profile');
+        $options_profile = get_option('newsletter_profile');
 
-    if (empty($controls->data['preferences_status_operator'])) {
-        $email['options']['lists_operator'] = 'or';
-    } else {
-        $email['options']['lists_operator'] = 'and';
-    }
-    $controls->data['options_lists'] = array();
-    $controls->data['options_lists_exclude'] = array();
+        if (empty($controls->data['preferences_status_operator'])) {
+            $email['options']['lists_operator'] = 'or';
+        } else {
+            $email['options']['lists_operator'] = 'and';
+        }
+        $controls->data['options_lists'] = array();
+        $controls->data['options_lists_exclude'] = array();
 
-    if (!empty($email['preferences'])) {
-        $preferences = explode(',', $email['preferences']);
-        $value = empty($email['options']['preferences_status']) ? 'on' : 'off';
+        if (!empty($email['preferences'])) {
+            $preferences = explode(',', $email['preferences']);
+            $value = empty($email['options']['preferences_status']) ? 'on' : 'off';
 
-        foreach ($preferences as $x) {
-            if ($value == 'on') {
-                $controls->data['options_lists'][] = $x;
-            } else {
-                $controls->data['options_lists_exclude'][] = $x;
+            foreach ($preferences as $x) {
+                if ($value == 'on') {
+                    $controls->data['options_lists'][] = $x;
+                } else {
+                    $controls->data['options_lists_exclude'][] = $x;
+                }
             }
         }
     }
@@ -97,7 +102,8 @@ if ($controls->is_action('test') || $controls->is_action('save') || $controls->i
 
     // Reset the options
     $email['options'] = array();
-    if ($composer) $email['options']['composer'] = true;
+    if ($composer)
+        $email['options']['composer'] = true;
 
     foreach ($controls->data as $name => $value) {
         if (strpos($name, 'options_') === 0) {
@@ -325,7 +331,7 @@ if (isset($controls->data['options_status']) && $controls->data['options_status'
                 <?php if ($email['status'] == 'paused') $controls->button_confirm('continue', __('Continue', 'newsletter'), 'Continue the delivery?'); ?>
                 <?php if ($email['status'] == 'paused') $controls->button_confirm('abort', __('Stop', 'newsletter'), __('This totally stop the delivery, ok?', 'newsletter')); ?>
                 <?php if ($email['status'] != 'sending' && $email['status'] != 'sent') $controls->button('editor', __('Switch editor')); ?>
-                <?php //if ($images) $controls->button_confirm('import', __('Import images', 'newsletter'), 'Proceed?') ?>
+                <?php //if ($images) $controls->button_confirm('import', __('Import images', 'newsletter'), 'Proceed?')  ?>
             </div>
 
             <?php $controls->text('subject', 70, 'Subject'); ?>
@@ -379,14 +385,7 @@ if (isset($controls->data['options_status']) && $controls->data['options_status'
                         <?php _e('Leaving all multichoice options unselected is like to select all them', 'newsletter'); ?>
                     </p>
                     <table class="form-table">
-
-                        <tr valign="top">
-                            <th><?php _e('Gender', 'newsletter') ?></th>
-                            <td>
-                                <?php $controls->checkboxes_group('options_sex', array('f' => 'Women', 'm' => 'Men', 'n' => 'Not specified')); ?>
-                            </td>
-                        </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Lists', 'newsletter') ?></th>
                             <td>
                                 <?php
@@ -399,25 +398,30 @@ if (isset($controls->data['options_status']) && $controls->data['options_status'
                                 <p><?php _e('must not in one of', 'newsletter') ?></p>
 
                                 <?php $controls->select2('options_lists_exclude', $lists, null, true, null, __('None', 'newsletter')); ?>
-
-
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><?php _e('Gender', 'newsletter') ?></th>
+                            <td>
+                                <?php $controls->checkboxes_group('options_sex', array('f' => 'Women', 'm' => 'Men', 'n' => 'Not specified')); ?>
                             </td>
                         </tr>
 
-                        <tr valign="top">
+
+                        <tr>
                             <th><?php _e('Status', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->select('options_status', array('C' => __('Confirmed', 'newsletter'), 'S' => __('Not confirmed', 'newsletter'))); ?>
 
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Only to subscribers linked to WP users', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('options_wp_users'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>
                                 <?php _e('Approximated subscribers count', 'newsletter') ?>
                             </th>
@@ -442,7 +446,7 @@ if (isset($controls->data['options_status']) && $controls->data['options_status'
 
                 <div id="tabs-d">
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Keep private', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('private'); ?>
@@ -455,13 +459,13 @@ if (isset($controls->data['options_status']) && $controls->data['options_status'
                                 </p>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Track clicks and message opening', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('track'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Send on', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->datetime('send_on'); ?> (now: <?php echo date_i18n(get_option('date_format') . ' ' . get_option('time_format')); ?>)
@@ -474,19 +478,19 @@ if (isset($controls->data['options_status']) && $controls->data['options_status'
 
                 <div id="tabs-status">
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th>Email status</th>
                             <td><?php echo esc_html($email['status']); ?></td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Messages sent</th>
                             <td><?php echo $email['sent']; ?> of <?php echo $email['total']; ?></td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Query (tech)</th>
                             <td><?php echo esc_html($email['query']); ?></td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Token (tech)</th>
                             <td><?php echo esc_html($email['token']); ?></td>
                         </tr>

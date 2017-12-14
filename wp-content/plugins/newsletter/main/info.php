@@ -42,7 +42,7 @@ if (!$controls->is_action()) {
                     <h3><?php _e('Header Settings', 'newsletter') ?></h3>
 
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th>
                                 <?php _e('Logo', 'newsletter') ?><br>
                                 <?php $controls->help('https://www.thenewsletterplugin.com/documentation/newsletter-configuration#company-logo') ?>
@@ -68,13 +68,13 @@ if (!$controls->is_action()) {
                     <h3><?php _e('Footer Settings', 'newsletter') ?></h3>
 
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Company name', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text('footer_title', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Address', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text('footer_contact', 40); ?>
@@ -92,61 +92,61 @@ if (!$controls->is_action()) {
                 <div id="tabs-social">
 
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th>Facebook URL</th>
                             <td>
                                 <?php $controls->text('facebook_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Twitter URL</th>
                             <td>
                                 <?php $controls->text('twitter_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Instagram URL</th>
                             <td>
                                 <?php $controls->text('instagram_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Google+ URL</th>
                             <td>
                                 <?php $controls->text('googleplus_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Pinterest URL</th>
                             <td>
                                 <?php $controls->text('pinterest_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Linkedin URL</th>
                             <td>
                                 <?php $controls->text('linkedin_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Tumblr URL</th>
                             <td>
                                 <?php $controls->text('tumblr_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>YouTube URL</th>
                             <td>
                                 <?php $controls->text('youtube_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Vimeo URL</th>
                             <td>
                                 <?php $controls->text('vimeo_url', 40); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th>Soundcloud URL</th>
                             <td>
                                 <?php $controls->text('soundcloud_url', 40); ?>

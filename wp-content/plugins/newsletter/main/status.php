@@ -43,6 +43,11 @@ if ($controls->is_action('reschedule')) {
     $controls->add_message_done();
 }
 
+if ($controls->is_action('trigger')) {
+    Newsletter::instance()->hook_newsletter();
+    $controls->messages = 'Triggered';
+}
+
 if ($controls->is_action('test')) {
 
     if (!NewsletterModule::is_email($controls->data['test_email'])) {
@@ -498,6 +503,7 @@ $options = $module->get_options('status');
                                 <?php $controls->button('reschedule', 'Reset') ?>
                             <?php } else if ($delta <= -600) { ?>
                                 The scheduler is very late: <?php echo $delta ?> seconds (<a href="https://www.thenewsletterplugin.com/plugins/newsletter/newsletter-delivery-engine" target="_blank">read more</a>)
+                                <?php $controls->button('trigger', 'Trigger') ?>
                             <?php } else { ?>
                                 Next execution is planned in <?php echo $delta ?> seconds (negative values are ok).
                             <?php } ?>
@@ -766,7 +772,7 @@ $options = $module->get_options('status');
                         </td>
                         <td>
                             <?php if (defined('WP_DEBUG') && WP_DEBUG) { ?>
-                                WordPress is in debug mode it is not recommended on a production system. See the constant WP_DEBUG insde the wp-config.php.
+                                WordPress is in debug mode it is not recommended on a production system. See the constant WP_DEBUG inside the wp-config.php.
                             <?php } else { ?>
 
                             <?php } ?>

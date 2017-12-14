@@ -16,10 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /* 	Database Functions
 /***************************************************************************/
 
-// Store Cached Data
-$themify_data = array();
-$themify_cached = false;
-
 /**
  * Save Data
  * @param Array $data
@@ -28,31 +24,34 @@ $themify_cached = false;
  * @package themify
  */
 function themify_set_data( $data ) {
-	global $themify_data, $themify_cached;
-	foreach ( $data as $name => $value ) {
-		if ( 'save' == $name || 'page' == $name ) {
-			unset( $data[$name] );
-		}
+	if ( empty( $data ) || ! is_array( $data ) ) {
+            $data = array();
 	}
-	update_option( wp_get_theme()->display('Name') . '_themify_data', $data);
-	$themify_data = themify_sanitize_data( $data );
-	$themify_cached = false;
-	return $themify_data; // MUST return $themify_data since it's the sanitized value
+        else{
+            unset($data['save'],$data['page']);
+            foreach ( $data as $name => $value ) {
+                if ($value==='' || $value==='default' || $value==='[]') {
+                    unset( $data[$name] );
+                }
+            }
+        }
+	update_option( 'themify_data', $data );
+	return themify_get_data(true);
 }
 
 /**
  * Return cached data
  * @return array|String
  */
-function themify_get_data() {
-	global $themify_data, $themify_cached;
-	if ( !$themify_cached ) {
-		$themify_data = get_option( wp_get_theme()->display('Name') . '_themify_data' );
-		$themify_data = themify_sanitize_data( $themify_data );
-		$themify_data = apply_filters( 'themify_get_data', $themify_data );
-		$themify_cached = true;
-	}
-	return $themify_data;
+function themify_get_data($reinit=false) {
+    static $themify_data=null;
+    if ($themify_data===null || $reinit!==false) {
+        $themify_data = themify_sanitize_data(get_option( 'themify_data', array() ));
+        if(!$reinit){
+            $themify_data = apply_filters( 'themify_get_data', $themify_data );
+        }
+    }
+    return $themify_data;
 }
 
 /**
@@ -63,7 +62,9 @@ function themify_get_data() {
 function themify_sanitize_data( $data ) {
 	if ( is_array( $data ) && count( $data ) >= 1 ) {
 		foreach( $data as $name => $value ){
-			if ( 'setting-custom_css' == $name ) {
+			if ( in_array( $name, array( 'setting-custom_css', 'setting-header_html', 'setting-footer_html', 'setting-footer_text_left', 'setting-footer_text_right', 'setting-homepage_welcome', 'setting-store_info_address' ),true )
+				|| ( false !== stripos( $name, 'setting-hooks' ) )
+			) {
 				$data[$name] = str_replace( "\'", "'", $value );
 			} else {
 				$data[$name] = stripslashes( $value );
@@ -72,25 +73,4 @@ function themify_sanitize_data( $data ) {
 		return $data;
 	}
 	return array();
-}
-
-/**
- * Get The Old Data
- * @return String
- * @since 1.0.0
- * @package themify
- */
-function themify_get_old_data(){
-	$theme = wp_get_theme();
-	$data = unserialize(base64_decode( get_option( $theme->display('Name') . '_themify_data' ) ));
-	if(is_array($data) && count($data) >= 1){
-		foreach($data as $name => $value){
-			if ( 'setting-custom_css' == $name ) {
-				$data[$name] = str_replace( "\'", "'", $value );
-			} else {
-				$data[$name] = stripslashes($value);
-			}
-		}
-	}
-	return $data;
 }

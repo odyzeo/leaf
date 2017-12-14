@@ -19,7 +19,7 @@ class Themify_TinyMCE {
 	function __construct(){
 		defined( 'THEMIFY_TINYMCE_URI' ) or define( 'THEMIFY_TINYMCE_URI', THEMIFY_URI . '/tinymce/' );
 
-		if ( current_user_can( 'publish_posts' ) && get_user_option( 'rich_editing' ) == 'true' ) {
+		if ( current_user_can( 'publish_posts' ) && get_user_option( 'rich_editing' ) === 'true' ) {
 			add_filter( 'mce_external_plugins', array( $this, 'add_plugin' ) );
 			add_filter( 'mce_buttons', array( $this, 'add_button' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'localize' ) );
@@ -35,7 +35,8 @@ class Themify_TinyMCE {
 	 * @return mixed
 	 */
 	function add_button( $mce_buttons ) {
-		array_push( $mce_buttons, 'separator', 'btnthemifyMenu' );
+		$mce_buttons[] = 'separator';
+		$mce_buttons[] = 'btnthemifyMenu';
 		return $mce_buttons;
 	}
 
@@ -46,7 +47,6 @@ class Themify_TinyMCE {
 	 * @return mixed
 	 */
 	function add_plugin( $mce_external_plugins ) {
-		global $wp_version;
 		$mce_external_plugins['themifyMenu'] = themify_enque(THEMIFY_TINYMCE_URI . 'plugin.js');
 
 		return $mce_external_plugins;
@@ -65,8 +65,9 @@ class Themify_TinyMCE {
 
 		/* sort the fields array in each shortcode */
 		foreach( $shortcodes as $key => $def ) {
-			if( isset( $shortcodes[$key]['fields'] ) && ! empty( $shortcodes[$key]['fields'] ) )
+			if(! empty( $shortcodes[$key]['fields'] ) ){
 				usort( $shortcodes[$key]['fields'], array( $this, 'sort_by_priority_key' ) );
+			}
 		}
 
 		return $shortcodes;
@@ -118,7 +119,7 @@ class Themify_TinyMCE {
 						}
 					}
 					echo ']';
-					if( isset( $shortcode['closing_tag'] ) && $shortcode['closing_tag'] == true ) {
+					if( !empty( $shortcode['closing_tag'] )) {
 						echo isset( $shortcode['wrap_with'] ) ? $shortcode['wrap_with'] : '{{{data.selectedContent}}}';
 						echo '[/' . $key . ']';
 					}
@@ -142,4 +143,11 @@ class Themify_TinyMCE {
 		return $i1p < $i2p ? -1 : 1;
 	}
 }
-new Themify_TinyMCE();
+
+/**
+ * Initialize class to add button to WP Editor.
+ */
+function themify_init_tinymce() {
+	new Themify_TinyMCE();
+}
+add_action( 'init', 'themify_init_tinymce' );

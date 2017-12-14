@@ -56,7 +56,7 @@ $controls = new NewsletterControls();
                         </tr>
                     </thead>
                     <tbody>
-                        <tr valign="top">
+                        <tr>
                             <td><?php _e('Any', 'newsletter') ?></td>
                             <td>
                                 <?php echo $wpdb->get_var("select count(*) from " . NEWSLETTER_USERS_TABLE); ?>

@@ -1,7 +1,6 @@
 <?php
 
-if (!defined('ABSPATH'))
-    exit;
+defined('ABSPATH') || exit;
 
 require_once NEWSLETTER_INCLUDES_DIR . '/themes.php';
 require_once NEWSLETTER_INCLUDES_DIR . '/module.php';
@@ -445,11 +444,13 @@ class NewsletterEmails extends NewsletterModule {
     }
 
     function get_blocks() {
-        /* READ THE BLOCKS */
-        $blocks_dir = NEWSLETTER_DIR . '/emails/tnp-composer/blocks/';
-        $files = glob($blocks_dir . '*.block.php', GLOB_BRACE);
+
         $blocks = array();
-        foreach ($files as $file) {
+        
+        $handle = opendir(NEWSLETTER_DIR . '/emails/tnp-composer/blocks');
+        while ($file = readdir($handle)) {
+            if (strpos($file, '.php') === false) continue;
+            
             $path_parts = pathinfo($file);
             $filename = $path_parts['filename'];
             $section = substr($filename, 0, strpos($filename, '-'));
@@ -462,6 +463,7 @@ class NewsletterEmails extends NewsletterModule {
             $block['description'] = '';
             $blocks[$filename] = $block;
         }
+        closedir($handle);
 
         $list = $this->scan_blocks_dir(__DIR__ . '/blocks');
 

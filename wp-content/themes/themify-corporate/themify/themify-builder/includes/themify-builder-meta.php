@@ -3,6 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * Builder Main Meta Box HTML
  */
+global $post;
 ?>
 
 <div class="themify_builder themify_builder_admin clearfix">
@@ -22,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 	<div style="display: none;">
 		<?php
-			wp_editor( ' ', 'tfb_lb_hidden_editor' );
+			wp_editor( ' ', 'tb_lb_hidden_editor' );
 		?>
 	</div>
 

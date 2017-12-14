@@ -143,8 +143,8 @@ MENU PANEL
 	font-size: 24px;
 }
 .mobile_menu_active #menu-icon-close:after {
-	content: "\f00d";
-	font-family: FontAwesome;
+	content: "\e809"; /* fa-close */
+	font-family: 'themify_theme_icon';
 }
 .mobile_menu_active #menu-icon-close:hover {
 	color: #000;
@@ -243,7 +243,7 @@ MENU PANEL
 	display: none;
 }
 .mobile_menu_active #main-nav .sub-arrow {
-	display: none;
+	display: none !important;
 }
 
 /* 
@@ -664,6 +664,13 @@ SOCIAL LINKS
 	.loops-wrapper.grid3.team .team-content-wrap:hover .team-title {
 		margin-top: 20px;
 	}
+	.single-team .team-content-wrap,
+	.loops-wrapper.list-post.team .team-content-wrap {
+		width: 100%;
+		margin-right: 0;
+		float: none;
+	}
+
 	/* testimonial items when mobile testimonial author img size */
 	.testimonial .post-image img {
 		width: 72px;

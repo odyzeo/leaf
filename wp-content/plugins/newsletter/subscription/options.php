@@ -191,14 +191,14 @@ if (empty($controls->data['page'])) {
 
                 <div id="tabs-general">
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Opt In', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->select('noconfirmation', array(0 => __('Double Opt In', 'newsletter'), 1 => __('Single Opt In', 'newsletter'))); ?>
                                 <?php $controls->help('https://www.thenewsletterplugin.com/documentation/subscription#opt-in') ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Dedicated page', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->page('page', __('Unstyled page', 'newsletter')); ?>
@@ -218,14 +218,14 @@ if (empty($controls->data['page'])) {
                                 <?php } ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Notifications', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('notify'); ?>
                                 <?php $controls->text_email('notify_email'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Custom styles', 'newsletter') ?></th>
                             <td>
                                 <?php if (apply_filters('newsletter_enqueue_style', true) === false) { ?>
@@ -241,19 +241,19 @@ if (empty($controls->data['page'])) {
                 <div id="tabs-2">
 
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Subscription page', 'newsletter') ?><br><?php echo $controls->help('https://www.thenewsletterplugin.com/documentation/newsletter-tags') ?></th>
                             <td>
                                 <?php $controls->wp_editor('subscription_text'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Forced lists', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->preferences(); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Disable antibot/antispam?', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('antibot_disable'); ?>
@@ -262,7 +262,7 @@ if (empty($controls->data['page'])) {
                                 </p>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Antiflood', 'newsletter') ?></th>
                             <td>
                                 <?php
@@ -286,7 +286,7 @@ if (empty($controls->data['page'])) {
 
                     <table class="form-table">
                         <!--
-                        <tr valign="top">
+                        <tr>
                             <th>Already subscribed page content</th>
                             <td>
                         <?php //$controls->wp_editor('already_confirmed_text');  ?><br>
@@ -299,7 +299,7 @@ if (empty($controls->data['page'])) {
                             </td>
                         </tr>
                         -->
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Error page', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->wp_editor('error_text'); ?>
@@ -315,14 +315,14 @@ if (empty($controls->data['page'])) {
                     <?php $controls->panel_help('https://www.thenewsletterplugin.com/documentation/subscription#activation') ?>
                     
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Activation message', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->wp_editor('confirmation_text'); ?>
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Alternative activation page', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->text('confirmation_url', 70, 'https://...'); ?>
@@ -331,7 +331,7 @@ if (empty($controls->data['page'])) {
 
 
                         <!-- CONFIRMATION EMAIL -->
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Activation email', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->email('confirmation', 'wordpress'); ?>
@@ -348,21 +348,21 @@ if (empty($controls->data['page'])) {
                         <?php $controls->panel_help('https://www.thenewsletterplugin.com/documentation/subscription#welcome') ?>
                     </p>
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Welcome message', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->wp_editor('confirmed_text'); ?>
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Alternative welcome page URL', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text('confirmed_url', 70, 'https://...'); ?>
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Conversion tracking code', 'newsletter') ?>
                             <?php $controls->help('https://www.thenewsletterplugin.com/documentation/subscription#conversion') ?></th>
                             <td>
@@ -371,7 +371,7 @@ if (empty($controls->data['page'])) {
                         </tr>
 
                         <!-- WELCOME/CONFIRMED EMAIL -->
-                        <tr valign="top">
+                        <tr>
                             <th>
                                 <?php _e('Welcome email', 'newsletter') ?>
                             </th>
@@ -390,7 +390,7 @@ if (empty($controls->data['page'])) {
 
                     <table class="form-table">
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Profile page', 'newsletter') ?>
                                 <br><?php $controls->help('https://www.thenewsletterplugin.com/documentation/subscription#profile') ?>
                             </th>
@@ -399,7 +399,7 @@ if (empty($controls->data['page'])) {
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Alternative profile page URL', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text('profile_url', 70); ?>

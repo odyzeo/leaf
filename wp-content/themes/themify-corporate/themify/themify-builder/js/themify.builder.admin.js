@@ -12,8 +12,8 @@
 			callback.call(this);
 		}
 		else {
-			var jqxhr = wp.ajax.post( 'tfb_switch_frontend', {
-				nonce : TBuilderAdmin_Settings.tfb_load_nonce,
+			var jqxhr = wp.ajax.post( 'tb_switch_frontend', {
+				nonce : TBuilderAdmin_Settings.tb_load_nonce,
 				data: wp.autosave.getPostData()
 			});
 			jqxhr.done(callback);

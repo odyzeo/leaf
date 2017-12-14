@@ -388,7 +388,8 @@ class Themify_Upgrader extends WP_Upgrader {
 				delete_transient( 'themify_new_theme' . $theme_hash );
 				themify_set_update_cookie('theme');
 			}
-                        TFCache::removeDirectory(TFCache::get_cache_dir());
+			TFCache::removeDirectory(TFCache::get_cache_dir());
+			delete_transient( 'themify_widget_current_updates' );
 		}
 		$this->skin->after();
 

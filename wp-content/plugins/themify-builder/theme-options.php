@@ -129,80 +129,6 @@ function themify_builder_global_options(){
 }
 add_action( 'init','themify_builder_global_options' );
 
-/* 	Enqueue Stylesheets and Scripts
-/***************************************************************************/
-add_action('wp_enqueue_scripts', 'themify_theme_enqueue_scripts');
-function themify_theme_enqueue_scripts(){
-
-	//Themify Gallery
-	wp_enqueue_script( 'themify-gallery', THEMIFY_URI . '/js/themify.gallery.js', array('jquery'), false, true );
-	
-	//Inject variable values in gallery script
-	wp_localize_script( 'themify-gallery', 'themifyScript', array(
-			'lightbox' => themify_lightbox_vars_init(),
-			'lightboxContext' => apply_filters('themify_lightbox_context', 'body'),
-			'isTouch' => wp_is_mobile() ? 'true': 'false'
-		)
-	);
-}
-
-/**
- * Print inline javascript
- */
-function themify_theme_inline_scripts() {
-?>
-	<script type="text/javascript">
-		// js code goes here
-		jQuery(window).load(function(){
-			// Lightbox / Fullscreen initialization ///////////
-			if(typeof ThemifyGallery !== 'undefined'){ ThemifyGallery.init({'context': jQuery(themifyScript.lightboxContext)}); }
-		});
-	</script>
-<?php
-}
-add_action( 'wp_footer', 'themify_theme_inline_scripts' );
-
-$themify_builder_data = array();
-$themify_builder_cached = false;
-
-if ( ! function_exists( 'themify_builder_get' ) ) {
-	///////////////////////////////////////////
-	// Version Getter
-	///////////////////////////////////////////
-	function themify_builder_get( $var ){
-		global $post;
-		$data = themify_builder_get_data();
-		if(isset($data[$var]) && $data[$var] != ''){
-			return $data[$var];
-		} else if(is_object($post) && get_post_meta($post->ID, $var, true) != ''){
-			return get_post_meta($post->ID, $var, true);
-		}
-	}
-}
-
-if ( ! function_exists( 'themify_builder_get_data' ) ) {
-	/**
-	 * Get Data
-	 * @return String
-	 * @since 1.0.0
-	 * @package themify
-	 */
-	function themify_builder_get_data(){
-		global $themify_builder_data, $themify_builder_cached;
-		if ( ! $themify_builder_cached ) {
-			$themify_builder_data = get_option( 'themify_builder_setting' );
-			if( is_array( $themify_builder_data ) && count( $themify_builder_data ) >= 1 ) {
-				foreach( $themify_builder_data as $name => $value ){
-					$themify_builder_data[ $name ] = stripslashes( $value );	
-				}
-			} else {
-				$themify_builder_data = array();
-			}
-			$themify_builder_cached = true;
-		}
-		return $themify_builder_data;
-	}
-}
 
 if ( ! function_exists( 'themify_builder_plugin_data_filters' ) ) {
 	add_filter( 'themify_get_data', 'themify_builder_plugin_data_filters' );
@@ -210,11 +136,14 @@ if ( ! function_exists( 'themify_builder_plugin_data_filters' ) ) {
 		if ('' != themify_builder_get( 'image_setting-img_settings_use' ) ) {
 			$data['setting-img_settings_use'] = true;
 		}
-		if ( '' != themify_builder_get('image_setting-global_feature_size') ) {
-			$data['setting-global_feature_size'] = themify_builder_get('image_setting-global_feature_size');
+		if ( ($size= themify_builder_get('image_setting-global_feature_size'))!='' ) {
+			$data['setting-global_feature_size'] = $size;
 		}
 		return $data;
 	}
 }
 
-?>
+function themify_enable_full_google_fonts() {
+	return 'full' === themify_builder_get( 'builder_google_fonts' );
+}
+add_filter( 'themify_google_fonts_full_list', 'themify_enable_full_google_fonts' );

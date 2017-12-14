@@ -93,7 +93,7 @@ class NewsletterSubscription extends NewsletterModule {
             case 'subscribe':
                 // Flood check
                 if (!empty($this->options['antiflood'])) {
-                    $ip = (string)$_SERVER['REMOTE_ADDR'];
+                    $ip = (string) $_SERVER['REMOTE_ADDR'];
                     $email = $this->is_email($_REQUEST['ne']);
                     $updated = $wpdb->get_var($wpdb->prepare("select updated from " . NEWSLETTER_USERS_TABLE . " where ip=%s or email=%s order by updated desc limit 1", $ip, $email));
 
@@ -257,6 +257,10 @@ class NewsletterSubscription extends NewsletterModule {
         $this->init_options('template', false);
 
         return true;
+    }
+
+    function first_install() {
+
     }
 
     function admin_menu() {
@@ -597,43 +601,41 @@ class NewsletterSubscription extends NewsletterModule {
             die('No subscriber found.');
         }
 
+        setcookie('newsletter', $user->id . '-' . $user->token, time() + 60 * 60 * 24 * 365, '/');
+
         if ($user->status == 'C') {
             do_action('newsletter_user_confirmed', $user);
             return $user;
         }
 
-        if ($user->status != 'S') {
-            $this->logger->debug('Was not in status S');
-            $user->status = 'E';
-            return $user;
-        }
-        setcookie('newsletter', $user->id . '-' . $user->token, time() + 60 * 60 * 24 * 365, '/');
-        $newsletter->set_user_status($user->id, 'C');
+//        if ($user->status != 'S') {
+//            $this->logger->debug('Was not in status S');
+//            $user->status = 'E';
+//            return $user;
+//        }
+
+        $this->set_user_status($user->id, 'C');
         $user->status = 'C';
         do_action('newsletter_user_confirmed', $user);
         $this->notify_admin($user, 'Newsletter subscription');
-
-        // Check if is connected to a wp user
-        if ($user->wp_user_id) {
-            /* @var $wpdb wpdb */
-            global $wpdb;
-            //$wpdb->update($wpdb->users, array('user_email'=>$user->email), array('id'=>$user->wp_user_id));
-        }
 
         if (!$emails) {
             return $user;
         }
 
-        if (empty($this->options['confirmed_disabled'])) {
-            $message = $this->options['confirmed_message'];
-            // TODO: This is always empty!
-            $message_text = $this->options['confirmed_message_text'];
-            $subject = $this->options['confirmed_subject'];
-
-            $this->mail($user->email, $newsletter->replace($subject, $user), $newsletter->replace($message, $user));
-        }
+        $this->send_message('confirmed', $user);
 
         return $user;
+    }
+
+    function send_message($type, $user) {
+        if (empty($this->options[$type . '_disabled'])) {
+            $message = $this->options[$type . '_message'];
+            //$message_text = $this->options[$type . '_message_text'];
+            $subject = $this->options[$type . '_subject'];
+
+            $this->mail($user->email, $this->replace($subject, $user), $this->replace($message, $user));
+        }
     }
 
     /**
@@ -1759,12 +1761,13 @@ class NewsletterSubscription extends NewsletterModule {
 
     function get_subscription_form_minimal($attrs) {
         $options_profile = get_option('newsletter_profile');
-        if (!is_array($attrs))
+        if (!is_array($attrs)) {
             $attrs = array();
-        $attrs = array_merge(array('referrer' => 'minimal', 'button' => $options_profile['subscribe'], 'placeholder' => $options_profile['email']), $attrs);
+        }
+        $attrs = array_merge(array('class'=>'', 'referrer' => 'minimal', 'button' => $options_profile['subscribe'], 'placeholder' => $options_profile['email']), $attrs);
 
         $form = '';
-        $form .= '<div class="tnp tnp-subscription-minimal">';
+        $form .= '<div class="tnp tnp-subscription-minimal ' . $attrs['class'] . '">';
         $form .= '<form action="' . esc_attr(home_url('/')) . '?na=s" method="post">';
         $form .= '<input type="hidden" name="nr" value="' . esc_attr($attrs['referrer']) . '">';
         $form .= '<input class="tnp-email" type="email" required name="ne" value="" placeholder="' . esc_attr($attrs['placeholder']) . '">';

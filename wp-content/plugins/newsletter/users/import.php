@@ -166,7 +166,7 @@ if ($controls->is_action('import')) {
 
         <table class="form-table">
 
-            <tr valign="top">
+            <tr>
                 <th><?php _e('Import Subscribers As', 'newsletter') ?></th>
                 <td>
                     <?php $controls->select('import_as', array('C' => __('Confirmed', 'newsletter'), 'S' => __('Not confirmed', 'newsletter'))); ?>
@@ -175,7 +175,7 @@ if ($controls->is_action('import')) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr>
                 <th><?php _e('Import mode', 'newsletter') ?></th>
                 <td>
                     <?php $controls->select('mode', array('update' => 'Update', 'overwrite' => 'Overwrite', 'skip' => 'Skip')); ?>
@@ -188,7 +188,7 @@ if ($controls->is_action('import')) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr>
                 <th><?php _e('Lists', 'newsletter') ?></th>
                 <td>
                     <?php $controls->preferences_group('preferences', true); ?>
@@ -198,14 +198,14 @@ if ($controls->is_action('import')) {
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr>
                 <th><?php _e('Field separator', 'newsletter') ?></th>
                 <td>
                     <?php $controls->select('separator', array(';' => 'Semicolon', ',' => 'Comma', 'tab' => 'Tabulation')); ?>
                 </td>
             </tr>
 
-            <tr valign="top">
+            <tr>
                 <th>
                     <?php _e('CSV file', 'newsletter') ?>
             <div class="tnp-tip">
@@ -219,7 +219,7 @@ if ($controls->is_action('import')) {
                 <input type="file" name="csv_file" />
             </td>
             </tr>
-            <tr valign="top">
+            <tr>
                 <th>CSV text
             <div class="tnp-tip">
                 <span class="tip-button">Tip</span>

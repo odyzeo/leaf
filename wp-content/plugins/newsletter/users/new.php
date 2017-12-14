@@ -45,7 +45,7 @@ if ($controls->is_action('save')) {
             <?php $controls->init(); ?>
 
             <table class="form-table">
-                <tr valign="top">
+                <tr>
                     <th><?php _e('Email', 'newsletter')?></th>
                     <td>
                         <?php $controls->text_email('email', 60); ?>

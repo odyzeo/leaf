@@ -1173,7 +1173,7 @@
 					var $self = $(this);
 					$(key + '-mode-wrap', control.container).hide();
 					$(key + '-' + $self.val() + '-mode', control.container).show();
-
+					
 					control.value[control.id].mode = $self.val();
 					$field.val(JSON.stringify(control.value[control.id])).trigger('change');
 				});
@@ -1208,6 +1208,33 @@
 		},
 		getCurrentDevice: function() {
 			return api.previewedDevice.get();
+		},
+		radioChange: function( $obj, key ) {
+			var control = this,
+				$field = $(control.field, control.container),
+				initVal = $obj.find( 'input[type="radio"]:checked' ).val();
+
+			$obj.find( 'input[type="radio"]' ).on('click', function () {
+				var val = $(this).val();
+
+				if ( control.isResponsiveStyling() ) {
+					if ( _.isUndefined( control.value[control.id][control.getCurrentDevice()] ) ) 
+						control.value[control.id][control.getCurrentDevice()] = {};
+
+					control.value[control.id][control.getCurrentDevice()][key] = val;
+				} else {
+					control.value[control.id][key] = val;
+					$obj.closest( '.customize-control' ).data( 'deskValue', val );
+				}
+
+				$obj.nextAll( '[class*="-mode-wrap"]' ).hide();
+				$obj.nextAll( '[class*="-' + val + '-mode"]' ).show();
+
+				$field.val(JSON.stringify(control.value[control.id])).trigger('change');
+			});
+
+			$obj.nextAll( '[class*="-mode-wrap"]' ).hide();
+			$obj.nextAll( '[class*="-' + initVal + '-mode"]' ).show();
 		}
 
 	});
@@ -1224,7 +1251,16 @@
 			var control = this,
 					$field = $(control.field, control.container);
 
-			control.value[control.id] = $field.val() ? $.parseJSON($field.val()) : {};
+			/**
+			 * verify the JSON data, this is required in order to prevent breaking the Customizer interface
+			 * if the field contains invalid JSON: it is ignored instead.
+			 */
+			try {
+				control.value[control.id] = $field.val() ? $.parseJSON($field.val()) : {};
+			}
+			catch( error ) {
+				control.value[control.id] = {};
+			}
 
 			// Checkbox to hide controls
 			control.collapse($('.disable-control', control.container));
@@ -1237,6 +1273,12 @@
 
 			// Font size unit
 			control.dropdown($('.font_size_unit', control.container), 'sizeunit');
+
+			// Letter spacing numeric
+			control.input($('.letter_spacing', control.container), 'letterspacing');
+
+			// Letter spacing unit
+			control.dropdown($('.letter_spacing_unit', control.container), 'letterspacingunit');
 
 			// Line height numeric
 			control.input($('.font_line_num', control.container), 'linenum');
@@ -1276,9 +1318,6 @@
 
 			control.value[control.id] = $field.val() ? $.parseJSON($field.val()) : {};
 
-			// Logo Mode Changer
-			control.changeMode('.logo');
-
 			// Site title
 			control.inputOption($('.site-name', control.container), 'blogname');
 
@@ -1310,6 +1349,12 @@
 			// Line height unit
 			control.dropdown($('.font_line_unit', control.container), 'lineunit');
 			
+			// Letter spacing numeric
+			control.input($('.letter_spacing', control.container), 'letterspacing');
+
+			// Letter spacing unit
+			control.dropdown($('.letter_spacing_unit', control.container), 'letterspacingunit');
+			
 			// Font Weight
 			control.dropdown($('.font_weight_select', control.container), 'weight');
 
@@ -1324,6 +1369,9 @@
 
 			// Color Picker
 			control.pickColor();
+
+			// Logo Mode Changer
+			control.radioChange( $( '.logo-modes', control.container ), 'mode' )
 		}
 	});
 	api.controlConstructor.themify_logo = api.ThemifyLogo;
@@ -1366,6 +1414,12 @@
 
 			// Font size unit
 			control.dropdown($('.font_size_unit', control.container), 'sizeunit');
+
+			// Letter spacing numeric
+			control.input($('.letter_spacing', control.container), 'letterspacing');
+
+			// Letter spacing unit
+			control.dropdown($('.letter_spacing_unit', control.container), 'letterspacingunit');
 
 			// Line height numeric
 			control.input($('.font_line_num', control.container), 'linenum');
@@ -1896,23 +1950,65 @@
 			////////////////////////////////////////////////////////////////////////////
 			// Export Tool End
 			////////////////////////////////////////////////////////////////////////////
-			
-			////////////////////////////////////////////////////////////////////////////
-			// Import Tool Start
-			////////////////////////////////////////////////////////////////////////////
-			
-			var $plupload = $('.customize-import .plupload-upload-uic');
-			themify_create_pluploader($plupload);
-			$plupload.find('.plupload-button').css({'padding':'0px', 'border':'none', 'color':'inherit', 'background':'none', 'margin':'0px', 'font-family':'inherit', 'font-size':'inherit', 'box-shadow':'none', 'font-weight':'inherit', 'height':'inherit'});
-			
-			////////////////////////////////////////////////////////////////////////////
-			// Import Tool End
-			////////////////////////////////////////////////////////////////////////////
 		}
 	});
 	api.controlConstructor.themify_tools = api.ThemifyTools;
 	////////////////////////////////////////////////////////////////////////////
 	// Tools Control End
 	////////////////////////////////////////////////////////////////////////////
+
+	// Responsive Switcher Helper
+
+	function themifyResponsiveHelper() {
+		var buttons = '#customize-footer-actions .devices button', width, css;
+
+		$( 'body' ).on( 'click', buttons, function() {
+			var device = $( this ).data( 'device' ),
+				preview = $( '#customize-preview' );
+
+			if( typeof themifyCustomizerControls.responsiveBreakpoints === 'object'
+				&& ( width = themifyCustomizerControls.responsiveBreakpoints[ device ] ) ) {
+				if ( device === 'tablet_landscape' ) width = 976; // use this value for preview only
+				css = {
+					width: width + 'px',
+					marginLeft: -width / 2
+				};
+			} else {
+				css = { width: '', marginLeft: '' };
+			}
+
+			preview.css( css );
+		} );
+	}
+	
+	themifyResponsiveHelper();
+
+	// Mobile Menu Customizer
+	/* when closing the Mobile Menu accordion, close the sidemenu panel automatically */
+	$( 'body' ).on( 'click', '#customize-control-start_mobile_menu_acc_ctrl:not(.topen) > .themify-suba-toggle', function ( e ) {
+		var menuPreview = jQuery('#customize-preview > iframe')[0].contentWindow;
+		menuPreview.jQuery('#menu-icon').themifySideMenu( 'hide' );
+	} );
+	/* when Mobile Menu toggle is opened, show the sidemenu panel, activate the Desktop breakpoint and resize the preview window */
+	$( 'body' ).on( 'click', '#customize-control-start_mobile_menu_acc_ctrl.topen > .themify-suba-toggle', function ( e ) {
+		var menuPreview = jQuery('#customize-preview > iframe')[0].contentWindow;
+		$('#customize-footer-actions .preview-desktop').click();
+		// wait 1 second for resizing to desktop to finish
+		setTimeout( function(){
+			if( $( '#customize-preview' ).width() > themifyCustomizerControls.mobile_menu_trigger_point ) {
+				$( '#customize-preview' ).css( {
+					width: themifyCustomizerControls.mobile_menu_trigger_point + 'px',
+					marginLeft: ( $( '#customize-preview' ).width() - themifyCustomizerControls.mobile_menu_trigger_point ) / 2
+				} );
+			}
+			menuPreview.jQuery('#menu-icon').themifySideMenu( 'show' );
+		}, 1000 );
+	});
+	/* when switching to a breakpoint other than desktop, close the Mobile Menu settings */
+	$( 'body' ).on( 'click', '#customize-footer-actions button', function(){
+		if( ! $( this ).hasClass( 'preview-desktop' ) ) {
+			$( '#customize-control-start_mobile_menu_acc_ctrl.topen .themify-suba-toggle' ).click();
+		}
+	} );
 
 })(wp, jQuery);

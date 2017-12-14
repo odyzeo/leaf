@@ -56,7 +56,8 @@ class NewsletterWidgetMinimal extends WP_Widget {
         if (!is_array($instance)) {
             $instance = array();
         }
-        $instance = array_merge(array('title' => '', 'text' => '', 'button'=>''), $instance);
+        $profile_options = NewsletterSubscription::instance()->get_options('profile');
+        $instance = array_merge(array('title' => '', 'text' => '', 'button'=>$profile_options['subscribe'], 'nl'=>array()), $instance);
         $options_profile = get_option('newsletter_profile');
         if (!is_array($instance['nl'])) {
             $instance['nl'] = array();

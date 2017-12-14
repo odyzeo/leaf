@@ -103,19 +103,22 @@ function themify_shortcode( $atts, $content = null, $code = '' ) {
 			$html.='>'.do_shortcode( $content ).'</a>';
 			return $html;
 		break;
-		case 'quote':
+                case 'quote':
 		case 'themify_quote':
-			return '<blockquote class="shortcode quote">' . do_shortcode( preg_replace( array( '#<p>\s*+(<br\s*/*>)?\s*</p>#i', '~\s?<p>(\s|&nbsp;)+</p>\s?~' ), '', force_balance_tags( $content ) ) ) . '</blockquote>';
-		break;
 		case 'col':
 		case 'themify_col':
-			extract( shortcode_atts( array( 'grid' => '' ), $atts, 'themify_col' ) );
-			return '<div class="shortcode col' . esc_attr( $grid ) . '">' . do_shortcode( preg_replace( array( '#<p>\s*+(<br\s*/*>)?\s*</p>#i', '~\s?<p>(\s|&nbsp;)+</p>\s?~' ), '', force_balance_tags( $content ) ) ) . '</div>';
-		break;
-		case 'sub_col':
+                case 'sub_col':
 		case 'themify_sub_col':
-			extract( shortcode_atts( array( 'grid' => '' ), $atts, 'themify_sub_col' ) );
-			return '<div class="shortcode col' . esc_attr( $grid ) . '">' . do_shortcode( preg_replace( array( '#<p>\s*+(<br\s*/*>)?\s*</p>#i', '~\s?<p>(\s|&nbsp;)+</p>\s?~' ), '', force_balance_tags( $content ) ) ) . "</div>";
+                    $content = do_shortcode( preg_replace( array( '#<p>\s*+(<br\s*/*>)?\s*</p>#i', '~\s?<p>(\s|&nbsp;)+</p>\s?~' ), '', force_balance_tags( $content ) ) ) ;
+                    if($code==='quote' || $code==='themify_quote'){
+                        $content = '<blockquote class="shortcode quote">' . $content . '</blockquote>';
+                    }
+                    else{
+                        $type = $code ==='col' || $code==='themify_col'?'themify_col':'themify_sub_col';
+                        extract( shortcode_atts( array( 'grid' => '' ), $atts, $type ) );
+                        $content = '<div class="shortcode col' . esc_attr( $grid ) . '">' . $content. '</div>';
+                    }
+                    return $content;
 		break;
 		case 'img':
 		case 'themify_img':
@@ -142,7 +145,7 @@ function themify_shortcode( $atts, $content = null, $code = '' ) {
 					$hrstyle .= 'width:' . $width . ';';
 				}
 				if( '' != $border_width  ){
-					if( preg_match('/MSIE 7/i', $_SERVER['HTTP_USER_AGENT'] ) ){
+					if( strpos('/MSIE 7/i', $_SERVER['HTTP_USER_AGENT'] )!==false ){
 						$hrstyle .= 'height:' . $border_width . ';';
 					}
 					$hrstyle .= 'border-width:' . $border_width . ';';
@@ -178,18 +181,18 @@ function themify_shortcode( $atts, $content = null, $code = '' ) {
 				$height = $height . 'px';
 			}
 
-			if ('yes' == $draggable && 'yes' == $draggable_disable_mobile_map && wp_is_mobile()){
+			if ('yes' === $draggable && 'yes' === $draggable_disable_mobile_map && wp_is_mobile()){
 				$draggable = 'disable';
 			}
 			$num = rand(0,10000);
 			$data['address'] = $address;
 			$data['zoom'] = $zoom;
 			$data['type'] = $type;
-			$data['scroll'] =  $scroll_wheel =='yes';
-			$data['drag'] =  $draggable=='yes';
+			$data['scroll'] =  $scroll_wheel ==='yes';
+			$data['drag'] =  $draggable==='yes';
 			return '
 			<div class="shortcode map">
-				<div data-map="'.esc_attr(base64_encode(json_encode($data))).'" id="themify_map_canvas_' . esc_attr( $num ) . '" style="display: block;width:' . esc_attr( $width ) . ';height:' . esc_attr( $height ) . ';" class="map-container themify_map"></div>
+				<div data-map="'.esc_attr( base64_encode(json_encode( $data) ) ).'" id="themify_map_canvas_' . $num . '" style="display: block;width:' .  $width  . ';height:' . $height . ';" class="map-container themify_map"></div>
 			</div>';
 		break;
 		case 'video':
@@ -208,7 +211,7 @@ function themify_shortcode( $atts, $content = null, $code = '' ) {
 				stripos($_SERVER['HTTP_USER_AGENT'], 'iPad') ||	stripos($_SERVER['HTTP_USER_AGENT'], 'Android') ) {
 				return '<div class="shortcode video"><video src="' . esc_url( $src ) . '"></video></div>';
 			} else {
-				return '<div class="shortcode video themify_video_desktop"><a href="' . esc_url( $src ) . '" style="display:block;width:' . esc_attr( $width ) . ';height:' . esc_attr( $height ) . '" id="themify_player_' . esc_attr( $num ) . '"></a></div>';
+				return '<div class="shortcode video themify_video_desktop"><a href="' . esc_url( $src ) . '" style="display:block;width:' . $width. ';height:' . $height  . '" id="themify_player_' . $num . '"></a></div>';
 			}
 		break;
 	}
@@ -231,20 +234,17 @@ function themify_parse_shortcode_query_atts( $atts, $shortcode = '', $defaults =
 		'limit' => '5',
 		'offset' => '0',
 		'post_type' => 'post',
-		'taxonomy' => 'category',
+		/**
+		 * backward compatibility fix
+		 * get terms from proper taxonomy for post types registered by Themify themes
+		 */
+		'taxonomy' => ( isset( $atts['post_type'] ) && 'post' != $atts['post_type'] ) ? $atts['post_type'] . '-category' : 'category',
 		'order' => 'DESC',
 		'orderby' => 'date',
 		'taxonomy_relation' => 'AND',
 	) );
 
 	extract( shortcode_atts( $defaults, $atts, $shortcode ) );
-
-	/**
-	 * Get terms from proper taxonomy for post types registered by Themify themes
-	 */
-	if ( 'post' != $post_type && 'category' == $taxonomy ) {
-		$taxonomy = $post_type . '-category';
-	}
 
 	$query_args = array(
 		'posts_per_page' => $limit,
@@ -498,7 +498,7 @@ function themify_shortcode_slider( $atts, $content = null ){
 	$js_data['height'] = $height;
 
 	$strsldr = '<!-- shortcode slider --><div id="slider-' . esc_attr( $js_data['numsldr'] ) . '" class="shortcode clearfix slider ' . esc_attr( $class ) . '">
-	<ul data-slider="'.esc_attr(base64_encode( json_encode( $js_data ) ) ). '" class="slides">' . $content . '</ul>';	
+	<ul data-slider=\''.esc_attr( base64_encode( json_encode( $js_data ) ) ). '\' class="slides">' . $content . '</ul>';	
 	$strsldr .= '</div>
 		<!-- /shortcode slider -->';
 	return $strsldr;
@@ -570,7 +570,7 @@ function themify_shortcode_post_slider( $atts, $content = null ) {
 		$js_data['height'] = $height;
 		$js_data['numsldr'] = rand(0,1011).uniqid();
 		$postsliderstr = '<!-- shortcode post_slider --> <div id="slider-' . esc_attr(  $js_data['numsldr'] ) . '" style="width: ' . esc_attr( $width ) . ';" class="shortcode clearfix post-slider ' . $class . '">
-		<ul class="slides" data-slider="'.esc_attr(base64_encode(json_encode($js_data))).'">';
+		<ul class="slides" data-slider=\''.esc_attr( base64_encode( json_encode( $js_data ) ) ).'\'>';
 		unset($js_data);
 
 		$themify_save = clone $themify;
@@ -700,9 +700,14 @@ function themify_shortcode_twitter( $atts, $content = null ) {
 
 	extract( shortcode_atts( array(
 		'username' => '',
+		'type' => '',
+		'timeline_height' => 400,
+		'timeline_width' => 300,
 		'show_count' => 5,
 		'show_timestamp' => 'true',
+		'hide_footer' => false,
 		'show_follow' => 'false',
+		'embed_code' => '',
 		'follow_text' => __('&rarr; Follow me', 'themify'),
 		'include_retweets' => 'false',
 		'exclude_replies' => 'false',
@@ -718,6 +723,31 @@ function themify_shortcode_twitter( $atts, $content = null ) {
 
 	if ( 'true' == $is_widget ) {
 		$transient_id = $widget_id;
+	}
+	
+	if( $type ) {
+		if( $type == 'type-timeline') {
+			$screen_name = sanitize_user( strip_tags( $username ) );
+			$data_chrome = '';
+			if( $hide_footer ) {
+				$data_chrome = 'data-chrome="nofooter"';
+			}
+			
+			$show_replies = false; 
+			if( $exclude_replies == 'false' ) {
+				$show_replies = true;
+			}
+			
+			$out = "<a class='twitter-timeline' {$data_chrome} data-show-replies='$show_replies' data-height='$timeline_height' data-width='$timeline_width'
+	  					href='https://twitter.com/{$screen_name}'>
+							Tweets by @{$screen_name}
+					</a>
+					<script async src='//platform.twitter.com/widgets.js' charset='utf-8'></script>";
+			
+			return $out;
+		}
+		
+		return $embed_code;
 	}
 
 	$args = array(
@@ -817,6 +847,7 @@ function themify_twitter_get_data ( $transient_id, $args ) {
  */
 function themify_request_tweets($args) {
 	$screen_name = urlencode(strip_tags( sanitize_user( str_replace( '@', '', $args['username'] ) ) ));
+	$count = 0;
 
 	if ( $args['limit'] != '' ) {
 		$count = intval( $args['limit'] );

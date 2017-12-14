@@ -1041,20 +1041,11 @@ class NewsletterModule {
                 $text = $this->replace_url($text, 'EMAIL_URL', $home_url . '?na=v&id=' . $email_id . '&amp;nk=' . $nk);
             }
 
-//            for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-//                $text = $this->replace_url($text, 'LIST_' . $i . '_SUBSCRIPTION_URL', self::add_qs($base, 'nm=ls&amp;nl=' . $i . $id_token));
-//                $text = $this->replace_url($text, 'LIST_' . $i . '_UNSUBSCRIPTION_URL', self::add_qs($base, 'nm=lu&amp;nl=' . $i . $id_token));
-//            }
-
-            // Profile fields change links
-//            $text = $this->replace_url($text, 'SET_SEX_MALE', NEWSLETTER_CHANGE_URL . '?nk=' . $nk . '&nf=sex&nv=m');
-//            $text = $this->replace_url($text, 'SET_SEX_FEMALE', NEWSLETTER_CHANGE_URL . '?nk=' . $nk . '&nf=sex&nv=f');
-//            $text = $this->replace_url($text, 'SET_FEED', NEWSLETTER_CHANGE_URL . '?nk=' . $nk . '&nv=1&nf=feed');
-//            $text = $this->replace_url($text, 'UNSET_FEED', NEWSLETTER_CHANGE_URL . '?nk=' . $nk . '&nv=0&nf=feed');
-//            for ($i = 1; $i <= NEWSLETTER_LIST_MAX; $i++) {
-//                $text = $this->replace_url($text, 'SET_PREFERENCE_' . $i, NEWSLETTER_CHANGE_URL . '?nk=' . $nk . '&nv=1&nf=preference_' . $i);
-//                $text = $this->replace_url($text, 'UNSET_PREFERENCE_' . $i, NEWSLETTER_CHANGE_URL . '?nk=' . $nk . '&nv=0&nf=preference_' . $i);
-//            }
+        } else {
+            $text = $this->replace_url($text, 'SUBSCRIPTION_CONFIRM_URL', '#');
+            $text = $this->replace_url($text, 'ACTIVATION_URL', '#');
+            $text = $this->replace_url($text, 'UNSUBSCRIPTION_CONFIRM_URL', '#');
+            $text = $this->replace_url($text, 'UNSUBSCRIPTION_URL', '#');
         }
 
         if (strpos($text, '{subscription_form}') !== false) {
@@ -1174,10 +1165,12 @@ class NewsletterModule {
     }
 
     static function to_int_id($var) {
-        if (is_object($var))
+        if (is_object($var)) {
             return (int) $var->id;
-        if (is_array($var))
+        }
+        if (is_array($var)) {
             return (int) $var['id'];
+        }
         return (int) $var;
     }
 

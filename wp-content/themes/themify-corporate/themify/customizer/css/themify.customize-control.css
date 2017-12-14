@@ -69,6 +69,22 @@
 	margin-bottom: 0;
 }
 
+#sub-accordion-section-themify_options .customize-import {
+	position: relative;
+	z-index: 1;
+}
+#sub-accordion-section-themify_options .customize-import .customize-import-icon {
+	position: absolute;
+	left: 18px;
+	top: 5px;
+}
+#sub-accordion-section-themify_options .customize-import #customizer-importplupload-upload-ui {
+	vertical-align: middle;
+}
+#sub-accordion-section-themify_options .customize-import #customizer-importplupload-upload-ui input {
+	padding-left: 24px !important;
+}
+
 /* Sub Accordion
 ------------------------------------------------------*/
 .customize-control-themify_subaccordion_start {
@@ -232,13 +248,13 @@ a.themify-suba-toggle:hover {
 
 /* Font Control
 ------------------------------------------------------*/
-.customize-control input.font_size_num, .customize-control input.font_line_num {
+.customize-control input.font_size_num, .customize-control input.font_line_num, .customize-control input.letter_spacing {
 	width: 76px;
 	padding: 3px 0 3px 6px;
 	vertical-align: top;
 	float: left;
 }
-.customize-control select.font_size_unit, .customize-control select.font_line_unit {
+.customize-control select.font_size_unit, .customize-control select.font_line_unit, .customize-control select.letter_spacing_unit {
 	min-width: 0;
 }
 .customize-control .custom-select.font-family-select {
@@ -254,7 +270,6 @@ li.customize-control[class*=themify] button {
 	height: 30px;
 	background: #fff;
 	border: 1px solid #b6b6b6;
-	-webkit-border-radius: 0;
 	border-radius: 0;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -641,9 +656,18 @@ input[type=text].dimension-width,
 	cursor:pointer;
 }
 
-.customize-import .plupload-upload-uic{
-	display:inline;
-	vertical-align:top;
+.customize-import .plupload-upload-uic .plupload-button {
+	display: inline;
+	vertical-align: top;
+	padding: 0;
+	border: none;
+	color: inherit;
+	background: none;
+	margin: 0;
+	font-family: inherit;
+	font-size: inherit;
+	box-shadow: none;
+	font-weight: inherit;
 }
 /* Custom Dropdowns
 ------------------------------------------------------*/
@@ -718,21 +742,22 @@ input[type=text].dimension-width,
 .customize-control input.margin-width[type=text],
 .customize-control input.padding-width[type=text],
 .customize-control input.font_size_num,
-.customize-control input.font_line_num {
+.customize-control input.font_line_num,
+.customize-control input.letter_spacing {
 	padding-right: 36px;
 }
 
 /* Adjustments for custom select next to other controls
  -------------------------------------------------------*/
-.dimension-width + .custom-select, .font_size_num + .custom-select, .font_line_num + .custom-select {
+.dimension-width + .custom-select, .font_size_num + .custom-select, .font_line_num + .custom-select, .letter_spacing + .custom-select {
 	left: -43px;
 	width: 41px;
 	border: none;
 }
-.font_size_num + .custom-select + .custom-select, .font_line_num + .custom-select + label, .dimension-width + .custom-select + .custom-select, .custom-select + .dimension-row-label {
+.font_size_num + .custom-select + .custom-select, .font_line_num + .custom-select + label, .letter_spacing + .custom-select + label , .dimension-width + .custom-select + .custom-select, .custom-select + .dimension-row-label {
 	margin-left: -36px;
 }
-.dimension-width + .custom-select:after, .font_size_num + .custom-select:after, .font_line_num + .custom-select:after{
+.dimension-width + .custom-select:after, .font_size_num + .custom-select:after, .font_line_num + .custom-select:after, .letter_spacing + .custom-select:after{
 	background: none;
 }
 .customize-control .nav-menu-select {
@@ -779,7 +804,8 @@ input[type=text].dimension-width {
 }
 select.dimension-unit,
 select.font_size_unit,
-select.font_line_unit {
+select.font_line_unit,
+select.letter_spacing_unit {
 	width: 70px;
 	max-width: 150%;
 	color: #aaa;
@@ -812,10 +838,7 @@ select.font_line_unit {
 	vertical-align: bottom;
 	padding: 0 5px;
 }
-#accordion-section-themify_options .responsive-na .themify-subaccordion li[id*="logo"],
-#sub-accordion-section-themify_options .responsive-na .themify-subaccordion li[id*="logo"] {
-	display: none !important;
-}
+
 .devices [data-device] {
 	position:relative;
 }
@@ -867,10 +890,26 @@ select.font_line_unit {
 	width: 976px;
 }
 
+.preview-tablet .wp-full-overlay-main {
+	width: 768px;
+	margin: auto 0 auto -384px
+}
+
 /* clearfix */
 #customize-theme-controls ul:after,
 #customize-theme-controls li:after { 
 	content: "";
 	display: table;
 	clear: both;
+}
+
+/* Customize Footer Actions
+------------------------------------------------------*/
+.wp-full-overlay .wp-full-overlay-footer .devices {
+	display: block;
+}
+@media screen and (max-width: 782px) {
+	.wp-customizer .wp-full-overlay-footer .button {
+		height: 45px;
+	}
 }

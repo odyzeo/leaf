@@ -44,6 +44,7 @@ class Themify {
 	public $query_post_type = '';
 	public $query_taxonomy = '';
 	public $paged = '';
+	public $query_all_post_types;
 
 	public $use_original_dimensions = '';
 	
@@ -137,28 +138,37 @@ class Themify {
 		$this->orderby = themify_check('setting-index_orderby')? themify_get('setting-index_orderby'): 'date';
 		
 		$this->display_content = themify_get('setting-default_layout_display');
+		$this->excerpt_length = themify_get( 'setting-default_excerpt_length' );
 		$this->avatar_size = apply_filters('themify_author_box_avatar_size', 96);
 		
 		$this->posts_per_page = get_option('posts_per_page');
 		
 		add_action('template_redirect', array(&$this, 'template_redirect'));
+
+		if( $this->display_content === 'excerpt' && ! empty( $this->excerpt_length ) ) {
+			add_filter( 'excerpt_length', array( $this, 'custom_except_length' ), 999 );
+		}
 	}
 
 	function template_redirect() {
 		
 		$post_image_width = $post_image_height = '';
 		if (is_page()) {
-                    if(post_password_required()){
-                        return;
-                    }
-                    $this->page_id = get_the_ID();
-                    $this->post_layout = themify_get( 'layout', 'list-post' );
-                    // set default post layout
-                    if($this->post_layout == ''){
-                            $this->post_layout = 'list-post';
-                    }
-                    $post_image_width = themify_get('image_width');
-                    $post_image_height = themify_get('image_height');
+			if(post_password_required()){
+				return;
+			}
+			$this->page_id = get_the_ID();
+			$this->post_layout = themify_get( 'layout', 'list-post' );
+			// set default post layout
+			if($this->post_layout == ''){
+					$this->post_layout = 'list-post';
+			}
+			$post_image_width = themify_get('image_width');
+			$post_image_height = themify_get('image_height');
+
+			if( themify_get( 'query_all_post_types' ) ) {
+				$this->query_all_post_types = themify_get( 'query_all_post_types' ) === 'yes';
+			}
 		}
 		if(!isset($post_image_width) || $post_image_width===''){
                     $post_image_width = themify_get('setting-image_post_width');
@@ -304,8 +314,8 @@ class Themify {
 				$this->query_post_type = 'post';
 				if(themify_check('posts_per_page'))
 					$this->posts_per_page = themify_get('posts_per_page');
-				$this->order = (themify_get('order') && '' != themify_get('order')) ? themify_get('order') : (themify_check('setting-index_order') ? themify_get('setting-index_order') : 'DESC');
-				$this->orderby = (themify_get('orderby') && '' != themify_get('orderby')) ? themify_get('orderby') : (themify_check('setting-index_orderby') ? themify_get('setting-index_orderby') : 'date');
+				$this->order = themify_get( 'order', 'desc' );
+				$this->orderby = themify_get( 'orderby', 'date' );
 				if ( 'default' != themify_get( 'hide_date' ) ) {
 					$this->hide_date = themify_get( 'hide_date' );
 				} else {
@@ -429,6 +439,10 @@ class Themify {
 			$this->image_align = themify_get('setting-image_post_align');
 			$this->image_setting = 'setting=image_post&';
 		}
+	}
+
+	function custom_except_length() {
+		return apply_filters( 'themify_custom_excerpt_length', $this->excerpt_length );
 	}
 }
 

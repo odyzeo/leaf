@@ -48,7 +48,7 @@ function themify_fontello_input_callback( $data = array() ) {
 			</div>
 			<br>
 			<span class="description">
-			'. sprintf( __( 'Go to <a href="%s">fontello.com</a> and create a package, then upload it here. The icon package will be available on Themify\'s icon library where you click "Insert Icon".' ), 'http://fontello.com' ) .'
+			'. sprintf( __( 'Go to <a href="%s">fontello.com</a> and create a package, then upload it here. The icon package will be available on Themify\'s icon library where you click "Insert Icon".', 'themify' ), 'http://fontello.com' ) .'
 			</span>
 		</div>
 	</div>';
@@ -61,14 +61,14 @@ function themify_fontello_input_callback( $data = array() ) {
  */
 function themify_enqueue_fontello() {
 	if( themify_check( 'setting-fontello' ) && $path = themify_fontello_path() ) {
-		wp_enqueue_style( 'themify-fontello', $path['url'] . 'css/fontello-embedded.css' );
+		wp_enqueue_style( 'themify-fontello', $path['url'] . 'css/' . themify_fontello_get_config( 'name', 'fontello' ) . '-embedded.css' );
 	}
 }
 add_action( 'themify_icon_picker_enqueue', 'themify_enqueue_fontello' );
 
 function themify_fontello_main_script_vars( $vars ) {
 	if( themify_check( 'setting-fontello' ) && $path = themify_fontello_path() ) {
-		$vars['fontello_path' ] = $path['url'] . 'css/fontello-embedded.css';
+		$vars['fontello_path' ] = $path['url'] . 'css/' . themify_fontello_get_config( 'name', 'fontello' ) . '-embedded.css';
 	}
 
 	return $vars;
@@ -106,4 +106,32 @@ function themify_fontello_path() {
 			'dir' => trailingslashit( $dest . $base )
 		);
 	}
+}
+
+/**
+ * Get Fontello configration from config.json file
+ *
+ * Can optionally provide $name to retrieve a specific key
+ *
+ * @return array|false
+ */
+function themify_fontello_get_config( $name = null, $default = null ) {
+	$config = false;
+	if( themify_check( 'setting-fontello' ) ) {
+		$path = themify_fontello_path();
+		if( $path ) {
+			if( $config = themify_get_file_contents( $path['dir'] . 'config.json' ) ) {
+				$config = json_decode( $config, true );
+				if( isset( $name ) ) {
+					if( isset( $config[ $name ] ) && ! empty( $config[ $name ] ) ) {
+						$config = $config[ $name ];
+					} else {
+						$config = $default;
+					}
+				}
+			}
+		}
+	}
+
+	return $config;
 }

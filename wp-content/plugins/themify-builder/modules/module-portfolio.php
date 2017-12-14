@@ -4,13 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Portfolio
  * Description: Display portfolio custom post type
  */
-class TB_Portfolio_Module extends Themify_Builder_Module {
-	var $cpt_options = array(
-		'show_in_nav_menus' => true
-	);
-	var $tax_options = array(
-		'show_in_nav_menus' => true
-	);
+class TB_Portfolio_Module extends Themify_Builder_Component_Module {
 
 	function __construct() {
 		parent::__construct(array(
@@ -21,16 +15,20 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 		///////////////////////////////////////
 		// Load Post Type
 		///////////////////////////////////////
-		$this->meta_box = $this->set_metabox();
-		$this->initialize_cpt( array(
-			'plural' => __('Portfolios', 'themify'),
-			'singular' => __('Portfolio', 'themify'),
-			'rewrite' => apply_filters('themify_portfolio_rewrite', 'project'),
-			'menu_icon' => 'dashicons-portfolio'
-		));
+		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 
-		if ( ! shortcode_exists( 'themify_portfolio_posts' ) ) {
-			add_shortcode( 'themify_portfolio_posts', array( $this, 'do_shortcode' ) );
+		if( ! is_plugin_active( 'themify-portfolio-post/themify-portfolio-post.php' ) ) {
+			$this->meta_box = $this->set_metabox();
+			$this->initialize_cpt( array(
+				'plural' => __('Portfolios', 'themify'),
+				'singular' => __('Portfolio', 'themify'),
+				'rewrite' => apply_filters('themify_portfolio_rewrite', 'project'),
+				'menu_icon' => 'dashicons-portfolio'
+			));
+
+			if ( ! shortcode_exists( 'themify_portfolio_posts' ) ) {
+				add_shortcode( 'themify_portfolio_posts', array( $this, 'do_shortcode' ) );
+			}
 		}
 	}
 
@@ -39,7 +37,7 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 		$category = isset( $module['mod_settings']['category_portfolio'] ) ? $module['mod_settings']['category_portfolio'] : '';
 		$slug_query = isset( $module['mod_settings']['query_slug_portfolio'] ) ? $module['mod_settings']['query_slug_portfolio'] : '';
 
-		if ( 'category' == $type ) {
+		if ( 'category' === $type ) {
 			return sprintf( '%s : %s', __('Category', 'themify'), $category );
 		} else {
 			return sprintf( '%s : %s', __('Slugs', 'themify'), $slug_query );
@@ -47,8 +45,10 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 	}
 
 	public function get_options() {
-		$image_sizes = themify_get_image_sizes_list( false );
-		$options = array(
+		
+                $is_img_enabled = Themify_Builder_Model::is_img_php_disabled();
+		$image_sizes = !$is_img_enabled?themify_get_image_sizes_list( false ):array();
+		return array(
 			array(
 				'id' => 'mod_title_portfolio',
 				'type' => 'text',
@@ -59,11 +59,12 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'layout_portfolio',
 				'type' => 'layout',
 				'label' => __('Portfolio Layout', 'themify'),
+                                'mode'=>'sprite',
 				'options' => array(
-					array('img' => 'grid4.png', 'value' => 'grid4', 'label' => __('Grid 4', 'themify')),
-					array('img' => 'grid3.png', 'value' => 'grid3', 'label' => __('Grid 3', 'themify')),
-					array('img' => 'grid2.png', 'value' => 'grid2', 'label' => __('Grid 2', 'themify')),
-					array('img' => 'fullwidth.png', 'value' => 'fullwidth', 'label' => __('fullwidth', 'themify'))
+					array('img' => 'grid4', 'value' => 'grid4', 'label' => __('Grid 4', 'themify')),
+					array('img' => 'grid3', 'value' => 'grid3', 'label' => __('Grid 3', 'themify')),
+					array('img' => 'grid2', 'value' => 'grid2', 'label' => __('Grid 2', 'themify')),
+					array('img' => 'fullwidth', 'value' => 'fullwidth', 'label' => __('fullwidth', 'themify'))
 				)
 			),
 			array(
@@ -85,14 +86,14 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 					'taxonomy' => 'portfolio-category'
 				),
 				'help' => sprintf(__('Add more <a href="%s" target="_blank">portfolio posts</a>', 'themify'), admin_url('post-new.php?post_type=portfolio')),
-				'wrap_with_class' => 'tf-group-element tf-group-element-category'
+				'wrap_with_class' => 'tb-group-element tb-group-element-category'
 			),
 			array(
 				'id' => 'query_slug_portfolio',
 				'type' => 'text',
 				'label' => __('Portfolio Slugs', 'themify'),
 				'class' => 'large',
-				'wrap_with_class' => 'tf-group-element tf-group-element-post_slug',
+				'wrap_with_class' => 'tb-group-element tb-group-element-post_slug',
 				'help' => '<br/>' . __( 'Insert Portfolio slug. Multiple slug should be separated by comma (,)', 'themify')
 			),
 			array(
@@ -130,7 +131,7 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 					'title' => __('Title', 'themify'),
 					'name' => __('Name', 'themify'),
 					'modified' => __('Modified', 'themify'),
-					'rand' => __('Rand', 'themify'),
+					'rand' => __('Random', 'themify'),
 					'comment_count' => __('Comment Count', 'themify')
 				)
 			),
@@ -148,11 +149,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'hide_feat_img_portfolio',
 				'type' => 'select',
 				'label' => __('Hide Featured Image', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				)
@@ -160,12 +158,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 			array(
 				'id' => 'image_size_portfolio',
 				'type' => 'select',
-				'label' => Themify_Builder_Model::is_img_php_disabled() ? __('Image Size', 'themify') : false,
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
-				'hide' => Themify_Builder_Model::is_img_php_disabled() ? false : true,
+				'label' =>  __('Image Size', 'themify'),
+				'hide' => !$is_img_enabled,
 				'options' => $image_sizes
 			),
 			array(
@@ -184,11 +178,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'unlink_feat_img_portfolio',
 				'type' => 'select',
 				'label' => __('Unlink Featured Image', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				)
@@ -197,11 +188,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'hide_post_title_portfolio',
 				'type' => 'select',
 				'label' => __('Hide Post Title', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				)
@@ -210,11 +198,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'unlink_post_title_portfolio',
 				'type' => 'select',
 				'label' => __('Unlink Post Title', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				)
@@ -223,11 +208,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'hide_post_date_portfolio',
 				'type' => 'select',
 				'label' => __('Hide Post Date', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				)
@@ -236,11 +218,8 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'id' => 'hide_post_meta_portfolio',
 				'type' => 'select',
 				'label' => __('Hide Post Meta', 'themify'),
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
 				)
@@ -250,496 +229,9 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'type' => 'select',
 				'label' => __('Hide Page Navigation', 'themify'),
 				'options' => array(
+                                        ''=>'',
 					'yes' => __('Yes', 'themify'),
 					'no' => __('No', 'themify')
-				)
-			)
-		);
-		return $options;
-	}
-
-	public function get_styling() {
-		$styling = array(
-			// Animation
-			array(
-				'id' => 'separator_animation',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Animation', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'animation_effect',
-				'type' => 'animation_select',
-				'label' => __( 'Effect', 'themify' )
-			),
-			// Background
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Background', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __('Background Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => array( '.module-portfolio .post' )
-			),
-			// Font
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Font', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'font_family',
-				'type' => 'font_select',
-				'label' => __('Font Family', 'themify'),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => array( '.module-portfolio .post-title', '.module-portfolio .post-title a' ),
-			),
-			array(
-				'id' => 'font_color',
-				'type' => 'color',
-				'label' => __('Font Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.module-portfolio .post', '.module-portfolio h1', '.module-portfolio h2', '.module-portfolio h3:not(.module-title)', '.module-portfolio h4', '.module-portfolio h5', '.module-portfolio h6', '.module-portfolio .post-title', '.module-portfolio .post-title a' ),
-			),
-			array(
-				'id' => 'multi_font_size',
-				'type' => 'multi',
-				'label' => __('Font Size', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'font_size',
-						'type' => 'text',
-						'class' => 'xsmall'
-					),
-					array(
-						'id' => 'font_size_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height',
-				'type' => 'multi',
-				'label' => __('Line Height', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'line_height',
-						'type' => 'text',
-						'class' => 'xsmall'
-					),
-					array(
-						'id' => 'line_height_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'text_align',
-				'label' => __( 'Text Align', 'themify' ),
-				'type' => 'radio',
-				'meta' => array(
-					array( 'value' => '', 'name' => __( 'Default', 'themify' ), 'selected' => true ),
-					array( 'value' => 'left', 'name' => __( 'Left', 'themify' ) ),
-					array( 'value' => 'center', 'name' => __( 'Center', 'themify' ) ),
-					array( 'value' => 'right', 'name' => __( 'Right', 'themify' ) ),
-					array( 'value' => 'justify', 'name' => __( 'Justify', 'themify' ) )
-				),
-				'prop' => 'text-align',
-				'selector' => '.module-portfolio .post',
-			),
-			// Link
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_link',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Link', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'link_color',
-				'type' => 'color',
-				'label' => __('Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-portfolio a'
-			),
-			array(
-				'id' => 'text_decoration',
-				'type' => 'select',
-				'label' => __( 'Text Decoration', 'themify' ),
-				'meta'	=> array(
-					array('value' => '',   'name' => '', 'selected' => true),
-					array('value' => 'underline',   'name' => __('Underline', 'themify')),
-					array('value' => 'overline', 'name' => __('Overline', 'themify')),
-					array('value' => 'line-through',  'name' => __('Line through', 'themify')),
-					array('value' => 'none',  'name' => __('None', 'themify'))
-				),
-				'prop' => 'text-decoration',
-				'selector' => '.module-portfolio a'
-			),
-			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Padding', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_padding_top',
-				'type' => 'multi',
-				'label' => __('Padding', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'padding_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-top',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'padding_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-right',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'padding_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-bottom',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'padding_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-left',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'padding_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Margin', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_margin_top',
-				'type' => 'multi',
-				'label' => __('Margin', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'margin_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-top',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'margin_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-right',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'margin_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-bottom',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'margin_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-left',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'margin_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Border
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_border',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Border', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_border_top',
-				'type' => 'multi',
-				'label' => __('Border', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'border_top_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-top-color',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_top_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-top-width',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_top_style',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-top-style',
-						'selector' => '.module-portfolio .post',
-					),
-				)
-			),
-			array(
-				'id' => 'multi_border_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_right_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-right-color',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_right_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-right-width',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_right_style',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-right-style',
-						'selector' => '.module-portfolio .post',
-					)
-				)
-			),
-			array(
-				'id' => 'multi_border_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_bottom_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-bottom-color',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_bottom_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-bottom-width',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_bottom_style',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-bottom-style',
-						'selector' => '.module-portfolio .post',
-					)
-				)
-			),
-			array(
-				'id' => 'multi_border_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_left_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-left-color',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_left_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-left-width',
-						'selector' => '.module-portfolio .post',
-					),
-					array(
-						'id' => 'border_left_style',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-left-style',
-						'selector' => '.module-portfolio .post',
-					)
 				)
 			),
 			// Additional CSS
@@ -752,10 +244,125 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				'type' => 'text',
 				'label' => __('Additional CSS Class', 'themify'),
 				'class' => 'large exclude-from-reset-field',
-				'description' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
 			)
 		);
-		return $styling;
+	}
+
+	public function get_default_settings() {
+		return array(
+			'post_per_page_portfolio' => 4,
+			'display_portfolio' => 'excerpt'
+		);
+	}
+        
+        public function get_visual_type() {
+            return 'ajax';            
+        }
+
+
+	public function get_styling() {
+		$general = array(
+			// Background
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.module-portfolio .post', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
+			// Font
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family(array( '.module-portfolio .post-title', '.module-portfolio .post-title a' )),
+                        self::get_color(array( '.module-portfolio .post', '.module-portfolio h1', '.module-portfolio h2', '.module-portfolio h3:not(.module-title)', '.module-portfolio h4', '.module-portfolio h5', '.module-portfolio h6', '.module-portfolio .post-title', '.module-portfolio .post-title a' ),'font_color',__('Font Color', 'themify')),
+                        self::get_font_size('.module-portfolio .post'),
+                        self::get_line_height('.module-portfolio .post'),
+                        self::get_letter_spacing('.module-portfolio .post'),
+                        self::get_text_align('.module-portfolio .post'),
+                        self::get_text_transform('.module-portfolio .post'),
+                        self::get_font_style('.module-portfolio .post'),
+			// Link
+                        self::get_seperator('link',__('Link', 'themify')),
+                        self::get_color( '.module-portfolio a','link_color'),
+                        self::get_color('.module-portfolio a:hover','link_color_hover',__('Color Hover', 'themify')),
+                        self::get_text_decoration('.module-portfolio a'),
+			// Padding
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.module-portfolio .post'),
+			// Margin
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.module-portfolio .post'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.module-portfolio .post')
+		);
+
+		$portfolio_title = array(
+			// Font
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family(array( '.module-portfolio .post-title', '.module-portfolio .post-title a' ),'font_family_title'),
+                        self::get_color(array( '.module-portfolio .post-title', '.module-portfolio .post-title a' ),'font_color_title',__('Font Color', 'themify')),
+                        self::get_color(array( '.module-portfolio .post-title:hover', '.module-portfolio .post-title a:hover' ),'font_color_title_hover',__('Color Hover', 'themify')),
+                        self::get_font_size('.module-portfolio .post-title','font_size_title'),
+                        self::get_line_height('.module-portfolio .post-title','line_height_title')
+		);
+
+		$portfolio_meta = array(
+			// Font
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family(array( '.module-portfolio .post-content .post-meta', '.module-portfolio .post-content .post-meta a' ),'font_family_meta'),
+                        self::get_color(array( '.module-portfolio .post-content .post-meta', '.module-portfolio .post-content .post-meta a' ),'font_color_meta',__('Font Color', 'themify')),
+                        self::get_font_size('.module-portfolio .post-content .post-meta','font_size_meta'),
+                        self::get_line_height('.module-portfolio .post-content .post-meta','line_height_meta')
+		);
+
+		$portfolio_date = array(
+			// Font
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family(array('.module-portfolio .post .post-date', '.module-portfolio .post .post-date a'),'font_family_date'),
+                        self::get_color(array('.module-portfolio .post .post-date', '.module-portfolio .post .post-date a'),'font_color_date',__('Font Color', 'themify')),
+                        self::get_color(array('.module-portfolio .post .post-date:hover', '.module-portfolio .post .post-date a:hover'),'font_color_date_hover',__('Color Hover', 'themify')),
+                        self::get_font_size('.module-portfolio .post .post-date','font_size_date'),
+                        self::get_line_height('.module-portfolio .post .post-date','line_height_date')
+		);
+
+		$portfolio_content = array(
+			// Font
+                        self::get_seperator('font',__('Font', 'themify'),false),
+                        self::get_font_family('.module-portfolio .post-content .entry-content','font_family_content'),
+                        self::get_color('.module-portfolio .post-content .entry-content','font_color_content',__('Font Color', 'themify')),
+                        self::get_font_size('.module-portfolio .post-content .entry-content','font_size_content'),
+                        self::get_line_height('.module-portfolio .post-content .entry-content','line_height_content')
+		);
+
+		return array(
+			array(
+				'type' => 'tabs',
+				'id' => 'module-styling',
+				'tabs' => array(
+					'general' => array(
+                                            'label' => __('General', 'themify'),
+                                            'fields' => $general
+					),
+                                        'module-title' => array(
+						'label' => __( 'Module Title', 'themify' ),
+						'fields' => self::module_title_custom_style( $this->slug )
+					),
+					'title' => array(
+						'label' => __('Portfolio Title', 'themify'),
+						'fields' => $portfolio_title
+					),
+					'meta' => array(
+						'label' => __('Portfolio Meta', 'themify'),
+						'fields' => $portfolio_meta
+					),
+					'date' => array(
+						'label' => __('Portfolio Date', 'themify'),
+						'fields' => $portfolio_date
+					),
+					'content' => array(
+						'label' => __('Portfolio Content', 'themify'),
+						'fields' => $portfolio_content
+					)
+				)
+			),
+		);
+
 	}
 
 	function set_metabox() {
@@ -774,7 +381,7 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				"name" 		=> "hide_post_title",
 				"title"		=> __('Hide Post Title', 'themify'),
 				"description"	=> "",
-				"type" 		=> "dropdown",			
+				"type" 		=> "dropdown",
 				"meta"		=> array(
 					array("value" => "default", "name" => "", "selected" => true),
 					array("value" => "yes", 'name' => __('Yes', 'themify')),
@@ -784,9 +391,9 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 			// Unlink Post Title
 			array(
 				"name" 		=> "unlink_post_title",
-				"title" 		=> __('Unlink Post Title', 'themify'), 	
-				"description" => __('Unlink post title (it will display the post title without link)', 'themify'), 				
-				"type" 		=> "dropdown",			
+				"title" 		=> __('Unlink Post Title', 'themify'),
+				"description" => __('Unlink post title (it will display the post title without link)', 'themify'),
+				"type" 		=> "dropdown",
 				"meta"		=> array(
 					array("value" => "default", "name" => "", "selected" => true),
 					array("value" => "yes", 'name' => __('Yes', 'themify')),
@@ -798,7 +405,7 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				"name" 		=> "hide_post_date",
 				"title"		=> __('Hide Post Date', 'themify'),
 				"description"	=> "",
-				"type" 		=> "dropdown",			
+				"type" 		=> "dropdown",
 				"meta"		=> array(
 					array("value" => "default", "name" => "", "selected" => true),
 					array("value" => "yes", 'name' => __('Yes', 'themify')),
@@ -810,7 +417,7 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 				"name" 		=> "hide_post_meta",
 				"title"		=> __('Hide Post Meta', 'themify'),
 				"description"	=> "",
-				"type" 		=> "dropdown",			
+				"type" 		=> "dropdown",
 				"meta"		=> array(
 					array("value" => "default", "name" => "", "selected" => true),
 					array("value" => "yes", 'name' => __('Yes', 'themify')),
@@ -820,21 +427,21 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 			// Hide Post Image
 			array(
 				"name" 		=> "hide_post_image",
-				"title" 		=> __('Hide Featured Image', 'themify'), 	
-				"description" => "", 				
-				"type" 		=> "dropdown",			
+				"title" 		=> __('Hide Featured Image', 'themify'),
+				"description" => "",
+				"type" 		=> "dropdown",
 				"meta"		=> array(
 					array("value" => "default", "name" => "", "selected" => true),
 					array("value" => "yes", 'name' => __('Yes', 'themify')),
 					array("value" => "no",	'name' => __('No', 'themify'))
-				)			
+				)
 			),
 			// Unlink Post Image
 			array(
 				"name" 		=> "unlink_post_image",
-				"title" 		=> __('Unlink Featured Image', 'themify'), 	
-				"description" => __('Display the Featured Image without link)', 'themify'), 				
-				"type" 		=> "dropdown",			
+				"title" 		=> __('Unlink Featured Image', 'themify'),
+				"description" => __('Display the Featured Image without link', 'themify'),
+				"type" 		=> "dropdown",
 				"meta"		=> array(
 					array("value" => "default", "name" => "", "selected" => true),
 					array("value" => "yes", 'name' => __('Yes', 'themify')),
@@ -907,13 +514,24 @@ class TB_Portfolio_Module extends Themify_Builder_Module {
 			'mod_settings' => $sync
 		);
 
-		return $ThemifyBuilder->retrieve_template( 'template-' . $this->slug . '.php', $module, '', '', false );
+		return self::retrieve_template( 'template-' . $this->slug . '.php', $module, '', '', false );
+	}
+
+	/**
+	 * Render plain content for static content.
+	 * 
+	 * @param array $module 
+	 * @return string
+	 */
+	public function get_plain_content( $module ) {
+		return ''; // no static content for dynamic content
 	}
 }
 
 ///////////////////////////////////////
 // Module Options
 ///////////////////////////////////////
-if( $this->is_cpt_active( 'portfolio' ) ) {
-	Themify_Builder_Model::register_module( 'TB_Portfolio_Module' );
+
+if( Themify_Builder_Model::is_cpt_active( 'portfolio' ) ) {
+    Themify_Builder_Model::register_module( 'TB_Portfolio_Module' );
 }

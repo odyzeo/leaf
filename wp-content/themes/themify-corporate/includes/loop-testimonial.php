@@ -16,7 +16,7 @@ if ( $link != '' ) {
 }
 ?>
 
-<?php if ( 'slider' == $themify->post_layout ) :?>
+<?php if ( 'slider' === $themify->post_layout ) :?>
 	<li>
 <?php endif; ?>
 
@@ -27,15 +27,15 @@ if ( $link != '' ) {
 	<div class="testimonial-content">
 		<div class="entry-content">
 
-		<?php if ( 'yes' != $themify->hide_title ): ?>
+		<?php if ( 'yes' !== $themify->hide_title ): ?>
 			<?php themify_before_post_title(); // Hook ?>
 				<h1 class="post-title"><?php the_title(); ?></h1>
 			<?php themify_after_post_title(); // Hook   ?>
 		<?php endif; //post title ?>
 
-		<?php if ( 'excerpt' == $themify->display_content && ! is_attachment() ) : ?>
+		<?php if ( 'excerpt' === $themify->display_content && ! is_attachment() ) : ?>
 			<?php the_excerpt(); ?>
-		<?php elseif($themify->display_content == 'content'): ?>
+		<?php elseif($themify->display_content === 'content'): ?>
 			<?php the_content(themify_check('setting-default_more_text')? themify_get('setting-default_more_text') : __('More &rarr;', 'themify')); ?>
 		<?php endif; //display content ?>
 
@@ -46,13 +46,13 @@ if ( $link != '' ) {
 	</div>
 	<!-- /.testimonial-content -->
 
-	<?php if ( 'no' != $themify->hide_image ): ?>
+	<?php if ( 'yes' !== $themify->hide_image ): ?>
 		<?php themify_before_post_image(); // hook ?>
 		<figure class="post-image">
 			<?php echo $before; ?>
 			<?php
 			// Check if user wants to use a common dimension or those defined in each entry
-			if ( 'yes' == $themify->use_original_dimensions ) {
+			if ( 'yes' === $themify->use_original_dimensions ) {
 				// Save post id
 				$post_id = get_the_id();
 
@@ -93,6 +93,6 @@ if ( $link != '' ) {
 <!-- /.testimonial-post -->
 <?php themify_post_after(); // hook ?>
 
-<?php if ( 'slider' == $themify->post_layout ) : ?>
+<?php if ( 'slider' === $themify->post_layout ) : ?>
 	</li>
 <?php endif; ?>

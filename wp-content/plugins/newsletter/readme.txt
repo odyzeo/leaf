@@ -1,8 +1,8 @@
 === Newsletter ===
 Tags: newsletter,email,subscription,mass mail,list build,email marketing,direct mailing,automation,automated
 Requires at least: 3.4.0
-Tested up to: 4.9
-Stable tag: 5.1.4
+Tested up to: 4.9.1
+Stable tag: 5.1.7
 Contributors: satollo,webagile,michael-travan
 
 Add a real newsletter system to your blog. For free. With unlimited newsletters and subscribers.
@@ -84,6 +84,20 @@ Thank you, The Newsletter Team
 3. The Reports extension
 
 == Changelog ==
+
+== 5.1.7 ==
+
+* NEW! Welcome wizard
+
+== 5.1.6 ==
+
+* Fix list selection on first save
+
+== 5.1.5 ==
+
+* Re-confirmation is now allows for unsubscribed and bounced 
+* Fixed to minimal widget and minimal css
+* Fixed the approx. subscriber count on newsletter creation (was showing encoded data)
 
 == 5.1.4 ==
 

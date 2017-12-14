@@ -216,6 +216,18 @@ function themify_default_layout( $data = array() ){
 						themify_options_module($default_display_options, $prefix.'layout_display').'
 					</select>
 				</p>';
+
+	/**
+	 * Excerpt length
+	 */
+	$output .= '<p style="display:none">
+					<span class="pushlabel vertical-grouped">
+						<label>
+							<input class="width2" type="text" value="' . ( isset( $data[ $prefix . 'excerpt_length' ] ) ? esc_attr( $data[ $prefix . 'excerpt_length' ] ) : '' ) . '" name="' . esc_attr( $prefix ) . 'excerpt_length"> '
+							. __( 'Excerpt length (enter number of words)', 'themify' ) . '
+						</label>
+					</span>
+				</p>';
 	
 	/**
 	 * More Text

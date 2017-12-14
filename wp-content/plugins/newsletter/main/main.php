@@ -123,7 +123,7 @@ if (!empty($return_path)) {
 
                     <table class="form-table">
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Sender email address', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text_email('sender_email', 40); ?>
@@ -137,14 +137,14 @@ if (!empty($return_path)) {
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Return path', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text_email('return_path', 40); ?>
                                 <?php $controls->help('https://www.thenewsletterplugin.com/plugins/newsletter/newsletter-configuration#return-path') ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Reply to', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text_email('reply_to', 40); ?>
@@ -152,11 +152,11 @@ if (!empty($return_path)) {
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('License key', 'newsletter') ?></th>
                             <td>
                                     <?php if (defined('NEWSLETTER_LICENSE_KEY')) { ?>
-                                        <?php _e('A license key is set in your wp-config.php','newsletter') ?>
+                                        <?php _e('A license key is set','newsletter') ?>
                                     <?php } else { ?>
                                         <?php $controls->text('contract_key', 40); ?>
                                         <p class="description">
@@ -195,7 +195,7 @@ if (!empty($return_path)) {
 
                     <table class="form-table">
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Enable access to blog editors?', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('editor'); ?>
@@ -211,21 +211,21 @@ if (!empty($return_path)) {
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Debug mode', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('debug', 40); ?>
                             </td>
                         </tr>
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Send email directly', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->yesno('phpmailer'); ?>
                                 <?php $controls->help('https://www.thenewsletterplugin.com/configuration-tnin-send-email'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Email encoding', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->select('content_transfer_encoding', array('' => 'Default', '8bit' => '8 bit', 'base64' => 'Base 64', 'binary' => 'Binary', 'quoted-printable' => 'Quoted printable', '7bit' => '7 bit')); ?>

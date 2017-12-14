@@ -10,66 +10,102 @@ if ( ! function_exists( 'themify_do_img' ) ) {
 	/**
 	 * Resize images dynamically using wp built in functions
 	 *
-	 * @param string $img_url
+	 * @param string|int $image Image URL or an attachment ID
 	 * @param int $width
 	 * @param int $height
 	 * @param bool $crop
 	 * @return array
 	 */
-	function themify_do_img( $img_url = null, $width, $height, $crop = false ) {
+	function themify_do_img( $image = null, $width, $height, $crop = false ) {
+		$attachment_id = null;
+		$img_url = null;
 
-		$height = absint( $height );
-		$width = absint( $width );
-		$src = esc_url( $img_url );
-		$needs_resize = true;
-		$out = array(
-			'url' => $src,
-			'width' => $width,
-			'height' => $height,
-		);
+		// if an attachment ID has been sent
+		if( is_int( $image ) ) {
+			$post = get_post( $image );
+			if( $post ) {
+				$attachment_id = $post->ID;
+				$img_url = wp_get_attachment_url( $attachment_id );
+			}
+		} else {
+			// URL has been passed to the function
+			$img_url = esc_url( $image );
 
-		$upload_dir = wp_upload_dir();
-		$base_url = $upload_dir['baseurl'];
+			// Check if the image is an attachment. If it's external return url, width and height.
+			$upload_dir = wp_upload_dir();
+			$base_url = themify_remove_protocol_from_url( $upload_dir['baseurl'] );
+			if( ! preg_match( '/' . str_replace( '/', '\/', $base_url ) . '/', $img_url ) ) {
+				return array(
+					'url' => $img_url,
+					'width' => $width,
+					'height' => $height,
+				);
+			}
 
-		// Check if the image is an attachment. If it's external return url, width and height.
-		if ( substr( $src, 0, strlen( $base_url ) ) != $base_url ) {
-			return $out;
+			// Finally, run a custom database query to get the attachment ID from the modified attachment URL
+			$attachment_id = themify_get_attachment_id_from_url( $img_url, $base_url );
 		}
-
-		// Get post's attachment meta data to look for references to the requested image size
-		$attachment_id = themify_get_attachment_id_from_url( $src );
 
 		// If no relationship between a post and a image size was found, return url, width and height.
 		if ( ! $attachment_id ) {
-			return $out;
-		}
-
-		// Go through the attachment meta data sizes looking for an image size match.
-		$meta = wp_get_attachment_metadata( $attachment_id );
-
-		if ( is_array( $meta ) && isset( $meta['sizes'] ) && is_array( $meta['sizes'] ) ) {
-			foreach( $meta['sizes'] as $key => $size ) {
-				if ( $size['width'] == $width && $size['height'] == $height ) {
-					$src = str_replace( basename( $src ), $size['file'], $src );
-					$needs_resize = false;
-					break;
-				}
-			}
-		}
-
-		// Requested image size doesn't exists, so let's create one
-		if ( $needs_resize ) {
-			$out = themify_make_image_size( $attachment_id, $width, $height, $meta, $src );
-		} else {
-			$out = array(
-				'url' => $src,
+			return array(
+				'url' => $img_url,
 				'width' => $width,
 				'height' => $height,
 			);
 		}
+		
+		// Fetch attachment meta data. Up to this point we know the attachment ID is valid.
+		$meta = wp_get_attachment_metadata( $attachment_id );
 
-		// Return image url, width and height.
-		return $out;
+		// Perform calculations when height or width = 0
+		if( empty( $width ) ) {
+			$width = 0;
+		}
+		if ( is_null( $height ) || 0 === $height || '0' === $height ) {
+			// If width and height or original image are available as metadata
+			if ( !empty( $meta['width'] ) && !empty( $meta['height'] ) ) {
+				// Divide width by original image aspect ratio to obtain projected height
+				// The floor function is used so it returns an int and metadata can be written
+				$height = floor( $width / ( $meta['width'] / $meta['height'] ) );
+			} else {
+				$height = 0;
+			}
+		}
+
+		// Check if resized image already exists
+		if ( is_array( $meta ) && isset( $meta['sizes']["resized-{$width}x{$height}"] ) ) {
+			$size = $meta['sizes']["resized-{$width}x{$height}"];
+			if( isset( $size['width'] ) && isset( $size['height'] ) ) {
+				setlocale( LC_CTYPE, get_locale() . '.UTF-8' );
+				$split_url = explode( '/', $img_url );
+				$split_url[ count( $split_url ) - 1 ] = $size['file'];
+				return array(
+					'url' => implode( '/', $split_url ),
+					'width' => $width,
+					'height' => $height,
+					'attachment_id' => $attachment_id,
+				);
+			}
+		}
+
+		// Requested image size doesn't exists, so let's create one
+		if ( true == $crop ) {
+			add_filter( 'image_resize_dimensions', 'themify_img_resize_dimensions', 10, 5 );
+		}
+		// Patch meta because if we're here, there's a valid attachment ID for sure, but maybe the meta data is not ok.
+		if ( ! is_array( $meta ) && empty( $meta ) ) {
+			$meta['sizes'] = array( 'large' => array() );
+		}
+		// Generate image returning an array with image url, width and height. If image can't generated, original url, width and height are used.
+		$image = themify_make_image_size( $attachment_id, $width, $height, $meta, $img_url );
+		
+		if ( true == $crop ) {
+			remove_filter( 'image_resize_dimensions', 'themify_img_resize_dimensions', 10 );
+		}
+		$image['attachment_id'] = $attachment_id;
+
+		return $image;
 	}
 }
 
@@ -83,23 +119,29 @@ if ( ! function_exists( 'themify_make_image_size' ) ) {
 	 * @uses get_post_meta()
 	 * @uses update_post_meta()
 	 *
-	 * @param $attachment_id
-	 * @param $width
-	 * @param $height
-	 * @param $meta
-	 * @param $original_src
+	 * @param int $attachment_id
+	 * @param int $width
+	 * @param int $height
+	 * @param array $meta
+	 * @param string $img_url
 	 *
 	 * @return array
 	 */
-	function themify_make_image_size( $attachment_id, $width, $height, $meta, $original_src ) {
+	function themify_make_image_size( $attachment_id, $width, $height, $meta, $img_url ) {
+		setlocale( LC_CTYPE, get_locale() . '.UTF-8' );
 		$attached_file = get_attached_file( $attachment_id );
+
+		$use_large_not_full = apply_filters( 'themify_image_script_use_large_size', true );
+		if ( $use_large_not_full && isset( $meta['sizes']['large']['file'] ) )
+			$attached_file = str_replace( $meta['file'], trailingslashit( dirname( $meta['file'] ) ) . $meta['sizes']['large']['file'], $attached_file );
+
 		$resized = image_make_intermediate_size( $attached_file, $width, $height, true );
 		if ( $resized && ! is_wp_error( $resized ) ) {
 
 			// Save the new size in meta data
 			$key = sprintf( 'resized-%dx%d', $width, $height );
 			$meta['sizes'][$key] = $resized;
-			$src = str_replace( basename( $original_src ), $resized['file'], $original_src );
+			$img_url = str_replace( basename( $img_url ), $resized['file'], $img_url );
 
 			wp_update_attachment_metadata( $attachment_id, $meta );
 
@@ -111,14 +153,14 @@ if ( ! function_exists( 'themify_make_image_size' ) ) {
 
 			// Return resized image url, width and height.
 			return array(
-				'url' => esc_url( $src ),
+				'url' => esc_url( $img_url ),
 				'width' => $width,
 				'height' => $height,
 			);
 		}
-		// Return resized image url, width and height.
+		// Return original image url, width and height.
 		return array(
-			'url' => $original_src,
+			'url' => $img_url,
 			'width' => $width,
 			'height' => $height,
 		);
@@ -142,11 +184,11 @@ function themify_img_resize_dimensions( $default, $orig_w, $orig_h, $dest_w, $de
 	$new_h = $dest_h;
 
 	if ( !$new_w ) {
-		$new_w = intval( $new_h * $aspect_ratio );
+		$new_w = (int)( $new_h * $aspect_ratio );
 	}
 
 	if ( !$new_h ) {
-		$new_h = intval( $new_w / $aspect_ratio );
+		$new_h = (int)( $new_w / $aspect_ratio );
 	}
 
 	$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
@@ -166,33 +208,25 @@ function themify_img_resize_dimensions( $default, $orig_w, $orig_h, $dest_w, $de
  * Get attachment ID for image from its url.
  *
  * @param string $url
+ * @param string $base_url
  * @return bool|null|string
  */
-function themify_get_attachment_id_from_url( $url = '' ) {
+function themify_get_attachment_id_from_url( $url = '', $base_url = '' ) {
+	// If this is the URL of an auto-generated thumbnail, get the URL of the original image
+	$url = themify_remove_protocol_from_url( $url );
+	$url = str_replace( trailingslashit( $base_url ), '', $url );
+	$url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $url );
+
+	// Finally, run a custom database query to get the attachment ID from the modified attachment URL
 	global $wpdb;
-	$attachment_id = false;
+	return $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment' LIMIT 1", $url ) );
+}
 
-	// If there is no url, return.
-	if ( '' == $url ) {
-		return false;
-	}
-
-	// Get the upload directory paths
-	$upload_dir_paths = wp_upload_dir();
-
-	// Make sure the upload path base directory exists in the attachment URL, to verify that we're working with a media library image
-	if ( false !== strpos( $url, $upload_dir_paths['baseurl'] ) ) {
-
-		// If this is the URL of an auto-generated thumbnail, get the URL of the original image
-		$url = preg_replace( '/-\d+x\d+(?=\.(jpg|jpeg|png|gif)$)/i', '', $url );
-
-		// Remove the upload path base directory from the attachment URL
-		$url = str_replace( $upload_dir_paths['baseurl'] . '/', '', $url );
-
-		// Finally, run a custom database query to get the attachment ID from the modified attachment URL
-		$attachment_id = $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $url ) );
-
-	}
-
-	return $attachment_id;
+/**
+ * Removes protocol and www from URL and returns it
+ *
+ * @return string
+ */
+function themify_remove_protocol_from_url( $url ) {
+	return preg_replace( '/https?:\/\/(www\.)?/', '', $url );
 }

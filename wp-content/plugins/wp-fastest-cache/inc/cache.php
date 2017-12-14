@@ -252,7 +252,9 @@
 					if(!$this->isPluginActive('really-simple-ssl/rlrsssl-really-simple-ssl.php')){
 						if(!$this->isPluginActive('really-simple-ssl-pro/really-simple-ssl-pro.php')){
 							if(!$this->isPluginActive('ssl-insecure-content-fixer/ssl-insecure-content-fixer.php')){
-								return 0;
+								if(!$this->isPluginActive('https-redirection/https-redirection.php')){
+									return 0;
+								}
 							}
 						}
 					}

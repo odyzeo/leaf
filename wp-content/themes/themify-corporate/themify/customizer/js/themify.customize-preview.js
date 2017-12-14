@@ -48,7 +48,6 @@
 
 	}
 
-
 	// Set dimension by side, like padding or margin.
 	function getDimension(side) {
 		// Check if auto was set
@@ -102,7 +101,8 @@
 			.on('themify-responsive-preview-fonts-control', this.controlFonts)
 			.on('themify-responsive-preview-border-control', this.controlBorder)
 			.on('themify-responsive-preview-margin-control', this.controlMargin)
-			.on('themify-responsive-preview-padding-control', this.controlMargin); // use same control handler as margin
+			.on('themify-responsive-preview-padding-control', this.controlMargin) // use same control handler as margin
+			.on('themify-responsive-preview-logo-control', this.controlLogo)
 		},
 
 		controlBackground: function( event, model, currentData ) {
@@ -164,6 +164,8 @@
 
 			apiResponsiveControl._inputChange( $('.font_line_num', model.container), values, 'linenum' );
 			apiResponsiveControl._dropdownChange( $('.font_line_unit', model.container), values, 'lineunit' );
+			apiResponsiveControl._inputChange( $('.letter_spacing', model.container), values, 'letterspacing' );
+			apiResponsiveControl._dropdownChange( $('.letter_spacing_unit', model.container), values, 'letterspacingunit' );
 			apiResponsiveControl._dropdownChange( $('.font_weight_select', model.container), values, 'weight' );
 		},
 
@@ -182,6 +184,12 @@
 			apiResponsiveControl._dropdownSameChange( $('.dimension-unit', model.container), values, 'unit' );
 			apiResponsiveControl._hideComponentSameChange( $('.same', model.container), model, values );
 			apiResponsiveControl._autoSameChange( $('.auto-prop', model.container), model, values );
+		},
+
+		controlLogo: function( event, model, currentData ) {
+			var values = themifyParseJSON( currentData, model.getCurrentDevice() );
+			apiResponsiveControl._colorChange( model, values );
+			apiResponsiveControl._logoMode( model, values );
 		},
 
 		_colorChange: function( model, values ) {
@@ -383,6 +391,36 @@
 					$('.' + hide, model.container).removeClass('hide-horizontally');
 				}
 			});
+		},
+
+		_logoMode: function( model, values ) {
+			var $logoMode = $('.logo-modes .logo-mode', model.container),
+				val = values.mode || '',
+				$logoTab = $logoMode.closest( '.customize-control' ),
+				deskValue = 'text';
+
+			if ( model.isResponsiveStyling() ) {
+				$logoMode.filter( '[value="image"]' ).parent().hide();
+				$logoMode = $logoMode.filter( ':not([value="image"])' );
+				deskValue = $logoTab.data( 'deskValue' ) || deskValue;
+				
+				if( deskValue === 'image' ) {
+					$logoTab.hide();
+					$logoMode.filter( '[value="text"]' ).prop( 'checked', true );
+
+				}
+			} else {
+				$logoMode.filter( '[value="image"]' ).parent().show();
+				$logoTab.is( ':hidden' ) && $logoTab.show();
+				$logoTab.data( 'deskValue', val );
+			}
+
+			$logoMode.each( function() {
+				var $el = $( this ),
+					isActive = $el.val() == val;
+				$el.prop( 'checked', isActive );
+				isActive && $el.trigger( 'click' );
+			} );
 		}
 	};
 
@@ -600,24 +638,18 @@
 		responsive_trigger_event( themifyCustomizer.borderControls, 'themify-responsive-preview-border-control');
 		responsive_trigger_event( themifyCustomizer.marginControls, 'themify-responsive-preview-margin-control');
 		responsive_trigger_event( themifyCustomizer.paddingControls, 'themify-responsive-preview-padding-control');
-
-		// Hide section for responsive not available
-		if ( themifyCustomizer.logoControls ) {
-			$.each( themifyCustomizer.logoControls, function( index, selector ) {
-				var model = parent_api.control.instance( index + '_ctrl');
-				if ( 'desktop' !== device ) {
-					$( model.container ).closest('.customize-control-themify_subaccordion_start').addClass('responsive-na');
-				} else {
-					$( model.container ).closest('.customize-control-themify_subaccordion_start').removeClass('responsive-na');
-				}
-			});
-		}
+		responsive_trigger_event( themifyCustomizer.logoControls, 'themify-responsive-preview-logo-control');
 	});
 	
 	// Remove stylesheets when clearAll
 	$( window ).on( 'message', function( event ) {
 		if ( event.originalEvent && event.originalEvent.data && ! _.isEmpty( event.originalEvent.data ) ) {
-			var data = $.parseJSON( event.originalEvent.data ) || {};
+			try {
+				var data = $.parseJSON( event.originalEvent.data ) || {};
+			}
+			catch( error ) {
+				var data = {};
+			}
 			if ( 'themify-customize-clearall' === data.id ) {
 				styles = [];
 				$('#themify-customize').remove(); // remove the css
@@ -700,6 +732,9 @@
 			if (font.sizenum > 0) {
 				styles[$id]['font-size'] = font.sizenum + (font.sizeunit ? font.sizeunit : 'px');
 			}
+			if (font.letterspacing) {
+				styles[$id]['letter-spacing'] = font.letterspacing + (font.letterspacingunit ? font.letterspacingunit : 'px');
+			}
 			if (font.linenum > 0) {
 				styles[$id]['line-height'] = font.linenum + (font.lineunit ? font.lineunit : 'px');
 			}
@@ -738,7 +773,7 @@
 		$.each(themifyCustomizer.logoControls, function (index, selector) {
 			api(index, function (value) {
 				value.bind(function (imageData) {
-					var values = $.parseJSON(imageData),
+					var values = themifyParseJSON(imageData),
 							$selector = $(selector),
 							$id = getStyleId(selector);
 					if (!styles[$id]) {

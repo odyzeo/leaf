@@ -17,6 +17,7 @@
         image_title: true,
         plugins: "table fullscreen legacyoutput textcolor colorpicker link image code lists advlist",
         relative_urls: false,
+        convert_urls: false,
         remove_script_host: false,
         document_base_url: "<?php echo esc_js(get_option('home')) ?>/",
         content_css: ["<?php echo plugins_url('newsletter') ?>/emails/editor.css", "<?php echo home_url('/') . '?na=emails-css&id=' . $email_id . '&' . time(); ?>"]

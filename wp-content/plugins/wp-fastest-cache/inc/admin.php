@@ -1604,7 +1604,7 @@
 				    				<h1 style="float:left;" id="just-h1">Just</h1><h1><span style="margin-left:5px;" id="wpfc-premium-price"><?php echo $premium_price; ?></span></h1>
 				    				<p>The download button will be available after paid. You can buy the premium version now.</p>
 
-				    				<?php if(!preg_match("/Caiu\s*Na/i", get_bloginfo("name")) && !preg_match("/(caiuna|escort|porn)/i", $_SERVER["HTTP_HOST"]) && !preg_match("/\.ir$/i", $_SERVER["HTTP_HOST"])){ ?>
+				    				<?php if(!preg_match("/Caiu\s*Na/i", get_bloginfo("name")) && !preg_match("/(caiuna|escort|porn)/i", $_SERVER["HTTP_HOST"])){ ?>
 					    				<?php if(class_exists("WpFastestCachePowerfulHtml")){ ?>
 						    					<button id="wpfc-buy-premium-button" type="submit" class="wpfc-btn primaryDisableCta" style="width:200px;">
 							    					<span>Purchased</span>
@@ -2037,11 +2037,14 @@
 			</div>
 
 			<div class="omni_admin_sidebar">
+				<?php if(class_exists("WpFastestCachePowerfulHtml")){ ?>
+				<?php }else{ ?>
 				<div class="omni_admin_sidebar_section" style="padding:0 !important;border:none !important;background:none !important;">
 					<a href="//inmotion-hosting.evyy.net/c/149801/353727/4222" target="_blank">
 						<img style="width: 273px; margin-left: -27px;" src="<?php echo plugins_url("wp-fastest-cache/images/inmotion-ads.png"); ?>">
 					</a>
 				</div>
+				<?php } ?>
 				<div class="omni_admin_sidebar_section" id="vote-us">
 					<h3 style="color: antiquewhite;">Rate Us</h3>
 					<ul>

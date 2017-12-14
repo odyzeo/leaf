@@ -583,6 +583,7 @@ return array(
 					array( 'value' => '', 'text' => '' ),
 					array( 'value' => 'content', 'text' => __( 'Content', 'themify' ) ),
 					array( 'value' => 'excerpt', 'text' => __( 'Excerpt', 'themify' ) ),
+					array( 'value' => 'none', 'text' => __( 'None', 'themify' ) ),
 				),
 				'label' => __( 'Show Post Text:', 'themify' ),
 				'tooltip' => __( 'Default = none, neither content or excerpt are displayed.', 'themify' )

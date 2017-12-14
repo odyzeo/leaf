@@ -1,52 +1,52 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH'))
+    exit; // Exit if accessed directly
 /**
  * Template Widget
  * 
  * Access original fields: $mod_settings
  * @author Themify
  */
-$fields_default = array(
-	'mod_title_widget' => '',
-	'class_widget' => '',
-	'instance_widget' => array(),
-	'custom_css_widget' => '',
-	'background_repeat' => '',
-	'animation_effect' => ''
-);
-$fields_args = wp_parse_args( $mod_settings, $fields_default );
-extract( $fields_args, EXTR_SKIP );
-$animation_effect = $this->parse_animation_effect( $animation_effect );
-$new_instance = array();
+if (TFCache::start_cache($mod_name, self::$post_id, array('ID' => $module_ID))):
 
-$container_class = implode(' ', 
-	apply_filters( 'themify_builder_module_classes', array(
-		'module', 'module-' . $mod_name, $module_ID, $custom_css_widget, $background_repeat, $animation_effect
-	), $mod_name, $module_ID, $fields_args )
-);
-?>
+    $fields_default = array(
+        'mod_title_widget' => '',
+        'class_widget' => '',
+        'instance_widget' => array(),
+        'custom_css_widget' => '',
+        'background_repeat' => '',
+        'animation_effect' => ''
+    );
+    $fields_args = wp_parse_args($mod_settings, $fields_default);
+    unset($mod_settings);
+    $animation_effect = self::parse_animation_effect($fields_args['animation_effect'], $fields_args);
 
-<!-- module widget -->
-<div id="<?php echo esc_attr( $module_ID ); ?>" class="<?php echo esc_attr( $container_class ); ?>">
-	<?php
-	if ( $mod_title_widget != '' )
-		echo '<h3 class="module-title">'.$mod_title_widget.'</h3>';
+    $container_class = implode(' ', apply_filters('themify_builder_module_classes', array(
+        'module', 'module-' . $mod_name, $module_ID, $fields_args['custom_css_widget'], $fields_args['background_repeat'], $animation_effect
+                    ), $mod_name, $module_ID, $fields_args)
+    );
+    $container_props = apply_filters('themify_builder_module_container_props', array(
+        'id' => $module_ID,
+        'class' => $container_class
+            ), $fields_args, $mod_name, $module_ID);
+    ?>
 
-	do_action( 'themify_builder_before_template_content_render' );
+    <!-- module widget -->
+    <div <?php echo self::get_element_attributes($container_props); ?>>
+        <?php
+        if ($fields_args['mod_title_widget'] !== '') {
+            echo $fields_args['before_title'] . apply_filters('themify_builder_module_title', $fields_args['mod_title_widget'], $fields_args). $fields_args['after_title'];
+        }
 
-	if ( is_array( $instance_widget ) && count( $instance_widget ) > 0 ) {
-		foreach ( $instance_widget as $key => $val ) {
-			preg_match_all( '/\[([^\]]*)\]/', $key, $matches );
-			if ( is_array( $matches ) ) {
-				$new_instance[ $matches[ count( $matches ) - 1 ][1] ] = $val;
-			}
-		}
-	}
+        do_action('themify_builder_before_template_content_render');
+        $new_instance = TB_Widget_Module::sanitize_widget_instance( $fields_args['instance_widget'] );
+        if ($fields_args['class_widget'] !== '' && class_exists($fields_args['class_widget'])){
+            the_widget($fields_args['class_widget'], $new_instance);
+        }
 
-	if ( $class_widget != '' && class_exists( $class_widget ) ) 
-		the_widget( $class_widget, $new_instance );
-
-	do_action( 'themify_builder_after_template_content_render' );
-	?>
-</div>
-<!-- /module widget -->
+        do_action('themify_builder_after_template_content_render');
+        ?>
+    </div>
+    <!-- /module widget -->
+<?php endif; ?>
+<?php TFCache::end_cache(); ?>

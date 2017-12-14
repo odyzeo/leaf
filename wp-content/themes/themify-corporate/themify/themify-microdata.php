@@ -462,7 +462,7 @@ class Themify_Microdata {
 
 		$post_title = $product->get_title();
 		$permalink  = $product->get_permalink();
-		$excerpt    = apply_filters( 'woocommerce_short_description', $post->post_excerpt );
+		$excerpt    = $post->post_excerpt;
 		$price      = $product->get_price();
 		$currency   = apply_filters( 'woocommerce_currency', get_option('woocommerce_currency') );
 

@@ -76,37 +76,16 @@ global $themify; ?>
 		/////////////////////////////////////////////
 		// Query Category
 		/////////////////////////////////////////////
-		if('' != $themify->query_category): ?>
+		if( $themify->query_category != '' ) :
+			// Query posts action based on global $themify options
+			do_action( 'themify_custom_query_posts' );
 
-			<?php
-			// Categories for Query Posts or Portfolios
-			$categories = '0' == $themify->query_category? themify_get_all_terms_ids($themify->query_taxonomy) : explode(',', str_replace(' ', '', $themify->query_category));
-			$qpargs = array(
-				'post_type' => $themify->query_post_type,
-				'tax_query' => array(
-					array(
-						'taxonomy' => $themify->query_taxonomy,
-						'field' => 'id',
-						'terms' => $categories
-					)
-				),
-				'posts_per_page' => $themify->posts_per_page,
-				'paged' => $themify->paged,
-				'order' => $themify->order,
-				'orderby' => $themify->orderby
-			);
-			?>
+			if( have_posts() ):
 
-			<?php
-			query_posts(apply_filters('themify_query_posts_page_args', $qpargs)); ?>
-
-			<?php if(have_posts()): ?>
-
-				<?php
 				/////////////////////////////////////////////
 				// Entry Filter
 				/////////////////////////////////////////////
-				if ( 'portfolio' == $themify->query_post_type && ( count( $categories ) > 1 ) ) : ?>
+				if ( 'portfolio' == $themify->query_post_type && ( count( themify_get_query_categories() ) > 1 ) ) : ?>
 					<?php get_template_part( 'includes/filter', $themify->query_post_type ); ?>
 				<?php endif; // portfolio query ?>
 
@@ -114,9 +93,7 @@ global $themify; ?>
 				<div id="loops-wrapper" class="loops-wrapper <?php echo "$themify->layout $themify->post_layout "; echo isset( $themify->query_post_type ) && ! in_array( $themify->query_post_type, array( 'post', 'page' ) ) ? $themify->query_post_type : ''; ?>">
 
 					<?php while(have_posts()) : the_post(); ?>
-
 						<?php get_template_part('includes/loop', $themify->query_post_type); ?>
-
 					<?php endwhile; ?>
 
 				</div>
@@ -128,8 +105,6 @@ global $themify; ?>
 					<?php endif; // show page navigation ?>
 				<?php endif; // is query page ?>
 
-			<?php else : ?>
-
 			<?php endif; ?>
 
 			<?php wp_reset_query(); ?>
@@ -139,7 +114,7 @@ global $themify; ?>
 		<?php themify_content_end(); // hook ?>
 	</div>
 	<!-- /content -->
-    <?php themify_content_after(); // hook ?>
+	<?php themify_content_after(); // hook ?>
 
 	<?php
 	/////////////////////////////////////////////

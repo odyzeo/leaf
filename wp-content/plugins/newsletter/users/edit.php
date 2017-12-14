@@ -113,37 +113,37 @@ function percentValue($value, $total) {
 
                     <table class="form-table">
 
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Email', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->text('email', 60); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('First name', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->text('name', 50); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Last name', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->text('surname', 50); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Gender', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->select('sex', array('n' => 'Not specified', 'f' => 'female', 'm' => 'male')); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Status', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->select('status', array('C' => 'Confirmed', 'S' => 'Not confirmed', 'U' => 'Unsubscribed', 'B' => 'Bounced')); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Test subscriber', 'newsletter'); ?>
                                 <br><?php $controls->help('https://www.thenewsletterplugin.com/documentation/subscribers#test-subscribers') ?></th>
                             <td>
@@ -153,7 +153,7 @@ function percentValue($value, $total) {
 
                         <?php do_action('newsletter_user_edit_extra', $controls); ?>
 
-                        <tr valign="top">
+                        <tr>
                             <th>Feed by mail</th>
                             <td>
                                 <?php $controls->yesno('feed'); ?>
@@ -201,37 +201,37 @@ function percentValue($value, $total) {
                 <div id="tabs-other" class="tnp-tab">
 
                     <table class="form-table">
-                        <tr valign="top">
+                        <tr>
                             <th>ID</th>
                             <td>
                                 <?php $controls->value('id'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('Created', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->value('created'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e('WP user ID', 'newsletter') ?></th>
                             <td>
                                 <?php $controls->text('wp_user_id'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('IP address', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->value('ip'); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Secret token', 'newsletter'); ?></th>
                             <td>
                                 <?php $controls->text('token', 50); ?>
                             </td>
                         </tr>
-                        <tr valign="top">
+                        <tr>
                             <th><?php _e ('Profile URL', 'newsletter'); ?></th>
                             <td>
                                 <?php $profile_url = esc_html(home_url('/') . '?na=pe&nk=' . $id . '-' . $controls->data['token']);  ?>

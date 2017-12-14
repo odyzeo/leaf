@@ -200,6 +200,26 @@ function themify_theme_query_post_meta_box($args = array()) {
 			'type'		=> 'query_category',
 			'meta'		=> array()
 		),
+		// Query All Post Types
+		array(
+			'name' => 'query_all_post_types',
+			'type' => 'dropdown',
+			'title' => __( 'Query All Post Types', 'themify'),
+			'meta' =>array(
+				array(
+				'value' => '',
+				'name' => '',
+				),
+				array(
+				'value' => 'yes',
+				'name' => 'Yes',
+				),
+				array(
+				'value' => 'no',
+				'name' => 'No',
+				),
+			)
+		),
 		// Descending or Ascending Order for Posts
 		array(
 			'name' 		=> 'order',

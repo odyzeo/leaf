@@ -3,7 +3,7 @@
 Plugin Name: WP Fastest Cache
 Plugin URI: http://wordpress.org/plugins/wp-fastest-cache/
 Description: The simplest and fastest WP Cache system
-Version: 0.8.7.4
+Version: 0.8.7.5
 Author: Emre Vona
 Author URI: http://tr.linkedin.com/in/emrevona
 Text Domain: wp-fastest-cache
@@ -409,6 +409,10 @@ GNU General Public License for more details.
 						}
 
 						if(($response_code == 401) && (preg_match("/res\.cloudinary\.com/i", $_GET["url"]))){
+							$res = array("success" => true);
+						}
+
+						if(($response_code == 403) && (preg_match("/stackpathdns\.com/i", $_GET["url"]))){
 							$res = array("success" => true);
 						}
 					}
@@ -934,6 +938,8 @@ GNU General Public License for more details.
 			$to_clear_parents = true;
 
 			if($comment_id){
+				$comment_id = intval($comment_id);
+				
 				$comment = get_comment($comment_id);
 				
 				if($comment && $comment->comment_post_ID){
@@ -942,6 +948,8 @@ GNU General Public License for more details.
 			}
 
 			if($post_id){
+				$post_id = intval($post_id);
+
 				$permalink = get_permalink($post_id);
 
 				$permalink = urldecode(get_permalink($post_id));
@@ -951,8 +959,18 @@ GNU General Public License for more details.
 				$permalink = preg_replace("/__trashed$/", "", $permalink);
 
 				if(preg_match("/https?:\/\/[^\/]+\/(.+)/", $permalink, $out)){
-					$path = $this->getWpContentDir()."/cache/all/".$out[1];
-					$mobile_path = $this->getWpContentDir()."/cache/wpfc-mobile-cache/".$out[1];
+
+					//WPML language switch
+					//https://wpml.org/forums/topic/wpml-language-switch-wp-fastest-cache-issue/
+					if($this->isPluginActive('sitepress-multilingual-cms/sitepress.php')){
+						$current_language = apply_filters('wpml_current_language', false);
+
+						$path = $this->getWpContentDir()."/cache/all/".$current_language."/".$out[1];
+						$mobile_path = $this->getWpContentDir()."/cache/wpfc-mobile-cache/".$current_language."/".$out[1];
+					}else{
+						$path = $this->getWpContentDir()."/cache/all/".$out[1];
+						$mobile_path = $this->getWpContentDir()."/cache/wpfc-mobile-cache/".$out[1];
+					}
 
 					if(is_dir($path)){
 						if($this->isPluginActive("wp-fastest-cache-premium/wpFastestCachePremium.php")){

@@ -4,8 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Tab
  * Description: Display Tab content
  */
-class TB_Tab_Module extends Themify_Builder_Module {
-	function __construct() {
+class TB_Tab_Module extends Themify_Builder_Component_Module {
+    
+	public function __construct() {
 		parent::__construct(array(
 			'name' => __('Tab', 'themify'),
 			'slug' => 'tab'
@@ -13,550 +14,114 @@ class TB_Tab_Module extends Themify_Builder_Module {
 	}
 
 	public function get_options() {
-		$options = array(
+		return array(
 			array(
 				'id' => 'mod_title_tab',
 				'type' => 'text',
 				'label' => __('Module Title', 'themify'),
-				'class' => 'large'
-			),
-			array(
-				'id' => 'layout_tab',
-				'type' => 'layout',
-				'label' => __('Tab Layout', 'themify'),
-				'options' => array(
-					array('img' => 'tab-frame.png', 'value' => 'tab-frame', 'label' => __('Tab Frame', 'themify')),
-					array('img' => 'tab-window.png', 'value' => 'panel', 'label' => __('Tab Window', 'themify')),
-					array('img' => 'tab-vertical.png', 'value' => 'vertical', 'label' => __('Tab Vertical', 'themify')),
-					array('img' => 'tab-top.png', 'value' => 'minimal', 'label' => __('Tab Top', 'themify'))
+				'class' => 'large',
+				'render_callback' => array(
+					'binding' => 'live'
 				)
-			),
-			array(
-				'id' => 'color_tab',
-				'type' => 'layout',
-				'label' => __('Tab Color', 'themify'),
-				'options' => Themify_Builder_model::get_colors()
-			),
-			array(
-				'id' => 'tab_appearance_tab',
-				'type' => 'checkbox',
-				'label' => __('Tab Appearance', 'themify'),
-				'default' => array(
-					'rounded', 
-					'gradient'
-				),
-				'options' => Themify_Builder_model::get_appearance()
 			),
 			array(
 				'id' => 'tab_content_tab',
 				'type' => 'builder',
 				'options' => array(
 					array(
-						'id' => 'title_tab',
-						'type' => 'text',
-						'label' => __('Tab Title', 'themify'),
-						'class' => 'large'
+						'id' => 'tab_title_multi',
+						'type' => 'multi',
+						'label' => '',
+						'options' => array(
+							array(
+								'id' => 'title_tab',
+								'type' => 'text',
+								'label' => __('Tab Title', 'themify'),
+								'class' => 'fullwidth',
+								'render_callback' => array(
+									'repeater' => 'tab_content_tab',
+									'binding' => 'live'
+								)
+							),
+							array(
+								'id' => 'icon_tab',
+								'type' => 'text',
+								'label' => __('Icon', 'themify'),
+								'iconpicker' => true,
+								'class' => 'large',
+								'render_callback' => array(
+									'repeater' => 'tab_content_tab',
+									'binding' => 'live'
+								)
+							),
+						)
 					),
 					array(
 						'id' => 'text_tab',
 						'type' => 'wp_editor',
 						'label' => false,
 						'class' => 'fullwidth',
-						'rows' => 6
-					)
-				)
-			)
-		);
-		return $options;
-	}
-
-	public function get_styling() {
-		$styling = array(
-			// Animation
-			array(
-				'id' => 'separator_animation',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Animation', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'animation_effect',
-				'type' => 'animation_select',
-				'label' => __( 'Effect', 'themify' ),
-				'class' => ''
-			),
-			// Background
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Background', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __('Background Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-			),
-			// Font
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Font', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'font_family',
-				'type' => 'font_select',
-				'label' => __('Font Family', 'themify'),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-			),
-			array(
-				'id' => 'font_color',
-				'type' => 'color',
-				'label' => __('Font Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content', '.ui.module-tab h1', '.ui.module-tab h2', '.ui.module-tab h3:not(.module-title)', '.ui.module-tab h4', '.ui.module-tab h5', '.ui.module-tab h6' )
-			),
-			array(
-				'id' => 'multi_font_size',
-				'type' => 'multi',
-				'label' => __('Font Size', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'font_size',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'font_size_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify'))
+						'rows' => 6,
+						'render_callback' => array(
+							'repeater' => 'tab_content_tab',
+							'binding' => 'live'
 						)
 					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height',
-				'type' => 'multi',
-				'label' => __('Line Height', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'line_height',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'line_height_unit',
-						'type' => 'select',
-						'meta' => array(
-							array('value' => '', 'name' => ''),
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => 'em', 'name' => __('em', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					)
-				)
-			),
-			array(
-				'id' => 'text_align',
-				'label' => __( 'Text Align', 'themify' ),
-				'type' => 'radio',
-				'meta' => array(
-					array( 'value' => '', 'name' => __( 'Default', 'themify' ), 'selected' => true ),
-					array( 'value' => 'left', 'name' => __( 'Left', 'themify' ) ),
-					array( 'value' => 'center', 'name' => __( 'Center', 'themify' ) ),
-					array( 'value' => 'right', 'name' => __( 'Right', 'themify' ) ),
-					array( 'value' => 'justify', 'name' => __( 'Justify', 'themify' ) )
 				),
-				'prop' => 'text-align',
-				'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
+				'render_callback' => array(
+					'binding' => 'live'
+				)
 			),
-			// Link
 			array(
 				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
+				'meta' => array( 'html' => '<hr/>')
 			),
 			array(
-				'id' => 'separator_link',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Link', 'themify').'</h4>'),
+				'id' => 'layout_tab',
+				'type' => 'layout',
+				'label' => __('Tab Layout', 'themify'),
+                                'mode'=>'sprite',
+				'options' => array(
+					array('img' => 'tab-frame', 'value' => 'tab-frame', 'label' => __('Tab Frame', 'themify')),
+					array('img' => 'tab-window', 'value' => 'panel', 'label' => __('Tab Window', 'themify')),
+					array('img' => 'tab-vertical', 'value' => 'vertical', 'label' => __('Tab Vertical', 'themify')),
+					array('img' => 'tab-top', 'value' => 'minimal', 'label' => __('Tab Top', 'themify'))
+				),
+				'render_callback' => array(
+					'binding' => 'live'
+				)
 			),
 			array(
-				'id' => 'link_color',
-				'type' => 'color',
-				'label' => __('Color', 'themify'),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.ui.module-tab a'
-			),
-			array(
-				'id' => 'text_decoration',
+				'id' => 'style_tab',
 				'type' => 'select',
-				'label' => __( 'Text Decoration', 'themify' ),
-				'meta'	=> array(
-					array('value' => '',   'name' => '', 'selected' => true),
-					array('value' => 'underline',   'name' => __('Underline', 'themify')),
-					array('value' => 'overline', 'name' => __('Overline', 'themify')),
-					array('value' => 'line-through',  'name' => __('Line through', 'themify')),
-					array('value' => 'none',  'name' => __('None', 'themify'))
+				'label' => __('Tab Icon', 'themify'),
+				'options' => array(
+					'default' => __('Icon beside the title', 'themify'),
+					'icon-top' => __('Icon above the title', 'themify'),
+					'icon-only' => __('Just icons', 'themify'),
 				),
-				'prop' => 'text-decoration',
-				'selector' => '.ui.module-tab a'
-			),
-			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Padding', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_padding_top',
-				'type' => 'multi',
-				'label' => __('Padding', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'padding_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-top',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'padding_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
+				'render_callback' => array(
+					'binding' => 'live'
 				)
 			),
 			array(
-				'id' => 'multi_padding_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-right',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'padding_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
+				'id' => 'color_tab',
+				'type' => 'layout',
+                                'mode'=>'sprite',
+				'label' => __('Tab Color', 'themify'),
+                                'class'=>'tb-colors',
+				'options' => Themify_Builder_model::get_colors(),
+				'render_callback' => array(
+					'binding' => 'live'
 				)
 			),
 			array(
-				'id' => 'multi_padding_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-bottom',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'padding_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_padding_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'padding_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'padding-left',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'padding_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Margin', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_margin_top',
-				'type' => 'multi',
-				'label' => __('Margin', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'margin_top',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-top',
-						'selector' => '.module-tab',
-					),
-					array(
-						'id' => 'margin_top_unit',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_right',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-right',
-						'selector' => '.module-tab',
-					),
-					array(
-						'id' => 'margin_right_unit',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_bottom',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-bottom',
-						'selector' => '.module-tab',
-					),
-					array(
-						'id' => 'margin_bottom_unit',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			array(
-				'id' => 'multi_margin_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'margin_left',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'margin-left',
-						'selector' => '.module-tab',
-					),
-					array(
-						'id' => 'margin_left_unit',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => array(
-							array('value' => 'px', 'name' => __('px', 'themify')),
-							array('value' => '%', 'name' => __('%', 'themify'))
-						)
-					),
-				)
-			),
-			// Border
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_border',
-				'type' => 'separator',
-				'meta' => array('html'=>'<h4>'.__('Border', 'themify').'</h4>'),
-			),
-			array(
-				'id' => 'multi_border_top',
-				'type' => 'multi',
-				'label' => __('Border', 'themify'),
-				'fields' => array(
-					array(
-						'id' => 'border_top_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-top-color',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_top_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-top-width',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_top_style',
-						'type' => 'select',
-						'description' => __('top', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-top-style',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-				)
-			),
-			array(
-				'id' => 'multi_border_right',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_right_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-right-color',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_right_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-right-width',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_right_style',
-						'type' => 'select',
-						'description' => __('right', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-right-style',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					)
-				)
-			),
-			array(
-				'id' => 'multi_border_bottom',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_bottom_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-bottom-color',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_bottom_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-bottom-width',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_bottom_style',
-						'type' => 'select',
-						'description' => __('bottom', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-bottom-style',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					)
-				)
-			),
-			array(
-				'id' => 'multi_border_left',
-				'type' => 'multi',
-				'label' => '',
-				'fields' => array(
-					array(
-						'id' => 'border_left_color',
-						'type' => 'color',
-						'class' => 'small',
-						'prop' => 'border-left-color',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_left_width',
-						'type' => 'text',
-						'description' => 'px',
-						'class' => 'xsmall',
-						'prop' => 'border-left-width',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					),
-					array(
-						'id' => 'border_left_style',
-						'type' => 'select',
-						'description' => __('left', 'themify'),
-						'meta' => Themify_Builder_model::get_border_styles(),
-						'prop' => 'border-left-style',
-						'selector' => array( '.ui.module-tab ul.tab-nav li', '.ui.module-tab .tab-content' ),
-					)
+				'id' => 'tab_appearance_tab',
+				'type' => 'checkbox',
+				'label' => __('Tab Appearance', 'themify'),
+				'options' => Themify_Builder_model::get_appearance(),
+				'render_callback' => array(
+					'binding' => 'live'
 				)
 			),
 			// Additional CSS
@@ -569,10 +134,202 @@ class TB_Tab_Module extends Themify_Builder_Module {
 				'type' => 'text',
 				'label' => __('Additional CSS Class', 'themify'),
 				'class' => 'large exclude-from-reset-field',
-				'description' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') ),
+				'render_callback' => array(
+					'binding' => 'live'
+				)
 			)
 		);
-		return $styling;
+	}
+
+	public function get_default_settings() {
+		return array(
+			'tab_content_tab' => array(
+				array( 'title_tab' => esc_html__( 'Tab Title', 'themify' ), 'text_tab' => esc_html__( 'Tab content', 'themify' ) )
+			),
+			'layout_tab' => 'minimal'
+		);
+	}
+
+	public function get_styling() {
+		$general = array(
+			// Background
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.ui.module-tab', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
+			// Font
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family('.ui.module-tab'),
+                        self::get_color( array( '.ui.module-tab', '.ui.module-tab .tab-content', '.ui.module-tab h1', '.ui.module-tab h2', '.ui.module-tab h3:not(.module-title)', '.ui.module-tab h4', '.ui.module-tab h5', '.ui.module-tab h6' ),'font_color',__('Font Color', 'themify')),
+                        self::get_font_size('.ui.module-tab'),
+                        self::get_line_height('.ui.module-tab'),
+                        self::get_letter_spacing('.ui.module-tab'),
+                        self::get_text_align('.ui.module-tab'),
+                        self::get_text_transform('.ui.module-tab'),
+                        self::get_font_style('.ui.module-tab'),
+			// Link
+                        self::get_seperator('link',__('Link', 'themify')),
+                        self::get_color( '.ui.module-tab a','link_color'),
+                        self::get_color( '.ui.module-tab a:hover','link_color_hover',__('Color Hover', 'themify')),
+                        self::get_text_decoration( '.ui.module-tab a'),
+			// Padding
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.ui.module-tab'),
+			// Margin
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.ui.module-tab'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.ui.module-tab')
+		);
+
+		$title = array(
+			// Background
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.ui.module-tab ul.tab-nav li', 'background_color_title',__( 'Background Color', 'themify' ),'background-color'),
+			// Font
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family('.ui.module-tab ul.tab-nav li a','font_family_title'),
+                        self::get_color('.ui.module-tab ul.tab-nav li a','font_color_title',__('Font Color', 'themify')),
+                        self::get_font_size('.ui.module-tab ul.tab-nav li a','font_size_title'),
+                        self::get_line_height('.ui.module-tab ul.tab-nav li a','line_height_title'),
+                        self::get_text_align(array ( '.ui.module-tab ul.tab-nav', '.ui.module-tab ul.tab-nav li' ),'title_text_align'),
+			// Active Tab
+                        self::get_seperator('active_tab',__('Active Tab', 'themify')),
+                        self::get_color('.ui.module-tab ul.tab-nav li.current a','active_font_color_title',__('Color Active', 'themify')),
+                        self::get_color('.ui.module-tab ul.tab-nav li.current', 'active_background_color_title',__( 'Background Active', 'themify' ),'background-color'),
+                        self::get_color('.ui.module-tab ul.tab-nav li.current a:hover', 'active_hover_font_color_title',__( 'Color Hover', 'themify' ),'background-color'),
+                        self::get_color('.ui.module-tab ul.tab-nav li.current:hover', 'active_hover_background_color_title',__( 'Background Hover', 'themify' ),'background-color'),
+                       // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.ui.module-tab ul.tab-nav li','title_border')
+		);
+
+		$icon = array(
+                        self::get_color( '.ui.module-tab ul.tab-nav li i','icon_color'),
+                        self::get_font_size('.ui.module-tab ul.tab-nav li i','icon_size'),
+			// Active Tab
+                        self::get_seperator('active_tab_icon',__('Active Tab', 'themify')),
+                        self::get_color('.ui.module-tab ul.tab-nav li.current i','active_tab_icon_color')
+		);
+
+		$content = array(
+			// Background
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.ui.module-tab .tab-content', 'background_color_content',__( 'Background Color', 'themify' ),'background-color'),
+			// Font
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family('.ui.module-tab .tab-content','font_family_content'),
+                        self::get_color('.ui.module-tab .tab-content','font_color_content',__('Font Color', 'themify')),
+                        self::get_font_size('.ui.module-tab .tab-content','font_size_content'),
+                        self::get_line_height('.ui.module-tab .tab-content','line_height_content'),
+                        // Padding
+                        self::get_seperator('padding_content',__('Padding', 'themify')),
+                        self::get_padding('.ui.module-tab .tab-content'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.ui.module-tab .tab-content','content_border')
+		);
+
+		return array(
+			array(
+				'type' => 'tabs',
+				'id' => 'module-styling',
+				'tabs' => array(
+					'general' => array(
+						'label' => __('General', 'themify'),
+						'fields' => $general
+					),
+                                        'module-title' => array(
+						'label' => __( 'Module Title', 'themify' ),
+						'fields' => self::module_title_custom_style( $this->slug )
+					),
+					'title' => array(
+						'label' => __('Tab Title', 'themify'),
+						'fields' => $title
+					),
+					'icon' => array(
+						'label' => __('Tab Icon', 'themify'),
+						'fields' => $icon
+					),
+					'content' => array(
+						'label' => __('Tab Content', 'themify'),
+						'fields' => $content
+					)
+				)
+			)
+		);
+
+	}
+
+	protected function _visual_template() {
+		$module_args = self::get_module_args(); ?>
+		<div class="module module-<?php echo  $this->slug; ?> ui tab-style-{{ data.style_tab }} {{ data.layout_tab }} {{ data.color_tab }} {{ data.css_tab }} <# ! _.isUndefined( data.tab_appearance_tab ) ? print( data.tab_appearance_tab.split('|').join(' ') ) : ''; #>">
+			<# if ( data.mod_title_tab ) { #>
+			<?php echo $module_args['before_title']; ?>{{{ data.mod_title_tab }}}<?php echo $module_args['after_title']; ?>
+			<# }
+
+			if ( data.tab_content_tab ) {
+				var counter = 0; #>
+				<div class="builder-tabs-wrap">
+				<ul class="tab-nav">
+					<#
+					_.each( data.tab_content_tab, function( item ) { #>
+						<li class="<# counter === 0 ? print('current') : ''; #>" <# counter === 0 ? print('aria-expanded="true"') : print('aria-expanded="false"'); #>>
+							<a href="#tab-{{ data.cid }}-{{ counter }}">
+								<# if ( item.icon_tab ) { #>
+								<i class="fa {{ item.icon_tab }}"></i>
+								<# } #>
+								<span>{{ item.title_tab }}</span>
+							</a>
+						</li>
+					<#
+						counter++;
+					} ); #>
+				</ul>
+
+				<# counter = 0; #>
+					<#
+					_.each( data.tab_content_tab, function( item ) { #>
+						<div id="#tab-{{ data.cid }}-{{ counter }}" class="tab-content" <# counter === 0 ? print('aria-hidden="false"') : print('aria-hidden="true"'); #>>
+							{{{ item.text_tab }}}
+						</div>
+					<#
+					counter++;
+					} ); #>
+				</div>
+			<# } #>
+		</div>
+	<?php
+	}
+
+	/**
+	 * Render plain content for static content.
+	 * 
+	 * @param array $module 
+	 * @return string
+	 */
+	public function get_plain_content( $module ) {
+		$mod_settings = wp_parse_args( $module['mod_settings'], array(
+			'mod_title_tab' => '',
+			'tab_content_tab' => array()
+		) );
+		$text = '';
+
+		if ( '' !== $mod_settings['mod_title_tab'] ) 
+			$text .= sprintf( '<h3>%s</h3>', $mod_settings['mod_title_tab'] );
+		
+		if ( count( $mod_settings['tab_content_tab'] ) > 0 ) {
+			$text .= '<ul>';
+			foreach( $mod_settings['tab_content_tab'] as $content ) {
+				$content = wp_parse_args($content, array(
+					'title_tab' => '',
+					'text_tab' => '',
+				));
+				$text .= sprintf('<li><h4>%s</h4>%s</li>', $content['title_tab'], $content['text_tab'] );  
+			}
+			$text .= '</ul>';
+		}
+		return $text;
 	}
 }
 

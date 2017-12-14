@@ -4,31 +4,30 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Map
  * Description: Display Map
  */
-class TB_Map_Module extends Themify_Builder_Module {
+class TB_Map_Module extends Themify_Builder_Component_Module {
 	function __construct() {
 		parent::__construct(array(
-			'name' => __( 'Map', 'themify' ),
+			'name' => __('Map', 'themify'),
 			'slug' => 'map'
 		));
 	}
 
-	public function get_title( $module ) {
-		return isset( $module['mod_settings']['address_map'] ) ? esc_textarea( $module['mod_settings']['address_map'] ) : '';
-	}
-
 	public function get_options() {
-		$zoom_opt = range( 1, 16 );
-		$options = array(
+		$zoom_opt = array();
+		for ( $i=1; $i < 17 ; $i++ ) {
+                    $zoom_opt[] = $i;
+		}
+		return array(
 			array(
 				'id' => 'mod_title_map',
 				'type' => 'text',
-				'label' => __( 'Module Title', 'themify' ),
+				'label' => __('Module Title', 'themify'),
 				'class' => 'large'
 			),
 			array(
 				'id' => 'map_display_type',
 				'type' => 'radio',
-				'label' => __( 'Type', 'themify' ),
+				'label' => __('Type', 'themify'),
 				'options' => array(
 					'dynamic' => __( 'Dynamic', 'themify' ),
 					'static' => __( 'Static image', 'themify' ),
@@ -41,20 +40,20 @@ class TB_Map_Module extends Themify_Builder_Module {
 				'type' => 'textarea',
 				'value' => '',
 				'class' => 'fullwidth',
-				'label' => __( 'Address', 'themify' )
+				'label' => __('Address', 'themify')
 			),
 			array(
 				'id' => 'latlong_map',
 				'type' => 'text',
 				'value' => '',
 				'class' => 'large',
-				'label' => __( 'Lat/Long', 'themify' ),
-				'help' => '<br/>' . __( 'Use Lat/Long instead of address (Leave address field empty to use this). Exp: 43.6453137,-79.3918391', 'themify' )
+				'label' => __('Lat/Long', 'themify'),
+				'help' => '<br/>' . __('Use Lat/Long instead of address (Leave address field empty to use this). Exp: 43.6453137,-79.3918391', 'themify')
 			),
 			array(
 				'id' => 'zoom_map',
 				'type' => 'select',
-				'label' => __( 'Zoom', 'themify' ),
+				'label' => __('Zoom', 'themify'),
 				'default' => 8,
 				'options' => $zoom_opt
 			),
@@ -62,32 +61,30 @@ class TB_Map_Module extends Themify_Builder_Module {
 				'id' => 'w_map',
 				'type' => 'text',
 				'class' => 'xsmall',
-				'label' => __( 'Width', 'themify' ),
+				'label' => __('Width', 'themify'),
 				'unit' => array(
 					'id' => 'unit_w',
 					'type' => 'select',
-					'selected' => '%',
 					'options' => array(
 						array( 'id' => 'pixel_unit_w', 'value' => 'px'),
 						array( 'id' => 'percent_unit_w', 'value' => '%')
 					)
 				),
-				'value' => 100,
-				'wrap_with_class' => 'tf-group-element tf-group-element-dynamic'
+				'wrap_with_class' => 'tb-group-element tb-group-element-dynamic'
 			),
 			array(
 				'id' => 'w_map_static',
 				'type' => 'text',
 				'class' => 'xsmall',
-				'label' => __( 'Width', 'themify' ),
+				'label' => __('Width', 'themify'),
 				'value' => 500,
 				'after' => 'px',
-				'wrap_with_class' => 'tf-group-element tf-group-element-static'
+				'wrap_with_class' => 'tb-group-element tb-group-element-static'
 			),
 			array(
 				'id' => 'h_map',
 				'type' => 'text',
-				'label' => __( 'Height', 'themify' ),
+				'label' => __('Height', 'themify'),
 				'class' => 'xsmall',
 				'unit' => array(
 					'id' => 'unit_h',
@@ -101,7 +98,7 @@ class TB_Map_Module extends Themify_Builder_Module {
 			array(
 				'id' => 'multi_map_border',
 				'type' => 'multi',
-				'label' => __( 'Border', 'themify' ),
+				'label' => __('Border', 'themify'),
 				'fields' => array(
 					array(
 						'id' => 'b_style_map',
@@ -127,17 +124,14 @@ class TB_Map_Module extends Themify_Builder_Module {
 						'type' => 'text',
 						'colorpicker' => true,
 						'class' => 'large',
-						'label' => '',
-						'render_callback' => array(
-							'control_type' => 'color'
-						)
+						'label' => ''
 					),
 				)
 			),
 			array(
 				'id' => 'type_map',
 				'type' => 'select',
-				'label' => __( 'Type', 'themify' ),
+				'label' => __('Type', 'themify'),
 				'options' => array(
 					'ROADMAP' => __( 'Road Map', 'themify' ),
 					'SATELLITE' => __( 'Satellite', 'themify' ),
@@ -153,7 +147,7 @@ class TB_Map_Module extends Themify_Builder_Module {
 					'disable' => __( 'Disable', 'themify' ),
 					'enable' => __( 'Enable', 'themify' ),
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-dynamic'
+				'wrap_with_class' => 'tb-group-element tb-group-element-dynamic'
 			),
 			array(
 				'id' => 'draggable_map',
@@ -163,7 +157,7 @@ class TB_Map_Module extends Themify_Builder_Module {
 					'enable' => __( 'Enable', 'themify' ),
 					'disable' => __( 'Disable', 'themify' )
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-dynamic'
+				'wrap_with_class' => 'tb-group-element tb-group-element-dynamic'
 			),
 			array(
 				'id' => 'draggable_disable_mobile_map',
@@ -173,16 +167,16 @@ class TB_Map_Module extends Themify_Builder_Module {
 					'yes' => __( 'Yes', 'themify' ),
 					'no' => __( 'No', 'themify' )
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-dynamic'
+				'wrap_with_class' => 'tb-group-element tb-group-element-dynamic'
 			),
 			array(
 				'id' => 'info_window_map',
 				'type' => 'textarea',
 				'value' => '',
 				'class' => 'fullwidth',
-				'label' => __( 'Info window', 'themify' ),
-				'help' => __( 'Additional info that will be shown when clicking on map marker', 'themify' ),
-				'wrap_with_class' => 'tf-group-element tf-group-element-dynamic'
+				'label' => __('Info window', 'themify'),
+				'help' => __('Additional info that will be shown when clicking on map marker', 'themify'),
+				'wrap_with_class' => 'tb-group-element tb-group-element-dynamic'
 			),
 			// Additional CSS
 			array(
@@ -192,122 +186,40 @@ class TB_Map_Module extends Themify_Builder_Module {
 			array(
 				'id' => 'css_map',
 				'type' => 'text',
-				'label' => __( 'Additional CSS Class', 'themify' ),
+				'label' => __('Additional CSS Class', 'themify'),
 				'class' => 'large exclude-from-reset-field',
-				'help' => sprintf( '<br/><small>%s</small>', __( 'Add additional CSS class(es) for custom styling', 'themify' ) )
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
 			)
 		);
-		return $options;
 	}
 
 	public function get_default_settings() {
-		$settings = array(
+		return array(
 			'address_map' => 'Toronto',
-			'b_style_map' => 'solid'
+			'b_style_map' => 'solid',
+			'w_map' => '100',
+			'unit_w' => '%'
 		);
-		return $settings;
 	}
-
-	public function get_animation() {
-		$animation = array(
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . esc_html__( 'Appearance Animation', 'themify' ) . '</h4>')
-			),
-			array(
-				'id' => 'multi_Animation Effect',
-				'type' => 'multi',
-				'label' => __( 'Effect', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'animation_effect',
-						'type' => 'animation_select',
-						'label' => __( 'Effect', 'themify' )
-					),
-					array(
-						'id' => 'animation_effect_delay',
-						'type' => 'text',
-						'label' => __( 'Delay', 'themify' ),
-						'class' => 'xsmall',
-						'description' => __( 'Delay (s)', 'themify' ),
-					),
-					array(
-						'id' => 'animation_effect_repeat',
-						'type' => 'text',
-						'label' => __( 'Repeat', 'themify' ),
-						'class' => 'xsmall',
-						'description' => __( 'Repeat (x)', 'themify' ),
-					),
-				)
-			)
-		);
-
-		return $animation;
-	}
+        
+        public function get_visual_type() {
+            return 'ajax';            
+        }
 
 	public function get_styling() {
 		$general = array(
 			// Background
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Background', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __( 'Background Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => '.module-map',
-			),
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_color('.module-map', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
 			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Padding', 'themify' ) . '</h4>' ),
-			),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-map', 'top' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-map', 'right' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-map', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-map', 'left' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-map', 'all' ),
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.module-map'),
 			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Margin', 'themify') . '</h4>' ),
-			),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-map', 'top' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-map', 'right' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-map', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-map', 'left' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-map', 'all' ),
-			// Border
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_border',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Border', 'themify' ) . '</h4>' )
-			),
-			Themify_Builder_Model::get_field_group( 'border', '.module-map', 'top' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-map', 'right' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-map', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-map', 'left' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-map', 'all' )
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.module-map'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.module-map')
 		);
 
 		return array(
@@ -316,17 +228,37 @@ class TB_Map_Module extends Themify_Builder_Module {
 				'id' => 'module-styling',
 				'tabs' => array(
 					'general' => array(
-					'label' => __( 'General', 'themify' ),
-					'fields' => $general
+                                            'label' => __( 'General', 'themify' ),
+                                            'fields' => $general
 					),
 					'module-title' => array(
-						'label' => __( 'Module Title', 'themify' ),
-						'fields' => Themify_Builder_Model::module_title_custom_style( $this->slug )
+                                            'label' => __( 'Module Title', 'themify' ),
+                                            'fields' => self::module_title_custom_style( $this->slug )
 					)
 				)
 			)
 		);
 
+	}
+
+	/**
+	 * Render plain content
+	 */
+	public function get_plain_content( $module ) {
+		$mod_settings = wp_parse_args( $module['mod_settings'], array(
+			'mod_title_map' => '',
+			'zoom_map' => 15
+		) );
+		if (!empty($mod_settings['address_map'])) {
+			$mod_settings['address_map'] = preg_replace('/\s+/', ' ', trim($mod_settings['address_map']));
+		}
+		$text = sprintf( '<h3>%s</h3>', $mod_settings['mod_title_map'] );
+		$text .= sprintf(
+			'<iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=%s&amp;t=m&amp;z=%d&amp;output=embed&amp;iwloc=near"></iframe>',
+			urlencode( $mod_settings['address_map'] ),
+			absint( $mod_settings['zoom_map'] )
+		);
+		return $text;
 	}
 }
 

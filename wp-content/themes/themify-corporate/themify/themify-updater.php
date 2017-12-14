@@ -34,6 +34,7 @@ function themify_refresh_versions() {
 		delete_transient( 'themify_update_check_theme' . $theme_hash );
 		delete_transient( 'themify_new_framework' );
 		delete_transient( 'themify_update_check_framework' );
+		delete_transient( 'themify_widget_current_updates' );
 	}
 }
 add_action( 'admin_init', 'themify_refresh_versions' );
@@ -42,10 +43,10 @@ add_action( 'admin_init', 'themify_refresh_versions' );
  * Set transient saving the current date and time of last version checking
  * @param String $type
  */
-function themify_set_update_cookie($type){
+function themify_set_update_cookie($type, $hash = ''){
 	$current = new stdClass();
 	$current->lastChecked = time();
-	set_transient( 'themify_update_check_'.$type, $current );	
+	set_transient( 'themify_update_check_'.$type . $hash, $current );
 }
 
 /**
@@ -65,15 +66,15 @@ function themify_check_version( $area = 'top' ) {
 	$fw_notifications = '';
 
 	// Try get member status from saved login
+	ob_start();
 	$themifyUserMember = themify_get_member_status_cached();
+	ob_end_clean();
 
 	// Setup variables for updater.
 	$theme = wp_get_theme();
 	$theme_name = $theme->get_template();
 	$theme_hash = md5( $theme_name );
 	$theme_version = is_child_theme() ? $theme->parent()->Version : $theme->display('Version');
-
-	$check_theme_name = ( is_child_theme() ) ? $theme->parent()->Name : $theme->display('Name');
 
 	// Setup theme name for display purposes.
 	$theme_label = is_child_theme() ? $theme->parent()->Name : $theme->display('Name');
@@ -174,7 +175,7 @@ log</a> for details.</p>', 'themify' ),
 		}
 
 		if ( isset( $area ) && 'tab' == $area ) {
-			echo wp_kses( $notifications, themify_updater_notice_allowed_tags() );
+			//echo wp_kses( $notifications, themify_updater_notice_allowed_tags() );
 		} else {
 			echo '<div class="notifications">'. $notifications . '</div>';
 		}
@@ -185,13 +186,13 @@ log</a> for details.</p>', 'themify' ),
 	} else {
 		$notifications = '';
 	}
-	//If we didn't knew there was a new version already, let's see if it's 24hs since last check 
+	//If we didn't knew there was a new version already, let's see if it's 24hs since last check
 	$current_theme = get_transient( 'themify_update_check_theme' . $theme_hash );
 	$current_framework = get_transient( 'themify_update_check_framework' );
-
+        $framework_recently_checked = $newVersionFramework = $newVersionTheme = $theme_recently_checked = false;
 	if ( is_object( $current_theme ) && is_object( $current_framework ) ) {
 		//if theme version was checked not long ago
-		if ( 60 * 1 > ( time() - $current_theme->lastChecked ) ) {
+		if ( 60 * 60 > ( time() - $current_theme->lastChecked ) ) {
 			//echo 'Theme Version: Last checked on: '  . date('l jS \of F Y h:i:s A', $current_theme->lastChecked);
 			//return;
 			$theme_recently_checked = true;
@@ -200,172 +201,169 @@ log</a> for details.</p>', 'themify' ),
 		}
 
 		//if framework version was checked not long ago
-		if ( 60 * 1 > ( time() - $current_framework->lastChecked ) ) {
+		if ( 60 * 60 > ( time() - $current_framework->lastChecked ) ) {
 			//echo 'Framework Version: Last checked on: '  . date('l jS \of F Y h:i:s A', $current_framework->lastChecked);
 			//return;
 			$framework_recently_checked = true;
 		} else {
 			$framework_recently_checked = false;
 		}
-
-		//theme and framework were recently checked and no version was available, return
-		if ( $theme_recently_checked && $framework_recently_checked ) {
+	}
+	
+	//theme and framework were recently checked and no version was available, return
+	if ( !$theme_recently_checked || !$framework_recently_checked ) {
+	
+		/**
+		 * Utilizes WordPress HTTP API
+		 * http://codex.wordpress.org/Function_API/wp_remote_request
+		 */
+		$versions_url = 'http://themify.me/versions/versions.xml';
+		$response = wp_remote_get( $versions_url, array( 'sslverify' => false ) );
+		if ( is_wp_error( $response ) ) {
+			//echo '<h4>Can\'t load ' . $versions_url . '</h4><p>' . $response->get_error_code(). '</p>';
 			return;
 		}
-	}
-	
-	/**
-	 * Utilizes WordPress HTTP API
-	 * http://codex.wordpress.org/Function_API/wp_remote_request
-	 */
-	$versions_url = 'http://themify.me/versions/versions.xml';
-	$response = wp_remote_get( $versions_url, array( 'sslverify' => false ) );
-	if ( is_wp_error( $response ) ) {
-		//echo '<h4>Can\'t load ' . $versions_url . '</h4><p>' . $response->get_error_code(). '</p>';
-		return;
-	}
-	//if xml was successfully retrieved, let's delete the transients for theme and framework
-	delete_transient( 'themify_update_check_theme' . $theme_hash );
-	delete_transient( 'themify_update_check_framework' );
-	
-	//Load string to be converted later into an array with themify_xml2array
-	$versions = $response['body'];
-	$newVersionFramework = false;
-	$newVersionTheme = false;
-	$is_free = false;
-	//Begin check
-	if ( isset( $versions ) && '' != $versions ) {
-		$versions = themify_xml2array( $versions );
-		if( ! ( is_array( $versions ) && isset( $versions['versions'] ) ) )
-			return;
-		$theme_notifications = '';
-		$fw_notifications = '';
-		foreach($versions['versions']['_c']['version'] as $update){
-			$latest = str_replace(".","",trim($update['_v']));
+		//if xml was successfully retrieved, let's delete the transients for theme and framework
+		delete_transient( 'themify_update_check_theme' . $theme_hash );
+		delete_transient( 'themify_update_check_framework' );
 		
-			if($update['_a']['name'] == 'themify' && !is_object($newF)){
-				
-				if ( isset( $update['_a']['free'] ) && 'true' == $update['_a']['free'] ) {
-					$login = '';
-                                        $is_free = 1;
-				} else {
-					$login = $themifyUserMember ? '' : 'login';	
-				}
-				//Compares framework version
-				if ( str_replace( '.', '', trim( THEMIFY_VERSION ) ) < $latest ) {
-					/**
-					 * Checks for WordPress' unzip_file
-					 * http://codex.wordpress.org/Function_Reference/unzip_file
-					 */
-					if( function_exists('unzip_file') ){
-						$url = '#';
-						$class = 'upgrade-framework';
-						$target = '';
+		//Load string to be converted later into an array with themify_xml2array
+		$versions = $response['body'];
+		$is_free = false;
+		//Begin check
+		if ( isset( $versions ) && '' != $versions ) {
+			$versions = themify_xml2array( $versions );
+			if( ! ( is_array( $versions ) && isset( $versions['versions'] ) ) )
+				return;
+			$theme_notifications = '';
+			$fw_notifications = '';
+			foreach($versions['versions']['_c']['version'] as $update){
+				$latest = str_replace(".","",trim($update['_v']));
+			
+				if($update['_a']['name'] == 'themify' && !is_object($newF)){
+					
+					if ( isset( $update['_a']['free'] ) && 'true' == $update['_a']['free'] ) {
+						$login = '';
+											$is_free = 1;
 					} else {
-						$url = 'http://themify.me/files/themify/themify.zip';
-						$class = '';
-						$target = '_blank';
+						$login = $themifyUserMember ? '' : 'login';	
 					}
-
-					if ( isset( $_GET['page'] ) && $_GET['page'] == 'themify' ) {
-						if ( isset( $area ) && 'tab' == $area ) {
-							$fw_notifications = '';
+					//Compares framework version
+					if ( str_replace( '.', '', trim( THEMIFY_VERSION ) ) < $latest ) {
+						/**
+						 * Checks for WordPress' unzip_file
+						 * http://codex.wordpress.org/Function_Reference/unzip_file
+						 */
+						if( function_exists('unzip_file') ){
+							$url = '#';
+							$class = 'upgrade-framework';
+							$target = '';
 						} else {
-							$fw_notifications = sprintf( __( '<p class="update %s">Framework version %s is now available. <a href="%s" class="%s" target="%s">Update Now</a> or view the <a href="https://themify.me/changelogs/themify.txt" target="_blank" data-changelog="http://themify.me/changelogs/themify.txt" class="themify_changelogs">change log</a> for details.</p>', 'themify' ),
-								esc_attr( $login ),
-								$update['_v'],
-								esc_url( $url ),
-								esc_attr( $class ),
-								esc_attr( $target )
-							);
+							$url = 'http://themify.me/files/themify/themify.zip';
+							$class = '';
+							$target = '_blank';
 						}
+
+						if ( isset( $_GET['page'] ) && $_GET['page'] == 'themify' ) {
+							if ( isset( $area ) && 'tab' == $area ) {
+								$fw_notifications = '';
+							} else {
+								$fw_notifications = sprintf( __( '<p class="update %s">Framework version %s is now available. <a href="%s" class="%s" target="%s">Update Now</a> or view the <a href="https://themify.me/changelogs/themify.txt" target="_blank" data-changelog="http://themify.me/changelogs/themify.txt" class="themify_changelogs">change log</a> for details.</p>', 'themify' ),
+									esc_attr( $login ),
+									$update['_v'],
+									esc_url( $url ),
+									esc_attr( $class ),
+									esc_attr( $target )
+								);
+							}
+						} else {
+							$fw_notifications = '<div class="notice notice-info"><p class="update">' . sprintf( __( 'Framework version %s is now available. Go to the <a href="%s">Themify panel</a> to update.', 'themify' ),
+								$update['_v'],
+								esc_url( add_query_arg( 'page', 'themify', admin_url( 'admin.php' ) ) )
+							) . '</p></div>';
+						}
+
+						//store variable indicating there is a new version of framework 
+						$newFrameworkStore = new stdClass();
+						$newFrameworkStore->version = $update['_v'];
+						$newFrameworkStore->url = $url;
+						$newFrameworkStore->class = $class;
+						$newFrameworkStore->target = $target;
+						set_transient( 'themify_new_framework', $newFrameworkStore );
+						//echo 'new update for framework stored';
+						$newVersionFramework = true;
+					}
+				} else if( $update['_a']['name'] == strtolower(trim($theme_name)) && !is_object($newT) ){
+					if ( isset( $update['_a']['free'] ) && 'true' == $update['_a']['free'] ) {
+						$login = '';
+						$is_free = 1;
 					} else {
-						$fw_notifications = '<div class="notice notice-info"><p class="update">' . sprintf( __( 'Framework version %s is now available. Go to the <a href="%s">Themify panel</a> to update.', 'themify' ),
-							$update['_v'],
-							esc_url( add_query_arg( 'page', 'themify', admin_url( 'admin.php' ) ) )
-						) . '</p></div>';
+						$login = $themifyUserMember ? '' : 'login';	
 					}
 
-					//store variable indicating there is a new version of framework 
-					$newFrameworkStore = new stdClass();
-					$newFrameworkStore->version = $update['_v'];
-					$newFrameworkStore->url = $url;
-					$newFrameworkStore->class = $class;
-					$newFrameworkStore->target = $target;
-					set_transient( 'themify_new_framework', $newFrameworkStore );
-					//echo 'new update for framework stored';
-					$newVersionFramework = true;
-				}
-			} else if( $update['_a']['name'] == strtolower(trim($theme_name)) && !is_object($newT) ){
-				if ( isset( $update['_a']['free'] ) && 'true' == $update['_a']['free'] ) {
-					$login = '';
-					$is_free = 1;
-				} else {
-					$login = $themifyUserMember ? '' : 'login';	
-				}
-
-				//Compares theme version
-				if(str_replace(".","",$theme_version) < $latest){
-					/**
-					 * Checks for WordPress' unzip_file
-					 * http://codex.wordpress.org/Function_Reference/unzip_file
-					 */
-					if( function_exists('unzip_file') ){
-						$url = '#';
-						$class = 'upgrade-theme';
-						$target = '';
-					} else {
-						$url = 'http://themify.me/files/'.$theme_name.'/'.$theme_name.'.zip';
-						$class = '';
-						$target = '_blank';
-					}
-					if ( isset( $_GET['page'] ) && 'themify' == $_GET['page'] ) {
-						if ( isset( $area ) && 'tab' == $area ) {
-							$theme_notifications = sprintf( __( "<a href='%s' title='' class='%s updateready' target='%s'>Update Now</a> <p class='update %s'>%s version %s is now
-	available. View the <a href='%s' title='' class='themify_changelogs' target='_blank' data-changelog='%s'>change
-	log</a> for details.</p>", 'themify' ),
-								esc_url( $url ),
-								esc_attr( $class ),
-								esc_attr( $target ),
-								esc_attr( $login ),
+					//Compares theme version
+					if(str_replace(".","",$theme_version) < $latest){
+						/**
+						 * Checks for WordPress' unzip_file
+						 * http://codex.wordpress.org/Function_Reference/unzip_file
+						 */
+						if( function_exists('unzip_file') ){
+							$url = '#';
+							$class = 'upgrade-theme';
+							$target = '';
+						} else {
+							$url = 'http://themify.me/files/'.$theme_name.'/'.$theme_name.'.zip';
+							$class = '';
+							$target = '_blank';
+						}
+						if ( isset( $_GET['page'] ) && 'themify' == $_GET['page'] ) {
+							if ( isset( $area ) && 'tab' == $area ) {
+								$theme_notifications = sprintf( __( "<a href='%s' title='' class='%s updateready' target='%s'>Update Now</a> <p class='update %s'>%s version %s is now
+		available. View the <a href='%s' title='' class='themify_changelogs' target='_blank' data-changelog='%s'>change
+		log</a> for details.</p>", 'themify' ),
+									esc_url( $url ),
+									esc_attr( $class ),
+									esc_attr( $target ),
+									esc_attr( $login ),
+									$theme_label,
+									$update['_v'],
+									esc_url( '//themify.me/logs/' . $theme_name . '.txt' ),
+									esc_url( '//themify.me/changelogs/' . $theme_name . '.txt' )
+								);
+							} else {
+								$theme_notifications = sprintf( __( "<p class='update %s'>%s version %s is now available. <a href='%s' title='' class='%s' target='%s'>Update Now</a> or
+		view the <a href='%s' title='' class='themify_changelogs' target='_blank' data-changelog='%s'>change log</a> for
+		details.</p>", 'themify' ),
+									esc_attr( $login ),
+									$theme_label,
+									$update['_v'],
+									esc_url( $url ),
+									esc_attr( $class ),
+									esc_attr( $target ),
+									esc_url( '//themify.me/logs/' . $theme_name . '.txt' ),
+									esc_url( '//themify.me/changelogs/' . $theme_name . '.txt' )
+								);
+							}
+						}else {
+							$theme_notifications = '<div class="update-nag">' . sprintf( __( '%s version %s is now available. Go to the <a href="%s">Themify panel</a> to update.', 'themify' ),
 								$theme_label,
 								$update['_v'],
-								esc_url( '//themify.me/logs/' . $theme_name . '.txt' ),
-								esc_url( '//themify.me/changelogs/' . $theme_name . '.txt' )
-							);
-						} else {
-							$theme_notifications = sprintf( __( "<p class='update %s'>%s version %s is now available. <a href='%s' title='' class='%s' target='%s'>Update Now</a> or
-	view the <a href='%s' title='' class='themify_changelogs' target='_blank' data-changelog='%s'>change log</a> for
-	details.</p>", 'themify' ),
-								esc_attr( $login ),
-								$theme_label,
-								$update['_v'],
-								esc_url( $url ),
-								esc_attr( $class ),
-								esc_attr( $target ),
-								esc_url( '//themify.me/logs/' . $theme_name . '.txt' ),
-								esc_url( '//themify.me/changelogs/' . $theme_name . '.txt' )
-							);
+								esc_url( add_query_arg( 'page', 'themify', admin_url( 'admin.php' ) ) )
+							) . '</div>';
 						}
-					}else {
-						$theme_notifications = '<div class="update-nag">' . sprintf( __( '%s version %s is now available. Go to the <a href="%s">Themify panel</a> to update.', 'themify' ),
-							$theme_label,
-							$update['_v'],
-							esc_url( add_query_arg( 'page', 'themify', admin_url( 'admin.php' ) ) )
-						) . '</div>';
-					}
 
-					//store variable indicating there is a new version of theme
-					$newThemeStore = new stdClass();
-					$newThemeStore->login = $login;
-					$newThemeStore->version = $update['_v'];
-					$newThemeStore->url = $url;
-					$newThemeStore->class = $class;
-					$newThemeStore->target = $target;
-					$newThemeStore->free = $is_free;
-					set_transient( 'themify_new_theme' . $theme_hash, $newThemeStore );
-					//echo 'new update for theme stored';
-					$newVersionTheme = true;
+						//store variable indicating there is a new version of theme
+						$newThemeStore = new stdClass();
+						$newThemeStore->login = $login;
+						$newThemeStore->version = $update['_v'];
+						$newThemeStore->url = $url;
+						$newThemeStore->class = $class;
+						$newThemeStore->target = $target;
+						$newThemeStore->free = $is_free;
+						set_transient( 'themify_new_theme' . $theme_hash, $newThemeStore );
+						//echo 'new update for theme stored';
+						$newVersionTheme = true;
+					}
 				}
 			}
 		}
@@ -373,7 +371,7 @@ log</a> for details.</p>', 'themify' ),
 
 	if(!$newVersionFramework && !$newVersionTheme){
 		//echo 'new update scheduled';
-		themify_set_update_cookie('theme');
+		themify_set_update_cookie('theme', $theme_hash);
 		themify_set_update_cookie('framework');
 	}
 
@@ -384,16 +382,22 @@ log</a> for details.</p>', 'themify' ),
 	}
 
 	if ( isset( $area ) && 'tab' == $area ) {
-		if ( '' == $theme_notifications && ! empty( $versions ) ) {
+		if ( '' == $theme_notifications ) {
 			$login = $themifyUserMember ? '' : 'login';
 			$latest_version = '';
-			foreach( $versions['versions']['_c']['version'] as $version ) {
-				if( isset( $version['_a']['name'] ) && $version['_a']['name'] == get_template() ) {
-					if( isset( $version['_a']['free'] ) && 'true' == $version['_a']['free'] ) {
-						$login = '';
+				if(! empty( $versions )){
+				foreach( $versions['versions']['_c']['version'] as $version ) {
+					if( isset( $version['_a']['name'] ) && $version['_a']['name'] == get_template() ) {
+						if( isset( $version['_a']['free'] ) && 'true' == $version['_a']['free'] ) {
+							$login = '';
+						}
+						$latest_version = trim( $version['_v'] );
 					}
-					$latest_version = trim( $version['_v'] );
 				}
+			} elseif(is_object( $newT )){
+				$latest_version = $newT->version;
+			} else {
+				$latest_version = $theme_version;
 			}
 			$versions_options_html = get_latest_and_back_theme_versions_html( $latest_version, 5 );
 			if ( function_exists( 'unzip_file' ) ) {
@@ -508,7 +512,7 @@ function themify_updater(){
 	if($_GET['login'] == 'true'){
 
 			$response = wp_remote_post(
-				'http://themify.me/member/login.php',
+				'https://themify.me/member/login',
 				array(
 					'timeout' => 300,
 					'headers' => array(),
@@ -526,6 +530,12 @@ function themify_updater(){
 				echo 'Error: ' . $errorCode;
 				themify_clean_member_status_cached();
 				die();
+			}
+			if( isset( $response['response']['code'] ) ) {
+				if( $response['response']['code'] !== 200 ) {
+					echo 'Login URL failed. Please contact Themify (https://themify.me/contact). Error code: ' . $response['response']['code'];
+					die();
+				}
 			}
 
 			//Connection to server was successful. Test login cookie

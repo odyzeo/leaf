@@ -1068,6 +1068,8 @@
 			$(this).next().val( JSON.stringify( fonts ) );
 		}).change();
 
+		$( '.required-addons.themify-modal' ).appendTo( 'form#themify' );
+
 		// Skin selection in the Demo Import notice box
 		$( 'body' ).on( 'click', '#demo-import-notice .skin-preview', function(e){
 			if( ! $( e.target ).parent().hasClass( 'view-demo' ) ) {
@@ -1078,35 +1080,43 @@
 			$( '#skins .skin-preview[data-skin="' + $(this).data( 'skin' ) + '"]' ).trigger( 'click' );
 		} );
 
-		$( 'body' ).on( 'click', '.skin-demo-import, .proceed-import', function(e){
+		$( '#demo-import-notice .skin-demo-import' ).click( function(){
+			$( '#skins .skin-preview.selected .skin-demo-import' ).click();
+		} );
+
+		$( 'body' ).on( 'click', '#skins .skin-demo-import', function(e){
 			e.preventDefault();
 			var $this = $( this ),
-				$preview = $this.closest( '.skin-preview' ).find( '.skin-demo-content' );
+				$preview = $this.closest( '.skin-preview' ).find( '.skin-demo-content' ),
+				skin_name = $preview.data( 'skin' );
 			var do_import = function(){
 				$.ajax({
 					url: ajaxurl,
 					data: {
 						action: 'themify_import_sample_content',
-						skin : $preview.data( 'skin' ),
+						skin : skin_name,
 						nonce: themify_js_vars.nonce
 					},
 					type: 'POST',
 					success: function(data){
 					},
 					beforeSend: function(){
-						$preview.addClass( 'busy' );
+						showAlert();
 					},
 					complete: function(){
-						$preview.removeClass( 'busy' );
-						window.location.reload();
+						hideAlert();
+						window.location = themify_js_vars.admin_url;
 					}
 				} );
 			}
-			if( ! $this.hasClass( 'proceed-import' ) // for the Proceed Import button, do the import without checking for required addons
-				&& $this.closest( '.skin-preview' ).find( '.required-addons' ).length
-			) {
-				$this.closest( '.skin-preview' ).find( '.required-addons' ).fadeIn()
-					.find( '.skin-demo-import-proceed' ).off().on( 'click', do_import )
+			
+			var requirements = $( '#themify .required-addons[data-skin="' + skin_name + '"]:first' );
+			if( requirements.length ) {
+				requirements.fadeIn()
+					.find( '.proceed-import' ).off().on( 'click', function(e){
+						e.preventDefault();
+						do_import();
+					} )
 					// patch up the issue of links not working inside the modal box
 					.end()
 					.find( 'a.external-link' ).on( 'click', function(){
@@ -1115,7 +1125,7 @@
 			} else {
 				do_import();
 			}
-		}).on( 'click', '.skin-erase-demo', function(e){
+		}).on( 'click', '#skins .skin-erase-demo', function(e){
 			e.preventDefault();
 			var $this = $( this ),
 				$preview = $this.closest( '.skin-demo-content' );
@@ -1130,63 +1140,80 @@
 				success: function(data){
 				},
 				beforeSend: function(){
-					$preview.addClass( 'busy' );
+					showAlert();
 				},
 				complete: function(){
-					$preview.removeClass( 'busy' );
+					hideAlert();
 				}
 			} );
 		});
 
-		var $demo_import_buttons = $('.import-sample-content'),
-			$demo_erase_buttons = $('.erase-sample-content');
+		$( '#demo-import-notice .import-sample-content' ).click( function(){
+			$( '#demo-import .import-sample-content' ).click();
+		} );
 
-		$demo_import_buttons.click(function(){
+		// Import Demo button in main tab
+		$( '#demo-import .import-sample-content' ).click(function(){
 			var $button = $(this);
+			var required_addons = $( '#themify' ).find( '.required-addons' );
+
 			if( $button.hasClass( 'disabled' ) ) {
 				return false;
 			}
-			if( ! window.confirm( themify_lang.confirm_demo ) ) {
-				return false;
-			}
-			$demo_import_buttons.addClass( 'disabled' );
-			$.ajax({
-				url: ajaxurl,
-				data: {
-					action: 'themify_import_sample_content',
-					nonce: themify_js_vars.nonce
-				},
-				type: 'POST',
-				success: function(data){
-				},
-				beforeSend: function(){
-					$button
-					.find('span').text( $button.attr('data-importing') ).end()
-					.find('i').removeClass().addClass( 'fa fa-cog fa-spin' );
-				},
-				complete: function(){
-					$button.addClass('import-success').click(function(){
-						$(this).parent().find('.dismiss-import-notice:first').click();
-					})
-					.find('span').text( $button.attr('data-success') ).end()
-					.find('i').removeClass().addClass( 'fa fa-check-circle' );
 
-					$demo_erase_buttons.removeClass( 'disabled' )
-					.find('i').removeClass().addClass('fa fa-times').end()
-					.find('span').text( $demo_erase_buttons.attr('data-default') );
+			var do_import = function(){
+				$.ajax({
+					url: ajaxurl,
+					data: {
+						action: 'themify_import_sample_content',
+						nonce: themify_js_vars.nonce
+					},
+					type: 'POST',
+					success: function(data){
+					},
+					beforeSend: function(){
+						$button
+							.find('span').text( $button.attr('data-importing') );
+						showAlert();
+					},
+					complete: function(){
+						$button
+							.find('span').text( $button.attr('data-success') );
+						hideAlert();
 
-					// reload the page so users can see the new settings
-					window.location.reload();
+						// reload the page so users can see the new settings
+						window.location = themify_js_vars.admin_url;
+					}
+				});
+			};
+
+			if( required_addons.length ) {
+				required_addons.fadeIn()
+				.find( '.proceed-import' ).off().on( 'click', function(e){
+					e.preventDefault();
+					do_import();
+				} )
+					// patch up the issue of links not working inside the modal box
+					.end()
+					.find( 'a.external-link' ).on( 'click', function(){
+						window.location = $( this ).attr( 'href' );
+					} );
+			} else {
+				if( ! window.confirm( themify_lang.confirm_demo ) ) {
+					return false;
 				}
-			});
+				do_import();
+			}
 			return false;
 		});
-		$demo_erase_buttons.click(function(){
+
+		// Erase Demo button
+		$('.erase-sample-content').click(function(){
 			var $button = $(this);
 			if( $button.hasClass( 'disabled' ) ) {
 				return false;
 			}
-			$demo_erase_buttons.addClass( 'disabled' );
+			$button.addClass( 'disabled' );
 			$.ajax({
 				url: ajaxurl,
 				data: {
@@ -1198,22 +1225,18 @@
 				},
 				beforeSend: function(){
 					$button
-					.find('span').text( $button.attr('data-erasing') ).end()
-					.find('i').removeClass().addClass('fa fa-cog fa-spin');
+						.find('span').text( $button.attr('data-erasing') );
+					showAlert();
 				},
 				complete: function(){
 					$button
-					.find('span').text( $button.attr('data-success') ).end()
-					.find('i').removeClass().addClass( 'fa fa-check-circle' );
-
-					$demo_import_buttons.removeClass( 'disabled' ).removeClass( 'import-success' )
-					.find('i').removeClass().addClass('fa fa-arrow-down').end()
-					.find('span').text( $demo_import_buttons.attr('data-default') );
+						.find('span').text( $button.attr('data-success') );
+					hideAlert();
 				}
 			});
 			return false;
 		});
-		$( '.themify-modal .close' ).click(function(){
+		$( '.themify-modal .dismiss-import-notice' ).click(function(){
 			$( this ).closest( '.themify-modal' ).fadeOut();
 			return false;
 		});
@@ -1435,6 +1458,6 @@
 				$item.removeAttr( 'title' );		
 				$item.append( '<span class="tm-option-title-fw">' + title + '</span>' );		
 			} );		
-		}		
+		}
 	} );
 })(jQuery);

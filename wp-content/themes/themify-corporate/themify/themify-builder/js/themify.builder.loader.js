@@ -1,195 +1,120 @@
 /*! Themify Builder - Asynchronous Script and Styles Loader */
-var tbLoaderVars, themifyBuilder;
+(function ($, window, document) {
+    'use strict';
+    $(document).ready(function () {
+        function remove_tinemce() {
+            if (tinymce !== undefined && tinyMCE) {
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['wp_autoresize_on'] = false;
+                var content_css = tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['content_css'].split(',');
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['content_css'] = content_css[1] !== undefined ? content_css[1] : content_css[0];
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['plugins'] = 'charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,wordpress,wpautoresize,wpeditimage,wpemoji,wpgallery,wpdialogs,wptextpattern,wpview,wplink';
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['indent'] = 'simple';
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['ie7_compat'] = false;
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['root_name'] = 'div';
+                tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['relative_urls'] = true;
+                tinyMCE.execCommand('mceRemoveEditor', true, 'tb_lb_hidden_editor');
+                $('#wp-tb_lb_hidden_editor-editor-container,#wp-tb_lb_hidden_editor-editor-tools').remove();
+            }
+        }
+        var builderLoader = false,
+            $body = $('body');
+        if (wp === undefined || wp.customize === undefined) {
+			$( '.themify_builder_content:not(.not_editable_builder)' ).each( function(){
+				var link = '<a class="themify_builder_turn_on js-turn-on-builder" href="javascript:void(0);"><span class="dashicons dashicons-edit" data-id="' + $( this ).data( 'postid' ) + '"></span>' + tbLoaderVars.turnOnBuilder + '</a>';
+				$( this ).after( link );
+			} );
+        }
 
-(function($, window, document, undefined){
+        var responsiveSrc = window.location.href.indexOf('?') > 0 ? '&' : '?';
+        responsiveSrc = window.location.href.replace(window.location.hash, '').replace('#', '') + responsiveSrc + 'tb-preview=1&ver=' + tbLocalScript.version;
+        $body.one('click.tbloader', '.toggle_tb_builder a:first, a.js-turn-on-builder', function (e) {
+            e.preventDefault();
+            var post_id = $( this ).find( '> span' ).data('id');
+            setTimeout(remove_tinemce, 1);
+            //remove unused the css/js to make faster switch mode/window resize
+            var $children = $body.children(),
+                css = Array.prototype.slice.call(document.head.getElementsByTagName('link')),
+                js_styles = Array.prototype.slice.call(document.head.getElementsByTagName('script')).concat(Array.prototype.slice.call(document.head.getElementsByTagName('style')));
+            $body[0].insertAdjacentHTML('beforeend', '<div class="themify_builder_workspace_container"><iframe src="' + responsiveSrc + '" id="themify_builder_site_canvas_iframe" name="themify_builder_site_canvas_iframe" class="themify_builder_site_canvas_iframe"></iframe></div>');
+            if (!builderLoader) {
+                setTimeout(function () {
+                    for (var i = 0, len = tbLoaderVars.styles.length; i < len; ++i) {
+                        Themify.LoadCss(tbLoaderVars.styles[i]);
+                    }
+                    for (var i = 0, len = tbLoaderVars.js.length; i < len; ++i) {
+                        if (tbLoaderVars.js[i].external) {
+                            var s = document.createElement('script');
+                            s.type = 'text/javascript';
+                            s.text = tbLoaderVars.js[i].external;
+                            var t = document.getElementsByTagName('script')[0];
+                            t.parentNode.insertBefore(s, t);
+                        }
+                        Themify.LoadAsync(tbLoaderVars.js[i].src, null, tbLoaderVars.js[i].ver);
+                    }
+                    builderLoader = $('<div/>', {
+                        id: 'themify_builder_alert',
+                        class: 'tb_busy'
+                    });
+                    $body[0].insertAdjacentHTML('afterbegin', '<div class="themify_builder_fixed_scroll" id="themify_builder_fixed_bottom_scroll"></div>');
+                    $body.append(builderLoader);
+                    // Change text to indicate it's loading
+                    $('.themify_builder_front_icon').length && $('.themify_builder_front_icon').parent()[0].insertAdjacentHTML('beforeend', tbLoaderVars.progress);
+                }, 1);
+            }
+            $('#themify_builder_site_canvas_iframe').one('load', function () {
+                $('body').one('themify_builder_ready', function (e) {
+                    builderLoader.fadeOut(100, function () {
+                        $(this).removeClass('tb_busy');
+                    });
+                    $('.themify_builder_workspace_container').show();
+                    $children.hide();
+                    for (var i = 0, len = js_styles.length; i < len; ++i) {
+                        if (js_styles[i] && js_styles[i].parentNode) {
+                            js_styles[i].parentNode.removeChild(js_styles[i]);
+                        }
+                    }
+                    js_styles = null;
+                    for (var i = 0, len = css.length; i < len; ++i) {
+                        if (css[i] && css[i].parentNode && css[i].getAttribute('id') !== 'dashicons-css' && css[i].getAttribute('href').indexOf('tinymce/skins') === -1) {
+                            css[i].parentNode.removeChild(css[i]);
+                        }
+                    }
+                    css = null;
+                    $('.themify_builder_content,#wpadminbar,header').remove();
+                    $children.filter('ul,a,video,audio').remove();
+                    $(window).off();
+                    $body.off('scroll');
+                    $(document).off();
+                    $('html').removeAttr('style class');
+                    $body.prop('class', 'themify_builder_active builder-breakpoint-desktop').removeAttr('style');
+                    tbLoaderVars = null;
+                });
+                this.contentWindow.themifyBuilder.post_ID = post_id;
+                this.contentWindow.jQuery('body').trigger('builderiframeloaded.themify', this);
+            });
+        });
+        if (window.location.hash === '#builder_active') {
+            $(document).on('tinymce-editor-init', function (event, editor) {
+                if (editor.id === 'tb_lb_hidden_editor') {
+                    $('.js-turn-on-builder').first().trigger('click');
+                    window.location.hash = '';
+                }
+            });
+        }
+        else {
+            //cache iframe content in background and tincymce content_css
+            var link = '<link href="' + responsiveSrc + '" rel="prerender prefetch"/>',
+                $tinemce = tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['content_css'].split(','),
+                cache_suffix = tinyMCEPreInit.mceInit['tb_lb_hidden_editor']['cache_suffix'];
+            for (var i = 0, len = $tinemce.length; i < len; ++i) {
+                $tinemce[i] += ($tinemce[i].indexOf('?') > -1 ? '&' : '?') + cache_suffix;
+                link += '<link href="' + $tinemce[i] + '" rel="prefetch"/>';
+            }
+            document.getElementsByTagName('head')[0].insertAdjacentHTML('beforeend', link);
+        }
+    });
 
-	'use strict';
 
-	function updateQueryString(a,b,c){
-		c||(c=window.location.href);var d=RegExp("([?|&])"+a+"=.*?(&|#|$)(.*)","gi");if(d.test(c))return b!==void 0&&null!==b?c.replace(d,"$1"+a+"="+b+"$2$3"):c.replace(d,"$1$3").replace(/(&|\?)$/,"");if(b!==void 0&&null!==b){var e=-1!==c.indexOf("?")?"&":"?",f=c.split("#");return c=f[0]+e+a+"="+b,f[1]&&(c+="#"+f[1]),c}return c;
-	}
 
-	$(document).ready(function(){
-
-		var $tbContent = $('.themify_builder_content:not(.not_editable_builder)'),
-			in_customizer = typeof wp !== 'undefined' && typeof wp.customize !== 'undefined',// check for wp.customize return boolean
-			builderLoader = $('<div/>', {
-				id: 'themify_builder_alert',
-				class: 'themify-builder-alert busy'
-			});
-		if ( $tbContent.length > 0 && ! in_customizer ) {
-			$tbContent.after( '<a class="themify_builder_turn_on js-turn-on-builder" href="#"><span class="dashicons dashicons-edit"></span>' + tbLoaderVars.turnOnBuilder + '</a>' );
-		}
-
-		// #wp-link-backdrop, #wp-link-wrap
-		$('#wp--wrap').remove();
-
-		$('body').on('click.tbloader', '.toggle_tf_builder a:first, a.js-turn-on-builder', function(e){
-			
-			e.preventDefault();
-
-			if( $( '.themify-builder-alert' ).length === 0 ) {
-				$( 'body' ).append( builderLoader );
-			}
-
-			// Change text to indicate it's loading
-			$('.themify_builder_front_icon').parent().append($(tbLoaderVars.progress));
-
-			// Fire the ajax request.
-			var jqxhr = $.post( tbLoaderVars.ajaxurl, {
-				action: 'themify_builder_loader',
-				scripts: tbLoaderVars.assets.scripts,
-				styles: tbLoaderVars.assets.styles
-			});
-
-			// Allow refreshes to occur again if an error is triggered.
-			jqxhr.fail( function() {
-				$("#themify_builder_alert").removeClass("busy").fadeOut(800);
-				window.console && console.log( 'AJAX failed' );
-			});
-
-			// Success handler
-			jqxhr.done( function( response ) {
-	
-				try {
-					response = $.parseJSON( response );
-				} catch(e) {
-					window.console && console.log( response );
-					return;
-				}
-
-				if ( ! response ) {
-					return;
-				}
-				
-				
-				// Count styles and scripts
-				var countStyles = 0, countScripts = 0;
-				
-				$.ajax({
-					url:tbLoaderVars.ajaxurl,
-					type:'POST',
-					data:{'action':'themify_builder_loader_tpl', 'post_id': tbLoaderVars.post_ID},
-					success:function(resp){
-						
-						if (resp) {
-							// Append template script to DOM in requested location
-							document.getElementsByTagName( 'body' )[0].insertAdjacentHTML("beforeend", resp);
-						}
-
-						// Load scripts
-						if ( response.scripts ) {
-							countScripts = response.scripts.length - 1;
-
-							$( response.scripts ).each( function() {
-								var elementToAppendTo = this.footer ? 'body' : 'head';
-
-								// Add script handle to list of those already parsed
-								tbLoaderVars.assets.scripts.push( this.handle );
-
-								// Output extra data, if present
-								if ( this.jsVars ) {
-									var data = document.createElement('script'),
-										dataContent = document.createTextNode( "//<![CDATA[ \n" + this.jsVars + "\n//]]>" );
-
-									data.type = 'text/javascript';
-									data.appendChild( dataContent );
-
-									document.getElementsByTagName( elementToAppendTo )[0].appendChild(data);
-								}
-
-								// Build script object
-								var script = document.createElement('script');
-								script.type = 'text/javascript';
-								script.src = this.src;
-								script.id = this.handle;
-								script.async = false;
-								script.onload = function(){
-									if ( 0 === countScripts ) {
-										// Write themifyBuilder.post_ID
-										if ( themifyBuilder ) {
-											themifyBuilder.post_ID = tbLoaderVars.post_ID;
-											themifyBuilder.isRevisionEnabled = tbLoaderVars.isRevisionEnabled;
-										}
-
-										// Remove click event
-										$('body').off('click.tbloader');
-
-										// Initialize Builder
-										// Event replaces $(document).ready() and $(window).load()
-										// Functions hooked to those events must be hooked to this instead
-										$('body').trigger('builderscriptsloaded.themify');
-									}
-									countScripts--;
-								};
-								script.onerror = function() {
-									countScripts--;
-								};
-
-								// Append script to DOM in requested location
-								document.getElementsByTagName( elementToAppendTo )[0].appendChild(script);
-
-							} );
-						}
-						else{
-							$('body').trigger('builderscriptsloaded.themify');
-						}
-
-						// responsive iframe
-						var responsiveSrc = updateQueryString('tb-preview', 1, window.location.href );
-                                                responsiveSrc = responsiveSrc.replace('#builder_active','');
-						$('#themify_builder_site_canvas_iframe').attr('src', responsiveSrc).on('load', function(){
-							$('body').trigger('builderiframeloaded.themify');
-						});
-						
-					}
-				});
-				
-				// Load styles
-				if ( response.styles ) {
-					countStyles = response.styles.length - 1;
-					$( response.styles ).each( function() {
-						// Add stylesheet handle to list of those already parsed
-						tbLoaderVars.assets.styles.push( this.handle );
-
-						// Build link tag
-						var style = document.createElement('link');
-						style.rel = 'stylesheet';
-						style.href = this.src;
-						style.id = this.handle + '-css';
-						style.async = false;
-						style.onload = function(){
-							if ( 0 === countStyles ) {
-								// Event replaces $(document).ready() and $(window).load()
-								// Functions hooked to those events must be hooked to this instead
-								$('body').trigger('builderstylesloaded.themify');
-							}
-							countStyles--;
-						};
-						style.onerror = function() {
-							countStyles--;
-						};
-
-						// Append link tag if necessary
-						if ( style ) {
-							document.getElementsByTagName('head')[0].appendChild(style);
-						}
-					} );
-				}
-				
-			});
-
-		});
-
-		// Grab hash url #builder_active then activate frontend edit
-		if ( window.location.hash === "#builder_active" ) {
-			if ( $('.toggle_tf_builder a:first').length > 0 ) {
-				$('.toggle_tf_builder a:first').trigger('click');
-			} else if ( $('.js-turn-on-builder').length > 0 ) {
-				$('.js-turn-on-builder').first().trigger( 'click' );
-			}
-		}
-
-	});
 
 })(jQuery, window, document);

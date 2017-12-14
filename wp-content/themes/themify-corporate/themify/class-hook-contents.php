@@ -59,7 +59,7 @@ class Themify_Hooks {
 		$query_object = get_queried_object();
 
 		// Logged-in check
-		if( isset( $logic['general']['logged'] ) ) {
+		if ( isset( $logic['general']['logged'] ) ) {
 			if( ! is_user_logged_in() ) {
 				return false;
 			}
@@ -82,7 +82,7 @@ class Themify_Hooks {
 
 			if (
 				( is_front_page() && isset($logic['general']['home']) )
-				|| ( is_page() && isset( $logic['general']['page'] ) && ! is_front_page() )
+				|| ( is_page() && isset( $logic['general']['page'] ) && ! is_front_page() && ! themify_is_custom_404() )
 				|| ( is_single() && isset($logic['general']['single']) )
 				|| ( is_search() && isset($logic['general']['search']) )
 				|| ( is_author() && isset($logic['general']['author']) )
@@ -93,6 +93,7 @@ class Themify_Hooks {
 				|| ( is_month() && isset($logic['general']['month']) )
 				|| ( is_day() && isset($logic['general']['day']) )
 				|| ( is_singular() && isset($logic['general'][$query_object->post_type]) && $query_object->post_type != 'page' && $query_object->post_type != 'post' )
+				|| ( is_post_type_archive() && isset( $logic['post_type_archive'][$query_object->name] ) && $query_object->name != 'page' && $query_object->name != 'post' )
 				|| ( is_tax() && isset($logic['general'][$query_object->taxonomy]) )
 			) {
 				$visible = true;
@@ -432,11 +433,18 @@ class Themify_Hooks {
 		$checked = isset( $selected['general']['logged'] ) ? checked( $selected['general']['logged'], 'on', false ) : '';
 		$output .= '<label><input type="checkbox" name="general[logged]" '. $checked .' />' . __( 'User logged in', 'themify' ) . '</label>';
 
-		/* General views for CPT */
+		/* CPT Single View */
 		foreach ( get_post_types( array( 'public' => true, 'exclude_from_search' => false, '_builtin' => false ) ) as $key => $post_type ) {
 			$post_type = get_post_type_object( $key );
 			$checked = isset( $selected['general'][$key] ) ? checked( $selected['general'][$key], 'on', false ) : '';
 			$output .= '<label><input type="checkbox" name="' . esc_attr('general[' . $key . ']' ) . '" ' . $checked . ' />' . sprintf( __( 'Single %s View', 'themify' ), $post_type->labels->singular_name ) . '</label>';
+		}
+
+		/* CPT Archive View*/
+		foreach ( get_post_types( array( 'public' => true, 'exclude_from_search' => false, '_builtin' => false, 'has_archive' => true ) ) as $key => $post_type ) {
+			$post_type = get_post_type_object( $key );
+			$checked = isset( $selected['post_type_archive'][$key] ) ? checked( $selected['post_type_archive'][$key], 'on', false ) : '';
+			$output .= '<label><input type="checkbox" name="' . esc_attr('post_type_archive[' . $key . ']' ) . '" ' . $checked . ' />' . sprintf( __( '%s Archive View', 'themify' ), $post_type->labels->singular_name ) . '</label>';
 		}
 
 		/* Custom taxonomies archive view */

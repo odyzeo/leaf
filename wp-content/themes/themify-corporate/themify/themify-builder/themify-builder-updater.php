@@ -50,16 +50,11 @@ class Themify_Builder_Updater {
 		$this->versions_url = 'http://themify.me/versions/versions.xml';
 		$this->package_url = "http://themify.me/files/{$this->name}/{$this->name}.zip";
 
-		if( isset( $_GET['page'] ) && ! isset( $_GET['action'] ) && ( $_GET['page'] == 'themify-builder' || $_GET['page'] == 'themify' ) ) {
+		if( isset( $_GET['page'] ) && ! isset( $_GET['action'] ) && ( $_GET['page'] === 'themify-builder' || $_GET['page'] === 'themify' ) ) {
 			add_action( 'admin_notices', array( $this, 'check_version' ), 3 );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
-		} elseif( isset( $_GET['page'] ) && isset( $_GET['action'] ) && ( $_GET['page'] == 'themify-builder' || $_GET['page'] == 'themify' ) ) {
+		} elseif( isset( $_GET['page'] ) && isset( $_GET['action'] ) && ( $_GET['page'] === 'themify-builder' || $_GET['page'] === 'themify' ) ) {
 			add_action( 'admin_notices', 'themify_builder_updater', 3 );
-		}
-
-		if( defined('WP_DEBUG') && WP_DEBUG ) {
-			delete_transient( "{$this->name}_new_update" );
-			delete_transient( "{$this->name}_check_update" );
 		}
 
 		//Executes themify_updater function using wp_ajax_ action hook
@@ -68,25 +63,68 @@ class Themify_Builder_Updater {
 
 	public function check_version() {
 		$notifications = '';
+		$cached_notifications = get_transient( 'themify_builder_update_notifications_' . $this->name );
 
-		// Check update transient
-		$current = get_transient( "{$this->name}_check_update" ); // get last check transient
-		$timeout = 60;
-		$time_not_changed = isset( $current->lastChecked ) && $timeout > ( time() - $current->lastChecked );
-		$newUpdate = get_transient( "{$this->name}_new_update" ); // get new update transient
+		if( empty( $cached_notifications ) ) {
+			// Check update transient
+			$current = get_transient( "{$this->name}_check_update" ); // get last check transient
+			$timeout = 60;
+			$time_not_changed = isset( $current->lastChecked ) && $timeout > ( time() - $current->lastChecked );
+			$newUpdate = get_transient( "{$this->name}_new_update" ); // get new update transient
 
-		if ( is_object( $newUpdate ) && $time_not_changed ) {
-			if ( version_compare( $this->version, $newUpdate->version, '<') ) {
+			if ( is_object( $newUpdate ) && $time_not_changed ) {
+				if ( version_compare( $this->version, $newUpdate->version, '<') ) {
+					$notifications .= sprintf( __('<p class="update %s">%s version %s is now available. <a href="%s" title="" class="%s" target="%s" data-plugin="%s"
+	data-package_url="%s" data-nicename_short="%s" data-update_type="%s">Update now</a> or view the <a href="%s" title=""
+	class="themify_changelogs" target="_blank" data-changelog="%s">change
+	log</a> for details.</p>', 'themify'),
+						esc_attr( $newUpdate->login ),
+						$this->nicename,
+						$newUpdate->version,
+						esc_url( $newUpdate->url ),
+						esc_attr( $newUpdate->class ),
+						esc_attr( $newUpdate->target ),
+						esc_attr( $this->slug ),
+						esc_attr( $this->package_url ),
+						esc_attr( $this->nicename_short ),
+						esc_attr( $this->update_type ),
+						esc_url( 'http://themify.me/changelogs/' . $this->name . '.txt' ),
+						esc_url( 'http://themify.me/changelogs/' . $this->name . '.txt' )
+					);
+					echo '<div class="notifications">'. $notifications . '</div>';
+				}
+				return;
+			}
+
+			// get remote version
+			$remote_version = $this->get_remote_version();
+
+			// delete update checker transient
+			delete_transient( "{$this->name}_check_update" );
+
+			$class = "";
+			$target = "";
+			$url = "#";
+			
+			$new = new stdClass();
+			$new->login = 'login';
+			$new->version = $remote_version;
+			$new->url = $url;
+			$new->class = 'themify-builder-upgrade-plugin';
+			$new->target = $target;
+
+			if ( version_compare( $this->version, $remote_version, '<' ) ) {
+				set_transient( 'themify_builder_new_update', $new );
 				$notifications .= sprintf( __('<p class="update %s">%s version %s is now available. <a href="%s" title="" class="%s" target="%s" data-plugin="%s"
-data-package_url="%s" data-nicename_short="%s" data-update_type="%s">Update now</a> or view the <a href="%s" title=""
-class="themify_changelogs" target="_blank" data-changelog="%s">change
-log</a> for details.</p>', 'themify'),
-					esc_attr( $newUpdate->login ),
+	data-package_url="%s" data-nicename_short="%s" data-update_type="%s">Update now</a> or view the <a href="%s" title=""
+	class="themify_changelogs" target="_blank" data-changelog="%s">change
+	log</a> for details.</p>', 'themify'),
+					esc_attr( $new->login ),
 					$this->nicename,
-					$newUpdate->version,
-					esc_url( $newUpdate->url ),
-					esc_attr( $newUpdate->class ),
-					esc_attr( $newUpdate->target ),
+					$new->version,
+					esc_url( $new->url ),
+					esc_attr( $new->class ),
+					esc_attr( $new->target ),
 					esc_attr( $this->slug ),
 					esc_attr( $this->package_url ),
 					esc_attr( $this->nicename_short ),
@@ -94,58 +132,22 @@ log</a> for details.</p>', 'themify'),
 					esc_url( 'http://themify.me/changelogs/' . $this->name . '.txt' ),
 					esc_url( 'http://themify.me/changelogs/' . $this->name . '.txt' )
 				);
-				echo '<div class="notifications">'. $notifications . '</div>';
 			}
-			return;
+
+			// update transient
+			$this->set_update();
+			set_transient( 'themify_builder_update_notifications_'. $this->name, $notifications, HOUR_IN_SECONDS );
+		} else {
+			$notifications = $cached_notifications;
 		}
 
-		// get remote version
-		$remote_version = $this->get_remote_version();
-
-		// delete update checker transient
-		delete_transient( "{$this->name}_check_update" );
-
-		$class = "";
-		$target = "";
-		$url = "#";
-		
-		$new = new stdClass();
-		$new->login = 'login';
-		$new->version = $remote_version;
-		$new->url = $url;
-		$new->class = 'themify-builder-upgrade-plugin';
-		$new->target = $target;
-
-		if ( version_compare( $this->version, $remote_version, '<' ) ) {
-			set_transient( 'themify_builder_new_update', $new );
-			$notifications .= sprintf( __('<p class="update %s">%s version %s is now available. <a href="%s" title="" class="%s" target="%s" data-plugin="%s"
-data-package_url="%s" data-nicename_short="%s" data-update_type="%s">Update now</a> or view the <a href="%s" title=""
-class="themify_changelogs" target="_blank" data-changelog="%s">change
-log</a> for details.</p>', 'themify'),
-				esc_attr( $new->login ),
-				$this->nicename,
-				$new->version,
-				esc_url( $new->url ),
-				esc_attr( $new->class ),
-				esc_attr( $new->target ),
-				esc_attr( $this->slug ),
-				esc_attr( $this->package_url ),
-				esc_attr( $this->nicename_short ),
-				esc_attr( $this->update_type ),
-				esc_url( 'http://themify.me/changelogs/' . $this->name . '.txt' ),
-				esc_url( 'http://themify.me/changelogs/' . $this->name . '.txt' )
-			);
+		if( ! empty( $notifications ) ) {
+			echo '<div class="notifications">'. $notifications . '</div>';
 		}
-
-		// update transient
-		$this->set_update();
-
-		echo '<div class="notifications">'. $notifications . '</div>';
 	}
 
 	public function get_remote_version() {
 		$version = '';
-
 		$response = wp_remote_get( $this->versions_url );
 		if( is_wp_error( $response ) ) {
 			return $version;
@@ -195,7 +197,7 @@ log</a> for details.</p>', 'themify'),
 	}
 
 	public function enqueue() {
-		wp_enqueue_script( 'themify-builder-plugin-upgrade', themify_enque(THEMIFY_BUILDER_URI . '/js/themify.builder.upgrader.js'), array('jquery'), false, true );
+            wp_enqueue_script( 'themify-builder-plugin-upgrade', themify_enque(THEMIFY_BUILDER_URI . '/js/themify.builder.upgrader.js'), array('jquery'), false, true );
 	}
 
 	/**
@@ -250,27 +252,11 @@ log</a> for details.</p>', 'themify'),
 				$sub_match = 'true';
 				break;
 			}
-			if(stripos($value['title'], 'Lifetime Club') !== false || stripos($value['title'], 'Lifetime Master Club') !== false){
+			if(stripos($value['title'], 'Lifetime Master Club') !== false){
 				$sub_match = 'true';
 				break;
 			}
 		}
-
-		/**
-		 * Developer Club and Standard Club have access to 11 bonus addons
-		 */
-		if ( isset( $_POST['update_type'] ) && 'addon' === $_POST['update_type'] ) {
-			foreach ( $subs as $key => $value ) {
-				if(
-					( stripos( $value['title'], 'Standard Club' ) !== false || stripos( $value['title'], 'Developer Club' ) !== false )
-					&& isset( $_POST['nicename_short'] ) && in_array( $_POST['nicename_short'], array( 'Slider Pro', 'Pricing Table', 'Maps Pro', 'Typewriter', 'Image Pro', 'Timeline', 'WooCommmerce', 'Contact', 'Counter', 'Progress Bar', 'Countdown' ) )
-				) {
-					$sub_match = 'true';
-					break;
-				}
-			}
-		}
-
 		$sub_match = apply_filters( 'themify_builder_validate_login', $sub_match, $subs );
 		echo $sub_match;
 		die();
@@ -322,7 +308,7 @@ function themify_builder_updater(){
 			//Connection to server was successful. Test login cookie
 			$amember_nr = false;
 			foreach($response['cookies'] as $cookie){
-				if($cookie->name == 'amember_nr'){
+				if($cookie->name === 'amember_nr'){
 					$amember_nr = true;
 				}
 			}
@@ -350,6 +336,10 @@ function themify_builder_updater(){
 	if ( class_exists( 'TFCache' ) && TFCache::check_version() ) {
 		TFCache::removeDirectory( TFCache::get_cache_dir() );
 	}
+        if(strpos($plugin_slug,'.php')!==false){
+            $plugin_slug = pathinfo($plugin_slug,PATHINFO_DIRNAME);
+        }
+	delete_transient( 'themify_builder_update_notifications_' . $plugin_slug );
 
 	//if we got this far, everything went ok!	
 	die();

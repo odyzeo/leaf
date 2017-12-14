@@ -58,44 +58,35 @@ if ( ! function_exists( 'themify_do_img' ) ) {
 		// Fetch attachment meta data. Up to this point we know the attachment ID is valid.
 		$meta = wp_get_attachment_metadata( $attachment_id );
 
-		// Go through the attachment meta data sizes looking for an image size match.
-		if ( is_array( $meta ) && isset( $meta['sizes'] ) && is_array( $meta['sizes'] ) ) {
-			// Perform calculations when height = 0
-			if ( is_null( $height ) || 0 === $height || '0' === $height ) {
-				// If width and height or original image are available as metadata
-				if ( isset( $meta['width'] ) && isset( $meta['height'] ) ) {
-					// Divide width by original image aspect ratio to obtain projected height
-					// The floor function is used so it returns an int and metadata can be written
-					$height = floor( $width / ( $meta['width'] / $meta['height'] ) );
-				} else {
-					$height = 0;
-				}
+		// Perform calculations when height or width = 0
+		if( empty( $width ) ) {
+			$width = 0;
+		}
+		if ( is_null( $height ) || 0 === $height || '0' === $height ) {
+			// If width and height or original image are available as metadata
+			if ( !empty( $meta['width'] ) && !empty( $meta['height'] ) ) {
+				// Divide width by original image aspect ratio to obtain projected height
+				// The floor function is used so it returns an int and metadata can be written
+				$height = floor( $width / ( $meta['width'] / $meta['height'] ) );
+			} else {
+				$height = 0;
 			}
-			foreach( $meta['sizes'] as $key => $size ) {
-				if( ! isset( $size['width'] ) && ! isset( $size['height'] ) )
-					continue;
-				if ( $size['width'] == $width && $size['height'] == $height ) {
-					setlocale( LC_CTYPE, get_locale() . '.UTF-8' );
-					$split_url = explode( '/', $img_url );
-					$split_url[ count( $split_url ) - 1 ] = $size['file'];
-					return array(
-						'url' => implode( '/', $split_url ),
-						'width' => $width,
-						'height' => $height,
-						'attachment_id' => $attachment_id,
-					);
-				}
+		}
+
+		// Check if resized image already exists
+		if ( is_array( $meta ) && isset( $meta['sizes']["resized-{$width}x{$height}"] ) ) {
+			$size = $meta['sizes']["resized-{$width}x{$height}"];
+			if( isset( $size['width'] ) && isset( $size['height'] ) ) {
+				setlocale( LC_CTYPE, get_locale() . '.UTF-8' );
+				$split_url = explode( '/', $img_url );
+				$split_url[ count( $split_url ) - 1 ] = $size['file'];
+				return array(
+					'url' => implode( '/', $split_url ),
+					'width' => $width,
+					'height' => $height,
+					'attachment_id' => $attachment_id,
+				);
 			}
-		} elseif ( is_array( $meta ) && ( ! isset( $meta['sizes'] ) || ! is_array( $meta['sizes'] ) ) ) {
-			// If the meta is an array, but doesn't have the 'sizes' element or if it has it, it's not an array,
-			// return original image since there's something wrong with this attachment meta data: it exists,
-			// but its format is not correct.
-			return array(
-				'url' => $img_url,
-				'width' => $width,
-				'height' => $height,
-				'attachment_id' => $attachment_id,
-			);
 		}
 
 		// Requested image size doesn't exists, so let's create one
@@ -193,11 +184,11 @@ function themify_img_resize_dimensions( $default, $orig_w, $orig_h, $dest_w, $de
 	$new_h = $dest_h;
 
 	if ( !$new_w ) {
-		$new_w = intval( $new_h * $aspect_ratio );
+		$new_w = (int)( $new_h * $aspect_ratio );
 	}
 
 	if ( !$new_h ) {
-		$new_h = intval( $new_w / $aspect_ratio );
+		$new_h = (int)( $new_w / $aspect_ratio );
 	}
 
 	$size_ratio = max( $new_w / $orig_w, $new_h / $orig_h );
@@ -228,7 +219,7 @@ function themify_get_attachment_id_from_url( $url = '', $base_url = '' ) {
 
 	// Finally, run a custom database query to get the attachment ID from the modified attachment URL
 	global $wpdb;
-	return $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment'", $url ) );
+	return $wpdb->get_var( $wpdb->prepare( "SELECT wposts.ID FROM $wpdb->posts wposts, $wpdb->postmeta wpostmeta WHERE wposts.ID = wpostmeta.post_id AND wpostmeta.meta_key = '_wp_attached_file' AND wpostmeta.meta_value = '%s' AND wposts.post_type = 'attachment' LIMIT 1", $url ) );
 }
 
 /**

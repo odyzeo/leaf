@@ -12,13 +12,13 @@ if (!defined('ABSPATH'))
 
         <table class="widefat">
             <thead>
-                <tr valign="top">
+                <tr>
                     <th><?php _e('Year and month', 'newsletter') ?></th>
                     <th><?php _e('Total', 'newsletter') ?></th>
                 </tr>
             </thead>
             <?php foreach ($months as &$day) { ?>
-                <tr valign="top">
+                <tr>
                     <td><?php echo $day->d; ?></td>
                     <td><?php echo $day->c; ?></td>
                 </tr>
@@ -35,13 +35,13 @@ if (!defined('ABSPATH'))
         ?>
         <table class="widefat">
             <thead>
-                <tr valign="top">
+                <tr>
                     <th><?php _e('Date', 'newsletter') ?></th>
                     <th><?php _e('Total', 'newsletter') ?></th>
                 </tr>
             </thead>
             <?php foreach ($list as $day) { ?>
-                <tr valign="top">
+                <tr>
                     <td><?php echo $day->d; ?></td>
                     <td><?php echo $day->c; ?></td>
                 </tr>

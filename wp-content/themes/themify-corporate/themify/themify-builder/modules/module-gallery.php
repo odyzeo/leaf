@@ -4,44 +4,36 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * Module Name: Gallery
  * Description: Display WP Gallery Images
  */
-class TB_Gallery_Module extends Themify_Builder_Module {
+class TB_Gallery_Module extends Themify_Builder_Component_Module {
 	function __construct() {
 		parent::__construct(array(
-			'name' => __( 'Gallery', 'themify' ),
+			'name' => __('Gallery', 'themify'),
 			'slug' => 'gallery'
 		));
 	}
 
 	public function get_options() {
 		$columns = range( 0, 9 );
-		unset( $columns[0] );
-		$options = array(
+                $is_img_enabled = Themify_Builder_Model::is_img_php_disabled();
+		$image_size = themify_get_image_sizes_list( false );
+		return array(
 			array(
 				'id' => 'mod_title_gallery',
 				'type' => 'text',
-				'label' => __( 'Module Title', 'themify' ),
+				'label' => __('Module Title', 'themify'),
 				'class' => 'large'
 			),
 			array(
 				'id' => 'layout_gallery',
 				'type' => 'radio',
-				'label' => __( 'Gallery Layout', 'themify' ),
+				'label' => __('Gallery Layout', 'themify'),
 				'options' => array(
-					'grid' => __( 'Grid', 'themify' ),
-					'showcase' => __( 'Showcase', 'themify' ),
-					'lightboxed' => __( 'Lightboxed', 'themify' ),
+					'grid' => __('Grid', 'themify'),
+					'showcase' => __('Showcase', 'themify'),
+					'lightboxed' => __('Lightboxed', 'themify'),
 				),
 				'default' => 'grid',
-				'option_js' => true,
-			),
-			array(
-				'id' => 'gallery_columns',
-				'type' => 'select',
-				'label' => false,
-				'pushed' => 'pushed',
-				'after' => __( 'Columns', 'themify' ),
-				'options' => $columns,
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid'
+				'option_js' => true
 			),
 			array(
 				'id' => 'layout_masonry',
@@ -51,377 +43,200 @@ class TB_Gallery_Module extends Themify_Builder_Module {
 				'options' => array(
 					array( 'name' => 'masonry', 'value' => __( 'Use Masonry', 'themify' ) )
 				),
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid',
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid'
 			),
 			array(
 				'id' => 'thumbnail_gallery',
 				'type' => 'image',
-				'label' => __( 'Thumbnail', 'themify' ),
+				'label' => __('Thumbnail', 'themify'),
 				'class' => 'large',
-				'wrap_with_class' => 'tf-group-element tf-group-element-lightboxed'
+				'wrap_with_class' => 'tb-group-element tb-group-element-lightboxed'
 			),
 			array(
 				'id' => 'shortcode_gallery',
 				'type' => 'textarea',
-				'class' => 'tf-thumbs-preview tf-hide tf-shortcode-input',
-				'label' => __( 'Insert Gallery Shortcode', 'themify' ),
-				'help' => sprintf('<a href="#" class="builder_button tf-gallery-btn">%s</a>', __( 'Insert Gallery', 'themify' )),
-				'render_callback' => array(
-					'control_type' => 'textonchange'
-				)
+				'class' => 'tb-thumbs-preview tb-shortcode-input',
+				'label' => __('Insert Gallery Shortcode', 'themify'),
+				'help' => sprintf('<a href="#" class="builder_button tb-gallery-btn">%s</a>', __('Insert Gallery', 'themify'))
 			),
 			array(
 				'id' => 'gallery_pagination',
 				'type' => 'checkbox',
-				'label' => __( 'Pagination', 'themify' ),
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid',
-				'options' => array( array( 'name' => 'pagination', 'value' => '' ) ),
-				'option_js' => true,
+				'label' => __('Pagination', 'themify'),
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid',
+				'options' => array(array( 'name' => 'pagination', 'value' =>'') ),
+				'option_js' => true
 			),
 			array(
 				'id' => 'gallery_per_page',
 				'type' => 'text',
-				'label' => __( 'Images per page', 'themify' ),
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid tf-checkbox-element tf-checkbox-element-pagination',
-				'class' => 'xsmall',
+				'label' => __('Images per page', 'themify'),
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid tb-checkbox-element tb-checkbox-element-pagination',
+				'class' => 'xsmall'
 			),
 			array(
 				'id' => 'gallery_image_title',
 				'type' => 'checkbox',
-				'label' => __( 'Image Title', 'themify' ),
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid tf-group-element-lightboxed',
-				'options' => array(array( 'value' => __( 'Display library image title', 'themify' ), 'name' =>'library' ) ),
+				'label' => __('Image Title', 'themify'),
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid tb-group-element-lightboxed',
+				'options' => array(array( 'value' => __('Display library image title', 'themify'), 'name' =>'library') )
+			),
+                        array(
+				'id' => 'gallery_exclude_caption',
+				'type' => 'checkbox',
+				'label' => __( 'Exclude Caption', 'themify' ),
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid tb-group-element-lightboxed',
+				'options' => array(array( 'value' => __( 'Hide Image Caption', 'themify' ), 'name' =>'yes' ) ),
 			),
 			array(
 				'id' => 's_image_w_gallery',
 				'type' => 'text',
-				'label' => __( 'Showcase Image Width', 'themify' ),
+				'label' => __('Showcase Image Width', 'themify'),
 				'class' => 'xsmall',
-				'hide' => Themify_Builder_Model::is_img_php_disabled(),
+				'hide' => $is_img_enabled,
 				'help' => 'px',
-				'wrap_with_class' => 'tf-group-element tf-group-element-showcase'
+				'wrap_with_class' => 'tb-group-element tb-group-element-showcase'
 			),
 			array(
 				'id' => 's_image_h_gallery',
 				'type' => 'text',
-				'label' => __( 'Showcase Image Height', 'themify' ),
+				'label' =>__('Showcase Image Height', 'themify'),
 				'class' => 'xsmall',
-				'hide' => Themify_Builder_Model::is_img_php_disabled(),
+				'hide' => $is_img_enabled,
 				'help' => 'px',
-				'wrap_with_class' => 'tf-group-element tf-group-element-showcase'
+				'wrap_with_class' => 'tb-group-element tb-group-element-showcase'
 			),
 			array(
 				'id' => 's_image_size_gallery',
 				'type' => 'select',
-				'label' => Themify_Builder_Model::is_img_php_disabled() ? __( 'Main Image Size', 'themify' ) : false,
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
-				'hide' => ! Themify_Builder_Model::is_img_php_disabled(),
-				'options' => themify_get_image_sizes_list( false )
+				'label' => __('Main Image Size', 'themify'),
+				'hide' => !$is_img_enabled,
+				'options' => $image_size
 			),
 			array(
 				'id' => 'thumb_w_gallery',
 				'type' => 'text',
-				'label' => __( 'Thumbnail Width', 'themify' ),
+				'label' => __('Thumbnail Width', 'themify'),
 				'class' => 'xsmall',
-				'hide' => Themify_Builder_Model::is_img_php_disabled(),
+				'hide' => $is_img_enabled,
 				'help' => 'px'
 			),
 			array(
 				'id' => 'thumb_h_gallery',
 				'type' => 'text',
-				'label' => __( 'Thumbnail Height', 'themify' ),
+				'label' =>__('Thumbnail Height', 'themify'),
 				'class' => 'xsmall',
-				'hide' => Themify_Builder_Model::is_img_php_disabled(),
+				'hide' => $is_img_enabled,
 				'help' => 'px'
 			),
 			array(
 				'id' => 'image_size_gallery',
 				'type' => 'select',
-				'label' => Themify_Builder_Model::is_img_php_disabled() ? __( 'Image Size', 'themify' ) : false,
-				'empty' => array(
-					'val' => '',
-					'label' => ''
-				),
-				'hide' => ! Themify_Builder_Model::is_img_php_disabled(),
-				'options' => themify_get_image_sizes_list( false )
+				'label' => __('Image Size', 'themify'),
+				'hide' => !$is_img_enabled,
+				'options' => $image_size
+			),
+			array(
+				'id' => 'gallery_columns',
+				'type' => 'select',
+				'label' =>__('Columns', 'themify'),
+				'options' => $columns,
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid'
 			),
 			array(
 				'id' => 'link_opt',
 				'type' => 'select',
-				'label' => __( 'Link to', 'themify' ),
+				'label' => __('Link to', 'themify'),
 				'options' => array(
-					'post' => __( 'Attachment Page','themify' ),
-					'file' => __( 'Media File','themify' ),
-					'none' => __( 'None','themify' )
+					'post' => __('Attachment Page','themify'),
+					'file' => __('Media File','themify'),
+					'none' => __('None','themify')
 				),
-				'default' => __( 'Media File','themify' ),
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid',
+				'default' => __('Media File','themify'),
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid',
 				'binding' => array(
 					'file' => array( 'show' => array( 'link_image_size' ) ),
 					'post' => array( 'hide' => array( 'link_image_size' ) ),
-					'none' => array( 'hide' => array( 'link_image_size' ) ),
-				),
+					'none' => array( 'hide' => array( 'link_image_size' ) )
+				)
 			),
 			array(
 				'id' => 'link_image_size',
 				'type' => 'select',
-				'label' => __( 'Link to Image Size', 'themify' ),
-				'options' => themify_get_image_sizes_list( false ),
+				'label' => __('Link to Image Size', 'themify'),
+				'options' => $image_size,
 				'default' => __( 'Original Image', 'themify' ),
-				'wrap_with_class' => 'tf-group-element tf-group-element-grid'
+				'wrap_with_class' => 'tb-group-element tb-group-element-grid'
 			),
 			array(
 				'id' => 'appearance_gallery',
 				'type' => 'checkbox',
-				'label' => __( 'Image Appearance', 'themify' ),
+				'label' => __('Image Appearance', 'themify'),
 				'options' => array(
-					array( 'name' => 'rounded', 'value' => __( 'Rounded', 'themify' )),
-					array( 'name' => 'drop-shadow', 'value' => __( 'Drop Shadow', 'themify' )),
-					array( 'name' => 'bordered', 'value' => __( 'Bordered', 'themify' )),
-					array( 'name' => 'circle', 'value' => __( 'Circle', 'themify' ), 'help' => __( '(square format image only)', 'themify' ))
+					array( 'name' => 'rounded', 'value' => __('Rounded', 'themify')),
+					array( 'name' => 'drop-shadow', 'value' => __('Drop Shadow', 'themify')),
+					array( 'name' => 'bordered', 'value' => __('Bordered', 'themify')),
+					array( 'name' => 'circle', 'value' => __('Circle', 'themify'), 'help' => __('(square format image only)', 'themify'))
 				)
 			),
 			// Additional CSS
 			array(
 				'type' => 'separator',
-				'meta' => array( 'html' => '<hr/>' )
+				'meta' => array( 'html' => '<hr/>')
 			),
 			array(
 				'id' => 'css_gallery',
 				'type' => 'text',
-				'label' => __( 'Additional CSS Class', 'themify' ),
+				'label' => __('Additional CSS Class', 'themify'),
 				'class' => 'large exclude-from-reset-field',
-				'help' => sprintf( '<br/><small>%s</small>', __( 'Add additional CSS class(es) for custom styling', 'themify' ) )
+				'help' => sprintf( '<br/><small>%s</small>', __('Add additional CSS class(es) for custom styling', 'themify') )
 			)
 		);
-		return $options;
 	}
 
 	public function get_default_settings() {
-		$settings = array(
-			'gallery_columns' => 4
+		return array(
+			'gallery_columns' => 4,
+                        'layout_gallery'=>'grid'
 		);
-		return $settings;
 	}
-
-	public function get_animation() {
-		$animation = array(
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . esc_html__( 'Appearance Animation', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'multi_Animation Effect',
-				'type' => 'multi',
-				'label' => __( 'Effect', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'animation_effect',
-						'type' => 'animation_select',
-						'label' => __( 'Effect', 'themify' )
-					),
-					array(
-						'id' => 'animation_effect_delay',
-						'type' => 'text',
-						'label' => __( 'Delay', 'themify' ),
-						'class' => 'xsmall',
-						'description' => __( 'Delay (s)', 'themify' ),
-					),
-					array(
-						'id' => 'animation_effect_repeat',
-						'type' => 'text',
-						'label' => __( 'Repeat', 'themify' ),
-						'class' => 'xsmall',
-						'description' => __( 'Repeat (x)', 'themify' ),
-					),
-				)
-			)
-		);
-
-		return $animation;
-	}
+        
+        public function get_visual_type() {
+            return 'ajax';            
+        }
+        
 
 	public function get_styling() {
 		$general = array(
 			// Background
-			array(
-				'id' => 'separator_image_background',
-				'title' => '',
-				'description' => '',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Background', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'background_image',
-				'type' => 'image_and_gradient',
-				'label' => __( 'Background Image', 'themify' ),
-				'class' => 'xlarge',
-				'prop' => 'background-image',
-				'selector' => '.module-gallery',
-				'option_js' => true
-			),
-			array(
-				'id' => 'background_color',
-				'type' => 'color',
-				'label' => __( 'Background Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'background-color',
-				'selector' => '.module-gallery',
-			),
+                        self::get_seperator('image_bacground',__( 'Background', 'themify' ),false),
+                        self::get_image('.module-gallery'),
+                        self::get_color('.module-gallery', 'background_color',__( 'Background Color', 'themify' ),'background-color'),
+						self::get_repeat('.module-gallery'),
 			// Font
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />' )
-			),
-			array(
-				'id' => 'separator_font',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Font', 'themify' ) . '</h4>' ),
-			),
-			array(
-				'id' => 'font_family',
-				'type' => 'font_select',
-				'label' => __( 'Font Family', 'themify' ),
-				'class' => 'font-family-select',
-				'prop' => 'font-family',
-				'selector' => '.module-gallery',
-			),
-			array(
-				'id' => 'font_color',
-				'type' => 'color',
-				'label' => __( 'Font Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-gallery',
-			),
-			array(
-				'id' => 'multi_font_size',
-				'type' => 'multi',
-				'label' => __( 'Font Size', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'font_size',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'font-size',
-						'selector' => '.module-gallery',
-					),
-					array(
-						'id' => 'font_size_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
-			array(
-				'id' => 'multi_line_height',
-				'type' => 'multi',
-				'label' => __( 'Line Height', 'themify' ),
-				'fields' => array(
-					array(
-						'id' => 'line_height',
-						'type' => 'text',
-						'class' => 'xsmall',
-						'prop' => 'line-height',
-						'selector' => '.module-gallery',
-					),
-					array(
-						'id' => 'line_height_unit',
-						'type' => 'select',
-						'meta' => Themify_Builder_Model::get_css_units()
-					)
-				)
-			),
-			array(
-				'id' => 'text_align',
-				'label' => __( 'Text Align', 'themify' ),
-				'type' => 'radio',
-				'meta' => Themify_Builder_Model::get_text_align(),
-				'prop' => 'text-align',
-				'selector' => '.module-gallery',
-			),
+                        self::get_seperator('font',__('Font', 'themify')),
+                        self::get_font_family('.module-gallery'),
+                        self::get_color('.module-gallery','font_color',__('Font Color', 'themify')),
+                        self::get_font_size('.module-gallery'),
+                        self::get_line_height('.module-gallery'),
+                        self::get_letter_spacing('.module-gallery'),
+                        self::get_text_align('.module-gallery'),
+                        self::get_text_transform('.module-gallery'),
+                        self::get_font_style('.module-gallery'),
 			// Link
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_link',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Link', 'themify' ) . '</h4>' )
-			),
-			array(
-				'id' => 'link_color',
-				'type' => 'color',
-				'label' => __( 'Color', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-gallery a'
-			),
-			array(
-				'id' => 'link_color_hover',
-				'type' => 'color',
-				'label' => __( 'Color Hover', 'themify' ),
-				'class' => 'small',
-				'prop' => 'color',
-				'selector' => '.module-gallery a:hover'
-			),
-			array(
-				'id' => 'text_decoration',
-				'type' => 'select',
-				'label' => __( 'Text Decoration', 'themify' ),
-				'meta'	=> Themify_Builder_Model::get_text_decoration(),
-				'prop' => 'text-decoration',
-				'selector' => '.module-gallery a'
-			),
+                        self::get_seperator('link',__('Link', 'themify')),
+                        self::get_color( '.module-gallery a','link_color'),
+                        self::get_color('.module-gallery a:hover','link_color_hover',__('Color Hover', 'themify')),
+                        self::get_text_decoration('.module-gallery a'),
 			// Padding
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_padding',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Padding', 'themify' ) . '</h4>' ),
-			),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-gallery', 'top' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-gallery', 'right' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-gallery', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-gallery', 'left' ),
-			Themify_Builder_Model::get_field_group( 'padding', '.module-gallery', 'all' ),
+                        self::get_seperator('padding',__('Padding', 'themify')),
+                        self::get_padding('.module-gallery'),
 			// Margin
-			array(
-				'type' => 'separator',
-				'meta' => array('html'=>'<hr />')
-			),
-			array(
-				'id' => 'separator_margin',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Margin', 'themify') . '</h4>' ),
-			),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-gallery', 'top' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-gallery', 'right' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-gallery', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-gallery', 'left' ),
-			Themify_Builder_Model::get_field_group( 'margin', '.module-gallery', 'all' ),
-			// Border
-			array(
-				'type' => 'separator',
-				'meta' => array( 'html' => '<hr />' )
-			),
-			array(
-				'id' => 'separator_border',
-				'type' => 'separator',
-				'meta' => array( 'html' => '<h4>' . __( 'Border', 'themify' ) . '</h4>' )
-			),
-			Themify_Builder_Model::get_field_group( 'border', '.module-gallery', 'top' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-gallery', 'right' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-gallery', 'bottom' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-gallery', 'left' ),
-			Themify_Builder_Model::get_field_group( 'border', '.module-gallery', 'all' )
+                        self::get_seperator('margin',__('Margin', 'themify')),
+                        self::get_margin('.module-gallery'),
+                        // Border
+                        self::get_seperator('border',__('Border', 'themify')),
+                        self::get_border('.module-gallery')
 		);
 
 		return array(
@@ -430,17 +245,37 @@ class TB_Gallery_Module extends Themify_Builder_Module {
 				'id' => 'module-styling',
 				'tabs' => array(
 					'general' => array(
-					'label' => __( 'General', 'themify' ),
-					'fields' => $general
+                                            'label' => __( 'General', 'themify' ),
+                                            'fields' => $general
 					),
 					'module-title' => array(
 						'label' => __( 'Module Title', 'themify' ),
-						'fields' => Themify_Builder_Model::module_title_custom_style( $this->slug )
+						'fields' => self::module_title_custom_style( $this->slug )
 					)
 				)
-			),
+			)
 		);
 
+	}
+
+	/**
+	 * Render plain content for static content.
+	 * 
+	 * @param array $module 
+	 * @return string
+	 */
+	public function get_plain_content( $module ) {
+		$mod_settings = wp_parse_args( $module['mod_settings'], array(
+			'mod_title_gallery' => '',
+			'shortcode_gallery' => ''
+		) );
+		$text = '';
+
+		if ( '' !== $mod_settings['mod_title_gallery'] ) 
+			$text .= sprintf( '<h3>%s</h3>', $mod_settings['mod_title_gallery'] );
+		
+		$text .= $mod_settings['shortcode_gallery'];
+		return $text;
 	}
 }
 

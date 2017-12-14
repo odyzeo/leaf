@@ -1,6 +1,6 @@
 <?php
 if (!defined('ABSPATH'))
-	exit; // Exit if accessed directly
+    exit; // Exit if accessed directly
 /**
  * Template Text
  * 
@@ -8,36 +8,31 @@ if (!defined('ABSPATH'))
  * @author Themify
  */
 $fields_default = array(
-	'mod_title_text' => '',
-	'content_text' => '',
-	'add_css_text' => '',
-	'background_repeat' => '',
-	'animation_effect' => ''
+    'mod_title_text' => '',
+    'content_text' => '',
+    'add_css_text' => '',
+    'background_repeat' => '',
+    'animation_effect' => ''
 );
 
 $fields_args = wp_parse_args($mod_settings, $fields_default);
-extract($fields_args, EXTR_SKIP);
-$animation_effect = $this->parse_animation_effect($animation_effect, $fields_args);
-
+unset($mod_settings);
+$animation_effect = self::parse_animation_effect($fields_args['animation_effect'], $fields_args);
 $container_class = implode(' ', apply_filters('themify_builder_module_classes', array(
-	'module', 'module-' . $mod_name, $module_ID, $add_css_text, $background_repeat, $animation_effect
-				), $mod_name, $module_ID, $fields_args)
+    'module', 'module-' . $mod_name, $module_ID, $fields_args['add_css_text'], $fields_args['background_repeat'], $animation_effect
+                ), $mod_name, $module_ID, $fields_args)
 );
-$container_props = apply_filters( 'themify_builder_module_container_props', array(
-        'id' => $module_ID,
-        'class' => $container_class
-    ), $fields_args, $mod_name, $module_ID );
+$container_props = apply_filters('themify_builder_module_container_props', array(
+    'id' => $module_ID,
+    'class' => $container_class
+        ), $fields_args, $mod_name, $module_ID);
 ?>
 <!-- module text -->
-<div<?php echo $this->get_element_attributes( $container_props ); ?>>
-	<?php if ($mod_title_text != ''): ?>
-		<?php echo $mod_settings['before_title'] . wp_kses_post(apply_filters('themify_builder_module_title', $mod_title_text, $fields_args)) . $mod_settings['after_title']; ?>
-	<?php endif; ?>
+<div <?php echo self::get_element_attributes($container_props); ?>>
+    <?php if ($fields_args['mod_title_text'] !== ''): ?>
+        <?php echo $fields_args['before_title'] . apply_filters('themify_builder_module_title', $fields_args['mod_title_text'], $fields_args). $fields_args['after_title']; ?>
+    <?php endif; ?>
 
-	<?php do_action('themify_builder_before_template_content_render'); ?>
-
-	<?php echo apply_filters('themify_builder_module_content', $content_text); ?>
-
-	<?php do_action('themify_builder_after_template_content_render'); ?>
+    <?php echo apply_filters('themify_builder_module_content', $fields_args['content_text']); ?>
 </div>
 <!-- /module text -->

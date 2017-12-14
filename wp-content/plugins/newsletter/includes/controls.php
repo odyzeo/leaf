@@ -608,7 +608,7 @@ class NewsletterControls {
         $value = $this->get_value($name);
 
         echo '<select id="options-', esc_attr($name), '" name="', $option_name, '" style="', $style, '"',
-                ($multiple ? ' multiple' : ''), ' placeholder="', esc_attr($placeholder), '">';
+                ($multiple ? ' multiple' : ''), '>';
         if (!empty($first)) {
             echo '<option value="">' . esc_html($first) . '</option>';
         }
@@ -1448,7 +1448,7 @@ class NewsletterControls {
      */
     static function panel_help($url, $text = '') {
         if (empty($text)) $text = __('Need help?', 'newsletter');
-        echo '<div class="tnp-panel-help"><a href="', $url, '" target="_blank">', $text, '</a></div>';
+        echo '<span class="tnp-panel-help"><a href="', $url, '" target="_blank">', $text, '</a></span>';
     }
     
     /**

@@ -173,14 +173,13 @@ function themify_plupload() {
 				$full = wp_get_attachment_image_src( $attach_id, 'full' );
 
 				update_post_meta($postid, $_POST['fields'], $full[0]);
-				update_post_meta($postid, '_'.$_POST['fields'] . '_attach_id', $attach_id);
-				
-				$thumb = wp_get_attachment_image_src( $attach_id, 'thumbnail' );
-				
-				//Return URL for the image field in meta box
-				$file['thumb'] = $thumb[0];
-				
+				update_post_meta($postid, '_'.$_POST['fields'] . '_attach_id', $attach_id);				
 			}
+
+			$thumb = wp_get_attachment_image_src( $attach_id, 'thumbnail' );
+			
+			//Return URL for the image field in meta box
+			$file['thumb'] = $thumb[0];
 		}
 		/**
 		 * Presets like backgrounds and such
@@ -327,7 +326,7 @@ function themify_save(){
 	$temp = array();
 	foreach($data as $a){
 		$v = explode("=", $a);
-		$temp[$v[0]] = urldecode( str_replace("+"," ",preg_replace_callback('/%([0-9a-f]{2})/i', 'themify_save_replace_cb', urlencode($v[1]))) );
+		$temp[$v[0]] = urldecode( str_replace('+',' ',preg_replace_callback('/%([0-9a-f]{2})/i', 'themify_save_replace_cb', urlencode($v[1]))) );
 	}
 
 	themify_set_data( apply_filters( 'themify_save_data', $temp ) );
@@ -365,7 +364,7 @@ function themify_reset_styling(){
 	$temp_data = array();
 	foreach($data as $a){
 		$v = explode("=", $a);
-		$temp_data[$v[0]] = str_replace("+"," ",preg_replace_callback('/%([0-9a-f]{2})/i', 'themify_save_replace_cb', $v[1]));
+		$temp_data[$v[0]] = str_replace('+',' ', preg_replace_callback('/%([0-9a-f]{2})/i', 'themify_save_replace_cb', $v[1]));
 	}
 	$temp = array();
 	foreach($temp_data as $key => $val){
@@ -389,7 +388,7 @@ function themify_reset_setting(){
 	$temp_data = array();
 	foreach($data as $a){
 		$v = explode("=", $a);
-		$temp_data[$v[0]] = str_replace("+"," ",preg_replace_callback('/%([0-9a-f]{2})/i', 'themify_save_replace_cb', $v[1]));
+		$temp_data[$v[0]] = str_replace('+',' ', preg_replace_callback('/%([0-9a-f]{2})/i', 'themify_save_replace_cb', $v[1]));
 	
 	}
 	$temp = array();
@@ -550,9 +549,23 @@ function themify_refresh_webfonts() {
  * @since 1.7.6
  */
 function themify_import_sample_content() {
-	require_once( THEMIFY_DIR . '/themify-demo-import.php' );
-	// check_ajax_referer( 'ajax-nonce', 'nonce' );
-	themify_do_import_sample_contents();
+
+	if( isset( $_POST['skin'] ) ) {
+		// importing demo content for an skin
+		$file = THEME_DIR . '/skins/' . $_POST['skin'] . '/import.php';
+	} else {
+		// regular old demo import
+		$file = THEME_DIR . '/sample/import.php';
+	}
+
+	define( 'ERASEDEMO', false );
+
+	do_action( 'themify_before_demo_import' );
+	if( file_exists( $file ) ) {
+		include_once( $file );
+	}
+	do_action( 'themify_after_demo_import' );
+	
 	die( 'done' );
 }
 
@@ -562,9 +575,22 @@ function themify_import_sample_content() {
  * @since 1.7.6
  */
 function themify_erase_sample_content() {
-	require_once( THEMIFY_DIR . '/themify-demo-import.php' );
-	// check_ajax_referer( 'ajax-nonce', 'nonce' );
-	themify_undo_import_sample_content();
+	if( isset( $_POST['skin'] ) ) {
+		// importing demo content for an skin
+		$file = THEME_DIR . '/skins/' . $_POST['skin'] . '/import.php';
+	} else {
+		// regular old demo import
+		$file = THEME_DIR . '/sample/import.php';
+	}
+
+	define( 'ERASEDEMO', true );
+
+	do_action( 'themify_before_demo_erase' );
+	if( file_exists( $file ) ) {
+		include_once( $file );
+	}
+	do_action( 'themify_after_demo_erase' );
+
 	die( 'done' );
 }
 

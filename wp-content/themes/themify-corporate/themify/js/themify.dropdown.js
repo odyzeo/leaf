@@ -4,8 +4,6 @@
 
 	$.fn.themifyDropdown = function( options ) {
 
-		var settings = $.extend( { }, options );
-
 		return this.each(function(){
 			if( $(this).hasClass( 'with-sub-arrow' ) )
 				return;
@@ -28,8 +26,8 @@
 		e.stopPropagation();
 		// If movement is less than 20px, execute the handler
 		if (Math.abs(getCoord(e, 'X') - startX) < 20 && Math.abs(getCoord(e, 'Y') - startY) < 20) {
-			var menu_item = $( this ).closest( 'li' );
-			var active_tree = $( this ).parents( '.dropdown-open' );
+			var menu_item = $( this ).closest( 'li' ),
+                            active_tree = $( this ).parents( '.dropdown-open' );
 			$( this ).closest( '.with-sub-arrow' ) // get the menu container
 				.find( 'li.dropdown-open' ).not( active_tree ) // find open (if any) dropdowns
 				.each(function(){
@@ -50,7 +48,7 @@
 	.on( 'click touchend', '.with-sub-arrow a', function(e){
 		// If movement is less than 20px, execute the handler
 		if (Math.abs(getCoord(e, 'X') - startX) < 20 && Math.abs(getCoord(e, 'Y') - startY) < 20) {
-			if( $( this ).attr( 'href' ) == '#' ) {
+			if( $( this ).attr( 'href' ) === '#' ) {
 				e.stopPropagation();
 				$( this ).find( '> .sub-arrow' ).click();
 				return false;
@@ -66,8 +64,7 @@
 		$li.find( '.sub-menu, .children' ).first()
 			.show().css( 'visibility', 'visible' );
 
-		$li.addClass( 'dropdown-open' );
-		$li.find( '> a .sub-arrow' ).removeClass( 'closed' ).addClass( 'open' );
+		$li.addClass( 'dropdown-open' ).find( '> a .sub-arrow' ).removeClass( 'closed' ).addClass( 'open' );
 		$li.trigger( 'dropdown_open' );
 	}
 
@@ -75,8 +72,7 @@
 		$li.find( '.sub-menu, .children' ).first()
 			.hide().css( 'visibility', 'hidden' );
 
-		$li.removeClass( 'dropdown-open' );
-		$li.find( '> a .sub-arrow' ).removeClass( 'open' ).addClass( 'closed' );
+		$li.removeClass( 'dropdown-open' ).find( '> a .sub-arrow' ).removeClass( 'open' ).addClass( 'closed' );
 		$li.trigger( 'dropdown_close' );
 	}
 })( jQuery, window, document );

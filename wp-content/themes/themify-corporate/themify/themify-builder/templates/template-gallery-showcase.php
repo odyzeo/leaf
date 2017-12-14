@@ -1,61 +1,69 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if (!defined('ABSPATH'))
+    exit; // Exit if accessed directly
 /**
  * Template Gallery Showcase
  * 
  * Access original fields: $mod_settings
  * @author Themify
  */
+$first_image = '';
+$disable = Themify_Builder_Model::is_img_php_disabled();
+?>
+<?php if (is_object($settings['gallery_images'][0])): ?>
 
-extract( $settings, EXTR_SKIP );
+    <?php
+    $alt = get_post_meta($settings['gallery_images'][0]->ID, '_wp_attachment_image_alt', true);
+    $caption = $settings['gallery_images'][0]->post_excerpt;
+    $title = $settings['gallery_images'][0]->post_title;
+    if ($disable) {
+        $first_image = wp_get_attachment_image_src($settings['gallery_images'][0]->ID, $settings['s_image_size_gallery']);
+        $first_image = $first_image[0];
+    } else {
+        $first_image = themify_do_img($settings['gallery_images'][0]->ID, $settings['s_image_w_gallery'], $settings['s_image_h_gallery']);
+        $first_image = $first_image['url'];
+    }
+    ?>
+    <div class="gallery-showcase-image">
+        <div class="image-wrapper">
+            <img src="<?php echo esc_url($first_image); ?>" alt="<?php echo esc_attr($alt) ?>" />
+            <div class="gallery-showcase-title">
+                <strong id="gallery-showcase-title"><?php echo esc_attr($title); ?></strong>
+                <span id="gallery-showcase-caption"><?php echo esc_attr($caption); ?></span>
+            </div>
+        </div>
 
-if ( ! empty( $gallery_images ) ) :
-	$first_image = '';
-        $disable =  $this->is_img_php_disabled();
-        if(!$disable){
-            $s_image_size_gallery = 'full';
-        }
-	if ( is_array( $gallery_images ) ) {
-		if ( is_object( $gallery_images[0] ) ) {
-                    $first_image = wp_get_attachment_image_src( $gallery_images[0]->ID,$s_image_size_gallery);
-                    $alt = get_post_meta($gallery_images[0]->ID, '_wp_attachment_image_alt', true);
-                    $first_image = !$disable?themify_get_image( "ignore=true&src={$first_image[0]}&w={$s_image_w_gallery}&h={$s_image_h_gallery}&urlonly=1" ):$first_image[0];
-		}
-	}
-	?>
+    </div>
+    <div class="gallery-images">
+        <?php
+        foreach ($settings['gallery_images'] as $image) :
+            $alt = get_post_meta($image->ID, '_wp_attachment_image_alt', true);
+            $title = $image->post_title;
+            $caption = $image->post_excerpt;
+            if ($disable) {
+                $img = wp_get_attachment_image($image->ID, $settings['image_size_gallery']);
+                $link = wp_get_attachment_image_src($image->ID, $settings['s_image_size_gallery']);
+                $link = $link[0];
+            } else {
+                if ($settings['thumb_w_gallery'] !== '') {
+                    $img = themify_do_img($image->ID, $settings['thumb_w_gallery'], $settings['thumb_h_gallery']);
+                    $img = "<img src='{$img['url']}' width='{$img['width']}' height='{$img['height']}' alt='{$alt}' />";
+                } else {
+                    $img = wp_get_attachment_image($image->ID, $settings['image_size_gallery']);
+                }
+                $link = themify_do_img($image->ID, $settings['s_image_w_gallery'], $settings['s_image_h_gallery']);
+                $link = $link['url'];
+            }
 
-	<div class="gallery-showcase-image">
-           <img src="<?php echo esc_url( $first_image); ?>" alt="<?php esc_attr_e($alt)?>" />
-	</div>
+            if (!empty($link)) {
+                echo '<a data-image="' . esc_url($link) . '" title="' . esc_attr($title) . '" data-caption="' . esc_attr($caption) . '" href="#">';
+            }
+            echo $img;
+            if (!empty($link)) {
+                echo '</a>';
+            }
 
-	<div class="gallery-images">
-
-		<?php
-		$i = 0;
-		foreach ( $gallery_images as $image ):
-			$link = wp_get_attachment_image_src( $image->ID,$s_image_size_gallery );
-			$link = $link[0];
-
-			$alt = get_post_meta( $image->ID, '_wp_attachment_image_alt', true );
-			$title = ! empty( $alt ) ? $alt : $image->post_excerpt;
-
-			if( $disable ) {
-				$img = wp_get_attachment_image( $image->ID, $image_size_gallery );
-			} else {
-				$img = wp_get_attachment_image_src( $image->ID, 'full' );
-				$img = themify_get_image( "ignore=true&src={$img[0]}&w={$thumb_w_gallery}&h={$thumb_h_gallery}" );
-				$link = themify_get_image( "ignore=true&src={$link}&w={$s_image_w_gallery}&h={$s_image_h_gallery}&urlonly=1" );
-			}
-
-			if ( ! empty( $link ) ) {
-				echo '<a data-image="' . esc_url( $link ) . '" title="' . esc_attr( $title ) . '" href="#">';
-			}
-			echo wp_kses_post( $img );
-			if ( ! empty( $link ) ) {
-				echo '</a>';
-			}
-
-		endforeach; // end loop ?>
-	</div>
-
+        endforeach; // end loop 
+        ?>
+    </div>
 <?php endif; ?>

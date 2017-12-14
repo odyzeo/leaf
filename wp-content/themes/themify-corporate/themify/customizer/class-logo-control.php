@@ -43,9 +43,9 @@ class Themify_Logo_Control extends Themify_Control {
 				<?php endif;?>
 						<!-- Site Logo Mode Selector -->
 						<div class="themify-customizer-brick mode-switcher logo-modes">
-								<label><input type="radio" value="text" class="logo-mode" name="logo_mode" <?php checked( $mode, 'text' ); ?> /><?php _e( 'Site Title', 'themify' ); ?></label>
-								<label><input type="radio" value="image" class="logo-mode" name="logo_mode" <?php checked( $mode, 'image' ); ?>/><?php _e( 'Logo Image', 'themify' ); ?></label>
-								<label><input type="radio" value="none" class="logo-mode" name="logo_mode" <?php checked( $mode, 'none' ); ?>/><?php _e( 'None', 'themify' ); ?></label>
+								<label><input type="radio" value="text" class="logo-mode" name="logo_mode<?php echo $this->accordion_id; ?>" <?php checked( $mode, 'text' ); ?> /><?php _e( 'Site Title', 'themify' ); ?></label>
+								<label><input type="radio" value="image" class="logo-mode" name="logo_mode<?php echo $this->accordion_id; ?>" <?php checked( $mode, 'image' ); ?>/><?php _e( 'Logo Image', 'themify' ); ?></label>
+								<label><input type="radio" value="none" class="logo-mode" name="logo_mode<?php echo $this->accordion_id; ?>" <?php checked( $mode, 'none' ); ?>/><?php _e( 'None', 'themify' ); ?></label>
 						</div>
 
 						<!-- Site Logo Text Mode -->

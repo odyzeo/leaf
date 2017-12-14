@@ -3,8 +3,8 @@ Contributors: emrevona
 Donate link: http://profiles.wordpress.org/emrevona/
 Tags: cache, performance, wp-cache, total cache, super cache
 Requires at least: 3.3
-Tested up to: 4.8
-Stable tag: 0.8.7.4
+Tested up to: 4.9
+Stable tag: 0.8.7.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,10 @@ Wpfc does not support Wordpress Multisite yet.
 18. Database Cleanup
 
 == Changelog ==
+
+= 0.8.7.5 =
+* <strong>[FEATURE]</strong> Compatible with Easy HTTPS (SSL) Redirection
+* to clear of the post when WPML is active
 
 = 0.8.7.4 =
 * to exclude the renamed my-account page of woocommerce

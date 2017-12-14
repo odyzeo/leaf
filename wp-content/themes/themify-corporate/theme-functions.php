@@ -32,23 +32,24 @@ add_action( 'widgets_init', 'themify_theme_register_sidebars' );
  * Enqueue Stylesheets and Scripts
  * @since 1.0.0
  */
-function themify_theme_enqueue_scripts(){
-
+function themify_theme_enqueue_scripts() {
 	// Get theme version for Themify theme scripts and styles
-	$theme_version = wp_get_theme()->display('Version');
+	$theme_version = wp_get_theme()->display( 'Version' );
 
 	///////////////////
 	//Enqueue styles
 	///////////////////
 
 	// Themify base styling
-	wp_enqueue_style( 'theme-style', themify_enque(get_stylesheet_uri()), array(), $theme_version);
+	wp_enqueue_style( 'theme-style', themify_enque( THEME_URI . '/style.css' ), array(), $theme_version );
 
 	// Themify Media Queries CSS
 	wp_enqueue_style( 'themify-media-queries', themify_enque(THEME_URI . '/media-queries.css'), array(), $theme_version);
 
-	// Themify Icons
-	wp_enqueue_style( 'themify-icons', themify_enque(THEME_URI . '/themify/themify-icons/themify-icons.css'), array(), $theme_version);
+	// Themify child base styling
+	if( is_child_theme() ) {
+		wp_enqueue_style( 'theme-style-child', themify_enque( get_stylesheet_uri() ), array(), $theme_version );
+	}
 
 	///////////////////
 	//Enqueue scripts
@@ -74,6 +75,8 @@ function themify_theme_enqueue_scripts(){
 		'lightbox' => themify_lightbox_vars_init(),
 		'lightboxContext' => apply_filters('themify_lightbox_context', '#pagewrap'),
 		'fixedHeader' => themify_check('setting-fixed_header_disabled')? '': 'fixed-header',
+		'fixedHeader' => themify_theme_fixed_header(),
+		'sticky_header'=>themify_theme_sticky_logo(),
 		'chart' => apply_filters('themify_chart_init_vars', array(
 			'trackColor' => '#f2f2f2',
 			'scaleColor' => false,
@@ -218,7 +221,7 @@ add_theme_support( 'post-thumbnails' );
 function themify_register_custom_nav() {
 	register_nav_menus( array(
 		'main-nav' => __( 'Main Navigation', 'themify' ),
-		'footer-nav' => __( 'Footer Navigation', 'themify' ),
+		'footer-nav' => __( 'Footer Navigation', 'themify' )
 	));
 }
 
@@ -548,6 +551,7 @@ if ( ! function_exists( 'themify_theme_entry_title_tag' ) ) :
 	}
 endif;
 
+
 /**
  * Set the fixed-header selector for the scroll highlight script
  *
@@ -751,3 +755,173 @@ function themify_theme_do_animated_bg() {
 	";
 }
 add_action( 'wp_head', 'themify_theme_do_animated_bg' );
+
+function themify_theme_fixed_header() {
+        static $fixed = NULL;
+        if(is_null($fixed)){
+            if ( is_singular( array( 'post', 'page', 'portfolio' ) ) ) {
+                    $fixed_header_field = themify_get( 'fixed_header' );
+                    if ( 'yes' == $fixed_header_field ) {
+                        $fixed = 'fixed-header';
+                        return $fixed;
+                    } elseif ( 'no' == $fixed_header_field ) {
+                            $fixed = '';
+                            return $fixed;
+                    }
+            }
+            $fixed = themify_check( 'setting-fixed_header_disabled' ) ? '' : 'fixed-header';
+        }
+        return $fixed;
+}
+
+function themify_theme_sticky_logo(){
+     if(themify_theme_fixed_header()){
+        global $themify_customizer;
+        $logo = json_decode($themify_customizer->get_cached_mod('sticky_header_imageselect'));
+        return isset($logo->src) && '' != $logo->src?$logo:false;
+     }
+     else{
+         return false;
+     }
+}
+
+// Portfolio comments filter
+function portfolio_comments_open( $open, $post_id ) {
+	$post = get_post( $post_id );
+	! empty( $post ) && 'portfolio' == $post->post_type
+		&& themify_check( 'setting-portfolio_comments' ) && ( $open = true );
+	return $open;
+}
+add_filter( 'comments_open', 'portfolio_comments_open', 10, 2 );
+
+// Extra module settings
+if( ! function_exists( 'themify_builder_module_settings_options' ) ) :
+function themify_builder_module_settings_options( $options, $module ) {
+	if( is_object( $module ) && $module->slug === 'portfolio' ) {
+		$extra_options = $ids = array();
+                foreach($options as $op){
+                    if(!empty($op['id'])){
+                        $ids[] = $op['id'];
+                    }
+                }
+		$index = (int) array_search( 'query_slug_' . $module->slug, $ids );
+                $ids = null;
+                
+		// Content Layout
+		$extra_options[] = array(
+			'id' => $module->slug . '_content_layout',
+			'type' => 'select',
+			'label' => __( 'Post Content Layout', 'themify' ),
+			'options' => array(
+				'default' => __( 'Default', 'themify' ),
+				'no' => __( 'No', 'themify' ),
+				'overlay' => __( 'Overlay', 'themify' ),
+				'polaroid' => __( 'Polaroid', 'themify' ),
+				'boxed' => __( 'Boxed', 'themify' )
+			)
+		);
+
+		// Filter
+		$extra_options[] = array(
+			'id' => $module->slug . '_filter',
+			'type' => 'select',
+			'label' => __( 'Post Filter', 'themify' ),
+			'options' => array(
+				'default' => __( 'Default', 'themify' ),
+				'yes' => __( 'Yes', 'themify' ),
+				'no' => __( 'No', 'themify' )
+			),
+			'wrap_with_class' => 'tf-group-element tf-group-element-category'
+		);
+
+		// Masonry
+		$extra_options[] = array(
+			'id' => 'disable_masonry',
+			'type' => 'select',
+			'label' => __( 'Post Masonry', 'themify' ),
+			'options' => array(
+				'default' => __( 'Default', 'themify' ),
+				'yes' => __( 'Yes', 'themify' ),
+				'no' => __( 'No', 'themify' )
+			),
+			'wrap_with_class' => 'tf-group-element tf-group-element-grid4 tf-group-element-grid3 tf-group-element-grid2 tf-group-element-list-large-image'
+		);
+		
+		// Gutter
+		$extra_options[] = array(
+			'id' => $module->slug . '_gutter',
+			'type' => 'select',
+			'label' => __( 'Post Gutter', 'themify' ),
+			'options' => array(
+				'default' => __( 'Default', 'themify' ),
+				'gutter' => __( 'Gutter', 'themify' ),
+				'no-gutter' => __( 'No gutter', 'themify' )
+			)
+		);
+
+		array_splice( $options, $index++, 0, $extra_options );
+	}
+
+	return $options;
+}
+endif;
+add_filter( 'themify_builder_module_settings_fields', 'themify_builder_module_settings_options', 10, 2 );
+
+// Display Extra module settings
+if( ! function_exists( 'themify_builder_args' ) ) :
+function themify_builder_args( $show, $mod, $builder_id, $identifier ) {
+	global $themify;
+	
+	if( ! empty( $mod['mod_settings'] ) && ! empty( $mod['mod_name'] ) && $mod['mod_name'] === 'portfolio' ) {
+		$themify->builder_args = array();
+		$slug = $mod['mod_name'];
+		$settings = $mod['mod_settings'];
+
+		// Content Layout
+		if( ! empty( $settings[$slug . '_content_layout'] ) && ! in_array( $settings[$slug . '_content_layout'], array( 'default', 'no' ) ) ) {
+			$themify->builder_args['content_layout'] = $settings[$slug . '_content_layout'];
+		}
+
+		// Filter
+		if( ! empty( $settings[$slug . '_filter'] ) && $settings[$slug . '_filter'] === 'yes' ) {
+			$themify->query_taxonomy = 'portfolio-category';
+			add_action( 'themify_builder_before_template_content_render', 'themify_builder_post_module_filter' );
+		}
+
+		// Masonry
+		if( ! empty( $settings['disable_masonry'] ) && $settings['disable_masonry'] !== 'no' ) {
+			$themify->builder_args['masonry'] = 'masonry';
+		}
+
+		// Gutter
+		if( ! empty( $settings[$slug . '_gutter'] ) && $settings[$slug . '_gutter'] !== 'default' ) {
+			$themify->builder_args['gutter'] = $settings[$slug . '_gutter'];
+		}
+
+		if( ! empty( $themify->builder_args ) ) {
+			add_filter( 'themify_builder_module_loops_wrapper', 'themify_add_builder_classes', 10, 1 );
+		}
+
+	}
+	
+	return $show;
+}
+endif;
+add_filter( 'themify_builder_module_display', 'themify_builder_args', 10, 4 );
+
+if( ! function_exists( 'themify_add_builder_classes' ) ) :
+function themify_add_builder_classes( $classes ) {
+	global $themify;
+	remove_filter( 'themify_builder_module_loops_wrapper', 'themify_add_builder_classes', 10, 1 );
+	$classes .= ' ' . implode( ' ', $themify->builder_args );
+	
+	return $classes;
+}
+endif;
+
+if( ! function_exists( 'themify_builder_post_module_filter' ) ) :
+function themify_builder_post_module_filter() {
+	remove_action( 'themify_builder_before_template_content_render', 'themify_builder_post_module_filter' );
+	get_template_part( 'includes/filter', 'portfolio' );
+}
+endif;

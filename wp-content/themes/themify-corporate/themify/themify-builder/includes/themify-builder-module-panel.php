@@ -3,72 +3,110 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 /**
  * Builder Frontend Panel HTML
  */
-
-$helper_class = array();
-if ( isset( $post ) && $post->post_status == 'auto-draft' ) $helper_class[] = 'tb_auto_draft';
+global $post;
 ?>
 
-<div id="tb_toolbar" class="<?php echo implode(' ', $helper_class ); ?>">
-	<a href="#" class="tb_toolbar_add_modules"><?php esc_html_e( 'Add modules', 'themify' );?></a>
-	<div id="tb_module_panel">
-		<div class="tb_module_panel_top_wrap">
-			<div id="tb_module_panel_search">
-				<input type="text" class="tb_module_panel_search_text">
+<div id="tb_toolbar" <?php if($post->post_status === 'auto-draft'):?>class="tb_auto_draft"<?php endif;?>>
+	<div class="tb_toolbar_add_modules_wrap" tabindex="-1">
+            <span class="tb_toolbar_add_modules"></span>
+            <div id="tb_module_panel" class="tb_modules_panel_wrap">
+                    <div class="tb_module_panel_search">
+                        <input type="text" class="tb_module_panel_search_text" />
+                    </div>
+                    <a href="#" class="tb_module_panel_lock"><i class="ti-lock"></i></a>
+                    <ul class="tb_module_types">
+                        <li class="active"><a href="#" data-target="tb_module_panel_modules_wrap"><?php _e('Modules','themify')?></a></li>
+                        <li><a href="#" data-target="tb_module_panel_rows_wrap"><?php _e('Rows','themify')?></a></li>
+                    </ul>
+                    <div class="tb_module_panel_tab tb_module_panel_modules_wrap"></div>
+                    <!-- /tb_module_panel_modules_wrap -->
+                    <div class="tb_module_panel_tab tb_module_panel_rows_wrap">
+                        <div class="tb_row_filter_wrap">
+				<span class="tb_row_filter_active"><?php _e('All','themify')?></span>
+				<!-- /tb_row_cat_filter_active -->
+				<ul class="tb_row_filter">
+                                    <li><a href="#"><?php _e('All','themify')?></a></li>
+				</ul>
+				<!-- /tb_row_cat_filter -->
 			</div>
-			<a href="#" class="tb_module_panel_lock"><i class="ti-lock"></i></a>
-		</div>
-		<!-- /tb_module_panel_top_wrap -->
-		<div class="tb_module_panel_modules_wrap"></div>
-		<!-- /tb_module_panel_modules_wrap -->
-	</div>
+			<!-- /tb_row_cat_filter_wrap -->
+			<div class="tb_predesigned_rows_list"></div>
+			<!-- /tb_predesigned_rows_list -->
+                    </div>
+            </div>
+        </div>
+        
 	<!-- /tb_module_panel -->
 	
 	<ul class="tb_toolbar_menu">
-		<li><a href="#" class="tb_tooltip js--themify_builder_breakpoint_switcher breakpoint-desktop tb_selected"><i class="ti-desktop"></i><span><?php esc_html_e( 'Desktop', 'themify' );?></span></a></li>
-		<li><a href="#" class="tb_tooltip js--themify_builder_breakpoint_switcher breakpoint-tablet-landscape"><i class="ti-tablet ti-tablet-landscape"></i><span><?php esc_html_e( 'Tablet Landscape', 'themify' );?></span></a></li>
-		<li><a href="#" class="tb_tooltip js--themify_builder_breakpoint_switcher breakpoint-tablet"><i class="ti-tablet"></i><span><?php esc_html_e( 'Tablet', 'themify' );?></span></a></li>
-		<li><a href="#" class="tb_tooltip js--themify_builder_breakpoint_switcher breakpoint-mobile"><i class="ti-mobile"></i><span><?php esc_html_e( 'Mobile', 'themify' );?></span></a></li>
-		<li class="tb_toolbar_divider"></li>
-		<li><a href="#" class="tb_tooltip js-themify-builder-undo-btn"><i class="ti-back-left"></i><span><?php esc_html_e( 'Undo (CTRL+Z)', 'themify' );?></span></a></li>
-		<li><a href="#" class="tb_tooltip js-themify-builder-redo-btn"><i class="ti-back-right"></i><span><?php esc_html_e( 'Redo (CTRL+SHIFT+Z)', 'themify' );?></span></a></li>
-		<li class="tb_toolbar_divider"></li>
-		<li><a href="#"><i class="ti-import"></i></a>
+		<li class="tb_toolbar_zoom_menu"><a href="#" class="tb_toolbar_zoom_menu_toggle" data-zoom="100"><i class="ti-zoom-in"></i></a>
 			<ul>
-				<li><a href="#" class="themify_builder_import_file"><?php esc_html_e( 'Import From File', 'themify' );?></a></li>
-				<li><a href="#" class="themify_builder_import_page"><?php esc_html_e( 'Import From Page', 'themify' );?></a></li>
-				<li><a href="#" class="themify_builder_import_post"><?php esc_html_e( 'Import From Post', 'themify' );?></a></li>
+				<li><a href="#" class="themify_builder_zoom" data-zoom="50"><?php _e( '50%', 'themify' );?></a></li>
+				<li><a href="#" class="themify_builder_zoom" data-zoom="75"><?php _e( '75%', 'themify' );?></a></li>
+				<li><a href="#" class="themify_builder_zoom" data-zoom="100"><?php _e( '100%', 'themify' );?></a></li>
 			</ul>
 		</li>
-		<li><a href="<?php echo wp_nonce_url('?themify_builder_export_file=true&postid=data.post_ID', 'themify_builder_export_nonce') ?>" class="tb_tooltip tb_export_link"><i class="ti-export"></i><span><?php esc_html_e( 'Export', 'themify' );?></span></a></li>
+		<li class="tb_toolbar_divider hide-if-backend"></li>
+		<li class="hide-if-backend"><a href="#" class="tb_tooltip tb_toolbar_builder_preview"><i class="ti-layout-media-center-alt"></i><span><?php _e( 'Preview', 'themify' );?></span></a></li>
+		<li class="tb_toolbar_divider hide-if-backend"></li>
+            <?php 
+                $breakpoints = themify_get_breakpoints();
+                $breakpoints = array_merge(array('desktop'=>''),$breakpoints);
+                $is_premium = Themify_Builder_Model::is_premium();
+            ?>
+            <?php foreach($breakpoints as $b=>$v):?>
+                <li>
+                    <a href="#" class="tb_tooltip tb_breakpoint_switcher breakpoint-<?php echo $b?>"><i class="<?php if($b==='tablet_landscape'):?>ti-tablet <?php endif;?>ti-<?php echo $b?>"></i>
+                    <?php $b = $b==='tablet_landscape' ? __( 'Tablet Landscape', 'themify' ) : ucfirst($b);?>
+                    <span><?php printf('%s', $b);?></span></a>
+                </li>
+            <?php endforeach;?>
 		<li class="tb_toolbar_divider"></li>
-		<li><a href="#"><i class="ti-layout"></i></a>
+		<li><a href="#" class="tb_tooltip tb-undo-redo tb-undo-btn tb_disabled"><i class="ti-back-left"></i><span><?php _e( 'Undo (CTRL+Z)', 'themify' );?></span></a></li>
+		<li><a href="#" class="tb_tooltip tb-undo-redo tb-redo-btn tb_disabled"><i class="ti-back-right"></i><span><?php _e( 'Redo (CTRL+SHIFT+Z)', 'themify' );?></span></a></li>
+		<li class="tb_toolbar_divider"></li>
+		<li><a href="javascript:void(0);"><i class="ti-import"></i></a>
 			<ul>
-				<li><a href="#" class="themify_builder_load_layout"><?php esc_html_e( 'Load Layout', 'themify' );?></a></li>
-				<li><a href="#" class="themify_builder_save_layout"><?php esc_html_e( 'Save as Layout', 'themify' );?></a></li>
+				<li><a href="#" data-component="file" class="tb_import"><?php _e( 'Import From File', 'themify' );?></a></li>
+				<li><a href="#" data-component="page" class="tb_import"><?php _e( 'Import From Page', 'themify' );?></a></li>
+				<li><a href="#" data-component="post" class="tb_import"><?php _e( 'Import From Post', 'themify' );?></a></li>
+			</ul>
+		</li>
+		<li><a href="<?php echo wp_nonce_url('?themify_builder_export_file=true&postid='.$post->ID, 'themify_builder_export_nonce') ?>" class="tb_tooltip tb_export_link"><i class="ti-export"></i><span><?php _e( 'Export', 'themify' );?></span></a></li>
+		<li class="tb_toolbar_divider"></li>
+		<li><a href="javascript:void(0);"><i class="ti-layout"></i></a>
+			<ul>
+                            <li<?php if(!$is_premium):?> class="themify_builder_lite"<?php endif;?>><?php if(!$is_premium):?><span class="themify_lite_tooltip"></span><?php endif;?><a href="#" class="themify_builder_load_layout"><?php _e( 'Load Layout', 'themify' );?></a></li>
+                            <li<?php if(!$is_premium):?> class="themify_builder_lite"<?php endif;?>><?php if(!$is_premium):?><span class="themify_lite_tooltip"></span><?php endif;?><a href="#" class="themify_builder_save_layout"><?php _e( 'Save as Layout', 'themify' );?></a></li>
 			</ul>
 		</li>
 		<li class="tb_toolbar_divider"></li>
-		<li><a href="#" class="tb_tooltip themify_builder_dup_link"><i class="ti-layers"></i><span><?php esc_html_e( 'Duplicate this page', 'themify' );?></span></a></li>
+		<li><a href="#" class="tb_tooltip themify_builder_dup_link"><i class="ti-layers"></i><span><?php _e( 'Duplicate this page', 'themify' );?></span></a></li>
 		<li class="tb_toolbar_divider"></li>
-		<li><a href="//themify.me/docs/builder" class="tb_tooltip" target="_blank"><i class="ti-help"></i><span><?php esc_html_e( 'Help', 'themify' );?></span></a></li>
-		<?php if( ! empty( $_POST['post_id'] ) ): ?>
-			<li class="tb_toolbar_divider"></li>
-			<li><a href="<?php echo get_edit_post_link( $_POST['post_id'] ); ?>" id="themify_builder_switch_backend"><?php esc_html_e( 'Edit in backend', 'themify' ); ?></a></li>
-		<?php endif; ?>
+		<li><a href="//themify.me/docs/builder" class="tb_tooltip" target="_blank"><i class="ti-help"></i><span><?php _e( 'Help', 'themify' );?></span></a></li>
 	</ul>
 
 	<div class="tb_toolbar_save_wrap">
+		<?php if( $post->post_status!=='auto-draft'): ?>
+			<div class="tb_toolbar_backend_edit">
+				<?php if(is_admin()):?>
+					<a href="<?php echo get_permalink()?>#builder_active" id="themify_builder_switch_frontend" class="themify_builder_switch_frontend"><?php _e( 'Go to frontend', 'themify' ); ?></a>
+				<?php else:?>
+					<a href="<?php echo get_edit_post_link(); ?>" id="themify_builder_switch_backend"><i class="ti-arrow-left"></i><?php esc_html_e( 'Edit in backend', 'themify' ); ?></a>
+				<?php endif;?>
+			</div>
+		<?php endif; ?>
 		<div class="tb_toolbar_close">
-			<a href="#"  class="tb_tooltip tb_toolbar_close_btn"><i class="ti-close"></i><span><?php esc_html_e( 'Close', 'themify' );?></span></a>
+			<a href="#"  class="tb_tooltip tb_toolbar_close_btn" title="<?php _e('ESC', 'themify') ?>"><i class="ti-close"></i><span><?php _e( 'Close', 'themify' );?></span></a>
 		</div>
 		<!-- /tb_toolbar_close -->
 		<div class="tb_toolbar_save_btn">
-			<a href="#" class="tb_toolbar_save"><?php esc_html_e( 'Save', 'themify' );?></a>
-			<div class="tb_toolbar_revision_btn">
+                    <a href="#" class="tb_toolbar_save" title="<?php _e('Ctrl + S', 'themify') ?>"><?php _e( 'Save', 'themify' );?></a>
+			<div tabindex="1" class="tb_toolbar_revision_btn">
 				<span class="ti-angle-down"></span>
 				<ul>
-					<li><a href="#" class="themify_builder_save_revision"><?php esc_html_e( 'Save as Revision', 'themify' );?></a></li>
-					<li><a href="#" class="themify_builder_load_revision"><?php esc_html_e( 'Load Revision', 'themify' );?></a></li>
+					<li<?php if(!$is_premium):?> class="themify_builder_lite"<?php endif;?>><?php if(!$is_premium):?><span class="themify_lite_tooltip"></span><?php endif;?><a href="#" class="tb_revision tb_save_revision"><?php _e( 'Save as Revision', 'themify' );?></a></li>
+					<li<?php if(!$is_premium):?> class="themify_builder_lite"<?php endif;?>><?php if(!$is_premium):?><span class="themify_lite_tooltip"></span><?php endif;?><a href="#" class="tb_revision tb_load_revision"><?php _e( 'Load Revision', 'themify' );?></a></li>
 				</ul>
 			</div>
 		</div>
@@ -76,7 +114,7 @@ if ( isset( $post ) && $post->post_status == 'auto-draft' ) $helper_class[] = 't
 	</div>
 	<!-- /tb_toolbar_save_wrap -->
 
-	<a href="#" id="themify_builder_switch_frontend" class="themify_builder_switch_frontend"><?php esc_html_e( 'Go to frontend', 'themify' ); ?></a>
+	
 	
 </div>
 <!-- /tb_toolbar -->
