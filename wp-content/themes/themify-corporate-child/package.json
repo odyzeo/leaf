@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "simplelightbox": "^1.11.1",
-    "swiper": "^4.0.3"
+    "swiper": "^4.0.7"
   }
 }

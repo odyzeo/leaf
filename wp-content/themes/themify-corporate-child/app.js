@@ -131,40 +131,74 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     /**
-     * Swiper gallery
+     * Swiper stories
      */
-    var $galleries = $('.gallery');
-    $galleries.each(function () {
-      var $swiperElement = $(this).addClass('swiper__container').addClass('swiper__container--gallery');
-      var $swiperContainer = $('<div class="swiper-wrapper">');
-      var $swiperSlides = $swiperElement.find('.gallery-item').addClass('swiper-slide');
-      $swiperContainer.append($swiperSlides);
-      $swiperElement.append($swiperContainer);
+    var $storiesCirclesSwiper = $('.js-swiper-stories-circles');
+    var $storiesSwiper = $('.js-swiper-stories');
+    var storiesCount = $storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length;
+    if ($storiesSwiper.length > 0) {
+      var transitionEndCircles = function transitionEndCircles() {
+        if (clicked) {
+          clicked = false;
+          return;
+        }
 
-      $(this).find('a').each(function () {
-        var $link = $(this);
-        var $img = $link.find('img').attr('src');
-        $link.css('background-image', 'url(' + $img + ')');
-      });
-
-      var $more = $('<div class="gallery-more">Celá galéria</div>');
-      $swiperContainer.append($more);
-
-      var $swiperHelp = $('\n            <div class="swiper__help">\n                scroll <span class="icon-new-window"></span>\n            </div>\n    ');
-      $swiperElement.append($swiperHelp);
-
-      var defaultOptions = {
-        slidesPerView: 'auto'
+        var clickedIndex = this.clickedIndex;
+        if ($swiper && typeof clickedIndex !== 'undefined') {
+          clickedIndex = clickedIndex % storiesCount; // + 1
+          clicked = true;
+          $swiper.slideTo(clickedIndex);
+        }
       };
 
-      if ($(window).width() <= 768) {
-        var $swiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($swiperElement, defaultOptions);
-      }
+      var transitionEnd = function transitionEnd() {
+        if (clicked) {
+          clicked = false;
+          return;
+        }
 
-      // For custom gallery
-      // const ligthboxOptions = {}
-      // const lightbox = $swiperElement.find('a').simpleLightbox(ligthboxOptions)
-    });
+        var index = this.realIndex;
+        if ($circlesSwiper) {
+          clicked = true;
+          $circlesSwiper.slideTo(index + storiesCount);
+        }
+      };
+
+      var defaultCirclesOptions = {
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        loop: true,
+        loopedSlides: 50,
+        loopAdditionalSlides: 50,
+        slideToClickedSlide: true,
+        on: {
+          slideChangeTransitionEnd: transitionEndCircles
+        }
+      };
+
+      var defaultOptions = {
+        slidesPerView: 1,
+        loop: true,
+        loopedSlides: 50,
+        loopAdditionalSlides: 50,
+        navigation: {
+          nextEl: '.js-swiper-stories-next',
+          prevEl: '.js-swiper-stories-prev'
+        },
+        pagination: {
+          el: '.js-swiper-stories-pagination',
+          type: 'bullets'
+        },
+        on: {
+          slideChangeTransitionEnd: transitionEnd
+        }
+      };
+
+      var $swiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($storiesSwiper, defaultOptions);
+      var $circlesSwiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($storiesCirclesSwiper, defaultCirclesOptions);
+
+      var clicked = false;
+    }
 
     /**
      * Scroll to top

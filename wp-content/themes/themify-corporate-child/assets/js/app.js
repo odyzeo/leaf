@@ -36,45 +36,74 @@ $(document).ready(() => {
 
 
   /**
-   * Swiper gallery
+   * Swiper stories
    */
-  const $galleries = $('.gallery')
-  $galleries.each(function () {
-    const $swiperElement = $(this).addClass('swiper__container').addClass('swiper__container--gallery')
-    const $swiperContainer = $('<div class="swiper-wrapper">')
-    const $swiperSlides = $swiperElement.find('.gallery-item').addClass('swiper-slide')
-    $swiperContainer.append($swiperSlides)
-    $swiperElement.append($swiperContainer)
-
-    $(this).find('a').each(function () {
-      const $link = $(this)
-      const $img = $link.find('img').attr('src')
-      $link.css('background-image', `url(${$img})`)
-    })
-
-    const $more = $('<div class="gallery-more">Celá galéria</div>')
-    $swiperContainer.append($more)
-
-
-    const $swiperHelp = $(`
-            <div class="swiper__help">
-                scroll <span class="icon-new-window"></span>
-            </div>
-    `)
-    $swiperElement.append($swiperHelp)
+  const $storiesCirclesSwiper = $('.js-swiper-stories-circles')
+  const $storiesSwiper = $('.js-swiper-stories')
+  const storiesCount = $storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length
+  if ($storiesSwiper.length > 0) {
+    const defaultCirclesOptions = {
+      centeredSlides: true,
+      slidesPerView: 'auto',
+      loop: true,
+      loopedSlides: 50,
+      loopAdditionalSlides: 50,
+      slideToClickedSlide: true,
+      on: {
+        slideChangeTransitionEnd: transitionEndCircles,
+      },
+    }
 
     const defaultOptions = {
-      slidesPerView: 'auto',
+      slidesPerView: 1,
+      loop: true,
+      loopedSlides: 50,
+      loopAdditionalSlides: 50,
+      navigation: {
+        nextEl: '.js-swiper-stories-next',
+        prevEl: '.js-swiper-stories-prev',
+      },
+      pagination: {
+        el: '.js-swiper-stories-pagination',
+        type: 'bullets',
+      },
+      on: {
+        slideChangeTransitionEnd: transitionEnd,
+      },
     }
 
-    if ($(window).width() <= 768) {
-      const $swiper = new Swiper($swiperElement, defaultOptions)
+    const $swiper = new Swiper($storiesSwiper, defaultOptions)
+    const $circlesSwiper = new Swiper($storiesCirclesSwiper, defaultCirclesOptions)
+
+    let clicked = false
+
+    function transitionEndCircles() {
+      if (clicked) {
+        clicked = false
+        return
+      }
+
+      let clickedIndex = this.clickedIndex
+      if ($swiper && typeof clickedIndex !== 'undefined') {
+        clickedIndex = clickedIndex % storiesCount// + 1
+        clicked = true
+        $swiper.slideTo(clickedIndex)
+      }
     }
 
-    // For custom gallery
-    // const ligthboxOptions = {}
-    // const lightbox = $swiperElement.find('a').simpleLightbox(ligthboxOptions)
-  })
+    function transitionEnd() {
+      if (clicked) {
+        clicked = false
+        return
+      }
+
+      let index = this.realIndex
+      if ($circlesSwiper) {
+        clicked = true
+        $circlesSwiper.slideTo(index + storiesCount)
+      }
+    }
+  }
 
 
   /**

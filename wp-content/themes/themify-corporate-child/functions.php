@@ -101,3 +101,6 @@ function leaf_get_languages( $class = 'header__lang' ) {
 
 	return $result;
 }
+
+
+require_once('leaf/stories.php');
