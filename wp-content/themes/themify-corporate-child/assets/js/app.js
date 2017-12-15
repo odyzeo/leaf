@@ -1,22 +1,23 @@
 import Swiper from 'swiper'
+import SlideMenu from './components/SlideMenu'
 
 window.$ = jQuery
 
 $(document).ready(() => {
 
+  SlideMenu.init()
+
   /**
    * Mobile menu
    */
-  $('.js-menu-mobile-toggle').on('click', function (e) {
+  $('.menu-mobile .menu-item-has-children > a').on('click', function (e) {
     e.preventDefault()
 
     var $el = $(this)
-    $el.toggleClass('is-active')
-    $('.js-header-fixed').toggleClass('header--opened')
-    isMobileMenuOpen = !isMobileMenuOpen
+    var $submenu = $el.next('.sub-menu')
 
-    $('.js-menu-mobile').finish()
-    $('.js-menu-mobile').slideToggle(300)
+    $el.toggleClass('is-active')
+    $submenu.slideToggle(300)
   })
 
 
@@ -119,6 +120,8 @@ $(document).ready(() => {
   var localhost = location.host.indexOf('localhost') > -1
   console.log('local', localhost)
   if (localhost) {
+    return
+
     $('[src^="http://localhost/leaf"]').each(function () {
       var $el = $(this)
       $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'))

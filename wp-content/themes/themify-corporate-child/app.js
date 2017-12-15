@@ -96,24 +96,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   /* harmony import */var __WEBPACK_IMPORTED_MODULE_0_swiper__ = __webpack_require__(1);
+  /* harmony import */var __WEBPACK_IMPORTED_MODULE_1__components_SlideMenu__ = __webpack_require__(3);
 
   window.$ = jQuery;
 
   $(document).ready(function () {
 
+    __WEBPACK_IMPORTED_MODULE_1__components_SlideMenu__["a" /* default */].init();
+
     /**
      * Mobile menu
      */
-    $('.js-menu-mobile-toggle').on('click', function (e) {
+    $('.menu-mobile .menu-item-has-children > a').on('click', function (e) {
       e.preventDefault();
 
       var $el = $(this);
-      $el.toggleClass('is-active');
-      $('.js-header-fixed').toggleClass('header--opened');
-      isMobileMenuOpen = !isMobileMenuOpen;
+      var $submenu = $el.next('.sub-menu');
 
-      $('.js-menu-mobile').finish();
-      $('.js-menu-mobile').slideToggle(300);
+      $el.toggleClass('is-active');
+      $submenu.slideToggle(300);
     });
 
     /**
@@ -206,6 +207,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var localhost = location.host.indexOf('localhost') > -1;
     console.log('local', localhost);
     if (localhost) {
+      return;
+
       $('[src^="http://localhost/leaf"]').each(function () {
         var $el = $(this);
         $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'));
@@ -2837,7 +2840,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       params = Utils.extend({}, params);
       if (el && !params.el) params.el = el;
 
-      var _this = _possibleConstructorReturn(this, (Swiper$1.__proto__ || Object.getPrototypeOf(Swiper$1)).call(this, params));
+      var _this2 = _possibleConstructorReturn(this, (Swiper$1.__proto__ || Object.getPrototypeOf(Swiper$1)).call(this, params));
 
       Object.keys(prototypes).forEach(function (prototypeGroup) {
         Object.keys(prototypes[prototypeGroup]).forEach(function (protoMethod) {
@@ -2848,7 +2851,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       });
 
       // Swiper Instance
-      var swiper = _this;
+      var swiper = _this2;
       if (typeof swiper.modules === 'undefined') {
         swiper.modules = {};
       }
@@ -2885,7 +2888,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       if (!el) {
         var _ret;
 
-        return _ret = undefined, _possibleConstructorReturn(_this, _ret);
+        return _ret = undefined, _possibleConstructorReturn(_this2, _ret);
       }
 
       if ($el.length > 1) {
@@ -2896,7 +2899,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var newParams = Utils.extend({}, params, { el: containerEl });
           swipers.push(new Swiper$1(newParams));
         });
-        return _ret2 = swipers, _possibleConstructorReturn(_this, _ret2);
+        return _ret2 = swipers, _possibleConstructorReturn(_this2, _ret2);
       }
 
       el.swiper = swiper;
@@ -3017,7 +3020,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       // Return app instance
-      return _ret3 = swiper, _possibleConstructorReturn(_this, _ret3);
+      return _ret3 = swiper, _possibleConstructorReturn(_this2, _ret3);
     }
 
     _createClass(Swiper$1, [{
@@ -8366,6 +8369,107 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     return eventShortcut.bind(this).apply(undefined, ['scroll'].concat(args));
   }
+
+  /***/
+},
+/* 3 */
+/***/function (module, __webpack_exports__, __webpack_require__) {
+
+  "use strict";
+
+  function each(collection, callback) {
+    // eslint-disable-next-line
+    for (var i = 0; i < collection.length; i++) {
+      var item = collection[i];
+      callback(item);
+    }
+  }
+
+  var SlideMenu = {
+    type: 'slide-left',
+    wrapperId: '.js-slide-menu__wrapper',
+    maskId: '.js-slide-menu__mask',
+    menuOpenerClass: '.js-slide-menu',
+
+    wrapper: null,
+    menu: null,
+
+    init: function init() {
+      this.body = document.body;
+      this.wrapper = document.querySelector(this.wrapperId);
+      this.mask = document.querySelector(this.maskId);
+      this.menu = document.querySelector('.slide-menu--' + this.type);
+      this.menuOpeners = document.querySelectorAll(this.menuOpenerClass);
+
+      if (!this.mask) {
+        console.error('Missing mask element for SlideMenu, maybe need to add HTML.');
+        return;
+      }
+
+      this.initEvents();
+
+      $('.js-mobile-submenu-toggle').on('click', function () {
+        var $el = $(this);
+
+        $el.parents('.menu-mobile__item').toggleClass('menu-mobile__item--open');
+        $el.find('.icon-reveal-more').toggleClass('icon-reveal-more--active');
+        $el.next('.js-mobile-submenu').slideToggle();
+      });
+    },
+
+    initEvents: function initEvents() {
+      var _this = this;
+
+      // Event for clicks on the open buttons.
+      each(this.menuOpeners, function (item) {
+        item.addEventListener('click', function (e) {
+          e.preventDefault();
+          _this.open();
+        });
+      });
+
+      // Event for clicks on the mask.
+      this.mask.addEventListener('click', function (e) {
+        e.preventDefault();
+        _this.close();
+      });
+    },
+
+    open: function open() {
+      this.body.classList.add('has-active-slide-menu');
+      this.wrapper.classList.add('has-' + this.type);
+      this.menu.classList.add('is-active');
+      this.mask.classList.add('is-active');
+      each(this.menuOpeners, function (item) {
+        item.classList.add('is-active');
+      });
+      this.disableMenuOpeners();
+    },
+
+    close: function close() {
+      this.body.classList.remove('has-active-slide-menu');
+      this.wrapper.classList.remove('has-' + this.type);
+      this.menu.classList.remove('is-active');
+      this.mask.classList.remove('is-active');
+      each(this.menuOpeners, function (item) {
+        item.classList.remove('is-active');
+      });
+      this.enableMenuOpeners();
+    },
+
+    enableMenuOpeners: function enableMenuOpeners() {
+      each(this.menuOpeners, function (item) {
+        item.disabled = false;
+      });
+    },
+
+    disableMenuOpeners: function disableMenuOpeners() {
+      each(this.menuOpeners, function (item) {
+        item.disabled = true;
+      });
+    }
+
+    /* harmony default export */ };__webpack_exports__["a"] = SlideMenu;
 
   /***/
 }]

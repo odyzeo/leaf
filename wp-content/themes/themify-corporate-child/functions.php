@@ -81,3 +81,23 @@ add_action( 'widgets_init', 'themify_child_theme_register_sidebars' );
  */
 require_once( 'sorudan/sorudan.php' );
 require_once( 'sorudan/shortcode.php' );
+
+function leaf_get_languages( $class = 'header__lang' ) {
+	$result    = "";
+	$languages = icl_get_languages( 'skip_missing=0' );
+	if ( ! empty( $languages ) ) {
+		$languageslangs = array();
+		foreach ( $languages as $l ) {
+			if ( $l['active'] ) {
+
+			} else {
+				$languageslangs[] = '<a class="' . $class . '" href="' . $l['url'] . '" title="' . $l['translated_name'] . '">' . $l['language_code'] . '</a>';
+			}
+		}
+		if ( ! empty( $languageslangs ) ) {
+			$result = implode( '', $languageslangs );
+		}
+	}
+
+	return $result;
+}

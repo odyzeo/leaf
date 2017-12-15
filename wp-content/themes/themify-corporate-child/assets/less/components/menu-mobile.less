@@ -1,36 +1,90 @@
 @import '../variables';
 
-.js-menu-mobile {
-    display: none;
-}
-
 .menu-mobile {
-    margin-bottom: 10px;
 
-    li {
+    .menu-item {
         display: block;
         list-style: none;
+        margin: 0;
+        padding: 0;
     }
 
     a {
         display: block;
         color: @color--default;
-        font-size: @font-size--medium;
-        font-style: inherit;
-        font-family: @font-family--primary;
-        line-height: 2.3;
+        padding: 10px @slide-menu-padding;
+        border-top: 1px solid #e0e0e0;
     }
 
-    a:hover,
-    .current-menu-item a {
-        color: @color--primary;
+    .sub-menu {
+        display: none;
+
+        a {
+            padding-left: (2 * @slide-menu-padding);
+        }
     }
 
-    .menu-item-type-custom a:after {
-        padding-left: 2px;
-        font-size: 12px;
-        font-family: 'icomoon', serif !important;
-        vertical-align: middle;
-        content: @icon-new-window;
+    .menu-item-has-children {
+
+        & > a {
+            position: relative;
+
+            &:before {
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                width: 8px;
+                height: 8px;
+                z-index: 0;
+                transform: translateY(-50%) rotate(180deg);
+                background: url(./assets/svg/dropdown.svg) no-repeat ~"center/8px 8px";
+                content: '';
+                transition: all .2s ease;
+            }
+        }
+    }
+
+    .menu-item-has-children {
+        position: relative;
+    }
+
+    .menu-item-has-children:not(.is-active) {
+
+        & > a {
+            position: relative;
+
+            &:before {
+                transform: translateY(-50%) rotate(0);
+            }
+        }
+    }
+}
+
+.mobile-menu__toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: @color--primary;
+    /* transform: rotate(90deg) scaleX(0.5); */
+    font-size: 20px;
+}
+
+.menu-mobile-toggler {
+    position: absolute;
+    top: 23px;
+    right: @slide-menu-padding;
+    z-index: (@z-slide-menu + 1);
+
+    .has-active-slide-menu & {
+        pointer-events: none;
+    }
+
+    @media (min-width: @tablet-width-min) {
+        display: none;
     }
 }

@@ -14,92 +14,53 @@
 </head>
 
 <body <?php body_class(); ?>>
-<?php get_template_part( 'template-parts/header', 'facebook' ); ?>
+<?php // TODO UNCOMMENT get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
 <div id="pagewrap" class="hfeed site">
 
-    <div id="headerwrap">
+	<?php get_template_part( 'template-parts/slide-menu' ); ?>
 
-		<?php themify_header_before(); // hook ?>
+    <header class="wrapper header js-header">
+        <a href="/" class="header__logo header__logo--absolute">
+            <img class="logo-leaf"
+                 src="<?php echo get_stylesheet_directory_uri(); ?>/assets/svg/leaf-logo.svg"
+                 alt="LEAF">
+        </a>
+        <div class="container header__container">
+            <a href="/" class="header__logo header__logo--desktop">
+                <img class="logo-leaf"
+                     src="<?php echo get_stylesheet_directory_uri(); ?>/assets/svg/leaf-logo.svg"
+                     alt="LEAF">
+            </a>
+            <div class="header__menu">
 
-        <header id="header" class="pagewidth clearfix" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
-
-			<?php themify_header_start(); // hook ?>
-
-            <div id="header-topline-out">
-                <div id="header-topline">
-                    <div class="logo-wrap">
-						<?php echo themify_logo_image(); ?>
-						<?php if ( $site_desc = get_bloginfo( 'description' ) ) : ?>
-							<?php global $themify_customizer; ?>
-                            <div id="site-description"
-                                 class="site-description"><?php echo class_exists( 'Themify_Customizer' ) ? $themify_customizer->site_description( $site_desc ) : $site_desc; ?></div>
-						<?php endif; ?>
-                    </div>
-                    <div id="topbar">
-						<?php dynamic_sidebar( 'topbar' ); ?>
-                    </div>
-                    <div id="languages"><?php
-						/* language list */
-						$languages = icl_get_languages( 'skip_missing=0' );
-						if (/*false &&*/ ! empty( $languages ) ) {
-							$languageslangs = array();
-							foreach ( $languages as $l ) {
-								if ( $l['active'] ) /*echo '<a href="" class="active" onclick="jQuery(\'#languages-in\').fadeToggle();return false" title="'.$l['translated_name'].'">'.$l['language_code'].'</a>';*/ {
-									echo '<a href="" class="active" onclick="return false" title="' . $l['translated_name'] . '">' . $l['language_code'] . '</a>';
-								} else {
-									$languageslangs[] = '<a href="' . $l['url'] . '" title="' . $l['translated_name'] . '">' . $l['language_code'] . '</a>';
-								}
-							}
-							if ( ! empty( $languageslangs ) ) {
-								echo '<div id="languages-in">' . implode( '', $languageslangs ) . '</div>';
-							}
-						}
-						?></div>
-                </div>
-            </div>
-            <a id="menu-icon" href="#mobile-menu"></a>
-            <div id="mobile-menu" class="sidemenu sidemenu-off">
-
-				<?php if ( false ) { ?>
-                    <div class="social-widget">
-						<?php dynamic_sidebar( 'social-widget' ); ?>
-
-						<?php if ( ! themify_check( 'setting-exclude_rss' ) ) : ?>
-                            <div class="rss"><a
-                                        href="<?php echo themify_get( 'setting-custom_feed_url' ) != '' ? themify_get( 'setting-custom_feed_url' ) : get_bloginfo( 'rss2_url' ); ?>"></a>
-                            </div>
-						<?php endif ?>
-                    </div>
-                    <!-- /.social-widget -->
-
-                    <div id="searchform-wrap">
-						<?php if ( ! themify_check( 'setting-exclude_search_form' ) ): ?>
-							<?php get_search_form(); ?>
-						<?php endif ?>
-                    </div>
-                    <!-- /searchform-wrap -->
-				<?php } ?>
-
-                <nav id="main-nav-wrap" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
-					<?php themify_theme_menu_nav(); ?>
-                    <!-- /#main-nav -->
-                </nav>
-
-                <a id="menu-icon-close" href="#"></a>
+				<?php if ( has_nav_menu( 'main-nav' ) ) :
+					wp_nav_menu( array(
+						'container'      => false,
+						'theme_location' => 'main-nav',
+						'menu_class'     => 'menu-primary',
+					) );
+				endif; ?>
 
             </div>
-            <!-- /#mobile-menu -->
+        </div>
+        <div class="header__info">
 
-			<?php themify_header_end(); // hook ?>
+			<?php echo leaf_get_languages(); ?>
 
-        </header>
-        <!-- /#header -->
+        </div>
+    </header>
+    <div class="header__placeholder"></div>
 
-		<?php themify_header_after(); // hook ?>
-
+    <div class="menu-mobile-toggler">
+        <a href class="menu-icon js-slide-menu">
+            <div class="menu-icon__content">
+                <div class="menu-icon__line menu-icon__line--1"></div>
+                <div class="menu-icon__line menu-icon__line--2"></div>
+                <div class="menu-icon__line menu-icon__line--3"></div>
+            </div>
+        </a>
     </div>
-    <!-- /#headerwrap -->
 
     <div id="body" class="clearfix">
 

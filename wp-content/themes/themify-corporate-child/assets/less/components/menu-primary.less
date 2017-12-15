@@ -4,6 +4,7 @@
 
 .menu-primary {
     font-size: 0;
+    text-transform: uppercase;
 
     li {
         display: inline-block;
@@ -12,19 +13,62 @@
 
     a {
         display: inline-block;
-        padding: 5px 15px;
+        padding: 28px 20px;
         color: @color--default;
         font-size: @font-size;
         font-weight: 700;
     }
 
     a:hover,
-    .current-menu-parent a,
-    .current-menu-item a {
+    .current-menu-item > a {
         color: @color--primary;
     }
 
-    .menu-item-type-custom a:after {
-        .new-window();
+    .menu-item-has-children {
+        position: relative;
+
+        &:after {
+            position: absolute;
+            top: 50%;
+            right: 7px;
+            width: 8px;
+            height: 8px;
+            z-index: 0;
+            transform: translateY(-50%);
+            background: url(./assets/svg/dropdown.svg) no-repeat ~"center/8px 8px";
+            content: '';
+        }
+
+        &:hover .sub-menu {
+            display: block;
+        }
+    }
+
+    .sub-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+
+        background-color: #fff;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, .1);
+        width: 300px;
+
+        .menu-item {
+            display: block;
+            padding: 0;
+
+            a {
+                width: 100%;
+                padding: 10px 20px;
+                background-color: #fff;
+                transition: all .3s ease;
+                font-size: 12px;
+
+                &:hover {
+                    background-color: #f1f1f1;
+                }
+            }
+        }
     }
 }
