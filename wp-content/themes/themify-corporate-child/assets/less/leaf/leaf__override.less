@@ -3,3 +3,28 @@
 .page-list.leaf__override {
 
 }
+
+.page-title {
+    height: auto !important;
+    margin-top: 0 !important;
+    padding: 20px 0 !important;
+
+    @media (min-width: @tablet-width-min) {
+        padding: 35px 0 !important;
+    }
+}
+
+.page-content {
+
+    h6:empty {
+        display: none;
+    }
+}
+
+.themify_builder_content .module-text:not(.fullwidth) {
+
+    @media (max-width: 640px) {
+        padding-top: 0 !important;;
+        padding-bottom: 0 !important;
+    }
+}

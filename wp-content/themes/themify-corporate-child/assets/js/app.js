@@ -146,11 +146,9 @@ $(document).ready(() => {
 
   function scrollDown() {
     const scrolledTop = $(window).scrollTop()
-    const $header = $('.js-header-fixed')
+    const $header = $('.js-header')
 
-    const hideMenu = scrolledTop > lastScrollTop && scrolledTop > 30
-    $header.toggleClass('header--scrolling', hideMenu)
-    $header.toggleClass('header--moved', scrolledTop > 30)
+    $header.toggleClass('header--smaller', scrolledTop > 50)
 
     lastScrollTop = scrolledTop
   }

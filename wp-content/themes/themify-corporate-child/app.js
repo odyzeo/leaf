@@ -238,11 +238,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     function scrollDown() {
       var scrolledTop = $(window).scrollTop();
-      var $header = $('.js-header-fixed');
+      var $header = $('.js-header');
 
-      var hideMenu = scrolledTop > lastScrollTop && scrolledTop > 30;
-      $header.toggleClass('header--scrolling', hideMenu);
-      $header.toggleClass('header--moved', scrolledTop > 30);
+      $header.toggleClass('header--smaller', scrolledTop > 50);
 
       lastScrollTop = scrolledTop;
     }

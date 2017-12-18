@@ -7,7 +7,7 @@
 @header-height-desktop: 78px;
 
 .header {
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
     left: 0;
@@ -17,8 +17,8 @@
     align-items: center;
     height: @header-height;
     background-color: #fff;
-    box-shadow: 0 0 0 0 transparent;
-    transition: all .3s ease;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, .1);
+    transition: height .3s ease;
 
     .logo-color {
         display: none;
@@ -26,6 +26,13 @@
 
     @media (min-width: @tablet-width-min) {
         height: @header-height-desktop;
+    }
+}
+
+.header--smaller {
+
+    @media (min-width: @tablet-width-min) {
+        height: 60px;
     }
 }
 
