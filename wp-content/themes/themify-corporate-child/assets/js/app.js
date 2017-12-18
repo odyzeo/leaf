@@ -36,6 +36,20 @@ $(document).ready(() => {
 
 
   /**
+   * Swiper news
+   */
+  const $newsSwiper = $('.js-swiper-news')
+  if ($newsSwiper.length > 0) {
+    const defaultNewsOptions = {
+      slidesPerView: 2,
+      loop: true,
+    }
+
+    const $swiper = new Swiper($newsSwiper, defaultNewsOptions)
+  }
+
+
+  /**
    * Swiper stories
    */
   const $storiesCirclesSwiper = $('.js-swiper-stories-circles')
@@ -149,6 +163,10 @@ $(document).ready(() => {
   var localhost = location.host.indexOf('localhost') > -1
   console.log('local', localhost)
   if (localhost) {
+    $('[src^="http://localhost/leaf"]').each(function () {
+      var $el = $(this)
+      $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'))
+    })
     return
 
     $('[src^="http://localhost/leaf"]').each(function () {

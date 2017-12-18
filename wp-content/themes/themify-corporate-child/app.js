@@ -131,6 +131,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     /**
+     * Swiper news
+     */
+    var $newsSwiper = $('.js-swiper-news');
+    if ($newsSwiper.length > 0) {
+      var defaultNewsOptions = {
+        slidesPerView: 2,
+        loop: true
+      };
+
+      var $swiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($newsSwiper, defaultNewsOptions);
+    }
+
+    /**
      * Swiper stories
      */
     var $storiesCirclesSwiper = $('.js-swiper-stories-circles');
@@ -144,10 +157,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         var clickedIndex = this.clickedIndex;
-        if ($swiper && typeof clickedIndex !== 'undefined') {
+        if (_$swiper && typeof clickedIndex !== 'undefined') {
           clickedIndex = clickedIndex % storiesCount; // + 1
           clicked = true;
-          $swiper.slideTo(clickedIndex);
+          _$swiper.slideTo(clickedIndex);
         }
       };
 
@@ -194,7 +207,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
       };
 
-      var $swiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($storiesSwiper, defaultOptions);
+      var _$swiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($storiesSwiper, defaultOptions);
       var $circlesSwiper = new __WEBPACK_IMPORTED_MODULE_0_swiper__["a" /* default */]($storiesCirclesSwiper, defaultCirclesOptions);
 
       var clicked = false;
@@ -241,6 +254,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var localhost = location.host.indexOf('localhost') > -1;
     console.log('local', localhost);
     if (localhost) {
+      $('[src^="http://localhost/leaf"]').each(function () {
+        var $el = $(this);
+        $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'));
+      });
       return;
 
       $('[src^="http://localhost/leaf"]').each(function () {

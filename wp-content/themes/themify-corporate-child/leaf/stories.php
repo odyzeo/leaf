@@ -59,6 +59,7 @@ function add_story_shortcode( $atts ) {
 	$args   = array(
 		'posts_per_page' => $posts_per_page,
 		'post_type'      => $post_type,
+		'orderby'        => 'rand'
 	);
 
 	$wp_query = new WP_Query( $args );

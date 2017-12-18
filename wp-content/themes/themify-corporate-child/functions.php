@@ -104,3 +104,4 @@ function leaf_get_languages( $class = 'header__lang' ) {
 
 
 require_once('leaf/stories.php');
+require_once('leaf/news.php');
