@@ -55,7 +55,7 @@ global $themify;
 
 	<div class="post-content">
 
-		<?php if($themify->hide_meta != 'yes'): ?>
+		<?php if(false && $themify->hide_meta != 'yes'): ?>
 			<p class="post-meta entry-meta">
 
 				<?php if($themify->hide_meta_author != 'yes'): ?>
