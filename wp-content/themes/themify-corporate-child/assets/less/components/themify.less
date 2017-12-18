@@ -26,12 +26,17 @@
 
         .module-title {
             display: inline-block;
+            max-width: 100%;
             padding: 20px;
             margin: 0 !important;
             background-color: #fff;
             font-size: 12px !important;
             letter-spacing: 4px;
-            text-transform: uppercase
+            text-transform: uppercase;
+
+            @media (min-width: @tablet-width-min) {
+                max-width: 640px;
+            }
         }
 
         &.divider--strong {
@@ -39,6 +44,19 @@
             .module-title {
                 font-size: 15px !important;
                 font-weight: 700;
+            }
+        }
+
+        &.divider--besom {
+
+            .module-title {
+                color: @color--primary;
+                font-family: 'besom', sans-serif;
+                font-size: 30px !important;
+
+                @media (min-width: @tablet-width-min) {
+                    font-size: 60px !important;
+                }
             }
         }
     }

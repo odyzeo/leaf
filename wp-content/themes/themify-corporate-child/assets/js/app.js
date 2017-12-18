@@ -1,12 +1,15 @@
 import ProgressBar from 'progressbar.js'
 import Swiper from 'swiper'
 import SlideMenu from './components/SlideMenu'
+import YouTube from './components/YouTube'
+import 'lity'
 
 window.$ = jQuery
 
 $(document).ready(() => {
 
   SlideMenu.init()
+  YouTube.init()
 
   /**
    * Mobile menu

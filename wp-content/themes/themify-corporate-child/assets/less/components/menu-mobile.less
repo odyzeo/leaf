@@ -59,32 +59,3 @@
         }
     }
 }
-
-.mobile-menu__toggle {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: @color--primary;
-    /* transform: rotate(90deg) scaleX(0.5); */
-    font-size: 20px;
-}
-
-.menu-mobile-toggler {
-    position: fixed;
-    top: 23px;
-    right: @slide-menu-padding;
-    z-index: (@z-slide-menu + 1);
-
-    .has-active-slide-menu & {
-        pointer-events: none;
-    }
-
-    @media (min-width: @tablet-width-min) {
-        display: none;
-    }
-}

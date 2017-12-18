@@ -14,78 +14,54 @@
 </head>
 
 <body <?php body_class(); ?>>
-<?php get_template_part( 'template-parts/header', 'facebook' ); ?>
+<?php // TODO UNCOMMENT get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
 <div id="pagewrap" class="hfeed site">
 
-    <div id="headerwrap">
+	<?php get_template_part( 'template-parts/slide-menu', 'award' ); ?>
 
-        <?php themify_header_before(); // hook ?>
+    <header class="wrapper header header--award js-header">
+        <a href="//leaf.sk/award" class="header__logo header__logo--absolute">
+            <img class="logo-leaf-award"
+                 src="<?php echo get_stylesheet_directory_uri(); ?>/img/leaf-award-color.png"
+                 alt="LEAF AWARD">
+        </a>
+        <div class="container header__container">
+            <a href="//leaf.sk/award" class="header__logo header__logo--desktop">
+                <img class="logo-leaf-award"
+                     src="<?php echo get_stylesheet_directory_uri(); ?>/img/leaf-award-color.png"
+                     alt="LEAF AWARD">
+            </a>
+            <div class="header__menu">
 
-        <header id="header" class="pagewidth clearfix" itemscope="itemscope" itemtype="https://schema.org/WPHeader">
-
-            <?php themify_header_start(); // hook ?>
-
-            <div id="header-topline-out">
-                <div id="header-topline">
-                    <div class="logo-wrap">
-                        <div id="site-logo">
-                            <a href="//leaf.sk/award" title="LEAF AWARD">
-                                <img class="logo-leaf-award"
-                                     src="<?php echo get_stylesheet_directory_uri(); ?>/img/leaf-award-color.png"
-                                     alt="LEAF AWARD"
-                                     title="LEAF AWARD">
-                            </a>
-                        </div>
-                    </div>
-                    <div id="topbar">
-
-                    </div>
-                </div>
-            </div>
-            <a id="menu-icon" href="#mobile-menu"></a>
-            <div id="mobile-menu" class="sidemenu sidemenu-off">
-
-                <?php if (false) { ?>
-                    <div class="social-widget">
-                        <?php dynamic_sidebar('social-widget'); ?>
-
-                        <?php if (!themify_check('setting-exclude_rss')) : ?>
-                            <div class="rss"><a
-                                        href="<?php echo themify_get('setting-custom_feed_url') != '' ? themify_get('setting-custom_feed_url') : get_bloginfo('rss2_url'); ?>"></a>
-                            </div>
-                        <?php endif ?>
-                    </div>
-                    <!-- /.social-widget -->
-
-                    <div id="searchform-wrap">
-                        <?php if (!themify_check('setting-exclude_search_form')): ?>
-                            <?php get_search_form(); ?>
-                        <?php endif ?>
-                    </div>
-                    <!-- /searchform-wrap -->
-                <?php } ?>
-
-                <nav id="main-nav-wrap" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">
-                    <?php wp_nav_menu( array( 'theme_location' => 'award-nav' , 'fallback_cb' => 'themify_default_main_nav' , 'container'  => '' , 'menu_id' => 'main-nav' , 'menu_class' => 'main-nav clearfix' ) ); ?>
-                    <!-- /#main-nav -->
-                </nav>
-
-                <a id="menu-icon-close" href="#"></a>
+				<?php if ( has_nav_menu( 'award-nav' ) ) :
+					wp_nav_menu( array(
+						'container'      => false,
+						'theme_location' => 'award-nav',
+						'menu_class'     => 'menu-primary',
+					) );
+				endif; ?>
 
             </div>
-            <!-- /#mobile-menu -->
+        </div>
+        <div class="header__info">
 
-            <?php themify_header_end(); // hook ?>
+            <a href="/" class="header__link">LEAF.SK</a>
 
-        </header>
-        <!-- /#header -->
+        </div>
+    </header>
+    <div class="header__placeholder"></div>
 
-        <?php themify_header_after(); // hook ?>
-
+    <div class="header__menu-mobile-toggler header__menu-mobile-toggler--award">
+        <a href class="menu-icon js-slide-menu">
+            <div class="menu-icon__content">
+                <div class="menu-icon__line menu-icon__line--1"></div>
+                <div class="menu-icon__line menu-icon__line--2"></div>
+                <div class="menu-icon__line menu-icon__line--3"></div>
+            </div>
+        </a>
     </div>
-    <!-- /#headerwrap -->
 
     <div id="body" class="clearfix">
 
-        <?php themify_layout_before(); //hook ?>
+		<?php themify_layout_before(); //hook ?>

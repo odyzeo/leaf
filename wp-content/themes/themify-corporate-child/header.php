@@ -52,7 +52,7 @@
     </header>
     <div class="header__placeholder"></div>
 
-    <div class="menu-mobile-toggler">
+    <div class="header__menu-mobile-toggler">
         <a href class="menu-icon js-slide-menu">
             <div class="menu-icon__content">
                 <div class="menu-icon__line menu-icon__line--1"></div>
