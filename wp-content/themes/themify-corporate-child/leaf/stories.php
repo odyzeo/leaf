@@ -89,8 +89,10 @@ function add_story_shortcode( $atts ) {
 
 			$swiperCircles .= "
                 <div class='swiper-slide'>
+                    <div class='img-circle__overlay'>
+                        <div class='js-swiper-timer'></div>
+					</div>
                 	<div class='img-circle'>
-                		<div class='img-circle__overlay'></div>
                 		<img src='$image' alt='' class='img-circle__image'>
 					</div>
                 </div>

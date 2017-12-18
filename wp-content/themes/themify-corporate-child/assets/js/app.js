@@ -1,3 +1,4 @@
+import ProgressBar from 'progressbar.js'
 import Swiper from 'swiper'
 import SlideMenu from './components/SlideMenu'
 
@@ -68,11 +69,18 @@ $(document).ready(() => {
       },
     }
 
+    const speed = 300
+    const autoplayTime = 15000
     const defaultOptions = {
       slidesPerView: 1,
+      speed: speed,
       loop: true,
       loopedSlides: 50,
       loopAdditionalSlides: 50,
+      autoplay: {
+        delay: autoplayTime,
+        disableOnInteraction: false,
+      },
       navigation: {
         nextEl: '.js-swiper-stories-next',
         prevEl: '.js-swiper-stories-prev',
@@ -92,6 +100,29 @@ $(document).ready(() => {
     let clicked = false
 
     function transitionEndCircles() {
+      /**
+       * Progress bar
+       */
+      const $active = $('.js-swiper-stories-circles .swiper-slide-active .js-swiper-timer')
+      let $progress = $('#js-swiper-progress')
+      $progress.remove()
+      $progress = $('<div id=\'js-swiper-progress\' class=\'swiper__progress\'></div>')
+
+      $progress.appendTo($active)
+      const bar = new ProgressBar.Circle('#js-swiper-progress', {
+        strokeWidth: 6,
+        easing: 'linear',
+        duration: autoplayTime - speed,
+        color: '#40b153',
+        trailColor: '#fff',
+        trailWidth: 2,
+        svgStyle: null,
+      })
+      bar.animate(1.0)
+
+      /**
+       * Prevent slide from another swiper
+       */
       if (clicked) {
         clicked = false
         return
@@ -106,6 +137,9 @@ $(document).ready(() => {
     }
 
     function transitionEnd() {
+      /**
+       * Prevent slide from another swiper
+       */
       if (clicked) {
         clicked = false
         return
@@ -159,8 +193,8 @@ $(document).ready(() => {
    * @type {boolean}
    */
   var localhost = location.host.indexOf('localhost') > -1
-  console.log('local', localhost)
   if (localhost) {
+    console.log('local', localhost)
     $('[src^="http://localhost/leaf"]').each(function () {
       var $el = $(this)
       $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'))

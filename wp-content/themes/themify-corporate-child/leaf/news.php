@@ -23,9 +23,8 @@ function add_news_shortcode( $atts ) {
 
 
 	$result .= "
-		<div class='container'>
-			<div class='swiper-container swiper-container--news js-swiper-news'>
-	            <div class='swiper-wrapper'>
+		<div class='swiper-container swiper-container--news js-swiper-news'>
+            <div class='swiper-wrapper'>
 	";
 
 	if ( $wp_query->have_posts() ) {
@@ -86,10 +85,9 @@ function add_news_shortcode( $atts ) {
 	}
 
 	$result .= "
-	            </div>
-	
-	            <div class='swiper-pagination js-swiper-news-pagination'></div>
-	        </div>
+            </div>
+
+            <div class='swiper-pagination js-swiper-news-pagination'></div>
         </div>
 	";
 
