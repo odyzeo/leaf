@@ -6,6 +6,12 @@
 define( 'WP_LEAF_VERSION', '1.0.0' );
 define( 'SINGLE_PATH', get_stylesheet_directory() . '/single' );
 
+function theme_name_setup() {
+	load_theme_textdomain( 'leaf', get_stylesheet_directory() . '/languages' );
+}
+
+add_action( 'after_setup_theme', 'theme_name_setup' );
+
 function leaf_single_template( $single ) {
 	global $wp_query, $post;
 
@@ -103,11 +109,11 @@ function leaf_get_languages( $class = 'header__lang' ) {
 }
 
 
-require_once('leaf/award-open.php');
-require_once('leaf/award-open-strip.php');
-require_once('leaf/banners.php');
-require_once('leaf/bubble.php');
-require_once('leaf/stories.php');
-require_once('leaf/latest-news.php');
-require_once('leaf/news.php');
-require_once('leaf/videostrip.php');
+require_once( 'leaf/award-open.php' );
+require_once( 'leaf/award-open-strip.php' );
+require_once( 'leaf/banners.php' );
+require_once( 'leaf/bubble.php' );
+require_once( 'leaf/stories.php' );
+require_once( 'leaf/latest-news.php' );
+require_once( 'leaf/news.php' );
+require_once( 'leaf/videostrip.php' );

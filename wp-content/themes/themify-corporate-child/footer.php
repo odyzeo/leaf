@@ -20,7 +20,9 @@ global $themify;
 
             <div class="footer__right">
                 <div class="footer__newsletter">
-                    <p class="footer__subtitle">Odoberať novinky</p>
+                    <p class="footer__subtitle">
+						<?php _e( 'Subscribe to newsletter', 'leaf' ); ?>
+                    </p>
 					<?php
 					echo do_shortcode( '[email-subscribers namefield="NO" desc="" group="footer"]' );
 					?>

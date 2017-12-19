@@ -82,8 +82,7 @@ this._pathTemplate='M 50,50 m 0,-{radius}'+' a {radius},{radius} 0 1 1 0,{2radiu
    * @type {*|jQuery|HTMLElement}
    */var $newsletterFooterInput=$('.footer #es_txt_email_pg');if($newsletterFooterInput.length>0){$('.footer #es_txt_email_pg').attr('placeholder','email@email.com');}var $newsletterInput=$('.page-content #es_txt_email_pg');if($newsletterInput.length>0){$('.page-content #es_txt_email_pg').attr('placeholder','Váš e-mail');}var $newsletterForm=$('.es_shortcode_form');if($newsletterForm.length>0){$newsletterForm.on('submit',function(e){e.preventDefault();return false;});}/**
    * Swiper news
-   */var $newsSwiper=$('.js-swiper-news');if($newsSwiper.length>0){var defaultNewsOptions={// centeredSlides: true,
-slidesPerView:2,spaceBetween:10,pagination:{el:'.js-swiper-news-pagination',type:'bullets'},breakpoints:{// when window width is <= 480px
+   */var $newsSwiper=$('.js-swiper-news');if($newsSwiper.length>0){var slidesPerView=$newsSwiper.find('.swiper-slide').length>1?2:1;$newsSwiper.toggleClass('swiper-container--single',slidesPerView===1);var defaultNewsOptions={centeredSlides:slidesPerView===1,slidesPerView:slidesPerView,spaceBetween:slidesPerView===1?0:10,pagination:{el:'.js-swiper-news-pagination',type:'bullets'},breakpoints:{// when window width is <= 480px
 480:{slidesPerView:1,spaceBetween:20}}};var $swiper=new __WEBPACK_IMPORTED_MODULE_1_swiper__["a"/* default */]($newsSwiper,defaultNewsOptions);}/**
    * Swiper stories
    */var $storiesCirclesSwiper=$('.js-swiper-stories-circles');var $storiesSwiper=$('.js-swiper-stories');var storiesCount=$storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length;if($storiesSwiper.length>0){var transitionEndCircles=function transitionEndCircles(){/**

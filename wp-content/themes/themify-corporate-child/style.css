@@ -1,10 +1,10 @@
 /*
-Theme Name: Vedome
+Theme Name: Leaf
 Author: Odyzeo
 Author URI: https://odyzeo.com/
-Description: Vedome theme
+Description: Leaf theme
 Version: 1.0
-Text Domain: vedome
+Text Domain: leaf
 Tags: custom-template
 */
 /*
@@ -4416,7 +4416,7 @@ textarea {
 .banner {
   position: relative;
   padding: 30px 0;
-  background: url('assets/images/img-banner.jpg') no-repeat center/cover;
+  background: no-repeat center/cover #40b153;
   color: #fff;
 }
 @media (min-width: 768px) {
@@ -5917,22 +5917,18 @@ body.has-active-slide-menu {
 .swiper-container--stories .swiper-button-prev {
   left: -30px;
 }
-@media (min-width: 768px) {
-  .swiper-container--stories .swiper-button-prev {
-    left: 0;
-  }
-}
 .swiper-container--stories .swiper-button-next {
   right: -30px;
-}
-@media (min-width: 768px) {
-  .swiper-container--stories .swiper-button-next {
-    right: 0;
-  }
 }
 .swiper-container--news {
   padding-bottom: 30px;
   margin-bottom: 30px;
+}
+@media (min-width: 768px) {
+  .swiper-container--news.swiper-container--single .swiper-slide {
+    width: 50% !important;
+    margin: 0 auto;
+  }
 }
 #pagewrap {
   background-color: #fff;
@@ -6365,4 +6361,10 @@ body #body .page-content.entry-content {
   .newsletter__row {
     margin-bottom: 70px;
   }
+}
+.page-title-line #body {
+  border-top: 5px solid #40b153;
+}
+.page-title-line .page-title {
+  display: none;
 }

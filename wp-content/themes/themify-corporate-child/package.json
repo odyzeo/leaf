@@ -5,7 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "start": "gulp",
-    "translate": "wpi18n makepot --type theme --domain-path ../../languages/themes --pot-file vedome.pot"
+    "translate": "wpi18n makepot --type theme --domain-path ../../languages/themes --pot-file leaf.pot"
   },
   "author": "output",
   "license": "MIT",

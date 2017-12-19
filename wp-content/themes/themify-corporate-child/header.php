@@ -16,7 +16,8 @@
 <body <?php body_class(); ?>>
 <?php // TODO UNCOMMENT get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
-<div id="pagewrap" class="hfeed site">
+<?php $page_class = get_post_meta(get_the_ID(), 'page_class', true)?>
+<div id="pagewrap" class="hfeed site <?php echo $page_class; ?>">
 
 	<?php get_template_part( 'template-parts/slide-menu' ); ?>
 

@@ -52,16 +52,13 @@ function add_banner_shortcode( $atts ) {
 	if ( $wp_query->have_posts() ) {
 		while ( $wp_query->have_posts() ) {
 			$wp_query->the_post();
-			$story_id = $wp_query->post->ID;
 
 			$title   = get_the_title();
 			$image   = get_the_post_thumbnail_url();
 			$content = apply_filters( 'the_content', get_the_content() );
-			$url     = get_the_permalink();
-			$more    = __( 'Read more', 'leaf' );
 
 			$result = "
-				<div class='banner'>
+				<div class='banner' style='background-image: url($image);'>
 					<div class='banner__overlay'></div>
 					<div class='container'>
 						<div class='banner__container'>

@@ -103,22 +103,26 @@
 
     .swiper-button-prev {
         left: -30px;
-
-        @media (min-width: @tablet-width-min) {
-            left: 0;
-        }
     }
 
     .swiper-button-next {
         right: -30px;
-
-        @media (min-width: @tablet-width-min) {
-            right: 0;
-        }
     }
 }
 
 .swiper-container--news {
     padding-bottom: 30px;
     margin-bottom: 30px;
+
+    // If swiper news has only 1 slide
+    &.swiper-container--single {
+
+        .swiper-slide {
+
+            @media (min-width: @tablet-width-min) {
+                width: 50% !important;
+                margin: 0 auto;
+            }
+        }
+    }
 }

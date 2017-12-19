@@ -51,10 +51,12 @@ $(document).ready(() => {
    */
   const $newsSwiper = $('.js-swiper-news')
   if ($newsSwiper.length > 0) {
+    const slidesPerView = ($newsSwiper.find('.swiper-slide').length > 1) ? 2 : 1
+    $newsSwiper.toggleClass('swiper-container--single', slidesPerView === 1)
     const defaultNewsOptions = {
-      // centeredSlides: true,
-      slidesPerView: 2,
-      spaceBetween: 10,
+      centeredSlides: slidesPerView === 1,
+      slidesPerView: slidesPerView,
+      spaceBetween: (slidesPerView === 1) ? 0 : 10,
       pagination: {
         el: '.js-swiper-news-pagination',
         type: 'bullets',
