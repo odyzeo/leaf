@@ -27,7 +27,7 @@
         .module-title {
             display: inline-block;
             max-width: 100%;
-            padding: 20px;
+            padding: 20px 30px;
             margin: 0 !important;
             background-color: #fff;
             font-size: 12px !important;
@@ -36,13 +36,14 @@
             text-transform: uppercase;
 
             @media (min-width: @tablet-width-min) {
-                max-width: 640px;
+                max-width: 540px;
             }
         }
 
         &.divider--strong {
 
             .module-title {
+                letter-spacing: 0;
                 font-size: 15px !important;
             }
         }
@@ -51,7 +52,7 @@
 
             .module-title {
                 color: @color--primary;
-                font-family: 'besom', sans-serif;
+                font-family: @font-family--secondary;
                 font-size: 30px !important;
 
                 @media (min-width: @tablet-width-min) {

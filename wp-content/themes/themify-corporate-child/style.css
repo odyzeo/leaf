@@ -1952,7 +1952,7 @@ html .page-title {
  * ZEO ADDED STYLES
  */
 .d-block {
-  display: block!important;
+  display: block !important;
 }
 .font-besom {
   font-family: 'besom', sans-serif !important;
@@ -1964,7 +1964,7 @@ html .page-title {
 h5 {
   margin-top: 20px;
   margin-bottom: 0;
-  font-size: 57px!important;
+  font-size: 57px !important;
   font-family: 'besom', sans-serif !important;
 }
 .form {
@@ -4359,7 +4359,43 @@ textarea {
   }
 }
 .award-open {
+  height: 460px;
   background: url(assets/images/bgr-award-open.jpg) no-repeat center/cover;
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .award-open {
+    height: 500px;
+  }
+}
+.award-open__title {
+  margin: 0 auto;
+  font-family: 'besom', sans-serif !important;
+  font-size: 70px;
+  font-weight: 400;
+  line-height: 1.1;
+  padding: 60px 20px 20px;
+}
+@media (min-width: 768px) {
+  .award-open__title {
+    font-size: 120px;
+    line-height: .9;
+    max-width: 740px;
+    padding: 120px 0 20px;
+  }
+}
+.award-open__bubble {
+  width: 100%;
+  margin: 0 auto 10px;
+  padding: 15px 20px 25px;
+  background: url(assets/images/img-bubble.png) no-repeat center / contain;
+  font-size: 14px;
+  font-weight: 700;
+}
+@media (min-width: 768px) {
+  .award-open__bubble {
+    width: 370px;
+  }
 }
 .award-open-strip {
   padding: 25px 0;
@@ -4442,7 +4478,7 @@ body .themify_builder_content .module-text .banner a {
   /**
      * Default button style
      */
-  color: #fff;
+  color: #fff !important;
   background-color: #40b153;
   font-size: 14px;
   font-weight: bold;
@@ -4461,7 +4497,7 @@ body .themify_builder_content .module-text .banner a {
   max-width: 100%;
 }
 .btn--white {
-  color: #40b153;
+  color: #40b153 !important;
   background-color: #fff;
 }
 .btn--white:hover {
@@ -4579,6 +4615,9 @@ body .themify_builder_content .module-text .banner a {
   padding: 5px;
   font-size: 21px;
 }
+.footer .social-links.horizontal li {
+  padding: 0;
+}
 .footer .social-link-item:last-child a {
   margin-right: 0;
 }
@@ -4653,6 +4692,7 @@ body .themify_builder_content .module-text .banner a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  margin-bottom: 20px;
 }
 .footer__newsletter .es_button,
 .footer__newsletter .es_textbox {
@@ -5398,6 +5438,9 @@ body .themify_builder_content .module-text .banner a {
 .es_shortcode_form {
   position: relative;
 }
+.es_shortcode_form .es_textbox_button:hover {
+  cursor: pointer;
+}
 .es_msg {
   position: absolute;
   top: 100%;
@@ -5410,11 +5453,20 @@ body .themify_builder_content .module-text .banner a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   margin-top: 20px;
+  margin-bottom: 10px;
+}
+@media (min-width: 414px) {
+  .page-content .es_shortcode_form {
+    margin-top: 0;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+  }
 }
 @media (min-width: 768px) {
   .page-content .es_shortcode_form {
-    margin-top: 0;
     margin-bottom: 70px;
   }
 }
@@ -5433,7 +5485,7 @@ body .themify_builder_content .module-text .banner a {
       -ms-flex: 1 0 auto;
           flex: 1 0 auto;
   padding-bottom: 0;
-  padding-right: 10px;
+  margin-bottom: 10px;
 }
 .page-content .es_textbox input {
   margin: 0;
@@ -5443,16 +5495,39 @@ body .themify_builder_content .module-text .banner a {
   border-radius: 2px;
   background-color: #fff;
 }
+@media (min-width: 414px) {
+  .page-content .es_textbox {
+    padding-right: 10px;
+    margin-bottom: 0;
+  }
+}
 .page-content .es_button {
+  width: 100%;
   padding: 0;
 }
 .page-content .es_button .es_textbox_button {
+  width: 100%;
   background: #40b153;
   padding: 14px;
   font-weight: 700;
   border: 1px solid #40b153;
   border-radius: 2px;
   color: #fff;
+}
+@media (min-width: 414px) {
+  .page-content .es_button .es_textbox_button {
+    width: auto;
+  }
+}
+@media (min-width: 768px) {
+  .page-content .es_button .es_textbox_button {
+    padding: 14px 40px;
+  }
+}
+@media (min-width: 414px) {
+  .page-content .es_button {
+    width: auto;
+  }
 }
 body.has-active-slide-menu {
   overflow: hidden;
@@ -5819,7 +5894,7 @@ body.has-active-slide-menu {
 .themify_builder_content .module-divider .module-title {
   display: inline-block;
   max-width: 100%;
-  padding: 20px;
+  padding: 20px 30px;
   margin: 0 !important;
   background-color: #fff;
   font-size: 12px !important;
@@ -5829,10 +5904,11 @@ body.has-active-slide-menu {
 }
 @media (min-width: 768px) {
   .themify_builder_content .module-divider .module-title {
-    max-width: 640px;
+    max-width: 540px;
   }
 }
 .themify_builder_content .module-divider.divider--strong .module-title {
+  letter-spacing: 0;
   font-size: 15px !important;
 }
 .themify_builder_content .module-divider.divider--besom .module-title {

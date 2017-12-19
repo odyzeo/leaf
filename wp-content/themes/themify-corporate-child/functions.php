@@ -103,6 +103,7 @@ function leaf_get_languages( $class = 'header__lang' ) {
 }
 
 
+require_once('leaf/award-open.php');
 require_once('leaf/award-open-strip.php');
 require_once('leaf/banners.php');
 require_once('leaf/stories.php');
