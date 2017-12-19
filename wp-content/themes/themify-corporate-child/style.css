@@ -2048,24 +2048,6 @@ h5 {
 .tg-text li {
   margin: 5px 0;
 }
-/**
- * Newsletter form
- */
-.es_button {
-  padding-top: 0;
-}
-.es_msg {
-  color: #3fc539;
-}
-.es_button .es_textbox_button {
-  background: #3fc539;
-  border: none;
-  padding: 8px;
-  color: #fff;
-}
-input[type=text].es_textbox_class {
-  width: 100%;
-}
 /* Document
    ========================================================================== */
 /**
@@ -2645,6 +2627,16 @@ template {
   text-transform: lowercase;
   letter-spacing: 2px;
 }
+.title--besom {
+  font-family: 'besom', sans-serif;
+  font-size: 35px;
+  line-height: 1.25;
+}
+@media (min-width: 768px) {
+  .title--besom {
+    font-size: 60px;
+  }
+}
 /* -----------------------------------------------------------------------------
   ROOT ELEMENTS
 
@@ -2768,6 +2760,12 @@ a {
 }
 figure {
   max-width: 100%;
+}
+input,
+button,
+select,
+textarea {
+  font-family: 'Nunito', sans-serif;
 }
 .f {
   padding: 1rem;
@@ -4360,6 +4358,25 @@ figure {
     padding: 0 15px;
   }
 }
+.award-open {
+  background: url(assets/images/bgr-award-open.jpg) no-repeat center/cover;
+}
+.award-open-strip {
+  padding: 25px 0;
+  margin: 20px 0 0;
+  background: url(assets/images/bgr-award-open-strip.jpg) no-repeat center/cover #40b153;
+  color: #fff;
+  text-align: center;
+}
+.award-open-strip .title {
+  margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+  .award-open-strip {
+    padding: 30px 0 50px;
+    margin: 40px 0 20px;
+  }
+}
 .banner {
   position: relative;
   padding: 30px 0;
@@ -4414,6 +4431,100 @@ body .themify_builder_content .module-text .banner a {
   font-size: 12px;
   text-decoration: underline;
   text-transform: uppercase;
+}
+.btn {
+  display: inline-block;
+  padding: 15px 25px;
+  border: none;
+  border-radius: 2px;
+  line-height: 1;
+  vertical-align: top;
+  /**
+     * Default button style
+     */
+  color: #fff;
+  background-color: #40b153;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: none !important;
+  text-align: center;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+.btn:hover {
+  cursor: pointer;
+  background-color: #328c41;
+}
+.btn--min {
+  min-width: 300px;
+  max-width: 100%;
+}
+.btn--white {
+  color: #40b153;
+  background-color: #fff;
+}
+.btn--white:hover {
+  color: #fff !important;
+}
+.btn--secondary {
+  background-color: #0092a9;
+}
+.btn--submit {
+  width: 100%;
+  background-color: #333333;
+}
+.btn--blank {
+  color: #333333;
+  background: transparent;
+  box-shadow: none;
+}
+.btn--blank:hover {
+  color: #40b153;
+  background-color: transparent;
+  text-decoration: underline;
+}
+.btn--facebook {
+  background: #2e4da7;
+}
+.btn--twitter {
+  background: #07a3f4;
+}
+.btn--google-plus {
+  background: #ce4136;
+}
+.btn--block {
+  width: 100%;
+}
+.btn--big {
+  padding: 15px 25px;
+}
+.btn--large {
+  padding: 12px 17px;
+}
+.btn--small {
+  padding: 7px 12px;
+}
+.btn--no-radius {
+  border-radius: 0;
+}
+.btn-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.btn-group .btn:not(:last-child) {
+  margin-right: 7px;
+  margin-bottom: 7px;
+}
+.btn-group--column {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.btn-group--column .btn:not(:last-child) {
+  margin-right: 0;
 }
 .footer {
   padding: 20px 0;
@@ -4532,6 +4643,12 @@ body .themify_builder_content .module-text .banner a {
 .footer__newsletter {
   width: 100%;
 }
+.footer__newsletter .es_msg {
+  color: #3fc539;
+}
+.footer__newsletter input[type=text].es_textbox_class {
+  width: 100%;
+}
 .footer__newsletter .es_shortcode_form {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4539,6 +4656,7 @@ body .themify_builder_content .module-text .banner a {
 }
 .footer__newsletter .es_button,
 .footer__newsletter .es_textbox {
+  padding-top: 0;
   padding-bottom: 0;
 }
 .footer__newsletter .es_textbox {
@@ -4564,8 +4682,11 @@ body .themify_builder_content .module-text .banner a {
 .footer__newsletter .es_textbox_button {
   width: auto;
   height: 100%;
+  background: #3fc539;
+  color: #fff;
+  border: none;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 700;
   text-transform: uppercase;
   border-radius: 3px;
   border-top-left-radius: 0;
@@ -4578,7 +4699,7 @@ body .themify_builder_content .module-text .banner a {
   color: #fff;
   text-transform: uppercase;
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   line-height: 2;
 }
 .hcard {
@@ -5271,6 +5392,68 @@ body .themify_builder_content .module-text .banner a {
   width: 100%;
   height: auto;
 }
+/**
+ * Newsletter form only for page
+ */
+.es_shortcode_form {
+  position: relative;
+}
+.es_msg {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+  color: #3fc539;
+}
+.page-content .es_shortcode_form {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 20px;
+}
+@media (min-width: 768px) {
+  .page-content .es_shortcode_form {
+    margin-top: 0;
+    margin-bottom: 70px;
+  }
+}
+.page-content .es_lablebox {
+  position: absolute;
+  top: -25px;
+  left: 0;
+}
+.page-content .es_lablebox .es_shortcode_form_email {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.page-content .es_textbox {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 0 auto;
+          flex: 1 0 auto;
+  padding-bottom: 0;
+  padding-right: 10px;
+}
+.page-content .es_textbox input {
+  margin: 0;
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d2d2d2;
+  border-radius: 2px;
+  background-color: #fff;
+}
+.page-content .es_button {
+  padding: 0;
+}
+.page-content .es_button .es_textbox_button {
+  background: #40b153;
+  padding: 14px;
+  font-weight: 700;
+  border: 1px solid #40b153;
+  border-radius: 2px;
+  color: #fff;
+}
 body.has-active-slide-menu {
   overflow: hidden;
 }
@@ -5640,6 +5823,7 @@ body.has-active-slide-menu {
   margin: 0 !important;
   background-color: #fff;
   font-size: 12px !important;
+  font-weight: 700;
   letter-spacing: 4px;
   text-transform: uppercase;
 }
@@ -5650,7 +5834,6 @@ body.has-active-slide-menu {
 }
 .themify_builder_content .module-divider.divider--strong .module-title {
   font-size: 15px !important;
-  font-weight: 700;
 }
 .themify_builder_content .module-divider.divider--besom .module-title {
   color: #40b153;

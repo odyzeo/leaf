@@ -29,10 +29,17 @@ $(document).ready(() => {
    * Add placeholder to email-subscribers plugin input field
    * @type {*|jQuery|HTMLElement}
    */
-  const $newsletterInput = $('.footer #es_txt_email_pg')
+  const $newsletterFooterInput = $('.footer #es_txt_email_pg')
+  if ($newsletterFooterInput.length > 0) {
+    $('.footer #es_txt_email_pg').attr('placeholder', 'email@email.com')
+  }
+  const $newsletterInput = $('.page-content #es_txt_email_pg')
   if ($newsletterInput.length > 0) {
-    $('#es_txt_email_pg').attr('placeholder', 'email@email.com')
-    $('.footer .es_shortcode_form').on('submit', function (e) {
+    $('.page-content #es_txt_email_pg').attr('placeholder', 'Váš e-mail')
+  }
+  const $newsletterForm = $('.es_shortcode_form')
+  if ($newsletterForm.length > 0) {
+    $newsletterForm.on('submit', function (e) {
       e.preventDefault()
       return false
     })
@@ -61,6 +68,7 @@ $(document).ready(() => {
   const storiesCount = $storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length
   if ($storiesSwiper.length > 0) {
     const defaultCirclesOptions = {
+      allowTouchMove: false,
       centeredSlides: true,
       slidesPerView: 'auto',
       loop: true,
