@@ -48,14 +48,10 @@
         position: relative;
     }
 
-    .menu-item-has-children:not(.is-active) {
+    .menu-item-has-children > a:not(.is-active) {
 
-        & > a {
-            position: relative;
-
-            &:before {
-                transform: translateY(-50%) rotate(0);
-            }
+        &:before {
+            transform: translateY(-50%) rotate(0);
         }
     }
 }

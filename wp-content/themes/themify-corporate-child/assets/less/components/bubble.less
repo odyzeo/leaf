@@ -1,0 +1,22 @@
+@import '../variables';
+
+.bubble {
+    margin: 40px 0 20px;
+    padding: 20px;
+    background: url(./assets/images/bgr-dots.png);
+}
+
+.bubble__bubble {
+    width: 100%;
+    margin: 0 auto;
+    padding: 18px 20px 13px;
+    background: url(./assets/images/img-bubble-big.png) no-repeat ~"center/100% 100%";
+    font-weight: 700;
+    line-height: 1.33;
+    text-align: center;
+    text-transform: uppercase;
+
+    @media (min-width: @tablet-width-min) {
+        width: 574px;
+    }
+}

@@ -7,9 +7,19 @@
     position: relative;
 
     .es_textbox_button {
+        transition: background .3s ease;
 
         &:hover {
             cursor: pointer;
+            background-color: darken(@color--primary, 10%) !important;
+        }
+    }
+
+    .es_button .es_textbox_button,
+    .es_textbox input {
+
+        @media (max-width: @tablet-width-max) {
+            font-size: 16px;
         }
     }
 }

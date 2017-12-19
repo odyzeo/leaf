@@ -114,13 +114,23 @@
 
     .es_shortcode_form {
         display: flex;
+        flex-wrap: wrap;
         margin-bottom: 20px;
+
+        @media (min-width: @tablet-width-min) {
+            flex-wrap: nowrap;
+        }
     }
 
     .es_button,
     .es_textbox {
+        width: 100%;
         padding-top: 0;
         padding-bottom: 0;
+
+        @media (min-width: @tablet-width-min) {
+            width: auto;
+        }
     }
 
     .es_textbox {
@@ -146,7 +156,7 @@
     }
 
     .es_textbox_button {
-        width: auto;
+        width: 100%;
         height: 100%;
         background: #3fc539;
         color: #fff;
@@ -155,8 +165,14 @@
         font-weight: 700;
         text-transform: uppercase;
         border-radius: 3px;
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
+        margin-top: 10px;
+
+        @media (min-width: @tablet-width-min) {
+            width: auto;
+            margin-top: 0;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
     }
 
     .es_shortcode_form_email {

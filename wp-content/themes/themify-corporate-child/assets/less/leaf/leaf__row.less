@@ -1,0 +1,41 @@
+@import '../variables';
+
+.leaf__row--small,
+.leaf__row--medium {
+
+    .subrow_inner {
+        display: flex;
+        flex-wrap: nowrap;
+    }
+}
+
+.leaf__row--small {
+
+    .sub_column.first {
+        width: 75px!important;
+        flex: 1 0 75px;
+    }
+
+    .sub_column.last {
+        width: auto!important;
+        padding-left: 10px;
+    }
+}
+
+.leaf__row--medium {
+
+    .sub_column.first {
+        width: 80px!important;
+        flex: 1 0 80px;
+
+        @media (min-width: @tablet-width-min) {
+            width: 120px!important;
+            flex: 1 0 120px;
+        }
+    }
+
+    .sub_column.last {
+        width: auto!important;
+        padding-left: 20px;
+    }
+}
