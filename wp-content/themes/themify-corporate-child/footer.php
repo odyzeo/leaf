@@ -6,6 +6,9 @@ global $themify;
 </div>
 <!-- /#body -->
 
+<!--Anchor for menu-->
+<div id="footer"></div>
+
 <footer class="wrapper footer">
     <div class="container">
         <div class="footer__row">
