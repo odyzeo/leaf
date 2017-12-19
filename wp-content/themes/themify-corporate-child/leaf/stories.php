@@ -133,8 +133,6 @@ function add_story_shortcode( $atts ) {
 	            <div class='swiper-button-next js-swiper-stories-next'>
 	                <span class='icon-next'></span>
 	            </div>
-	
-	            <div class='swiper-pagination js-swiper-stories-pagination'></div>
 	        </div>
         </div>
 	";

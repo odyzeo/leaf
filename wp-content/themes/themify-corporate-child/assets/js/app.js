@@ -52,8 +52,20 @@ $(document).ready(() => {
   const $newsSwiper = $('.js-swiper-news')
   if ($newsSwiper.length > 0) {
     const defaultNewsOptions = {
+      // centeredSlides: true,
       slidesPerView: 2,
-      loop: true,
+      spaceBetween: 10,
+      pagination: {
+        el: '.js-swiper-news-pagination',
+        type: 'bullets',
+      },
+      breakpoints: {
+        // when window width is <= 480px
+        480: {
+          slidesPerView: 1,
+          spaceBetween: 20,
+        },
+      },
     }
 
     const $swiper = new Swiper($newsSwiper, defaultNewsOptions)
@@ -95,10 +107,6 @@ $(document).ready(() => {
       navigation: {
         nextEl: '.js-swiper-stories-next',
         prevEl: '.js-swiper-stories-prev',
-      },
-      pagination: {
-        el: '.js-swiper-stories-pagination',
-        type: 'bullets',
       },
       on: {
         slideChangeTransitionEnd: transitionEnd,

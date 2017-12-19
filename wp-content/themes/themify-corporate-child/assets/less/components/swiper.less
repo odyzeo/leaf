@@ -11,18 +11,21 @@
 }
 
 .swiper-pagination {
-    width: 100%;
+    position: absolute;
     bottom: 0;
+    left: 0;
+    width: 100%;
     line-height: 0;
-    text-align: right;
-    padding: 0 30px 20px 0;
+    text-align: center;
 }
 
 .swiper-pagination-bullet {
+    display: inline-block;
     width: 5px;
     height: 5px;
     margin: 0 5px;
-    background: #fff;
+    background: @color--primary;
+    border-radius: 50%;
     opacity: .3;
     transition: all .3s ease;
 
@@ -113,4 +116,9 @@
             right: 0;
         }
     }
+}
+
+.swiper-container--news {
+    padding-bottom: 30px;
+    margin-bottom: 30px;
 }
