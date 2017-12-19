@@ -39,3 +39,31 @@
         padding-left: 20px;
     }
 }
+
+.newsletter__row {
+    position: relative;
+    margin-bottom: 30px;
+
+    &:before {
+        position: absolute;
+        top: 57px;
+        right: 0;
+        z-index: 0;
+        width: 42px;
+        height: 56px;
+        content: '';
+        background: url(./assets/svg/pen.svg) no-repeat;
+
+        @media (min-width: @mobile-width-small-min) {
+            top: 157px;
+        }
+
+        @media (min-width: @mobile-width-min) {
+            top: 87px;
+        }
+    }
+
+    @media (min-width: @tablet-width-min) {
+        margin-bottom: 70px;
+    }
+}

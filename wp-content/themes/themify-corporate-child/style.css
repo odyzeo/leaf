@@ -5518,11 +5518,6 @@ body .themify_builder_content .module-text .banner a {
         flex-wrap: nowrap;
   }
 }
-@media (min-width: 768px) {
-  .page-content .es_shortcode_form {
-    margin-bottom: 70px;
-  }
-}
 .page-content .es_lablebox {
   position: absolute;
   top: -25px;
@@ -6326,4 +6321,33 @@ body #body .page-content.entry-content {
 .leaf__row--medium .sub_column.last {
   width: auto!important;
   padding-left: 20px;
+}
+.newsletter__row {
+  position: relative;
+  margin-bottom: 30px;
+}
+.newsletter__row:before {
+  position: absolute;
+  top: 57px;
+  right: 0;
+  z-index: 0;
+  width: 42px;
+  height: 56px;
+  content: '';
+  background: url(assets/svg/pen.svg) no-repeat;
+}
+@media (min-width: 414px) {
+  .newsletter__row:before {
+    top: 157px;
+  }
+}
+@media (min-width: 640px) {
+  .newsletter__row:before {
+    top: 87px;
+  }
+}
+@media (min-width: 768px) {
+  .newsletter__row {
+    margin-bottom: 70px;
+  }
 }
