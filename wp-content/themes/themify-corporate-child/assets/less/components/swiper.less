@@ -158,6 +158,17 @@
     padding-bottom: 30px;
     margin-bottom: 30px;
 
+    &:hover {
+
+        .swiper-button-prev {
+            left: 0;
+        }
+
+        .swiper-button-next {
+            right: 0;
+        }
+    }
+
     // If swiper news has only 1 slide
     &.swiper-container--single {
 
@@ -173,13 +184,13 @@
     .swiper-button-prev,
     .swiper-button-next {
         display: none;
-
         position: absolute;
         top: 50%;
         z-index: 1;
         padding: 30px 10px;
         margin-top: -15px;
         transform: translateY(-50%);
+        transition: all .3s ease;
 
         @media (min-width: @tablet-width-min) {
             display: block;
@@ -188,10 +199,10 @@
     }
 
     .swiper-button-prev {
-        left: 0;
+        left: -60px;
     }
 
     .swiper-button-next {
-        right: 0;
+        right: -60px;
     }
 }
