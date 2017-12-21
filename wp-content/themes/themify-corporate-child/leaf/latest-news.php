@@ -32,12 +32,26 @@ register_post_type( LEAF_POST_TYPE_LATEST_NEWS, array(
 ) );
 
 $labels = array(
-	'name'          => __( 'Latest news tag', 'leaf' ),
-	'singular_name' => __( 'Latest news tag', 'leaf' ),
+	'name'                       => __( 'Latest news tags', 'leaf' ),
+	'singular_name'              => __( 'Latest news tag', 'leaf' ),
+	'search_items'               => __( 'Search Latest news tags', 'leaf' ),
+	'popular_items'              => __( 'Popular Latest news tags', 'leaf' ),
+	'all_items'                  => __( 'All Latest news tags', 'leaf' ),
+	'parent_item'                => null,
+	'parent_item_colon'          => null,
+	'edit_item'                  => __( 'Edit Latest news tag', 'leaf' ),
+	'update_item'                => __( 'Update Latest news tag', 'leaf' ),
+	'add_new_item'               => __( 'Add New Latest news tag', 'leaf' ),
+	'new_item_name'              => __( 'New Latest news tag Name', 'leaf' ),
+	'separate_items_with_commas' => __( 'Separate Latest news tags with commas', 'leaf' ),
+	'add_or_remove_items'        => __( 'Add or remove Latest news tags', 'leaf' ),
+	'choose_from_most_used'      => __( 'Choose from the most used Latest news tags', 'leaf' ),
+	'not_found'                  => __( 'No Latest news tags found.', 'leaf' ),
+	'menu_name'                  => __( 'Latest news tags', 'leaf' ),
 );
 
-register_taxonomy( 'xxx',
-	array( LEAF_POST_TYPE_LATEST_NEWS ),
+register_taxonomy( 'latest-news-tags',
+	array( 'latest-news' ),
 	array(
 		'hierarchical'      => true,
 		'labels'            => $labels,
@@ -55,8 +69,10 @@ add_shortcode( 'latest-news', 'add_latest_news_shortcode' );
 
 function add_latest_news_shortcode( $atts ) {
 	$args = shortcode_atts( array(
-		'category' => '',
+		'tags' => '',
 	), $atts );
+
+	$tags = explode( ',', $args['tags'] );
 
 	$post_type      = LEAF_POST_TYPE_LATEST_NEWS;
 	$posts_per_page = 1000;
@@ -79,9 +95,21 @@ function add_latest_news_shortcode( $atts ) {
 				'type'  => 'BOOLEAN',
 			),
 		),
+		'tax_query'      => array(
+			array(
+				'taxonomy' => 'latest-news-tags',
+				'field'    => 'slug',
+				'terms'    => $tags,
+			),
+		),
 	);
 
 	$wp_query = new WP_Query( $args );
+
+	$newsCount = $wp_query->post_count;
+	if ( $newsCount === 0 ) {
+		return "";
+	}
 
 	$result .= "
 		<div class='swiper-container swiper-container--news js-swiper-news'>
@@ -92,14 +120,10 @@ function add_latest_news_shortcode( $atts ) {
 		while ( $wp_query->have_posts() ) {
 			$wp_query->the_post();
 			$news_id = $wp_query->post->ID;
-
-			$title = get_the_title();
-			$image = get_the_post_thumbnail_url();
-			$url   = get_field( "link", $news_id );
-			$blank = get_field( "blank", $news_id );
-			$date = get_field( "publish_to", $news_id );
-
-			$target = ( $blank === '1' ) ? "target='_blank'" : "";
+			$image   = get_the_post_thumbnail_url();
+			$url     = get_field( "link", $news_id );
+			$blank   = get_field( "blank", $news_id );
+			$target  = ( $blank === '1' ) ? "target='_blank'" : "";
 
 			$result .= "
                 <a href='$url' $target class='swiper-slide'>
@@ -109,9 +133,9 @@ function add_latest_news_shortcode( $atts ) {
 		}
 	}
 
-	$result .= "
-            </div>
-	
+	$navigation = "";
+	if ( $newsCount > 1 ) {
+		$navigation = "
             <div class='swiper-button-prev js-swiper-news-prev'>
             	<div class='arrow'>
                 	<span class='icon-prev'></span>
@@ -124,6 +148,12 @@ function add_latest_news_shortcode( $atts ) {
             </div>
 
             <div class='swiper-pagination js-swiper-news-pagination'></div>
+        ";
+	}
+
+	$result .= "
+            </div>
+            $navigation
         </div>
 	";
 

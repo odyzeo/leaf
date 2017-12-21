@@ -6090,6 +6090,12 @@ body #body .page-content.entry-content {
     padding: 0 15px;
   }
 }
+.single-story .featured-area {
+  display: none;
+}
+.single-story .post-title a {
+  color: #fff;
+}
 .videostrip {
   display: -webkit-box;
   display: -ms-flexbox;

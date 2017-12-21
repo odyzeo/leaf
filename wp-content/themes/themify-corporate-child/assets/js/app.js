@@ -51,13 +51,13 @@ $(document).ready(() => {
    */
   const $newsSwiper = $('.js-swiper-news')
   if ($newsSwiper.length > 0) {
-    const slidesPerView = ($newsSwiper.find('.swiper-slide').length > 1) ? 2 : 1
-    $newsSwiper.toggleClass('swiper-container--single', slidesPerView === 1)
+    const newsCount = $newsSwiper.find('.swiper-slide').length
+    $newsSwiper.toggleClass('swiper-container--single', newsCount === 1)
+
     const defaultNewsOptions = {
-      loop: 'auto',
-      centeredSlides: slidesPerView === 1,
-      slidesPerView: slidesPerView,
-      spaceBetween: (slidesPerView === 1) ? 0 : 10,
+      loop: true,
+      slidesPerView: 2,
+      spaceBetween: 10,
       pagination: {
         el: '.js-swiper-news-pagination',
         type: 'bullets',
@@ -73,6 +73,15 @@ $(document).ready(() => {
           spaceBetween: 20,
         },
       },
+    }
+
+    if (newsCount === 1) {
+      defaultNewsOptions.loop = false
+      defaultNewsOptions.slidesPerView = 1
+      defaultNewsOptions.centeredSlides = true
+      defaultNewsOptions.spaceBetween = 0
+      defaultNewsOptions.navigation = false
+      defaultNewsOptions.pagination = false
     }
 
     const $swiper = new Swiper($newsSwiper, defaultNewsOptions)
