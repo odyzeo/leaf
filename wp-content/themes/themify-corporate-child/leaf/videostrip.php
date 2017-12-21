@@ -1,7 +1,7 @@
 <?php
 function videostrip_shortcode($atts, $content) {
 	$param = shortcode_atts( array(
-		'class' => 'acc-blue'
+		'class' => ''
 	), $atts);
 
 	return "<div class='videostrip'>" . do_shortcode(strip_tags($content, "<p><a><span><strong><h1><h2><h3><h4><ul><li><img><iframe><div>")) . "</div>";
