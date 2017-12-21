@@ -150,7 +150,7 @@ $(document).ready(() => {
 
       $progress.appendTo($active)
       const bar = new ProgressBar.Circle('#js-swiper-progress', {
-        strokeWidth: 6,
+        strokeWidth: 3,
         easing: 'linear',
         duration: autoplayTime - speed,
         color: '#40b153',

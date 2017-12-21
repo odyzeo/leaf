@@ -30,10 +30,12 @@
     }
 
     .page-list-ext-title {
+        padding-top: 0;
 
         a {
-            display: block;
-            min-height: 40px;
+            display: flex;
+            align-items: center;
+            min-height: 50px;
             font-family: @font-family--default;
             font-size: 15px;
             font-weight: 700;
@@ -45,16 +47,26 @@
             &:hover {
                 color: @color--primary;
             }
+
+            @media (min-width: @tablet-width-min) {
+                display: block;
+                min-height: 40px;
+            }
         }
     }
 
     .page-list-ext-image {
         display: block;
-        float: none;
-        margin-bottom: 10px;
+        float: left;
+        margin: 0;
 
         a {
             display: block;
+            padding: 0 15px 0 0;
+
+            @media (min-width: @tablet-width-min) {
+                padding: 0 15px 20px 0;
+            }
         }
 
         img {
@@ -62,9 +74,14 @@
             width: 50px;
             height: auto;
         }
+
+        @media (min-width: @tablet-width-min) {
+            float: none;
+        }
     }
 
     @media (min-width: @tablet-width-min) {
         flex-direction: row;
+        flex-wrap: nowrap;
     }
 }

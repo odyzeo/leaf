@@ -87,7 +87,7 @@ this._pathTemplate='M 50,50 m 0,-{radius}'+' a {radius},{radius} 0 1 1 0,{2radiu
    * Swiper stories
    */var $storiesCirclesSwiper=$('.js-swiper-stories-circles');var $storiesSwiper=$('.js-swiper-stories');var storiesCount=$storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length;if($storiesSwiper.length>0){var transitionEndCircles=function transitionEndCircles(){/**
        * Progress bar
-       */var $active=$('.js-swiper-stories-circles .swiper-slide-active .js-swiper-timer');var $progress=$('#js-swiper-progress');$progress.remove();$progress=$('<div id=\'js-swiper-progress\' class=\'swiper__progress\'></div>');$progress.appendTo($active);var bar=new __WEBPACK_IMPORTED_MODULE_0_progressbar_js___default.a.Circle('#js-swiper-progress',{strokeWidth:6,easing:'linear',duration:autoplayTime-speed,color:'#40b153',trailColor:'#fff',trailWidth:2,svgStyle:null});bar.animate(1.0);/**
+       */var $active=$('.js-swiper-stories-circles .swiper-slide-active .js-swiper-timer');var $progress=$('#js-swiper-progress');$progress.remove();$progress=$('<div id=\'js-swiper-progress\' class=\'swiper__progress\'></div>');$progress.appendTo($active);var bar=new __WEBPACK_IMPORTED_MODULE_0_progressbar_js___default.a.Circle('#js-swiper-progress',{strokeWidth:3,easing:'linear',duration:autoplayTime-speed,color:'#40b153',trailColor:'#fff',trailWidth:2,svgStyle:null});bar.animate(1.0);/**
        * Prevent slide from another swiper
        */if(clicked){clicked=false;return;}var clickedIndex=this.realIndex;if(_$swiper&&initialized){clickedIndex=clickedIndex%storiesCount;// + 1
 clicked=true;_$swiper.slideTo(clickedIndex);}initialized=true;};var transitionEnd=function transitionEnd(){/**
