@@ -5891,6 +5891,7 @@ body.has-active-slide-menu {
   transition: all .3s ease;
 }
 .swiper-container--circles .swiper-slide:hover {
+  cursor: pointer;
   -webkit-transform: scale(1.5);
       -ms-transform: scale(1.5);
           transform: scale(1.5);
