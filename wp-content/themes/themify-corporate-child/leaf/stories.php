@@ -121,6 +121,15 @@ function add_story_shortcode( $atts ) {
 
 	$swiperCircles .= "
             </div>
+            
+            <div class='swiper-container-buttons'>
+	            <div class='swiper-button-prev js-swiper-circles-prev'>
+                    <span class='icon-prev'></span>
+	            </div>
+	            <div class='swiper-button-next js-swiper-circles-next'>
+                    <span class='icon-next'></span>
+	            </div>
+			</div>
         </div>
 	";
 
@@ -128,10 +137,14 @@ function add_story_shortcode( $atts ) {
 	            </div>
 	
 	            <div class='swiper-button-prev js-swiper-stories-prev'>
-	                <span class='icon-prev'></span>
+	                <div class='arrow'>
+                		<span class='icon-prev'></span>
+					</div>
 	            </div>
 	            <div class='swiper-button-next js-swiper-stories-next'>
-	                <span class='icon-next'></span>
+	                <div class='arrow'>
+	                    <span class='icon-next'></span>
+					</div>
 	            </div>
 	        </div>
         </div>

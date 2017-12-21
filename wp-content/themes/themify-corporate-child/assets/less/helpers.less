@@ -128,3 +128,19 @@
         font-size: 60px;
     }
 }
+
+.arrow {
+    background: @color--primary;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all .3s ease;
+
+    &:hover {
+        cursor: pointer;
+        background-color: darken(@color--primary, 5%);
+    }
+}

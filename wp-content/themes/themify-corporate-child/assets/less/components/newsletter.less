@@ -17,7 +17,7 @@
         }
     }
 
-    .es_button .es_textbox_button,
+    .es_textbox_button,
     .es_textbox input {
 
         @media (max-width: @tablet-width-max) {
@@ -41,11 +41,16 @@
         display: flex;
         flex-wrap: wrap;
         margin-top: 20px;
-        margin-bottom: 10px;
+        margin-bottom: 30px;
 
         @media (min-width: @mobile-width-small-min) {
             margin-top: 0;
             flex-wrap: nowrap;
+        }
+
+        // Themify breakpoint
+        @media (min-width: 681px) {
+            margin-bottom: 10px;
         }
     }
 

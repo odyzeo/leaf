@@ -111,6 +111,17 @@ function add_latest_news_shortcode( $atts ) {
 
 	$result .= "
             </div>
+	
+            <div class='swiper-button-prev js-swiper-news-prev'>
+            	<div class='arrow'>
+                	<span class='icon-prev'></span>
+				</div>
+            </div>
+            <div class='swiper-button-next js-swiper-news-next'>
+                <div class='arrow'>
+                	<span class='icon-next'></span>
+				</div>
+            </div>
 
             <div class='swiper-pagination js-swiper-news-pagination'></div>
         </div>

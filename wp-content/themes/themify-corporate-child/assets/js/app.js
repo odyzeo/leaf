@@ -54,6 +54,7 @@ $(document).ready(() => {
     const slidesPerView = ($newsSwiper.find('.swiper-slide').length > 1) ? 2 : 1
     $newsSwiper.toggleClass('swiper-container--single', slidesPerView === 1)
     const defaultNewsOptions = {
+      loop: 'auto',
       centeredSlides: slidesPerView === 1,
       slidesPerView: slidesPerView,
       spaceBetween: (slidesPerView === 1) ? 0 : 10,
@@ -61,9 +62,13 @@ $(document).ready(() => {
         el: '.js-swiper-news-pagination',
         type: 'bullets',
       },
+      navigation: {
+        nextEl: '.js-swiper-news-next',
+        prevEl: '.js-swiper-news-prev',
+      },
       breakpoints: {
-        // when window width is <= 480px
-        480: {
+        // when window width is <= 640px
+        640: {
           slidesPerView: 1,
           spaceBetween: 20,
         },
@@ -89,6 +94,10 @@ $(document).ready(() => {
       loopedSlides: 50,
       loopAdditionalSlides: 50,
       slideToClickedSlide: true,
+      navigation: {
+        nextEl: '.js-swiper-circles-next',
+        prevEl: '.js-swiper-circles-prev',
+      },
       on: {
         slideChangeTransitionEnd: transitionEndCircles,
       },
@@ -115,10 +124,11 @@ $(document).ready(() => {
       },
     }
 
+    let initialized = false
+    let clicked = false
+
     const $swiper = new Swiper($storiesSwiper, defaultOptions)
     const $circlesSwiper = new Swiper($storiesCirclesSwiper, defaultCirclesOptions)
-
-    let clicked = false
 
     function transitionEndCircles() {
       /**
@@ -149,12 +159,13 @@ $(document).ready(() => {
         return
       }
 
-      let clickedIndex = this.clickedIndex
-      if ($swiper && typeof clickedIndex !== 'undefined') {
+      let clickedIndex = this.realIndex
+      if ($swiper && initialized) {
         clickedIndex = clickedIndex % storiesCount// + 1
         clicked = true
         $swiper.slideTo(clickedIndex)
       }
+      initialized = true
     }
 
     function transitionEnd() {
@@ -215,7 +226,6 @@ $(document).ready(() => {
    */
   var localhost = location.host.indexOf('localhost') > -1
   if (localhost) {
-    console.log('local', localhost)
     $('[src^="http://localhost/leaf"]').each(function () {
       var $el = $(this)
       $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'))

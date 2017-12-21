@@ -34,6 +34,14 @@
     }
 }
 
+.swiper-button-prev,
+.swiper-button-next {
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .swiper--free {
     overflow: hidden;
 
@@ -48,13 +56,13 @@
 }
 
 .swiper__progress {
-    width: 20px;
-    height: 20px;
+    width: 70px;
+    height: 70px;
 }
 
 .swiper-container--circles {
-    padding: 10px 0;
-    margin-bottom: 35px;
+    padding: 20px 0;
+    margin-bottom: 25px;
 
     .swiper-slide {
         width: (65px + 9px + 9px);
@@ -64,7 +72,7 @@
         transition: all .3s ease;
 
         &:hover {
-            transform: scale(1.27);
+            transform: scale(1.5);
         }
 
         &:not(.swiper-slide-active) {
@@ -75,8 +83,40 @@
         }
     }
 
+    .swiper-container-buttons {
+        position: relative;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: -32px;
+        z-index: 1;
+        padding: 30px 10px;
+        transform: translateY(-50%);
+
+        @media (min-width: @tablet-width-min) {
+            padding: 30px 20px;
+        }
+    }
+
+    .icon-next,
+    .icon-prev {
+        border-color: @color--primary;
+    }
+
+    .swiper-button-prev {
+        left: 0;
+        background-image: linear-gradient(to right, #fff, #fff 50%, rgba(255, 255, 255, .1));
+    }
+
+    .swiper-button-next {
+        right: 0;
+        background-image: linear-gradient(to left, #fff, #fff 50%, rgba(255, 255, 255, .1));
+    }
+
     @media (min-width: @tablet-width-min) {
-        margin-bottom: 80px;
+        margin-bottom: 70px;
     }
 }
 
@@ -90,10 +130,6 @@
         z-index: 1;
         padding: 30px;
         transform: translateY(-50%);
-
-        &:hover {
-            cursor: pointer;
-        }
 
         @media (min-width: @tablet-width-min) {
             top: 50%;
@@ -124,5 +160,27 @@
                 margin: 0 auto;
             }
         }
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        position: absolute;
+        top: 50%;
+        z-index: 1;
+        padding: 30px 10px;
+        margin-top: -15px;
+        transform: translateY(-50%);
+
+        @media (min-width: @tablet-width-min) {
+            padding: 30px 20px;
+        }
+    }
+
+    .swiper-button-prev {
+        left: 0;
+    }
+
+    .swiper-button-next {
+        right: 0;
     }
 }
