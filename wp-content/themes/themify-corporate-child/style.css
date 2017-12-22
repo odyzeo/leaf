@@ -2023,8 +2023,8 @@ h5 {
 }
 .page-numbers {
   display: block;
-  min-width: 20px;
-  height: 20px;
+  min-width: 35px;
+  height: 35px;
   padding: 5px;
   border-radius: 50%;
   text-decoration: none;
@@ -4979,7 +4979,12 @@ body .themify_builder_content .module-text .banner a {
   background-color: #f1f1f1;
 }
 .header__socials {
-  margin-right: 9px;
+  margin-right: 15px;
+}
+@media (max-width: 919px) {
+  .header__socials {
+    margin-right: 48px;
+  }
 }
 /**
  * LEAF MOBILE HEADER
@@ -4993,13 +4998,14 @@ body .themify_builder_content .module-text .banner a {
 .has-active-slide-menu .header__menu-mobile-toggler {
   pointer-events: none;
 }
-@media (min-width: 768px) {
+@media (min-width: 920px) {
   .header__menu-mobile-toggler {
     display: none;
   }
 }
-@media (max-width: 767px) {
-  .header__info,
+@media (max-width: 919px) {
+  .header__lang,
+  .header__right,
   .header__menu {
     display: none;
   }
@@ -5007,10 +5013,15 @@ body .themify_builder_content .module-text .banner a {
 /**
  * LEAF AWARD
  */
-@media (max-width: 1023px) {
-  .header--award .header__info,
+@media (max-width: 1299px) {
+  .header--award .header__lang,
   .header--award .header__menu {
     display: none;
+  }
+}
+@media (max-width: 1299px) {
+  .header--award .header__socials {
+    margin-right: 48px;
   }
 }
 @media (min-width: 768px) {
@@ -5019,7 +5030,7 @@ body .themify_builder_content .module-text .banner a {
     display: block;
   }
 }
-@media (min-width: 1024px) {
+@media (min-width: 1300px) {
   .header__menu-mobile-toggler--award {
     display: none;
   }

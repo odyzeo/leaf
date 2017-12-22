@@ -116,3 +116,32 @@ function leaf_get_languages( $class = 'header__lang' ) {
 
 	return $result;
 }
+
+function get_leaf_facebook_button() {
+	global $post;
+	$facebook_group = "https://www.facebook.com/LEAFnonprofit/";
+
+	$post_slug = $post->post_name;
+
+	$hidden = array(
+		'leaf-academy',
+		'pre-mladych-profesionalov',
+		'pre-slovakov-v-zahranici',
+		'pre-ucitelov',
+	);
+
+	if ( in_array($post_slug, $hidden) ) {
+		return "";
+	}
+
+	return "
+		<div class='fb-like'
+			data-href='$facebook_group'
+			data-layout='button'
+			data-action='like'
+     		data-size='small'
+     		data-show-faces='false'
+     		data-share='true'>
+		</div>
+     ";
+}

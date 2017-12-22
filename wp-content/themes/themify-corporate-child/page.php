@@ -59,15 +59,6 @@ global $themify; ?>
 
 				<?php edit_post_link(__('Edit','themify'), '[', ']'); ?>
 
-             <?php
-              if (is_front_page()){
-                global $wp;
-                $current_url = home_url(add_query_arg(array(),$wp->request));
-              ?>
-              <div class="fb_div" style="padding:10px"><div class="fb-like" data-href="<?php echo $current_url;?>" data-layout="button" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div></div>
-              <?php
-              }
-              ?>
 				<!-- comments -->
 				<?php if(!themify_check('setting-comments_pages') && $themify->query_category == ""): ?>
 					<?php comments_template(); ?>

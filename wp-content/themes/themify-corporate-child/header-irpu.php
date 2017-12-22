@@ -14,7 +14,7 @@
 </head>
 
 <body <?php body_class(); ?>>
-<?php // TODO UNCOMMENT get_template_part( 'template-parts/header', 'facebook' ); ?>
+<?php get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
 <?php $page_class = get_post_meta(get_the_ID(), 'page_class', true)?>
 <div id="pagewrap" class="hfeed site <?php echo $page_class; ?>">
@@ -47,7 +47,9 @@
         </div>
         <div class="header__info">
 
-            <a href="/" class="header__link">LEAF.SK</a>
+            <div class="header__right">
+                <a href="/" class="header__link">LEAF.SK</a>
+            </div>
 
         </div>
     </header>

@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-    <?php
-    /** Themify Default Variables
-     * @var object
-     */
-    global $themify; ?>
-    <meta charset="<?php bloginfo('charset'); ?>">
+	<?php
+	/** Themify Default Variables
+	 * @var object
+	 */
+	global $themify; ?>
+    <meta charset="<?php bloginfo( 'charset' ); ?>">
 
     <!-- wp_header -->
-    <?php wp_head(); ?>
+	<?php wp_head(); ?>
 
 </head>
 
 <body <?php body_class(); ?>>
-<?php // TODO UNCOMMENT get_template_part( 'template-parts/header', 'facebook' ); ?>
+<?php get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
-<?php $page_class = get_post_meta(get_the_ID(), 'page_class', true)?>
+<?php $page_class = get_post_meta( get_the_ID(), 'page_class', true ) ?>
 <div id="pagewrap" class="hfeed site <?php echo $page_class; ?>">
 
 	<?php get_template_part( 'template-parts/slide-menu', 'award' ); ?>
@@ -47,7 +47,13 @@
         </div>
         <div class="header__info">
 
-            <a href="/" class="header__link">LEAF.SK</a>
+            <div class="header__socials">
+		        <?php echo get_leaf_facebook_button(); ?>
+            </div>
+
+            <div class="header__right">
+                <a href="/" class="header__link">LEAF.SK</a>
+            </div>
 
         </div>
     </header>
