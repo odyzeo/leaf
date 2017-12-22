@@ -4978,6 +4978,9 @@ body .themify_builder_content .module-text .banner a {
 .header__lang:hover {
   background-color: #f1f1f1;
 }
+.header__right {
+  height: 100%;
+}
 .header__socials {
   margin-right: 15px;
 }
@@ -5014,6 +5017,7 @@ body .themify_builder_content .module-text .banner a {
  * LEAF AWARD
  */
 @media (max-width: 1299px) {
+  .header--award .header__right,
   .header--award .header__lang,
   .header--award .header__menu {
     display: none;
