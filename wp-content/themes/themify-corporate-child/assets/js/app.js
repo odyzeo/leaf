@@ -1,5 +1,6 @@
 import ProgressBar from 'progressbar.js'
 import Swiper from 'swiper'
+import Adaptive from './components/Adaptive'
 import SlideMenu from './components/SlideMenu'
 import YouTube from './components/YouTube'
 import 'lity'
@@ -8,6 +9,7 @@ window.$ = jQuery
 
 $(document).ready(() => {
 
+  Adaptive.init()
   SlideMenu.init()
   YouTube.init()
 
@@ -49,42 +51,45 @@ $(document).ready(() => {
   /**
    * Swiper news
    */
-  const $newsSwiper = $('.js-swiper-news')
-  if ($newsSwiper.length > 0) {
-    const newsCount = $newsSwiper.find('.swiper-slide').length
-    $newsSwiper.toggleClass('swiper-container--single', newsCount === 1)
+  const $newsSwipers = $('.js-swiper-news')
+  if ($newsSwipers.length > 0) {
+    $newsSwipers.each(function () {
+      const $newsSwiper = $(this)
+      const newsCount = $newsSwiper.find('.swiper-slide').length
+      $newsSwiper.toggleClass('swiper-container--single', newsCount === 1)
 
-    const defaultNewsOptions = {
-      loop: true,
-      slidesPerView: 2,
-      spaceBetween: 10,
-      pagination: {
-        el: '.js-swiper-news-pagination',
-        type: 'bullets',
-      },
-      navigation: {
-        nextEl: '.js-swiper-news-next',
-        prevEl: '.js-swiper-news-prev',
-      },
-      breakpoints: {
-        // when window width is <= 640px
-        640: {
-          slidesPerView: 1,
-          spaceBetween: 20,
+      const defaultNewsOptions = {
+        loop: true,
+        slidesPerView: 2,
+        spaceBetween: 10,
+        pagination: {
+          el: '.js-swiper-news-pagination',
+          type: 'bullets',
         },
-      },
-    }
+        navigation: {
+          nextEl: '.js-swiper-news-next',
+          prevEl: '.js-swiper-news-prev',
+        },
+        breakpoints: {
+          // when window width is <= 640px
+          640: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+        },
+      }
 
-    if (newsCount === 1) {
-      defaultNewsOptions.loop = false
-      defaultNewsOptions.slidesPerView = 1
-      defaultNewsOptions.centeredSlides = true
-      defaultNewsOptions.spaceBetween = 0
-      defaultNewsOptions.navigation = false
-      defaultNewsOptions.pagination = false
-    }
+      if (newsCount === 1) {
+        defaultNewsOptions.loop = false
+        defaultNewsOptions.slidesPerView = 1
+        defaultNewsOptions.centeredSlides = true
+        defaultNewsOptions.spaceBetween = 0
+        defaultNewsOptions.navigation = false
+        defaultNewsOptions.pagination = false
+      }
 
-    const $swiper = new Swiper($newsSwiper, defaultNewsOptions)
+      const $swiper = new Swiper($newsSwiper, defaultNewsOptions)
+    })
   }
 
 

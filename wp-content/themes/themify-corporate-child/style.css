@@ -4341,6 +4341,13 @@ textarea {
     padding: 0 15px;
   }
 }
+.js-returning-user {
+  display: none;
+}
+.themify_builder_active .js-returning-user {
+  display: block;
+  background: rgba(255, 0, 0, 0.4);
+}
 .award-open {
   height: 460px;
   background: url(assets/images/bgr-award-open.jpg) no-repeat center/cover;
@@ -4399,6 +4406,7 @@ textarea {
 .banner {
   position: relative;
   padding: 30px 0;
+  margin-bottom: 1.5em;
   background: no-repeat center/cover #40b153;
   color: #fff;
 }
@@ -6037,6 +6045,7 @@ body.has-active-slide-menu {
 }
 .themify_builder_content .module-divider {
   position: relative;
+  margin-top: 0;
   z-index: 0;
   border: none !important;
   text-align: center;
@@ -6366,6 +6375,7 @@ body #body .page-content.entry-content {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   margin-left: -20px;
+  margin-bottom: 1.5em;
 }
 .page-list.leaf__programs .page-list-ext-item {
   -webkit-box-flex: 1;
