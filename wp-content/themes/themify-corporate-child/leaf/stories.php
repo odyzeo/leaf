@@ -66,7 +66,7 @@ function add_story_shortcode( $atts ) {
 
 
 	$swiperCircles = "
-		<div class='swiper-container swiper-container--circles js-swiper-stories-circles'>
+		<div id='swiper-circles' class='swiper-container swiper-container--circles js-swiper-stories-circles'>
             <div class='swiper-wrapper'>
 	";
 

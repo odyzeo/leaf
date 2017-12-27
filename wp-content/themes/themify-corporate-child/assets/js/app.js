@@ -173,6 +173,13 @@ $(document).ready(() => {
         return
       }
 
+      if (typeof this.clickedIndex !== 'undefined') {
+        // Smaller header height 70 - desktop, 60 - desktop smaller, mobile should be small
+        // - 10 for offset
+        const top = $('#swiper-circles').offset().top - Math.min($('.js-header').height(), 60) - 10
+        $('html, body').animate({ scrollTop: `${top}px` }, 300)
+      }
+
       let clickedIndex = this.realIndex
       if ($swiper && initialized) {
         clickedIndex = clickedIndex % storiesCount// + 1
