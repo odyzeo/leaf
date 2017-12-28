@@ -1,8 +1,7 @@
-import ProgressBar from 'progressbar.js'
-import Swiper from 'swiper'
 import Adaptive from './components/Adaptive'
 import SlideMenu from './components/SlideMenu'
 import YouTube from './components/YouTube'
+import Swipers from './components/Swipers'
 import 'lity'
 
 window.$ = jQuery
@@ -12,6 +11,7 @@ $(document).ready(() => {
   Adaptive.init()
   SlideMenu.init()
   YouTube.init()
+  Swipers.init()
 
   /**
    * Mobile menu
@@ -45,165 +45,6 @@ $(document).ready(() => {
       e.preventDefault()
       return false
     })
-  }
-
-
-  /**
-   * Swiper news
-   */
-  const $newsSwipers = $('.js-swiper-news')
-  if ($newsSwipers.length > 0) {
-    $newsSwipers.each(function () {
-      const $newsSwiper = $(this)
-      const newsCount = $newsSwiper.find('.swiper-slide').length
-      $newsSwiper.toggleClass('swiper-container--single', newsCount === 1)
-
-      const defaultNewsOptions = {
-        loop: true,
-        slidesPerView: 2,
-        spaceBetween: 10,
-        pagination: {
-          el: '.js-swiper-news-pagination',
-          type: 'bullets',
-        },
-        navigation: {
-          nextEl: '.js-swiper-news-next',
-          prevEl: '.js-swiper-news-prev',
-        },
-        breakpoints: {
-          // when window width is <= 640px
-          640: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-          },
-        },
-      }
-
-      if (newsCount === 1) {
-        defaultNewsOptions.loop = false
-        defaultNewsOptions.slidesPerView = 1
-        defaultNewsOptions.centeredSlides = true
-        defaultNewsOptions.spaceBetween = 0
-        defaultNewsOptions.navigation = false
-        defaultNewsOptions.pagination = false
-      }
-
-      const $swiper = new Swiper($newsSwiper, defaultNewsOptions)
-    })
-  }
-
-
-  /**
-   * Swiper stories
-   */
-  const $storiesCirclesSwiper = $('.js-swiper-stories-circles')
-  const $storiesSwiper = $('.js-swiper-stories')
-  const storiesCount = $storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length
-  if ($storiesSwiper.length > 0) {
-    const defaultCirclesOptions = {
-      allowTouchMove: false,
-      centeredSlides: true,
-      slidesPerView: 'auto',
-      loop: true,
-      loopedSlides: 50,
-      loopAdditionalSlides: 50,
-      slideToClickedSlide: true,
-      navigation: {
-        nextEl: '.js-swiper-circles-next',
-        prevEl: '.js-swiper-circles-prev',
-      },
-      on: {
-        slideChangeTransitionEnd: transitionEndCircles,
-      },
-    }
-
-    const speed = 300
-    const autoplayTime = 15000
-    const defaultOptions = {
-      slidesPerView: 1,
-      speed: speed,
-      loop: true,
-      loopedSlides: 50,
-      loopAdditionalSlides: 50,
-      autoplay: {
-        delay: autoplayTime,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: '.js-swiper-stories-next',
-        prevEl: '.js-swiper-stories-prev',
-      },
-      on: {
-        slideChangeTransitionEnd: transitionEnd,
-      },
-    }
-
-    let initialized = false
-    let clicked = false
-
-    const $swiper = new Swiper($storiesSwiper, defaultOptions)
-    const $circlesSwiper = new Swiper($storiesCirclesSwiper, defaultCirclesOptions)
-
-    function transitionEndCircles() {
-      /**
-       * Progress bar
-       */
-      const $active = $('.js-swiper-stories-circles .swiper-slide-active .js-swiper-timer')
-      let $progress = $('#js-swiper-progress')
-      $progress.remove()
-      $progress = $('<div id=\'js-swiper-progress\' class=\'swiper__progress\'></div>')
-
-      $progress.appendTo($active)
-      const bar = new ProgressBar.Circle('#js-swiper-progress', {
-        strokeWidth: 3,
-        easing: 'linear',
-        duration: autoplayTime - speed,
-        color: '#40b153',
-        trailColor: '#fff',
-        trailWidth: 2,
-        svgStyle: null,
-      })
-      bar.animate(1.0)
-
-      /**
-       * Prevent slide from another swiper
-       */
-      if (clicked) {
-        clicked = false
-        return
-      }
-
-      if (typeof this.clickedIndex !== 'undefined') {
-        // Smaller header height 70 - desktop, 60 - desktop smaller, mobile should be small
-        // - 10 for offset
-        const top = $('#swiper-circles').offset().top - Math.min($('.js-header').height(), 60) - 10
-        $('html, body').animate({ scrollTop: `${top}px` }, 300)
-      }
-
-      let clickedIndex = this.realIndex
-      if ($swiper && initialized) {
-        clickedIndex = clickedIndex % storiesCount// + 1
-        clicked = true
-        $swiper.slideTo(clickedIndex)
-      }
-      initialized = true
-    }
-
-    function transitionEnd() {
-      /**
-       * Prevent slide from another swiper
-       */
-      if (clicked) {
-        clicked = false
-        return
-      }
-
-      let index = this.realIndex
-      if ($circlesSwiper) {
-        clicked = true
-        $circlesSwiper.slideTo(index + storiesCount)
-      }
-    }
   }
 
 

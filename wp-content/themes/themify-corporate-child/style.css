@@ -4428,13 +4428,13 @@ textarea {
   left: 0;
   z-index: 0;
   content: '';
-  background-image: -webkit-linear-gradient(right, rgba(85, 85, 85, 0.45), rgba(0, 0, 0, 0.66));
-  background-image: linear-gradient(to left, rgba(85, 85, 85, 0.45), rgba(0, 0, 0, 0.66));
+  background-image: -webkit-linear-gradient(right, rgba(85, 85, 85, 0.3), rgba(0, 0, 0, 0.44));
+  background-image: linear-gradient(to left, rgba(85, 85, 85, 0.3), rgba(0, 0, 0, 0.44));
 }
 @media (min-width: 768px) {
   .banner__overlay {
-    background-image: -webkit-linear-gradient(right, rgba(85, 85, 85, 0.15), rgba(0, 0, 0, 0.66));
-    background-image: linear-gradient(to left, rgba(85, 85, 85, 0.15), rgba(0, 0, 0, 0.66));
+    background-image: -webkit-linear-gradient(right, rgba(85, 85, 85, 0.15), rgba(0, 0, 0, 0.33));
+    background-image: linear-gradient(to left, rgba(85, 85, 85, 0.15), rgba(0, 0, 0, 0.33));
   }
 }
 .banner__container {
