@@ -2498,10 +2498,10 @@ template {
   max-height: 2.8em;
 }
 .text-xxsmall {
-  font-size: 11px !important;
+  font-size: 10px !important;
 }
 .text-xsmall {
-  font-size: 12px !important;
+  font-size: 13px !important;
 }
 .text-small {
   font-size: 14px !important;
@@ -4570,6 +4570,91 @@ body .themify_builder_content .module-text .banner a {
 }
 .btn-group--column .btn:not(:last-child) {
   margin-right: 0;
+}
+.card {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding-bottom: 30px;
+  height: 100%;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+  text-decoration: none !important;
+}
+.card:after {
+  position: absolute;
+  right: 0;
+  bottom: 30px;
+  left: 0;
+  height: 3px;
+  background-color: #32b34a;
+  content: '';
+}
+.card:hover .card__title,
+.card:hover .card__meta,
+.card:hover .card__perex {
+  color: #40b153 !important;
+  -webkit-transition: all .3s ease;
+  transition: all .3s ease;
+}
+.card__divider {
+  width: 50px;
+  height: 2px;
+  margin-bottom: 20px;
+  background-color: #c4c4c4;
+}
+.card__title {
+  margin-bottom: 10px;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.54;
+  text-transform: uppercase;
+  display: block;
+  display: -webkit-box;
+  line-height: 1.54em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-height: 4.62em;
+}
+.card__perex {
+  color: #353535 !important;
+  margin-bottom: 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  display: block;
+  display: -webkit-box;
+  line-height: 1.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  max-height: 4.2em;
+}
+.card__perex p {
+  margin: 0;
+}
+.card__meta {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  margin-bottom: 10px;
+  color: #bababa;
+  font-weight: 700;
+  font-size: 10px;
+  text-transform: uppercase;
 }
 .footer {
   padding: 20px 0;

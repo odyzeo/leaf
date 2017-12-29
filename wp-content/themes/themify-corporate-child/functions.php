@@ -5,6 +5,7 @@ require_once( 'leaf/award-open-strip.php' );
 require_once( 'leaf/banners.php' );
 require_once( 'leaf/bubble.php' );
 require_once( 'leaf/stories.php' );
+require_once( 'leaf/latest-blogs.php' );
 require_once( 'leaf/latest-news.php' );
 require_once( 'leaf/news.php' );
 require_once( 'leaf/videostrip.php' );
