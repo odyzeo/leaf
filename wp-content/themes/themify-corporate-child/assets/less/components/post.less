@@ -1,0 +1,90 @@
+@import '../variables';
+
+body.single-post .post {
+
+    .fb-like {
+        margin-right: 10px;
+    }
+
+    .post__meta,
+    .post-image {
+        margin-bottom: 1.5em;
+    }
+
+    .post-content {
+        margin: 0;
+        padding: 0 !important;
+        max-width: 710px;
+        min-width: inherit;
+        border-bottom: none;
+    }
+
+    .post-date {
+        margin: 0;
+        background-color: transparent;
+    }
+
+    .post__meta {
+        display: flex;
+        align-items: center;
+
+        color: #bababa;
+        font-family: @font-family--primary;
+        font-size: @font-size--xsmall;
+        font-weight: 500;
+        text-transform: uppercase;
+    }
+}
+
+.post-heading {
+    margin-bottom: 25px;
+    background: url(./assets/images/bgr-blog.jpg) no-repeat ~"center/cover";
+}
+
+.post-heading__container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.post-heading--award {
+
+    .post-heading__container {
+        min-height: 130px;
+        padding-bottom: 60px;
+
+        &:after {
+            position: absolute;
+            right: 0;
+            bottom: -24px;
+            width: 240px;
+            height: 108px;
+            background: url(./assets/images/img-poppies.png) no-repeat ~"center/100%";
+            content: '';
+
+            @media (min-width: @tablet-width-min) {
+                width: 320px;
+                height: 144px;
+                background: url(./assets/images/img-poppies.png) no-repeat ~"center";
+            }
+        }
+
+        @media (min-width: @tablet-width-min) {
+            padding-bottom: 20px;
+        }
+    }
+}
+
+.post-heading__title {
+    padding: 20px 0;
+    color: #fff;
+    font-size: @font-size--large;
+    font-family: @font-family--default;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    @media (min-width: @tablet-width-min) {
+        padding-right: 300px;
+        font-size: 36px;
+    }
+}

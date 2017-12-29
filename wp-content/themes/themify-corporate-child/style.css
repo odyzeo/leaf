@@ -2668,7 +2668,7 @@ h1 {
 }
 @media (min-width: 768px) {
   h1 {
-    font-size: 34px;
+    font-size: 36px;
   }
 }
 h2 {
@@ -2682,6 +2682,9 @@ h2 {
 a {
   text-decoration: none;
   color: inherit;
+}
+a:focus {
+  outline: none;
 }
 .link {
   color: #40b153;
@@ -6117,12 +6120,19 @@ body.has-active-slide-menu {
 .has-fixed-header #pagewrap {
   padding-top: 0 !important;
 }
+#pagewrap blockquote {
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.6;
+  font-family: 'Nunito', sans-serif;
+}
 #footer {
   padding: 0!important;
 }
 .themify_builder_content .module-divider {
   position: relative;
   margin-top: 0;
+  margin-bottom: 1.5em;
   z-index: 0;
   border: none !important;
   text-align: center;
@@ -6414,6 +6424,89 @@ body #body .page-content.entry-content {
 }
 .menu-primary .sub-menu .menu-item a:hover {
   background-color: #f1f1f1;
+}
+body.single-post .post .fb-like {
+  margin-right: 10px;
+}
+body.single-post .post .post__meta,
+body.single-post .post .post-image {
+  margin-bottom: 1.5em;
+}
+body.single-post .post .post-content {
+  margin: 0;
+  padding: 0 !important;
+  max-width: 710px;
+  min-width: inherit;
+  border-bottom: none;
+}
+body.single-post .post .post-date {
+  margin: 0;
+  background-color: transparent;
+}
+body.single-post .post .post__meta {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: #bababa;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.post-heading {
+  margin-bottom: 25px;
+  background: url(assets/images/bgr-blog.jpg) no-repeat center/cover;
+}
+.post-heading__container {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.post-heading--award .post-heading__container {
+  min-height: 130px;
+  padding-bottom: 60px;
+}
+.post-heading--award .post-heading__container:after {
+  position: absolute;
+  right: 0;
+  bottom: -24px;
+  width: 240px;
+  height: 108px;
+  background: url(assets/images/img-poppies.png) no-repeat center/100%;
+  content: '';
+}
+@media (min-width: 768px) {
+  .post-heading--award .post-heading__container:after {
+    width: 320px;
+    height: 144px;
+    background: url(assets/images/img-poppies.png) no-repeat center;
+  }
+}
+@media (min-width: 768px) {
+  .post-heading--award .post-heading__container {
+    padding-bottom: 20px;
+  }
+}
+.post-heading__title {
+  padding: 20px 0;
+  color: #fff;
+  font-size: 24px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+@media (min-width: 768px) {
+  .post-heading__title {
+    padding-right: 300px;
+    font-size: 36px;
+  }
 }
 .page-title {
   height: auto !important;

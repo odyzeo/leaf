@@ -10,44 +10,74 @@
 
 <?php
 /** Themify Default Variables
- *  @var object */
+ * @var object
+ */
 global $themify;
 ?>
 
-<?php if( have_posts() ) while ( have_posts() ) : the_post(); ?>
+<?php if ( have_posts() ) {
+while ( have_posts() ) :
+the_post(); ?>
 
-<!-- layout-container -->
 <div id="layout" class="pagewidth clearfix">
 
-	<?php themify_content_before(); // hook ?>
-	<!-- content -->
-	<div id="content" class="list-post">
-    	<?php themify_content_start(); // hook ?>
+    <div id="content" class="list-post">
 
-		<?php get_template_part( 'includes/loop' , 'single'); ?>
+        <div class="wrapper post-heading">
+            <div class="container post-heading__container">
+                <h1 class="post-heading__title">
+					<?php the_title(); ?>
+                </h1>
+            </div>
+        </div>
 
-		<?php wp_link_pages(array('before' => '<p class="post-pagination"><strong>' . __('Pages:', 'themify') . ' </strong>', 'after' => '</p>', 'next_or_number' => 'number')); ?>
+		<?php get_template_part( 'includes/loop', 'single' ); ?>
 
-		<?php get_template_part( 'includes/post-nav'); ?>
+        <div class="container themify_builder_content">
 
-		<?php if(!themify_check('setting-comments_posts')): ?>
-			<?php comments_template(); ?>
-		<?php endif; ?>
+            <div class="module module-divider solid">
+                <h3 class="module-title">
+				    <?php _e( 'Blogs', 'leaf' ); ?>
+                </h3>
+            </div>
 
-		<?php themify_content_end(); // hook ?>
-	</div>
-	<!-- /content -->
-    <?php themify_content_after(); // hook ?>
+		    <?php
+		    $post_id = get_the_ID();
+		    echo do_shortcode( "[latest-blogs category='1' post='$post_id']" );
+		    ?>
 
-<?php endwhile; ?>
+            <div class="newsletter__row">
+                <div class="module module-divider solid">
+                    <h3 class="module-title">
+					    <?php _e( 'Newsletter', 'leaf' ); ?>
+                    </h3>
+                </div>
 
-<?php
-/////////////////////////////////////////////
-// Sidebar
-/////////////////////////////////////////////
-if ($themify->layout != 'sidebar-none'): get_sidebar(); endif; ?>
+                <div class="flex flex--grid">
+                    <div class="flex-1-2">
+                        <div class="page-content">
+						    <?php
+						    echo do_shortcode( "[email-subscribers namefield='NO' desc='' group='leaf']" );
+						    ?>
+                        </div>
+                    </div>
+                    <div class="flex-1-2">
+					    <?php
+					    _e( 'Prihlás sa, ak chceš vedieť, čo je nové.', 'leaf' );
+					    echo '<br>';
+					    _e( 'Pošleme ti občas newsletter.', 'leaf' );
+					    ?>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+	<?php endwhile;
+	} ?>
 
 </div>
-<!-- /layout-container -->
 
 <?php get_footer(); ?>

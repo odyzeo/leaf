@@ -9,8 +9,10 @@ function add_latest_blogs_shortcode( $atts ) {
 		'category' => '1', // Blog
 		'count'    => '3',
 		'display'  => 'inline',
+		'post'     => '',
 	), $atts );
 
+	$post__not_in = explode( ',', $args['post'] );
 	$category__in = explode( ',', $args['category'] );
 
 	$post_type      = 'post';
@@ -20,7 +22,8 @@ function add_latest_blogs_shortcode( $atts ) {
 	$args   = array(
 		'posts_per_page' => $posts_per_page,
 		'post_type'      => $post_type,
-		'category__in' => $category__in
+		'category__in'   => $category__in,
+		'post__not_in'   => $post__not_in
 	);
 
 	$wp_query = new WP_Query( $args );
