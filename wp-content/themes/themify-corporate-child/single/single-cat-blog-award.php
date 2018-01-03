@@ -26,7 +26,7 @@ the_post(); ?>
         <div class="wrapper post-heading post-heading--award">
             <div class="container post-heading__container">
                 <h1 class="post-heading__title">
-				    <?php the_title(); ?>
+					<?php the_title(); ?>
                 </h1>
             </div>
         </div>
@@ -56,17 +56,17 @@ the_post(); ?>
                 <div class="flex flex--grid">
                     <div class="flex-1-2">
                         <div class="page-content">
-                            <?php
-                            echo do_shortcode( "[email-subscribers namefield='NO' desc='' group='award']" );
-                            ?>
+							<?php
+							echo do_shortcode( "[email-subscribers namefield='NO' desc='' group='award']" );
+							?>
                         </div>
                     </div>
                     <div class="flex-1-2">
-                        <?php
-                        _e( 'Prihlás sa, ak chceš vedieť, čo je nové.', 'leaf' );
-                        echo '<br>';
-                        _e( 'Pošleme ti občas newsletter.', 'leaf' );
-                        ?>
+						<?php
+						_e( 'Prihlás sa, ak chceš vedieť, čo je nové.', 'leaf' );
+						echo '<br>';
+						_e( 'Pošleme ti občas newsletter.', 'leaf' );
+						?>
                     </div>
                 </div>
             </div>

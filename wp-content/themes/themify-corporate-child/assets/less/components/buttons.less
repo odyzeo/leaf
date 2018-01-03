@@ -3,7 +3,7 @@
 .btn {
     display: inline-block;
     padding: @btn-padding;
-    border: none;
+    border: 1px solid transparent;
     border-radius: @btn-radius;
     line-height: 1; // Normalize default button line-height
     vertical-align: top; // Trick to get rid off underneath space in div because of inline-block
@@ -52,14 +52,14 @@
 }
 
 .btn--blank {
-    color: @color--black;
+    color: @color--primary !important;
+    border-color: @color--primary;
     background: transparent;
     box-shadow: none;
 
     &:hover {
-        color: @color--primary;
-        background-color: transparent;
-        text-decoration: underline;
+        color: #fff !important;
+        background-color: @color--primary;
     }
 }
 

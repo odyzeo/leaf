@@ -1,7 +1,5 @@
 <?php
 
-define( 'LEAF_POST_TYPE_BANNER', ' banner' );
-
 add_shortcode( 'latest-blogs', 'add_latest_blogs_shortcode' );
 
 function add_latest_blogs_shortcode( $atts ) {
@@ -29,17 +27,20 @@ function add_latest_blogs_shortcode( $atts ) {
 	$wp_query = new WP_Query( $args );
 
 	$result .= "
-		<div class='flex flex--grid'>
+		<div class='cards'>
+			<div class='flex flex--grid'>
 	";
 	if ( $wp_query->have_posts() ) {
 		while ( $wp_query->have_posts() ) {
 			$wp_query->the_post();
 
-			$title    = get_the_title();
-			$url      = get_the_permalink();
-			$datetime = get_the_date( 'c' );
-			$date     = get_the_date( 'd M Y' );
-			$content  = get_the_excerpt();
+			$title      = get_the_title();
+			$url        = get_the_permalink();
+			$datetime   = get_the_date( 'c' );
+			$date       = get_the_date( 'd M Y' );
+			$content    = get_the_excerpt();
+			$category    = get_leaf_post_primary_category();
+			$category    = ( ! empty( $category ) ) ? $category->name : "";
 
 			$result .= "
 				<div class='flex-1-3'>
@@ -50,6 +51,7 @@ function add_latest_blogs_shortcode( $atts ) {
 							<time datetime='$datetime' itemprop='datePublished'>
 								$date
 							</time>
+							&nbsp;|&nbsp;$category
 						</div>
 					</a>
 				</div>
@@ -58,7 +60,8 @@ function add_latest_blogs_shortcode( $atts ) {
 	}
 
 	$result .= "
-		</div> 
+			</div> 
+		</div>
 	";
 
 	wp_reset_query();

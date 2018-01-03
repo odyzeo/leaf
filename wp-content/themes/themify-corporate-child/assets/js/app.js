@@ -1,4 +1,5 @@
 import Adaptive from './components/Adaptive'
+import LoadMore from './components/LoadMore'
 import SlideMenu from './components/SlideMenu'
 import YouTube from './components/YouTube'
 import Swipers from './components/Swipers'
@@ -12,6 +13,7 @@ $(document).ready(() => {
   SlideMenu.init()
   YouTube.init()
   Swipers.init()
+  LoadMore.init()
 
   /**
    * Mobile menu

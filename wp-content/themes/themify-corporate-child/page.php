@@ -41,11 +41,7 @@ global $themify; ?>
 		<?php if ( ! is_404() && have_posts() ) : while ( have_posts() ) : the_post(); ?>
 			<div id="page-<?php the_ID(); ?>" class="type-page">
 
-			<!-- page-title -->
-			<?php if($themify->page_title != "yes"): ?>
-				<h1 class="page-title"><?php the_title(); ?></h1>
-			<?php endif; ?>
-			<!-- /page-title -->
+            <?php echo get_leaf_page_title(); ?>
 
 			<div class="page-content entry-content">
 

@@ -45,12 +45,16 @@ body.single-post .post {
     position: relative;
     display: flex;
     align-items: center;
+    min-height: 80px;
+
+    @media (min-width: @tablet-width-min) {
+        min-height: 130px;
+    }
 }
 
 .post-heading--award {
 
     .post-heading__container {
-        min-height: 130px;
         padding-bottom: 60px;
 
         &:after {
@@ -70,7 +74,7 @@ body.single-post .post {
         }
 
         @media (min-width: @tablet-width-min) {
-            padding-bottom: 20px;
+            padding-bottom: 0;
         }
     }
 }
