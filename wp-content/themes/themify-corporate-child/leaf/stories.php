@@ -30,7 +30,7 @@ register_post_type( LEAF_POST_TYPE_STORY, array(
 	'menu_icon'       => 'dashicons-story',
 ) );
 
-register_taxonomy( 'story-category', array( LEAF_POST_TYPE_STORY ), array(
+register_taxonomy( 'story-category', array( 'story' ), array(
 	'labels'            => array(
 		'name'          => sprintf( __( '%s Categories', 'themify-story-posts' ), $cpt['singular'] ),
 		'singular_name' => sprintf( __( '%s Category', 'themify-story-posts' ), $cpt['singular'] )
@@ -46,24 +46,50 @@ register_taxonomy( 'story-category', array( LEAF_POST_TYPE_STORY ), array(
 
 add_shortcode( 'stories', 'add_story_shortcode' );
 
+function stories_admin_init() {
+	add_filter( "manage_taxonomies_for_story_columns", 'add_columns' );
+
+	/**
+	 * Add columns when filtering posts in edit.php
+	 */
+	function add_columns( $taxonomies ) {
+		return array_merge( $taxonomies, array_diff( get_object_taxonomies( 'story' ), get_taxonomies( array( 'show_admin_column' => 'false' ) ) ) );
+	}
+}
+
+add_action( 'admin_init', 'stories_admin_init' );
+
 function add_story_shortcode( $atts ) {
 	$args = shortcode_atts( array(
-		'foo' => 'no foo',
-		'baz' => 'default baz',
+		'tags' => '', // Blog
 	), $atts );
 
 	$post_type      = LEAF_POST_TYPE_STORY;
 	$posts_per_page = 1000;
 
+	$tags = array();
+	if ( $args['tags'] !== '' ) {
+		$tags = explode( ',', $args['tags'] );
+	}
+
 	$result = '';
 	$args   = array(
 		'posts_per_page' => $posts_per_page,
 		'post_type'      => $post_type,
-		'orderby'        => 'rand'
+		'orderby'        => 'rand',
 	);
 
-	$wp_query = new WP_Query( $args );
+	if ( ! empty( $tags ) ) {
+		$args['tax_query'] = array(
+			array(
+				'taxonomy' => 'story-category',
+				'field'    => 'term_id',
+				'terms'    => $tags,
+			),
+		);
+	}
 
+	$wp_query = new WP_Query( $args );
 
 	$swiperCircles = "
 		<div id='swiper-circles' class='swiper-container swiper-container--circles js-swiper-stories-circles'>

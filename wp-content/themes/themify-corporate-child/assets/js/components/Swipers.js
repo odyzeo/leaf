@@ -56,6 +56,7 @@ const Swipers = {
      * Swiper stories
      */
     const $storiesCirclesSwiper = $('.js-swiper-stories-circles')
+    const $storiesCirclesSwiperSlides = $('.js-swiper-stories-circles').find('.swiper-slide')
     const $storiesSwiper = $('.js-swiper-stories')
     const storiesCount = $storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length
 
@@ -72,9 +73,6 @@ const Swipers = {
         allowTouchMove: false,
         centeredSlides: true,
         slidesPerView: 'auto',
-        loop: true,
-        loopedSlides: 50,
-        loopAdditionalSlides: 50,
         slideToClickedSlide: true,
         navigation: {
           nextEl: '.js-swiper-circles-next',
@@ -83,6 +81,13 @@ const Swipers = {
         on: {
           slideChangeTransitionEnd: transitionEndCircles,
         },
+      }
+
+      let looping = ($storiesCirclesSwiperSlides.length > 10)
+      if (looping) {
+        defaultCirclesOptions.loop = true
+        defaultCirclesOptions.loopedSlides = 50
+        defaultCirclesOptions.loopAdditionalSlides = 50
       }
 
       const speed = 300
@@ -111,6 +116,23 @@ const Swipers = {
 
       const $swiper = new Swiper($storiesSwiper, defaultOptions)
       const $circlesSwiper = new Swiper($storiesCirclesSwiper, defaultCirclesOptions)
+
+      // if (!looping) {
+      //   console.log('bind')
+      //   $storiesCirclesSwiper.find('.js-swiper-circles-next').on('click', function (e) {
+      //     e.preventDefault()
+      //     e.stopPropagation()
+      //     if ($(this).hasClass('swiper-button-disabled')) {
+      //
+      //       console.log('next', $(this).hasClass('swiper-button-disabled'), $(this))
+      //       $circlesSwiper.slideTo(0)
+      //     }
+      //   })
+      //   $storiesCirclesSwiper.on('click', '.js-swiper-circles-prev.swiper-button-disabled', function () {
+      //     console.log('prev')
+      //     $circlesSwiper.slideTo($storiesCirclesSwiperSlides.length - 1)
+      //   })
+      // }
 
       function transitionEndCircles() {
         /**
@@ -162,7 +184,8 @@ const Swipers = {
         let index = this.realIndex
         if ($circlesSwiper) {
           clicked = true
-          $circlesSwiper.slideTo(index + storiesCount)
+          let to = looping ? index + storiesCount : index
+          $circlesSwiper.slideTo(to)
         }
       }
     }
