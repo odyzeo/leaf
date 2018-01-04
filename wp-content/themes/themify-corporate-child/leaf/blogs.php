@@ -57,6 +57,10 @@ function get_leaf_posts( $wp_query, $initial = false ) {
 				<div class='poppy poppy--$poppy_index card__poppy'></div>
 			";
 
+			if ( ! has_post_thumbnail() ) {
+				$image = get_stylesheet_directory_uri() . "/assets/images/img-blog-default.png";
+			}
+
 			if ( $initial ) {
 				$initial = false; // First will be true so .card-vertical
 

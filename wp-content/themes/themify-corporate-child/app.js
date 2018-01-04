@@ -116,17 +116,33 @@ autohide:0// Hide video controls when playing
      */var $newsSwipers=$('.js-swiper-news');if($newsSwipers.length>0){$newsSwipers.each(function(){var $newsSwiper=$(this);var newsCount=$newsSwiper.find('.swiper-slide').length;$newsSwiper.toggleClass('swiper-container--single',newsCount===1);var defaultNewsOptions={loop:true,slidesPerView:2,spaceBetween:10,pagination:{el:'.js-swiper-news-pagination',type:'bullets'},navigation:{nextEl:'.js-swiper-news-next',prevEl:'.js-swiper-news-prev'},breakpoints:{// when window width is <= 640px
 640:{slidesPerView:1,spaceBetween:20}}};if(newsCount===1){defaultNewsOptions.loop=false;defaultNewsOptions.slidesPerView=1;defaultNewsOptions.centeredSlides=true;defaultNewsOptions.spaceBetween=0;defaultNewsOptions.navigation=false;defaultNewsOptions.pagination=false;}var $swiper=new __WEBPACK_IMPORTED_MODULE_1_swiper__["a"/* default */]($newsSwiper,defaultNewsOptions);});}},initStories:function initStories(){/**
      * Swiper stories
-     */var $storiesCirclesSwiper=$('.js-swiper-stories-circles');var $storiesSwiper=$('.js-swiper-stories');var storiesCount=$storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length;// Scroll to swiper stories when click on
+     */var $storiesCirclesSwiper=$('.js-swiper-stories-circles');var $storiesCirclesSwiperSlides=$('.js-swiper-stories-circles').find('.swiper-slide');var $storiesSwiper=$('.js-swiper-stories');var storiesCount=$storiesSwiper.find('.swiper-slide:not(.swiper-slide-duplicate)').length;// Scroll to swiper stories when click on
 $storiesCirclesSwiper.find('.swiper-slide').on('click',function(){// Smaller header height 70 - desktop, 60 - desktop smaller, mobile should be small
 // - 10 for offset
-var top=$('#swiper-circles').offset().top-Math.min($('.js-header').height(),60)-10;$('html, body').animate({scrollTop:top+'px'},300);});if($storiesSwiper.length>0){var transitionEndCircles=function transitionEndCircles(){/**
+var top=$('#swiper-circles').offset().top-Math.min($('.js-header').height(),60)-10;$('html, body').animate({scrollTop:top+'px'},300);});if($storiesSwiper.length>0){// if (!looping) {
+//   console.log('bind')
+//   $storiesCirclesSwiper.find('.js-swiper-circles-next').on('click', function (e) {
+//     e.preventDefault()
+//     e.stopPropagation()
+//     if ($(this).hasClass('swiper-button-disabled')) {
+//
+//       console.log('next', $(this).hasClass('swiper-button-disabled'), $(this))
+//       $circlesSwiper.slideTo(0)
+//     }
+//   })
+//   $storiesCirclesSwiper.on('click', '.js-swiper-circles-prev.swiper-button-disabled', function () {
+//     console.log('prev')
+//     $circlesSwiper.slideTo($storiesCirclesSwiperSlides.length - 1)
+//   })
+// }
+var transitionEndCircles=function transitionEndCircles(){/**
          * Progress bar
          */var $active=$('.js-swiper-stories-circles .swiper-slide-active .js-swiper-timer');var $progress=$('#js-swiper-progress');$progress.remove();$progress=$('<div id=\'js-swiper-progress\' class=\'swiper__progress\'></div>');$progress.appendTo($active);var bar=new __WEBPACK_IMPORTED_MODULE_0_progressbar_js___default.a.Circle('#js-swiper-progress',{strokeWidth:3,easing:'linear',duration:autoplayTime-speed,color:'#40b153',trailColor:'#fff',trailWidth:2,svgStyle:null});bar.animate(1.0);/**
          * Prevent slide from another swiper
          */if(clicked){clicked=false;return;}var clickedIndex=this.realIndex;if($swiper&&initialized){clickedIndex=clickedIndex%storiesCount;// + 1
 clicked=true;$swiper.slideTo(clickedIndex);}initialized=true;};var transitionEnd=function transitionEnd(){/**
          * Prevent slide from another swiper
-         */if(clicked){clicked=false;return;}var index=this.realIndex;if($circlesSwiper){clicked=true;$circlesSwiper.slideTo(index+storiesCount);}};var defaultCirclesOptions={allowTouchMove:false,centeredSlides:true,slidesPerView:'auto',loop:true,loopedSlides:50,loopAdditionalSlides:50,slideToClickedSlide:true,navigation:{nextEl:'.js-swiper-circles-next',prevEl:'.js-swiper-circles-prev'},on:{slideChangeTransitionEnd:transitionEndCircles}};var speed=300;var autoplayTime=15000;var defaultOptions={slidesPerView:1,speed:speed,loop:true,loopedSlides:50,loopAdditionalSlides:50,autoplay:{delay:autoplayTime,disableOnInteraction:false},navigation:{nextEl:'.js-swiper-stories-next',prevEl:'.js-swiper-stories-prev'},on:{slideChangeTransitionEnd:transitionEnd}};var initialized=false;var clicked=false;var $swiper=new __WEBPACK_IMPORTED_MODULE_1_swiper__["a"/* default */]($storiesSwiper,defaultOptions);var $circlesSwiper=new __WEBPACK_IMPORTED_MODULE_1_swiper__["a"/* default */]($storiesCirclesSwiper,defaultCirclesOptions);}}};/* harmony default export */__webpack_exports__["a"]=Swipers;/***/},/* 11 *//***/function(module,exports,__webpack_require__){module.exports={// Higher level API, different shaped progress bars
+         */if(clicked){clicked=false;return;}var index=this.realIndex;if($circlesSwiper){clicked=true;var to=looping?index+storiesCount:index;$circlesSwiper.slideTo(to);}};var defaultCirclesOptions={allowTouchMove:false,centeredSlides:true,slidesPerView:'auto',slideToClickedSlide:true,navigation:{nextEl:'.js-swiper-circles-next',prevEl:'.js-swiper-circles-prev'},on:{slideChangeTransitionEnd:transitionEndCircles}};var looping=$storiesCirclesSwiperSlides.length>10;if(looping){defaultCirclesOptions.loop=true;defaultCirclesOptions.loopedSlides=50;defaultCirclesOptions.loopAdditionalSlides=50;}var speed=300;var autoplayTime=15000;var defaultOptions={slidesPerView:1,speed:speed,loop:true,loopedSlides:50,loopAdditionalSlides:50,autoplay:{delay:autoplayTime,disableOnInteraction:false},navigation:{nextEl:'.js-swiper-stories-next',prevEl:'.js-swiper-stories-prev'},on:{slideChangeTransitionEnd:transitionEnd}};var initialized=false;var clicked=false;var $swiper=new __WEBPACK_IMPORTED_MODULE_1_swiper__["a"/* default */]($storiesSwiper,defaultOptions);var $circlesSwiper=new __WEBPACK_IMPORTED_MODULE_1_swiper__["a"/* default */]($storiesCirclesSwiper,defaultCirclesOptions);}}};/* harmony default export */__webpack_exports__["a"]=Swipers;/***/},/* 11 *//***/function(module,exports,__webpack_require__){module.exports={// Higher level API, different shaped progress bars
 Line:__webpack_require__(12),Circle:__webpack_require__(3),SemiCircle:__webpack_require__(14),// Lower level API to use any SVG path
 Path:__webpack_require__(2),// Base-class for creating new custom shapes
 // to be in line with the API of built-in shapes

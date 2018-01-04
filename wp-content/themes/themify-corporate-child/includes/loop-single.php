@@ -42,22 +42,22 @@ global $themify;
 			<?php endif; // video else image ?>
 		<?php endif; // hide image ?>
 
-        <div class="post__meta">
-            <div class="fb-like"
-                 data-href="<?php echo get_permalink(); ?>"
-                 data-layout="button"
-                 data-action="like"
-                 data-size="small"
-                 data-show-faces="true"
-                 data-share="true">
-            </div>
-
-            <time datetime="<?php the_time('o-m-d') ?>" class="post-date entry-date updated">
-                <?php the_date('d M Y') ?>
-            </time>
-        </div>
-
         <div class="post-content">
+
+            <div class="post__meta">
+                <div class="fb-like"
+                     data-href="<?php echo get_permalink(); ?>"
+                     data-layout="button"
+                     data-action="like"
+                     data-size="small"
+                     data-show-faces="true"
+                     data-share="true">
+                </div>
+
+                <time datetime="<?php the_time('o-m-d') ?>" class="post-date entry-date updated">
+			        <?php the_date('d M Y') ?>
+                </time>
+            </div>
 
             <div class="entry-content">
 

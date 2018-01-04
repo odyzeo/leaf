@@ -4650,7 +4650,6 @@ body .themify_builder_content .module-text .banner a {
   display: -ms-flexbox;
   display: flex;
   margin-bottom: 20px;
-  height: 320px;
   border-radius: 3px;
   text-decoration: none !important;
 }
@@ -4658,9 +4657,7 @@ body .themify_builder_content .module-text .banner a {
   border-radius: 0 0 3px 0;
 }
 .card-vertical .card__image-wrapper {
-  display: block;
-  padding-bottom: 0;
-  height: 100%;
+  padding-bottom: 50%;
 }
 .card-vertical__left {
   display: none;
@@ -4738,7 +4735,7 @@ body .themify_builder_content .module-text .banner a {
 .card__image-wrapper {
   position: relative;
   display: block;
-  padding-bottom: 56.25%;
+  padding-bottom: 50%;
   overflow: hidden;
 }
 .card__image {
@@ -6609,9 +6606,10 @@ body.single-post .post .post-image {
   margin-bottom: 1.5em;
 }
 body.single-post .post .post-content {
-  margin: 0;
+  margin: 0 auto;
   padding: 0 !important;
-  max-width: 710px;
+  width: 710px;
+  max-width: 100%;
   min-width: inherit;
   border-bottom: none;
 }

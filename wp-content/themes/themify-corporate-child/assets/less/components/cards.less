@@ -71,9 +71,6 @@
     display: flex;
     margin-bottom: 20px;
 
-    // First card should have fixed height
-    height: 320px;
-
     border-radius: 3px;
     text-decoration: none !important;
 
@@ -85,9 +82,7 @@
     }
 
     .card__image-wrapper {
-        display: block;
-        padding-bottom: 0;
-        height: 100%;
+        padding-bottom: percentage(1/2);
     }
 }
 
@@ -136,7 +131,7 @@
 .card__image-wrapper {
     position: relative;
     display: block;
-    padding-bottom: percentage(9/16);
+    padding-bottom: percentage(1/2);
     overflow: hidden;
 }
 
