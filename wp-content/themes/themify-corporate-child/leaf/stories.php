@@ -61,15 +61,15 @@ add_action( 'admin_init', 'stories_admin_init' );
 
 function add_story_shortcode( $atts ) {
 	$args = shortcode_atts( array(
-		'tags' => '', // Blog
+		'category' => '', // Blog
 	), $atts );
 
 	$post_type      = LEAF_POST_TYPE_STORY;
 	$posts_per_page = 1000;
 
 	$tags = array();
-	if ( $args['tags'] !== '' ) {
-		$tags = explode( ',', $args['tags'] );
+	if ( $args['category'] !== '' ) {
+		$tags = explode( ',', $args['category'] );
 	}
 
 	$result = '';
