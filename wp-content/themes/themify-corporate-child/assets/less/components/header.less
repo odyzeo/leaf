@@ -209,3 +209,37 @@
         display: none;
     }
 }
+
+/**
+ * LEAF MEDIUM HEADER - dobrovolnici
+ */
+.header--medium {
+
+    .header__right,
+    .header__lang,
+    .header__menu {
+
+        @media (max-width: @header-menu-switch-medium-max) {
+            display: none;
+        }
+    }
+
+    .header__socials {
+
+        @media (max-width: @header-menu-switch-medium-max) {
+            margin-right: 48px;
+        }
+    }
+}
+
+.header__menu-mobile-toggler--medium {
+
+    @media (min-width: @tablet-width-min) {
+        top: 32px;
+        display: block;
+    }
+
+    @media (min-width: @header-menu-switch-medium-min) {
+        display: none;
+    }
+}

@@ -5277,6 +5277,32 @@ body .themify_builder_content .module-text .banner a {
     display: none;
   }
 }
+/**
+ * LEAF MEDIUM HEADER - dobrovolnici
+ */
+@media (max-width: 1099px) {
+  .header--medium .header__right,
+  .header--medium .header__lang,
+  .header--medium .header__menu {
+    display: none;
+  }
+}
+@media (max-width: 1099px) {
+  .header--medium .header__socials {
+    margin-right: 48px;
+  }
+}
+@media (min-width: 768px) {
+  .header__menu-mobile-toggler--medium {
+    top: 32px;
+    display: block;
+  }
+}
+@media (min-width: 1100px) {
+  .header__menu-mobile-toggler--medium {
+    display: none;
+  }
+}
 .img-circle {
   position: relative;
   width: 65px;

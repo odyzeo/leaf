@@ -16,12 +16,12 @@
 <body <?php body_class(); ?>>
 <?php get_template_part( 'template-parts/header', 'facebook' ); ?>
 <?php themify_body_start(); // hook ?>
-<?php $page_class = get_post_meta(get_the_ID(), 'page_class', true)?>
+<?php $page_class = get_post_meta( get_the_ID(), 'page_class', true ) ?>
 <div id="pagewrap" class="hfeed site <?php echo $page_class; ?>">
 
 	<?php get_template_part( 'template-parts/slide-menu', 'volunteers' ); ?>
 
-    <header class="wrapper header js-header">
+    <header class="wrapper header header--medium js-header">
         <a href="/" class="header__logo header__logo--absolute">
             <img class="logo-leaf"
                  src="<?php echo get_stylesheet_directory_uri(); ?>/assets/svg/leaf-logo.svg"
@@ -55,7 +55,7 @@
     </header>
     <div class="header__placeholder"></div>
 
-    <div class="header__menu-mobile-toggler">
+    <div class="header__menu-mobile-toggler header__menu-mobile-toggler--medium">
         <a href class="menu-icon js-slide-menu">
             <div class="menu-icon__content">
                 <div class="menu-icon__line menu-icon__line--1"></div>
