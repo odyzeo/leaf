@@ -6598,6 +6598,9 @@ body #body .page-content.entry-content {
 .menu-primary .sub-menu .menu-item a:hover {
   background-color: #f1f1f1;
 }
+body.single-post .post {
+  margin-top: 25px;
+}
 body.single-post .post .fb-like {
   margin-right: 10px;
 }
@@ -6631,7 +6634,6 @@ body.single-post .post .post__meta {
   text-transform: uppercase;
 }
 .post-heading {
-  margin-bottom: 25px;
   background: url(assets/images/bgr-blog.jpg) no-repeat center/cover;
 }
 .post-heading__container {
@@ -6881,17 +6883,14 @@ body.single-post .post .post__meta {
 .page-title-line #body {
   border-top: 5px solid #40b153;
 }
-.page-title-line .page-title {
+.page-title-line .post-heading {
   display: none;
 }
-.page-title-large .page-title {
+.page-title-none .post-heading {
   display: none;
 }
 #pagewrap.page-title-award {
   background-color: #f9f9f9;
-}
-.page-title-award .page-title {
-  display: none;
 }
 #pagewrap.page-blog {
   background-color: #f9f9f9;

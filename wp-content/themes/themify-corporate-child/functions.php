@@ -156,29 +156,21 @@ function get_leaf_facebook_button() {
 }
 
 function get_leaf_page_title() {
-	global $themify;
-
 	$post_id    = get_the_ID();
 	$title      = get_the_title();
 	$page_class = get_post_meta( $post_id, 'page_class', true );
 
-	if ( strpos( $page_class, 'page-title-large' ) > - 1 ) {
-		$class = ( strpos( $page_class, 'page-title-award' ) > - 1 ) ? ' post-heading--award' : '';
+	$class = ( strpos( $page_class, 'page-title-award' ) > - 1 ) ? ' post-heading--award' : '';
 
-		return "
-	        <div class='wrapper post-heading$class'>
-	            <div class='container post-heading__container'>
-	                <h1 class='post-heading__title'>
-					    $title
-	                </h1>
-	            </div>
-	        </div>
-		";
-	}
-
-	if ( $themify->page_title != "yes" ) {
-		return "<h1 class='page-title'>$title</h1>";
-	}
+	return "
+        <div class='wrapper post-heading$class'>
+            <div class='container post-heading__container'>
+                <h1 class='post-heading__title'>
+				    $title
+                </h1>
+            </div>
+        </div>
+	";
 }
 
 

@@ -97,8 +97,10 @@ function get_leaf_posts( $wp_query, $initial = false ) {
 				$result .= "
 					<div class='flex-1-3'>
 						<a href='$url' class='card card--border'>
-							<div class='card__image-wrapper'>
-								<img src='$image' alt='$title' class='card__image'>
+							<div>
+								<div class='card__image-wrapper'>
+									<img src='$image' alt='$title' class='card__image'>
+								</div>
 							</div>
 							<div class='card__inner'>
 								<div class='card__title'>$title</div>
