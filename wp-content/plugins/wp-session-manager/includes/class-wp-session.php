@@ -54,6 +54,15 @@ final class WP_Session extends Recursive_ArrayAccess {
 	 */
 	public static function get_instance() {
 		if ( ! self::$instance ) {
+            /**
+             * Initialize the session object and wire up any storage.
+             *
+             * Some operations (like database migration) need to be performed
+             * before the session is able to actually be populated with data.
+             * Ensure these operations are finished by wiring them to the
+             * session object's initialization hool.
+             */
+		    do_action('wp_session_init');
 			self::$instance = new self();
 		}
 
@@ -154,11 +163,23 @@ final class WP_Session extends Recursive_ArrayAccess {
 	 * Write the data from the current session to the data storage system.
 	 */
 	public function write_data() {
-		// No need to store an empty array in the DB
+	    // Nothing has changed, don't update the session
+	    if (!$this->dirty) {
+	        return;
+        }
+
+		// Session is dirty, but also empty. Purge it!
 		if( empty($this->container) ){
+            if (defined('WP_SESSION_USE_OPTIONS') && WP_SESSION_USE_OPTIONS) {
+                delete_option( "_wp_session_{$this->session_id}" );
+            } else {
+                WP_Session_Utils::delete_session( $this->session_id );
+            }
+
 			return;
 		}
 
+		// Session is dirty and needs to be updated, do so!
         if (defined('WP_SESSION_USE_OPTIONS') && WP_SESSION_USE_OPTIONS) {
             $option_key = "_wp_session_{$this->session_id}";
 

@@ -31,27 +31,7 @@ class es_cls_intermediate {
 		}
 	}
 
-	public static function es_compose() {
-		global $wpdb;
-		$current_page = isset($_GET['ac']) ? $_GET['ac'] : '';
-		switch($current_page) {
-			case 'add':
-				require_once(ES_DIR.'compose'.DIRECTORY_SEPARATOR.'compose-add.php');
-				break;
-			case 'edit':
-				require_once(ES_DIR.'compose'.DIRECTORY_SEPARATOR.'compose-edit.php');
-				break;
-			case 'preview':
-				require_once(ES_DIR.'compose'.DIRECTORY_SEPARATOR.'compose-preview.php');
-				break;
-			default:
-				require_once(ES_DIR.'compose'.DIRECTORY_SEPARATOR.'compose-show.php');
-				break;
-		}
-	}
-
 	public static function es_notification() {
-		global $wpdb;
 		$current_page = isset($_GET['ac']) ? $_GET['ac'] : '';
 		switch($current_page) {
 			case 'add':
@@ -61,7 +41,7 @@ class es_cls_intermediate {
 				require_once(ES_DIR.'notification'.DIRECTORY_SEPARATOR.'notification-edit.php');
 				break;
 			case 'preview':
-				require_once(ES_DIR.'compose'.DIRECTORY_SEPARATOR.'compose-preview.php');
+				require_once(ES_DIR.'templates'.DIRECTORY_SEPARATOR.'template-preview.php');
 				break;
 			default:
 				require_once(ES_DIR.'notification'.DIRECTORY_SEPARATOR.'notification-show.php');
@@ -72,14 +52,13 @@ class es_cls_intermediate {
 	public static function es_sendemail() {
 		$current_page = isset($_GET['ac']) ? $_GET['ac'] : '';
 		if($current_page && $current_page == 'preview'){
-			require_once(ES_DIR.'compose'.DIRECTORY_SEPARATOR.'compose-preview.php');
+			require_once(ES_DIR.'templates'.DIRECTORY_SEPARATOR.'template-preview.php');
 				return;
 		}
 		require_once(ES_DIR.'sendmail'.DIRECTORY_SEPARATOR.'sendmail.php');
 	}
 
 	public static function es_settings() {
-		global $wpdb;
 		$current_page = isset($_GET['ac']) ? $_GET['ac'] : '';
 		switch($current_page) {
 			case 'sync':
@@ -92,7 +71,6 @@ class es_cls_intermediate {
 	}
 
 	public static function es_sentmail() {
-		global $wpdb;
 		$current_page = isset($_GET['ac']) ? $_GET['ac'] : '';
 		switch($current_page) {
 			case 'delivery':

@@ -3,11 +3,11 @@
  * Plugin Name: Email Subscribers & Newsletters
  * Plugin URI: https://www.icegram.com/
  * Description: Add subscription forms on website, send HTML newsletters & automatically notify subscribers about new blog posts once it is published.
- * Version: 3.4.4
+ * Version: 3.4.6
  * Author: Icegram
  * Author URI: https://www.icegram.com/
  * Requires at least: 3.4
- * Tested up to: 4.9
+ * Tested up to: 4.9.1
  * Text Domain: email-subscribers
  * Domain Path: /languages/
  * License: GPLv3
@@ -38,7 +38,6 @@ add_action( 'admin_init', array( 'es_cls_registerhook', 'dismiss_admin_notice' )
 add_shortcode( 'email-subscribers', 'es_shortcode' );
 
 add_action( 'wp_ajax_es_klawoo_subscribe', array( 'es_cls_registerhook', 'klawoo_subscribe' ) );
-add_action( 'wp_ajax_es_submit_survey', array( 'es_cls_registerhook', 'es_submit_survey' ) );
 
 require_once(dirname(__FILE__).DIRECTORY_SEPARATOR.'classes'.DIRECTORY_SEPARATOR.'es-directly.php');
 
@@ -76,7 +75,6 @@ add_filter('parent_file',  array( 'es_cls_registerhook','es_highlight'));
 //add style
 add_action('admin_footer',  array( 'es_cls_registerhook','es_add_admin_css'));
 
-
 // To store current date and version in db with each update
 add_action( 'upgrader_process_complete', 'es_update_current_version_and_date', 10, 2 );
 function es_update_current_version_and_date( $upgrader_object, $options ) {
@@ -105,7 +103,7 @@ function es_update_current_version_and_date( $upgrader_object, $options ) {
 				$es_current_version_date_details['es_current_version'] = $es_current_version;
 				$es_current_version_date_details['es_current_date'] = $es_current_date;
 
-				update_option( 'ig_es_current_version_date_details', $es_current_version_date_details );
+				update_option( 'ig_es_current_version_date_details', $es_current_version_date_details, 'no' );
 			}
 		}
 	}

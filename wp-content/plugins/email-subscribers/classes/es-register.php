@@ -198,7 +198,7 @@ class es_cls_registerhook {
 						'es_subscriber_delete_record'   => _x( 'Do you want to delete this record?', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
 						'es_subscriber_bulk_action'     => _x( 'Please select the bulk action.', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
 						'es_subscriber_confirm_delete'  => _x( 'Are you sure you want to delete selected records?', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
-						'es_subscriber_resend_email'    => _x( 'Do you want to resend confirmation email? \nAlso please note, this will update subscriber current status to \'Unconfirmed\'.', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
+						'es_subscriber_resend_email'    => _x( 'Do you want to resend confirmation email? Also please note, this will update subscriber current status to \'Unconfirmed\'.', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
 						'es_subscriber_new_group'       => _x( 'Please select new subscriber group.', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
 						'es_subscriber_new_status'	    => _x( 'Please select new status for subscribers', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
 						'es_subscriber_group_update'    => _x( 'Do you want to update subscribers group?', 'view-subscriber-enhanced-select', ES_TDOMAIN ),
@@ -207,21 +207,12 @@ class es_cls_registerhook {
 					);
 					wp_localize_script( 'es-view-subscribers', 'es_view_subscriber_notices', $es_select_params );
 					break;
-				case 'es-compose':
-					wp_register_script( 'es-compose', ES_URL . 'compose/compose.js', '', '', true );
-					wp_enqueue_script( 'es-compose' );
-					$es_select_params = array(
-						'es_configuration_name'     => _x( 'Please enter the Email Subject.', 'compose-enhanced-select', ES_TDOMAIN ),
-						'es_compose_delete_record'  => _x( 'Do you want to delete this record?', 'compose-enhanced-select', ES_TDOMAIN )
-					);
-					wp_localize_script( 'es-compose', 'es_compose_notices', $es_select_params );
-					break;
 				case 'es-notification':
 					wp_register_script( 'es-notification', ES_URL . 'notification/notification.js', '', '', true );
 					wp_enqueue_script( 'es-notification' );
 					$es_select_params = array(
 						'es_notification_select_group'  => _x( 'Please select subscribers group.', 'notification-enhanced-select', ES_TDOMAIN ),
-						'es_notification_mail_subject'  => _x( 'Please select notification mail subject. Use compose menu to create new.', 'notification-enhanced-select', ES_TDOMAIN ),
+						'es_notification_mail_subject'  => _x( 'Please select notification mail subject. Use templates menu to create new.', 'notification-enhanced-select', ES_TDOMAIN ),
 						'es_notification_status'        => _x( 'Please select notification status.', 'notification-enhanced-select', ES_TDOMAIN ),
 						'es_notification_delete_record' => _x( 'Do you want to delete this record?', 'notification-enhanced-select', ES_TDOMAIN )
 					);
@@ -370,6 +361,181 @@ class es_cls_registerhook {
 		if ( get_option( 'current_sa_email_subscribers_db_version' ) === '3.3.6' ) {
 			es_cls_registerhook::es_upgrade_database_for_3_4_0();
 		}
+	}
+
+	/**
+	 * To update sync email option to remove Commented user & it's group - ig_es_sync_wp_users
+	 * ES version 3.2 onwards
+	 */
+	public static function es_upgrade_database_for_3_2() {
+
+		$sync_subscribers = get_option( 'ig_es_sync_wp_users' );
+
+		$es_unserialized_data = maybe_unserialize($sync_subscribers);
+		unset($es_unserialized_data['es_commented']);
+		unset($es_unserialized_data['es_commented_group']);
+
+		$es_serialized_data = serialize($es_unserialized_data);
+		update_option( 'ig_es_sync_wp_users', $es_serialized_data );
+
+		update_option( 'current_sa_email_subscribers_db_version', '3.2' );
+	}
+
+	/**
+	 * To rename a few terms in compose & reports menu
+	 * ES version 3.2.7 onwards
+	 */
+	public static function es_upgrade_database_for_3_2_7() {
+
+		global $wpdb;
+
+		// Compose table
+		$template_table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}es_templatetable'" );
+		if ( $template_table_exists > 0 ) {
+			$wpdb->query( "UPDATE {$wpdb->prefix}es_templatetable
+						   SET es_email_type =
+						   ( CASE
+								WHEN es_email_type = 'Static Template' THEN 'Newsletter'
+								WHEN es_email_type = 'Dynamic Template' THEN 'Post Notification'
+								ELSE es_email_type
+							 END ) " );
+		}
+
+		// Sent Details table
+		$wpdb->query( "UPDATE {$wpdb->prefix}es_sentdetails
+					   SET es_sent_type =
+					   ( CASE
+							WHEN es_sent_type = 'Instant Mail' THEN 'Immediately'
+							WHEN es_sent_type = 'Cron Mail' THEN 'Cron'
+							ELSE es_sent_type
+						 END ),
+						   es_sent_source =
+					   ( CASE
+							WHEN es_sent_source = 'manual' THEN 'Newsletter'
+							WHEN es_sent_source = 'notification' THEN 'Post Notification'
+							ELSE es_sent_source
+					   END ) " );
+
+		// Delivery Reports table
+		$wpdb->query( "UPDATE {$wpdb->prefix}es_deliverreport
+					   SET es_deliver_senttype =
+					   ( CASE
+							WHEN es_deliver_senttype = 'Instant Mail' THEN 'Immediately'
+							WHEN es_deliver_senttype = 'Cron Mail' THEN 'Cron'
+							ELSE es_deliver_senttype
+						 END ) " );
+
+		update_option( 'current_sa_email_subscribers_db_version', '3.2.7' );
+	}
+
+	/**
+	 * To migrate Email Settings data from custom pluginconfig table to wordpress options table and to update user roles
+	 * ES version 3.3 onwards
+	 */
+	public static function es_upgrade_database_for_3_3() {
+		global $wpdb;
+
+		$settings_to_rename = array(
+									'es_c_fromname' 		=> 'ig_es_fromname',
+									'es_c_fromemail' 		=> 'ig_es_fromemail',
+									'es_c_mailtype' 		=> 'ig_es_emailtype',
+									'es_c_adminmailoption' 	=> 'ig_es_notifyadmin',
+									'es_c_adminemail' 		=> 'ig_es_adminemail',
+									'es_c_adminmailsubject' => 'ig_es_admin_new_sub_subject',
+									'es_c_adminmailcontant' => 'ig_es_admin_new_sub_content',
+									'es_c_usermailoption' 	=> 'ig_es_welcomeemail',
+									'es_c_usermailsubject' 	=> 'ig_es_welcomesubject',
+									'es_c_usermailcontant' 	=> 'ig_es_welcomecontent',
+									'es_c_optinoption' 		=> 'ig_es_optintype',
+									'es_c_optinsubject' 	=> 'ig_es_confirmsubject',
+									'es_c_optincontent' 	=> 'ig_es_confirmcontent',
+									'es_c_optinlink' 		=> 'ig_es_optinlink',
+									'es_c_unsublink' 		=> 'ig_es_unsublink',
+									'es_c_unsubtext' 		=> 'ig_es_unsubcontent',
+									'es_c_unsubhtml' 		=> 'ig_es_unsubtext',
+									'es_c_subhtml' 			=> 'ig_es_successmsg',
+									'es_c_message1' 		=> 'ig_es_suberror',
+									'es_c_message2' 		=> 'ig_es_unsuberror',
+								);
+
+		$options_to_rename = array(
+									'es_c_post_image_size' 		=> 'ig_es_post_image_size',
+									'es_c_sentreport' 			=> 'ig_es_sentreport',
+									'es_c_sentreport_subject' 	=> 'ig_es_sentreport_subject',
+									'es_c_rolesandcapabilities' => 'ig_es_rolesandcapabilities',
+									'es_c_cronurl' 				=> 'ig_es_cronurl',
+									'es_cron_mailcount' 		=> 'ig_es_cron_mailcount',
+									'es_cron_adminmail' 		=> 'ig_es_cron_adminmail',
+									'es_c_emailsubscribers' 	=> 'ig_es_sync_wp_users',
+								);
+
+		// Rename options that were previously stored
+		foreach ( $options_to_rename as $old_option_name => $new_option_name ) {
+			$option_value = get_option( $old_option_name );
+			if ( $option_value ) {
+				update_option( $new_option_name, $option_value );
+				delete_option( $old_option_name );
+			}
+		}
+
+		// Do not pull data for new users as there is no pluginconfig table created on activation
+		$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}es_pluginconfig'" );
+
+		if ( $table_exists > 0 ) {
+			// Pull out ES settings data of existing users and move them to options table
+			$settings_data = es_cls_settings::es_setting_select(1);
+			if ( ! empty( $settings_data ) ) {
+				foreach ( $settings_data as $name => $value ) {
+					if( array_key_exists( $name, $settings_to_rename ) ){
+						update_option( $settings_to_rename[ $name ], $value );
+					}
+				}
+			}
+		}
+
+		//Update User Roles Settings
+		$es_c_rolesandcapabilities = get_option( 'ig_es_rolesandcapabilities', 'norecord' );
+
+		if ( $es_c_rolesandcapabilities != 'norecord' ) {
+			$remove_roles = array( 'es_roles_setting', 'es_roles_help' );
+			foreach ( $es_c_rolesandcapabilities as $role_name => $role_value ) {
+				if ( in_array( $role_name, $remove_roles ) ) {
+					unset( $es_c_rolesandcapabilities[$role_name] );
+				}
+			}
+			update_option( 'ig_es_rolesandcapabilities', $es_c_rolesandcapabilities );
+		}
+
+		update_option( 'current_sa_email_subscribers_db_version', '3.3' );
+	}
+
+	/**
+	 * To alter templatable for extra slug column - to support new template designs
+	 * ES version 3.3.6 onwards
+	 */
+	public static function es_upgrade_database_for_3_3_6() {
+
+		global $wpdb;
+
+		$template_table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}es_templatetable'" );
+		if ( $template_table_exists > 0 ) {
+
+			// To check if column es_templ_slug exists or not
+			$es_template_col = "SHOW COLUMNS FROM {$wpdb->prefix}es_templatetable LIKE 'es_templ_slug' ";
+			$results_template_col = $wpdb->get_results($es_template_col, 'ARRAY_A');
+			$template_num_rows = $wpdb->num_rows;
+
+			// If column doesn't exists, then insert it
+			if ( $template_num_rows != '1' ) {
+				// Template table
+				$wpdb->query( "ALTER TABLE {$wpdb->prefix}es_templatetable
+								ADD COLUMN `es_templ_slug` VARCHAR(255) NULL
+								AFTER `es_email_type` " );
+			}
+		}
+
+		update_option( 'current_sa_email_subscribers_db_version', '3.3.6' );
+
 	}
 
 	/**
@@ -529,184 +695,6 @@ class es_cls_registerhook {
 
 	}
 
-	/**
-	 * To alter templatable for extra slug column - to support new template designs
-	 * ES version 3.3.6 onwards
-	 */
-	public static function es_upgrade_database_for_3_3_6() {
-
-		global $wpdb;
-
-		$template_table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}es_templatetable'" );
-		if ( $template_table_exists > 0 ) {
-
-			// To check if column es_templ_slug exists or not
-			$es_template_col = "SHOW COLUMNS FROM {$wpdb->prefix}es_templatetable LIKE 'es_templ_slug' ";
-			$results_template_col = $wpdb->get_results($es_template_col, 'ARRAY_A');
-			$template_num_rows = $wpdb->num_rows;
-
-			// If column doesn't exists, then insert it
-			if ( $template_num_rows != '1' ) {
-				// Template table
-				$wpdb->query( "ALTER TABLE {$wpdb->prefix}es_templatetable
-								ADD COLUMN `es_templ_slug` VARCHAR(255) NULL
-								AFTER `es_email_type` " );
-			}
-		}
-
-		update_option( 'current_sa_email_subscribers_db_version', '3.3.6' );
-
-	}
-
-	/**
-	 * To update sync email option to remove Commented user & it's group - ig_es_sync_wp_users
-	 * ES version 3.2 onwards
-	 */
-	public static function es_upgrade_database_for_3_2() {
-
-		$sync_subscribers = get_option( 'ig_es_sync_wp_users' );
-
-		$es_unserialized_data = maybe_unserialize($sync_subscribers);
-		unset($es_unserialized_data['es_commented']);
-		unset($es_unserialized_data['es_commented_group']);
-
-		$es_serialized_data = serialize($es_unserialized_data);
-		update_option( 'ig_es_sync_wp_users', $es_serialized_data );
-
-		update_option( 'current_sa_email_subscribers_db_version', '3.2' );
-	}
-
-	/**
-	 * To rename a few terms in compose & reports menu
-	 * ES version 3.2.7 onwards
-	 */
-	public static function es_upgrade_database_for_3_2_7() {
-
-		global $wpdb;
-
-		// Compose table
-		$template_table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}es_templatetable'" );
-		if ( $template_table_exists > 0 ) {
-			$wpdb->query( "UPDATE {$wpdb->prefix}es_templatetable
-						   SET es_email_type =
-						   ( CASE
-								WHEN es_email_type = 'Static Template' THEN 'Newsletter'
-								WHEN es_email_type = 'Dynamic Template' THEN 'Post Notification'
-								ELSE es_email_type
-							 END ) " );
-		}
-
-		// Sent Details table
-		$wpdb->query( "UPDATE {$wpdb->prefix}es_sentdetails
-					   SET es_sent_type =
-					   ( CASE
-							WHEN es_sent_type = 'Instant Mail' THEN 'Immediately'
-							WHEN es_sent_type = 'Cron Mail' THEN 'Cron'
-							ELSE es_sent_type
-						 END ),
-						   es_sent_source =
-					   ( CASE
-							WHEN es_sent_source = 'manual' THEN 'Newsletter'
-							WHEN es_sent_source = 'notification' THEN 'Post Notification'
-							ELSE es_sent_source
-					   END ) " );
-
-		// Delivery Reports table
-		$wpdb->query( "UPDATE {$wpdb->prefix}es_deliverreport
-					   SET es_deliver_senttype =
-					   ( CASE
-							WHEN es_deliver_senttype = 'Instant Mail' THEN 'Immediately'
-							WHEN es_deliver_senttype = 'Cron Mail' THEN 'Cron'
-							ELSE es_deliver_senttype
-						 END ) " );
-
-		update_option( 'current_sa_email_subscribers_db_version', '3.2.7' );
-	}
-
-	/**
-	 * To migrate Email Settings data from custom pluginconfig table to wordpress options table and to update user roles
-	 * ES version 3.3 onwards
-	 */
-	public static function es_upgrade_database_for_3_3() {
-		global $wpdb;
-
-		$settings_to_rename = array(
-			'es_c_fromname' => 'ig_es_fromname',
-			'es_c_fromemail' => 'ig_es_fromemail',
-			'es_c_mailtype' => 'ig_es_emailtype',
-			'es_c_adminmailoption' => 'ig_es_notifyadmin',
-			'es_c_adminemail' => 'ig_es_adminemail',
-			'es_c_adminmailsubject' => 'ig_es_admin_new_sub_subject',
-			'es_c_adminmailcontant' => 'ig_es_admin_new_sub_content',
-			'es_c_usermailoption' => 'ig_es_welcomeemail',
-			'es_c_usermailsubject' => 'ig_es_welcomesubject',
-			'es_c_usermailcontant' => 'ig_es_welcomecontent',
-			'es_c_optinoption' => 'ig_es_optintype',
-			'es_c_optinsubject' => 'ig_es_confirmsubject',
-			'es_c_optincontent' => 'ig_es_confirmcontent',
-			'es_c_optinlink' => 'ig_es_optinlink',
-			'es_c_unsublink' => 'ig_es_unsublink',
-			'es_c_unsubtext' => 'ig_es_unsubcontent',
-			'es_c_unsubhtml' => 'ig_es_unsubtext',
-			'es_c_subhtml' => 'ig_es_successmsg',
-			'es_c_message1' => 'ig_es_suberror',
-			'es_c_message2' => 'ig_es_unsuberror',
-		);
-
-		$options_to_rename = array(
-			'es_c_post_image_size' => 'ig_es_post_image_size',
-			'es_c_sentreport' => 'ig_es_sentreport',
-			'es_c_sentreport_subject' => 'ig_es_sentreport_subject',
-			'es_c_rolesandcapabilities' => 'ig_es_rolesandcapabilities',
-			'es_c_cronurl' => 'ig_es_cronurl',
-			'es_cron_mailcount' => 'ig_es_cron_mailcount',
-			'es_cron_adminmail' => 'ig_es_cron_adminmail',
-			'es_c_emailsubscribers' => 'ig_es_sync_wp_users',
-		);
-
-		// Rename options that were previously stored
-		foreach ( $options_to_rename as $old_option_name => $new_option_name ) {
-			$option_value = get_option( $old_option_name );
-			if ( $option_value ) {
-				update_option( $new_option_name, $option_value );
-				delete_option( $old_option_name );
-			}
-		}
-
-		// Do not pull data for new users as there is no pluginconfig table created on activation
-		$table_exists = $wpdb->query( "SHOW TABLES LIKE '{$wpdb->prefix}es_pluginconfig'" );
-
-		if ( $table_exists > 0 ) {
-
-			// Pull out ES settings data of existing users and move them to options table
-			$settings_data = es_cls_settings::es_setting_select(1);
-
-			if ( ! empty( $settings_data ) ) {
-				foreach ( $settings_data as $name => $value ) {
-					if( array_key_exists( $name, $settings_to_rename ) ){
-						update_option( $settings_to_rename[ $name ], $value );
-					}
-				}
-			}
-		}
-
-		//Update User Roles Settings
-		$es_c_rolesandcapabilities = get_option( 'ig_es_rolesandcapabilities', 'norecord' );
-
-		if ( $es_c_rolesandcapabilities != 'norecord' ) {
-			$remove_roles = array( 'es_roles_setting', 'es_roles_help' );
-
-			foreach ( $es_c_rolesandcapabilities as $role_name => $role_value ) {
-				if ( in_array( $role_name, $remove_roles ) ) {
-					unset( $es_c_rolesandcapabilities[$role_name] );
-				}
-			}
-			update_option( 'ig_es_rolesandcapabilities', $es_c_rolesandcapabilities );
-		}
-
-		update_option( 'current_sa_email_subscribers_db_version', '3.3' );
-	}
-
 	// Function to show any notices in admin section
 	public static function es_add_admin_notices() {
 
@@ -715,46 +703,50 @@ class es_cls_registerhook {
 
 		$timezone_format = _x('Y-m-d', 'timezone date format');
 		$es_current_date = strtotime(date_i18n($timezone_format));
-		$es_offer_start = strtotime("2017-11-17");
-		$es_offer_end = strtotime("2017-11-28");
-		if( ($es_current_date >= $es_offer_start) && ($es_current_date <= $es_offer_end) ) {
-			include_once( 'es-offer.php' );
-		} else{
-			include_once( 'es-survey.php' );
-		}
+		$es_offer_start = strtotime("2017-12-18");
+		$es_offer_end = strtotime("2017-12-26");
 
-		// To show notice for Compose & Keywords change
-		?>
-		<style type="text/css">
-			a.es-admin-btn {
-				margin-left: 10px;
-				padding: 4px 8px;
-				position: relative;
-				text-decoration: none;
-				border: none;
-				-webkit-border-radius: 2px;
-				border-radius: 2px;
-				background: #e0e0e0;
-				text-shadow: none;
-				font-weight: 600;
-				font-size: 13px;
+		$total_subscribers = es_cls_dbquery::es_view_subscriber_count(0);
+
+		if( ($es_current_date >= $es_offer_start) && ($es_current_date <= $es_offer_end) && $total_subscribers > '10' ) {
+			include_once( 'es-offer.php' );
+		} else {
+			// To show notice for Compose & Keywords change
+			$es_keyword_change_notice_email_subscribers = get_option( 'es_keyword_change_notice_email_subscribers' );
+			if ( $es_keyword_change_notice_email_subscribers != 'no' ) {
+
+				?>
+				<style type="text/css">
+					a.es-admin-btn {
+						margin-left: 10px;
+						padding: 4px 8px;
+						position: relative;
+						text-decoration: none;
+						border: none;
+						-webkit-border-radius: 2px;
+						border-radius: 2px;
+						background: #e0e0e0;
+						text-shadow: none;
+						font-weight: 600;
+						font-size: 13px;
+					}
+					a.es-admin-btn:hover {
+						color: #FFF;
+						background-color: #363b3f;
+					}
+					a.es-admin-btn-secondary {
+						background: #fafafa;
+						margin-left: 20px;
+						font-weight: 400;
+					}
+				</style>
+				<?php
+
+				$url = 'https://www.icegram.com/email-subscribers-gets-more-user-friendly/?utm_source=es&utm_medium=in_app_banner&utm_campaign=view_banner';
+				$admin_notice_text_for_keyword_update = __( 'Compose is now changed to <b>Templates</b> and Keyword structure has been simplified. All your previously created templates and keywords have been automatically updated to the new structure.<br>', ES_TDOMAIN );
+				echo '<div class="notice notice-warning"><p>'.$admin_notice_text_for_keyword_update.'<a target="_blank" style="display:inline-block" class="es-admin-btn" href="'.$url.'">'.__( 'Check all the changes&nbsp;&nbsp;', ES_TDOMAIN ).'</a><a style="display:inline-block" class="es-admin-btn es-admin-btn-secondary" href="?dismiss_admin_notice=1&option_name=es_keyword_change_notice">'.__( 'No thanks, I know about it already.', ES_TDOMAIN ).'</a></p></div>';
 			}
-			a.es-admin-btn:hover {
-				color: #FFF;
-				background-color: #363b3f;
-			}
-			a.es-admin-btn-secondary {
-				background: #fafafa;
-				margin-left: 20px;
-				font-weight: 400;
-			}
-		</style>
-		<?php
-		$es_keyword_change_notice_email_subscribers = get_option( 'es_keyword_change_notice_email_subscribers' );
-		if ( $es_keyword_change_notice_email_subscribers != 'no' ) {
-			$url = 'https://www.icegram.com/email-subscribers-gets-more-user-friendly/?utm_source=es&utm_medium=in_app_banner&utm_campaign=view_banner';
-			$admin_notice_text_for_keyword_update = __( 'Compose is now changed to <b>Templates</b> and Keyword structure has been simplified. All your previously created templates and keywords have been automatically updated to the new structure.<br>', ES_TDOMAIN );
-			echo '<div class="notice notice-warning"><p>'.$admin_notice_text_for_keyword_update.'<a target="_blank" style="display:inline-block" class="es-admin-btn" href="'.$url.'">'.__( 'Check all the changes&nbsp;&nbsp;', ES_TDOMAIN ).'</a><a style="display:inline-block" class="es-admin-btn es-admin-btn-secondary" href="?dismiss_admin_notice=1&option_name=es_keyword_change_notice">'.__( 'No thanks, I know about it already.', ES_TDOMAIN ).'</a></p></div>';
+			
 		}
 
 	}
@@ -766,67 +758,27 @@ class es_cls_registerhook {
 			$option_name = sanitize_text_field($_GET['option_name']);
 			update_option( $option_name.'_email_subscribers', 'no' );
 
-			$referer = wp_get_referer();
-			wp_safe_redirect( $referer );
-			exit();
-		}
-
-	}
-
-	public static function es_submit_survey() {
-
-		$url = 'https://www.icegram.com/wp-admin/admin-ajax.php';
-
-		if( !empty($_POST['btn-val']) &&  $_POST['btn-val'] == 'no' ) {
-			update_option('es_survey_done', true);
-			exit();
-		}
-
-		if( !empty( $_POST ) ) {
-			$params = $_POST;
-			$params['domain'] = home_url();
-		} else {
-			exit();
-		}
-
-		$method = 'POST';
-		$qs = http_build_query( $params );
-
-		$options = array(
-			'timeout' => 15,
-			'method' => $method
-		);
-
-		if ( $method == 'POST' ) {
-			$options['body'] = $qs;
-		} else {
-			if ( strpos( $url, '?' ) !== false ) {
-				$url .= '&'.$qs;
+			$timezone_format = _x('Y-m-d', 'timezone date format');
+			$es_current_date = strtotime(date_i18n($timezone_format));
+			$es_offer_start = strtotime("2017-12-18");
+			$es_offer_end = strtotime("2017-12-26");
+			if( ($es_current_date >= $es_offer_start) && ($es_current_date <= $es_offer_end) ) {
+				header("Location: https://www.icegram.com/?utm_source=in_app&utm_medium=ig_banner&utm_campaign=christmas2017_30");
+				exit();
 			} else {
-				$url .= '?'.$qs;
+				$referer = wp_get_referer();
+				wp_safe_redirect( $referer );
+				exit();
 			}
 		}
 
-		$response = wp_remote_request( $url, $options );
-		if ( wp_remote_retrieve_response_code( $response ) == 200 ) {
-			$data = json_decode($response['body'], true);
-			if ( empty($data['error']) ) {
-				if(!empty($data) && !empty($data['success'])){
-					update_option('es_survey_done', true);
-				}
-				echo ( json_encode($data) );
-				exit();                
-			}
-		}
-		exit();
 	}
-
 
 	public static function es_footer_text($es_rating_text) {
 
 		global $post;
 
-		if ( ( isset($_GET['page']) && ( $_GET['page'] == 'es-view-subscribers' || $_GET['page'] == 'es-compose' || $_GET['page'] == 'es-notification' || $_GET['page'] == 'es-sendemail' || $_GET['page'] == 'es-settings' || $_GET['page'] == 'es-sentmail' || $_GET['page'] == 'es-general-information' ) ) || (is_object($post) && $post->post_type == 'es_template') ) {
+		if ( ( isset($_GET['page']) && ( $_GET['page'] == 'es-view-subscribers' || $_GET['page'] == 'es-notification' || $_GET['page'] == 'es-sendemail' || $_GET['page'] == 'es-settings' || $_GET['page'] == 'es-sentmail' || $_GET['page'] == 'es-general-information' ) ) || (is_object($post) && $post->post_type == 'es_template') ) {
 			$es_rating_text = __( 'If you like <strong>Email Subscribers</strong>, please consider leaving us a <a target="_blank" href="https://wordpress.org/support/plugin/email-subscribers/reviews/?filter=5#new-post">&#9733;&#9733;&#9733;&#9733;&#9733;</a> rating. A huge thank you from Icegram in advance!', ES_TDOMAIN );
 		}
 
@@ -869,11 +821,11 @@ class es_cls_registerhook {
 
 		$args = array(
 			'labels'             => $labels,
-            'public'             => true,
+			'public'             => true,
 			'publicly_queryable' => false,
 			'exclude_from_search' => true,
 			'show_ui'            => true,
-            'show_in_menu'       => 'edit.php?post_type=es_template',
+			'show_in_menu'       => 'edit.php?post_type=es_template',
 			'query_var'          => true,
 			'rewrite'            => array( 'slug' => 'es_template' ),
 			'capability_type'    => 'post',

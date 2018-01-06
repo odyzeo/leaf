@@ -111,7 +111,7 @@ if ($es_error_found == TRUE && isset($es_errors[0]) == TRUE) {
 							<option value=''><?php echo __( 'Select', ES_TDOMAIN ); ?></option>
 							<?php
 								$subject = array();
-								$subject = es_cls_compose::es_template_select_type($type = "Newsletter");
+								$subject = es_cls_templates::es_template_select_type($type = "Newsletter");
 								$thisselected = "";
 								if(count($subject) > 0) {
 									$i = 1;

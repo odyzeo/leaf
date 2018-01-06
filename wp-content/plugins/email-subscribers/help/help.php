@@ -264,7 +264,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php echo __( 'Easily migrate subscribers from another app using Import & Export.', ES_TDOMAIN ); ?>
 				</li>
 				<li class="es_feature">
-					<?php echo __( 'Use HTML editor to compose newsletters and post notifications.', ES_TDOMAIN ); ?>
+					<?php echo __( 'Use HTML editor to create newsletters and post notifications.', ES_TDOMAIN ); ?>
 				</li>
 				<li class="es_feature">
 					<?php echo __( 'Send newsletters to different groups.', ES_TDOMAIN ); ?>

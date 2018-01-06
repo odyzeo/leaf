@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		$form['es_note_templ'] = isset($_POST['es_note_templ']) ? $_POST['es_note_templ'] : '';
 		if ($form['es_note_templ'] == '') {
-			$es_errors[] = __( 'Please select notification mail subject. Use compose menu to create new.', ES_TDOMAIN );
+			$es_errors[] = __( 'Please select notification mail subject. Use templates menu to create new.', ES_TDOMAIN );
 			$es_error_found = TRUE;
 		}
 
@@ -161,7 +161,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<th scope="row">
 								<label for="tag-link">
 									<?php echo __( 'Select Notification Email Subject', ES_TDOMAIN ); ?>
-									<p class="description"><?php echo __( '(Use compose menu to create new)', ES_TDOMAIN ); ?></p>
+									<p class="description"><?php echo __( '(Use templates menu to create new)', ES_TDOMAIN ); ?></p>
 								</label>
 							</th>
 							<td>
@@ -169,7 +169,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 									<option value=''><?php echo __( 'Select', ES_TDOMAIN ); ?></option>
 									<?php
 									$subject = array();
-									$subject = es_cls_compose::es_template_select_type($type = "Post Notification");
+									$subject = es_cls_templates::es_template_select_type($type = "Post Notification");
 									$thisselected = "";
 									if(count($subject) > 0) {
 										$i = 1;

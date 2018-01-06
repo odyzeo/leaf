@@ -4,9 +4,24 @@ Author		: Icegram
 Author URI	: https://www.icegram.com/
 License		: GPLv3
 
+************************************************************Version 3.4.6************************************************************
+
+* Fix: Fatal error while accessing subscribers export screen
+
+************************************************************Version 3.4.5************************************************************
+
+* Fix: Not throwing 'Invalid Email' error for sanitized emails
+* Fix: Showing 'Resend Confirmation' for confirmed emails
+* Fix: '\n' showing in alert notice
+* Update: Use term 'Templates' instead of 'Compose' in plugin
+* Update: Code cleanup
+* Update: POT file
+* Localization: Made all translation files up-to-date with latest POT file
+
 ************************************************************Version 3.4.4************************************************************
 
-* New: Introduce [Email Subscribers Pro](https://www.icegram.com/email-subscribers-pricing/) plan
+* New: Introducing [Email Subscribers Pro](https://www.icegram.com/email-subscribers-pricing/) 
+* Update: Change in logic for showing subscribers in subscribers dashboard
 
 ************************************************************Version 3.4.3************************************************************
 

@@ -115,7 +115,7 @@ class es_cls_default {
 			$Sample .= ' <li>Automatic welcome email to subscriber.</li>';
 			$Sample .= ' <li>Auto add unsubscribe link in the email.</li>';
 			$Sample .= ' <li>Import/Export subscriber emails to migrate to any lists.</li>';
-			$Sample .= ' <li>Default WordPress editor to compose emails.</li>';
+			$Sample .= ' <li>Default WordPress editor to create emails.</li>';
 			$Sample .= ' </ol>';
 			$Sample .= ' <strong>Thanks & Regards,</strong><br>Admin';
 			$es_post = array(

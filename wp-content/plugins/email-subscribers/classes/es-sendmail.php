@@ -263,13 +263,13 @@ class es_cls_sendmail {
 				break;
 
 			case 'newsletter':
-				$template = es_cls_compose::es_template_select($template);
+				$template = es_cls_templates::es_template_select($template);
 				$subject = stripslashes($template['es_templ_heading']);
 				$content = stripslashes($template['es_templ_body']);
 				break;
 
 			case 'notification':
-				$template = es_cls_compose::es_template_select($template);
+				$template = es_cls_templates::es_template_select($template);
 				$subject = stripslashes($template['es_templ_heading']);
 				$content = stripslashes($template['es_templ_body']);
 				$post_title  = "";

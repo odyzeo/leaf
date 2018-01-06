@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Author URI: https://www.icegram.com/
 Tags: email marketing, email newsletter form, email signup, email widget, newsletter, newsletter signup, subscribe, subscription form, bulk emails, signup form, list builder, lead generation
 Requires at least: 3.4
-Tested up to: 4.9
-Stable tag: 3.4.4
+Tested up to: 4.9.1
+Stable tag: 3.4.6
 License: GPLv3
 License URI: http://www.gnu.org/licenses
 
@@ -35,18 +35,18 @@ I am very satisfied with this easy and complete plugin/widget. In 5 minutes or l
 **Complete Feature List of Email Subscribers**
 
 * Send **notification emails** to subscribers when new posts are published.
-* Option to **schedule mail (Cron job option)** or **send them manually**.
+* Option to **schedule email (Cron job option)** or **send them manually**.
 * **Collect customer emails by adding a subscription box (Widget/Shortcode/PHP Code)**.
 * **Double Opt-in and Single Opt-in** facility for subscribers.
 * **Email notification** to admin when user **signs up** (Optional).
-* **Automatic welcome mail** to subscribers (Optional).
-* **Unsubscribe link** in the mail.
+* **Automatic welcome email** to subscribers (Optional).
+* Automatically add **Unsubscribe link** in the email.
 * **Import/Export subscribers emails**.
-* **HTML editor** to compose newsletters.
+* **HTML editor** to create newsletters and post notifications.
 * Send newsletters.
-* Sent **mail status** and when it was viewed.
+* Sent **email status** and when it was viewed.
 * Support **localization or internationalization**.
-* **Include/exclude categories** while sending a newsletter.
+* **Include/exclude categories** while sending a newsletter or post notification.
 * **Ability to control user access** (Roles and Capabilities).
 * Easy **Integration with free plugins [Icegram](https://wordpress.org/plugins/icegram/) and [Rainmaker](https://wordpress.org/plugins/icegram-rainmaker/)**
 
@@ -214,75 +214,79 @@ Refer steps from [here](https://www.icegram.com/documentation/es-how-to-change-u
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-add-unsubscribe-link-in-emails/).
 
-= 7. How to Compose and Send Newsletter Emails =
+= 7. How to Create and Send Newsletter Emails? =
 
-Refer [here](https://www.icegram.com/documentation/es-how-to-compose-and-send-static-newsletter-mails/).
+Refer [here](https://www.icegram.com/documentation/es-how-to-create-and-send-newsletter-emails/).
 
-= 8. How to Configure and Send Post Notification emails to subscribers when new posts are published? =
+= 8. What are the available keywords in the Newsletters? =
 
-Refer [here](https://www.icegram.com/documentation/es-how-to-configure-and-send-notification-emails-to-subscribers-when-new-posts-are-published/).
+Refer [here](https://www.icegram.com/documentation/es-what-are-the-available-keywords-in-the-newsletters/).
 
-= 9. What are the available keywords in the Post Notifications? =
+= 9. How to Create and Send Post Notification Emails when new posts are published? =
+
+Refer [here](https://www.icegram.com/documentation/es-how-to-create-and-send-post-notification-emails-when-new-posts-are-published/).
+
+= 10. What are the available keywords in the Post Notifications? =
 
 Refer [here](https://www.icegram.com/documentation/es-what-are-the-available-keywords-in-the-post-notifications/).
 
-= 10. How to send a sample new post notification email to testgroup/myself? =
+= 11. How to send a sample new post notification email to testgroup/myself? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-send-a-sample-new-post-notification-email-to-testgroup-myself/).
 
-= 11. How to check sent emails reports? =
+= 12. How to check sent emails reports? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-check-sent-emails/).
 
-= 12. How to Add/Update Existing Subscribers Group & Status? =
+= 13. How to Add/Update Existing Subscribers Group & Status? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-add-update-existing-subscribers-group/).
 
-= 13. Subscribers are not receiving Emails =
+= 14. Subscribers are not receiving Emails =
 
 Check steps from [here](https://www.icegram.com/documentation/es-subscribers-are-not-receiving-emails/).
 
-= 14. How to show subscribe form inside a popup? =
+= 15. How to show subscribe form inside a popup? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-show-subscribe-form-inside-a-popup/).
 
-= 15. How to use Rainmaker’s form in Email Subscribers? =
+= 16. How to use Rainmaker’s form in Email Subscribers? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-use-rainmakers-form-in-email-subscribers/).
 
-= 16. How to Redirect Subscribers to a new page/url after successful sign up? =
+= 17. How to Redirect Subscribers to a new page/url after successful sign up? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-redirect-subscribers-to-a-new-page-url-after-successful-sign-up/).
 
-= 17. How to add captcha in Subscribe form of Email Subscribers? =
+= 18. How to add captcha in Subscribe form of Email Subscribers? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-add-captcha-in-subscribe-form-of-email-subscribers/).
 
-= 18. How to Schedule Cron Emails/auto emails? =
+= 19. How to Schedule Cron Emails/auto emails? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-schedule-cron-emails/).
 
-= 17. How to Schedule Cron Emails in cPanel? =
+= 20. How to Schedule Cron Emails in cPanel? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-schedule-cron-emails-in-cpanel/).
 
-= 18. How to Schedule Cron Emails in Parallels Plesk? =
+= 21. How to Schedule Cron Emails in Parallels Plesk? =
 
 Refer [here](https://www.icegram.com/documentation/es-how-to-schedule-cron-emails-in-parallels-plesk/).
 
-= 19. What to do if Hosting doesn’t support Cron Jobs? =
+= 22. What to do if Hosting doesn’t support Cron Jobs? =
 
 Refer [here](https://www.icegram.com/documentation/es-what-to-do-if-hosting-doesnt-support-cron-jobs/).
 
-= 20. CSS Help =
+= 23. CSS Help =
 
 Refer [here](https://www.icegram.com/documentation/es-css-help/).
 
-= 21. Email Subscribers FAQ =
+= 24. Email Subscribers FAQ =
 
 Refer [here](https://www.icegram.com/documentation/es-faq/).
 
-= 22. How to add group selection in front end subscription box =
+= 25. How to add group selection in front end subscription box =
 
 Use our free plugin [Email Subscribers - Group Selector](https://wordpress.org/plugins/email-subscribers-advanced-form/).
 
@@ -292,7 +296,7 @@ Use our free plugin [Email Subscribers - Group Selector](https://wordpress.org/p
 
 2. Admin page - Subscribers
 
-3. Admin page - Compose Email
+3. Admin page - Create Email
 
 4. Admin page - Post Notifications
 
@@ -312,9 +316,24 @@ Use our free plugin [Email Subscribers - Group Selector](https://wordpress.org/p
 
 == Changelog ==
 
+= 3.4.6 (19.12.2017) =
+
+* Fix: Fatal error while accessing subscribers export screen
+
+= 3.4.5 (15.12.2017) =
+
+* Fix: Not throwing 'Invalid Email' error for sanitized emails
+* Fix: Showing 'Resend Confirmation' for confirmed emails
+* Fix: '\n' showing in alert notice
+* Update: Use term 'Templates' instead of 'Compose' in plugin
+* Update: Code cleanup
+* Update: POT file
+* Localization: Made all translation files up-to-date with latest POT file
+
 = 3.4.4 (21.11.2017) =
 
-* New: Introduce [Email Subscribers Pro](https://www.icegram.com/email-subscribers-pricing/) plan
+* New: Introducing [Email Subscribers Pro](https://www.icegram.com/email-subscribers-pricing/) plan
+* Update: Change in logic for showing subscribers in subscribers dashboard
 
 = 3.4.3 (17.11.2017) =
 
@@ -682,9 +701,24 @@ For the changelog of earlier versions, please refer to the separate [changelog.t
 
 == Upgrade Notice ==
 
+= 3.4.6 (19.12.2017) =
+
+* Fix: Fatal error while accessing subscribers export screen
+
+= 3.4.5 (15.12.2017) =
+
+* Fix: Not throwing 'Invalid Email' error for sanitized emails
+* Fix: Showing 'Resend Confirmation' for confirmed emails
+* Fix: '\n' showing in alert notice
+* Update: Use term 'Templates' instead of 'Compose' in plugin
+* Update: Code cleanup
+* Update: POT file
+* Localization: Made all translation files up-to-date with latest POT file
+
 = 3.4.4 (21.11.2017) =
 
-* New: Introduce [Email Subscribers Pro](https://www.icegram.com/email-subscribers-pricing/) plan
+* New: Introducing [Email Subscribers Pro](https://www.icegram.com/email-subscribers-pricing/) plan
+* Update: Change in logic for showing subscribers in subscribers dashboard
 
 = 3.4.3 (17.11.2017) =
 

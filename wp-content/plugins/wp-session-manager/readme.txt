@@ -4,7 +4,7 @@ Donate link:       https://paypal.me/eam
 Tags:              session
 Requires at least: 4.7
 Tested up to:      4.9.1
-Stable tag:        2.0.1
+Stable tag:        2.0.2
 License:           GPLv2 or later
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,13 @@ This value can be changed by using the `wp_session_expiration` filter:
 None
 
 == Changelog ==
+
+= 2.0.2 =
+* Fix: Wire the data storage migration to a session init hook to ensure it runs.
+* Fix: Clean up sessions when all data is removed.
+
+= 2.0.1 =
+* Fix: Repair data storage that was not returning actual stored session data.
 
 = 2.0.0 =
 * Update: Use a table instead of options for storing session data.

@@ -95,7 +95,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 				$es_success = __( 'Record deleted.', ES_TDOMAIN );
 			} else {
 				?>
-				<div class="error fade">
+				<div class="error fade is-dismissible">
 					<p><strong>
 						<?php echo __( 'No record was selected.', ES_TDOMAIN ); ?>
 					</strong></p>
@@ -145,6 +145,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 		} elseif (isset($_POST['frm_es_bulkaction']) && $_POST['frm_es_bulkaction'] == 'groupupdate') {
 
 			$chk_delete = isset($_POST['chk_delete']) ? $_POST['chk_delete'] : '';
+
 			if(!empty($chk_delete)) {
 				$es_email_group = isset($_POST['es_email_group']) ? $_POST['es_email_group'] : '';
 				if ($es_email_group != "") {
@@ -211,7 +212,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 				}
 			} else {
 				?>
-				<div class="error fade">
+				<div class="error fade is-dismissible">
 					<p><strong>
 						<?php echo __( 'No record was selected.', ES_TDOMAIN ); ?>
 					</strong></p>
@@ -282,7 +283,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 			$myData = array();
 			$myData = es_cls_dbquery::es_view_subscribers_details(0, $search_sts, $offset, $limit, $search_group);
 
-		    //column for subscribers
+		    //Columns for Subscribers Dashboard
 		    $es_subscribers_col = array();
 		    $es_subscribers_col['email'] = __( 'Email Address', ES_TDOMAIN ); 
 		    $es_subscribers_col['name'] = __( 'Name', ES_TDOMAIN );
@@ -380,11 +381,6 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 						<?php
 						}
 						?>
-						<!-- <th scope="col"><?php echo __( 'Name', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Status', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Group', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Signup Date & Time<br>(Y-M-D H:I:S)', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Action', ES_TDOMAIN ); ?></th> -->
 					</tr>
 				</thead>
 				<tfoot>
@@ -399,12 +395,6 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 						<?php
 						}
 						?>
-						<!-- <th scope="col"><?php echo __( 'Email Address', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Name', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Status', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Group', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Signup Date & Time<br>(Y-M-D H:I:S)', ES_TDOMAIN ); ?></th>
-						<th scope="col"><?php echo __( 'Action', ES_TDOMAIN ); ?></th> -->
 					</tr>
 				</tfoot>
 				<tbody>
@@ -420,7 +410,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 								$es_col_data['es_email_status'] = es_cls_common::es_disp_status($data['es_email_status']); 
 								$es_col_data['es_email_group'] = stripslashes($data['es_email_group']); 
 								$es_col_data['es_email_created'] = get_date_from_gmt($data['es_email_created'],'Y-m-d H:i:s');
-								$es_resend_link = ($data['es_email_status'] != 'Con firmed' && $data['es_email_status'] != 'Single Opt In' ) ? "<span class=edit>| <a onClick=javascript:_es_resend(".$data['es_email_id'].") href=javascript:void(0);>".__( "Resend Confirmation", ES_TDOMAIN )."</a> </span>" : '' ;
+								$es_resend_link = ($data['es_email_status'] != 'Confirmed' && $data['es_email_status'] != 'Single Opt In' ) ? "<span class=edit>| <a onClick=javascript:_es_resend(".$data['es_email_id'].") href=javascript:void(0);>".__( "Resend Confirmation", ES_TDOMAIN )."</a> </span>" : '' ;
 								$es_col_data['es_quick_actions'] = "<div>
 																		<span class=edit>
 																			<a href=".ES_ADMINURL."?page=es-view-subscribers&amp;ac=edit&amp;did=".$data['es_email_id'].">
