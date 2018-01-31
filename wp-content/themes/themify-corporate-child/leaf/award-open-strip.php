@@ -4,7 +4,7 @@ add_shortcode( 'award-open-strip', 'add_award_open_strip_shortcode' );
 
 function add_award_open_strip_shortcode( $atts ) {
 	$args = shortcode_atts( array(
-		'title' => 'PRIHLASOVANIE JE UŽ OTVORENÉ',
+		'title' => 'PRIHLASOVANIE UŽ LEN DO 5.2.2018',
 		'button' => 'VYPLNIŤ PRIHLÁŠKU',
 		'url' => 'https://www.leaf.sk/award/prihlaska/'
 	), $atts );
