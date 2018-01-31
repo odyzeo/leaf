@@ -10,13 +10,64 @@
     }
 }
 
+.award-open--deadline {
+    background: url(./assets/images/bgr-award-deadline.jpg) no-repeat ~"center/cover";
+
+    .award-open__bubble {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .btn {
+        background-color: #c94232;
+
+        &:hover {
+            background-color: #c90000;
+        }
+    }
+}
+
+.award-open__stamp {
+    position: absolute;
+    top: 220px;
+    right: 4%;
+    z-index: 0;
+
+    width: 180px;
+    height: 185px;
+    background: url(./assets/images/img-award-deadline.png) no-repeat ~"center/contain";
+
+    @media (min-width: @tablet-width-min) {
+        top: 250px;
+        right: 5%;
+        width: 300px;
+    }
+
+    @media (min-width: @tablet-horizontal-width-min) {
+        top: 230px;
+        right: 10%;
+        width: 300px;
+    }
+}
+
 .award-open__title {
+    position: relative;
+    z-index: 1;
     margin: 0 auto;
+
+    color: @color--primary;
     font-family: @font-family--secondary !important;
     font-size: 70px;
     font-weight: 400;
     line-height: 1.1;
     padding: 60px 20px 20px;
+
+    @media (max-width: @tablet-width-max) {
+
+        span {
+            display: block;
+        }
+    }
 
     @media (min-width: @tablet-width-min) {
         font-size: 120px;
