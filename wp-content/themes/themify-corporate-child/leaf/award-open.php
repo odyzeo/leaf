@@ -18,7 +18,6 @@ function add_award_open_shortcode( $atts ) {
 				</h1>
 				<div class='award-open__bubble'>{$args['bubble']}</div>
 				<div class='award-open__stamp'></div>
-				<a href='{$args['url']}' class='btn btn--min'>{$args['button']}</a>
 			</div>
 		</div>
 	";

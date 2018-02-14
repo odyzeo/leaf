@@ -12,8 +12,10 @@ function add_award_open_strip_shortcode( $atts ) {
 	$result = "
 		<div class='wrapper award-open-strip'>
 			<div class='container'>
-			<div class='title title--besom'>{$args['title']}</div>
-			<a href='{$args['url']}' class='btn btn--min btn--white'>{$args['button']}</a>
+			<div class='title title--besom'>
+				Prihlasovanie bolo ukončené 5.2.2018,<br>
+				ďakujeme za prihlášky
+			</div>
 		</div>
 	</div>
 	";
