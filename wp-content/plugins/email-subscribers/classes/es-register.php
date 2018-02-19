@@ -701,19 +701,12 @@ class es_cls_registerhook {
 		$screen = get_current_screen();
 		if ( !in_array( $screen->id, array( 'toplevel_page_es-view-subscribers', 'edit-es_template', 'email-subscribers_page_es-notification', 'email-subscribers_page_es-notification', 'email-subscribers_page_es-sendemail', 'email-subscribers_page_es-settings', 'email-subscribers_page_es-sentmail', 'email-subscribers_page_es-general-information' ), true ) ) return;
 
-		$timezone_format = _x('Y-m-d', 'timezone date format');
-		$es_current_date = strtotime(date_i18n($timezone_format));
-		$es_offer_start = strtotime("2017-12-18");
-		$es_offer_end = strtotime("2017-12-26");
-
 		$total_subscribers = es_cls_dbquery::es_view_subscriber_count(0);
 
-		if( ($es_current_date >= $es_offer_start) && ($es_current_date <= $es_offer_end) && $total_subscribers > '10' ) {
-			include_once( 'es-offer.php' );
-		} else {
-			// To show notice for Compose & Keywords change
-			$es_keyword_change_notice_email_subscribers = get_option( 'es_keyword_change_notice_email_subscribers' );
-			if ( $es_keyword_change_notice_email_subscribers != 'no' ) {
+		// To show notice for Paid plans
+		if( $total_subscribers >= 10 ) {
+			$es_pro_plan_upsell_notice_email_subscribers = get_option( 'es_pro_plan_upsell_notice_email_subscribers' );
+			if ( $es_pro_plan_upsell_notice_email_subscribers != 'no' ) {
 
 				?>
 				<style type="text/css">
@@ -735,16 +728,16 @@ class es_cls_registerhook {
 						background-color: #363b3f;
 					}
 					a.es-admin-btn-secondary {
-						background: #fafafa;
-						margin-left: 20px;
+						margin-left: 1em;
 						font-weight: 400;
+						background-color: cornsilk;
 					}
 				</style>
 				<?php
 
-				$url = 'https://www.icegram.com/email-subscribers-gets-more-user-friendly/?utm_source=es&utm_medium=in_app_banner&utm_campaign=view_banner';
-				$admin_notice_text_for_keyword_update = __( 'Compose is now changed to <b>Templates</b> and Keyword structure has been simplified. All your previously created templates and keywords have been automatically updated to the new structure.<br>', ES_TDOMAIN );
-				echo '<div class="notice notice-warning"><p>'.$admin_notice_text_for_keyword_update.'<a target="_blank" style="display:inline-block" class="es-admin-btn" href="'.$url.'">'.__( 'Check all the changes&nbsp;&nbsp;', ES_TDOMAIN ).'</a><a style="display:inline-block" class="es-admin-btn es-admin-btn-secondary" href="?dismiss_admin_notice=1&option_name=es_keyword_change_notice">'.__( 'No thanks, I know about it already.', ES_TDOMAIN ).'</a></p></div>';
+					$url = 'https://www.icegram.com/email-subscribers-pricing/?utm_source=es&utm_medium=in_app_banner&utm_campaign=view_banner';
+					$admin_notice_text_for_pro_plan_upsell = __( '<b>Want readymade email templates?</b> Also want to <b>clean your subscribers list?</b> Come check our Pro plan.', ES_TDOMAIN );
+					echo '<div class="notice notice-warning" style="background-color: cornsilk;"><p style="letter-spacing: 0.6px;">'.$admin_notice_text_for_pro_plan_upsell.'<a target="_blank" style="display:inline-block" class="es-admin-btn" href="'.$url.'">'.__( 'Check Pro plan&nbsp;&nbsp;', ES_TDOMAIN ).'</a><a style="display:inline-block" class="es-admin-btn es-admin-btn-secondary" href="?dismiss_admin_notice=1&option_name=es_pro_plan_upsell_notice">'.__( 'Not interested.', ES_TDOMAIN ).'</a></p></div>';
 			}
 			
 		}
@@ -758,18 +751,10 @@ class es_cls_registerhook {
 			$option_name = sanitize_text_field($_GET['option_name']);
 			update_option( $option_name.'_email_subscribers', 'no' );
 
-			$timezone_format = _x('Y-m-d', 'timezone date format');
-			$es_current_date = strtotime(date_i18n($timezone_format));
-			$es_offer_start = strtotime("2017-12-18");
-			$es_offer_end = strtotime("2017-12-26");
-			if( ($es_current_date >= $es_offer_start) && ($es_current_date <= $es_offer_end) ) {
-				header("Location: https://www.icegram.com/?utm_source=in_app&utm_medium=ig_banner&utm_campaign=christmas2017_30");
-				exit();
-			} else {
-				$referer = wp_get_referer();
-				wp_safe_redirect( $referer );
-				exit();
-			}
+			$referer = wp_get_referer();
+			wp_safe_redirect( $referer );
+			exit();
+
 		}
 
 	}
@@ -820,19 +805,19 @@ class es_cls_registerhook {
 		);
 
 		$args = array(
-			'labels'             => $labels,
-			'public'             => true,
-			'publicly_queryable' => false,
+			'labels'              => $labels,
+			'public'              => true,
+			'publicly_queryable'  => false,
 			'exclude_from_search' => true,
-			'show_ui'            => true,
-			'show_in_menu'       => 'edit.php?post_type=es_template',
-			'query_var'          => true,
-			'rewrite'            => array( 'slug' => 'es_template' ),
-			'capability_type'    => 'post',
-			'has_archive'        => false,
-			'hierarchical'       => false,
-			'menu_position'      => null,
-			'supports'           => array( 'title', 'editor', 'thumbnail')
+			'show_ui'             => true,
+			'show_in_menu'        => 'edit.php?post_type=es_template',
+			'query_var'           => true,
+			'rewrite'             => array( 'slug' => 'es_template' ),
+			'capability_type'     => 'post',
+			'has_archive'         => false,
+			'hierarchical'        => false,
+			'menu_position'       => null,
+			'supports'            => array( 'title', 'editor', 'thumbnail')
 		);
 
 		register_post_type( 'es_template', $args );
@@ -880,20 +865,20 @@ class es_cls_registerhook {
 		return $column; 
 	}
 
-	public static function es_add_admin_css(){
+	public static function es_add_admin_css() {
 
 		global $current_screen;
 
 		if($current_screen->post_type != 'es_template') return;
 
-	?>
+		?>
 		<style type="text/css">
 			.column-es_templ_thumbnail, #es_templ_thumbnail,
 			.column-es_templ_type, #es_templ_type {
 				text-align: center !important;
 			}
 		</style>
-	<?php
+		<?php
 	}
 
 	public static function es_add_template_action( $actions, $post ) {
@@ -918,16 +903,16 @@ class es_cls_registerhook {
 			$es_templ_type = get_post_meta($post->ID, 'es_template_type', true);
 		}
 		?>
-			<p style="margin-top: 0em; !important;">
-				<?php echo __( 'Available Keyword for Post Notification: {{POSTTITLE}}', ES_TDOMAIN ); ?>
-			</p>
-			<p>
-				<label for="tag-link"><?php echo __( 'Select your Email Template Type', ES_TDOMAIN ); ?></label><br/>
-				<select name="es_template_type" id="es_template_type">
-					<option value='Newsletter' <?php if( $es_templ_type == 'Newsletter' ) { echo 'selected="selected"' ; } ?>><?php echo __( 'Newsletter', ES_TDOMAIN ); ?></option>
-					<option value='Post Notification' <?php if( $es_templ_type == 'Post Notification' ) { echo 'selected="selected"' ; } ?>><?php echo __( 'Post Notification', ES_TDOMAIN ); ?></option>
-				</select>
-			</p>
+		<p style="margin-top: 0em; !important;">
+			<?php echo __( 'Available Keyword for Post Notification: {{POSTTITLE}}', ES_TDOMAIN ); ?>
+		</p>
+		<p>
+			<label for="tag-link"><?php echo __( 'Select your Email Template Type', ES_TDOMAIN ); ?></label><br/>
+			<select name="es_template_type" id="es_template_type">
+				<option value='Newsletter' <?php if( $es_templ_type == 'Newsletter' ) { echo 'selected="selected"' ; } ?>><?php echo __( 'Newsletter', ES_TDOMAIN ); ?></option>
+				<option value='Post Notification' <?php if( $es_templ_type == 'Post Notification' ) { echo 'selected="selected"' ; } ?>><?php echo __( 'Post Notification', ES_TDOMAIN ); ?></option>
+			</select>
+		</p>
 		<?php
 	}
 
@@ -961,7 +946,7 @@ class es_cls_registerhook {
 
 		global $post;
 		if ($post->post_type != 'es_template') return;
-		
+
 		$es_templ_type = get_post_meta($post->ID, 'es_template_type', true);
 		$page = ($es_templ_type == 'Newsletter') ? 'es-sendemail' : 'es-notification';
 		$preview_url = ES_ADMINURL."?page=".$page."&amp;ac=preview&did=".$post->ID;
@@ -987,7 +972,7 @@ class es_cls_registerhook {
 		<p>
 			<?php
 				echo sprintf(__( '%s for Post Notification: {{NAME}}, {{EMAIL}}, {{DATE}}, {{POSTTITLE}}, {{POSTLINK}}, {{POSTIMAGE}}, {{POSTDESC}}, {{POSTAUTHOR}}, {{POSTLINK-WITHTITLE}}, {{POSTLINK-ONLY}}, {{POSTFULL}}', ES_TDOMAIN ), '<a href="https://www.icegram.com/documentation/es-what-are-the-available-keywords-in-the-post-notifications/?utm_source=es&utm_medium=in_app&utm_campaign=view_docs_help_page" target="_blank">' . __( 'Available Keywords', ES_TDOMAIN ) . '</a>' );
-				echo __( '<br/><br/>Available Keywords for Newsletter: {{NAME}}, {{EMAIL}}', ES_TDOMAIN );
+				echo sprintf(__( '<br/><br/>%s for Newsletter: {{NAME}}, {{EMAIL}}', ES_TDOMAIN ), '<a href="https://www.icegram.com/documentation/es-what-are-the-available-keywords-in-the-newsletters/?utm_source=es&utm_medium=in_app&utm_campaign=view_docs_help_page" target="_blank">' . __( 'Available Keywords', ES_TDOMAIN ) . '</a>' );
 			?>
 		</p> 
 		<?php
