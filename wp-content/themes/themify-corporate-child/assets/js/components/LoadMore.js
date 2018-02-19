@@ -1,30 +1,30 @@
 const LoadMore = {
-  init() {
+    init() {
     /**
      * Ajax load more
      */
-    $('[data-action]').on('click', function (e) {
-      e.preventDefault()
-      var $el = $(this)
-      var data = $el.data()
+        $('[data-action]').on('click', function (e) {
+            e.preventDefault()
+            const $el = $(this)
+            const data = $el.data()
 
-      var wp = {
-        'action': data.action,
-        'data': data,
-      }
+            const wp = {
+                action: data.action,
+                data,
+            }
 
-      $.get(ajax_object.ajax_url, wp, function (response) {
-        response = $.parseJSON(response)
+            $.get(ajax_object.ajax_url, wp, response => {
+                response = $.parseJSON(response)
 
-        if (response.page < 0) {
-          $el.fadeTo(300, 0)
-        }
+                if (response.page < 0) {
+                    $el.fadeTo(300, 0)
+                }
 
-        $(data.target).append(response.data)
-        $el.data('page', response.page)
-      })
-    })
-  },
+                $(data.target).append(response.data)
+                $el.data('page', response.page)
+            })
+        })
+    },
 }
 
 export default LoadMore
