@@ -102,11 +102,11 @@ $(document).ready(() => {
    */
     const localhost = location.host.indexOf('localhost') > -1
     if (localhost) {
+        return
         $('[src^="http://localhost/leaf"]').each(function () {
             const $el = $(this)
             $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'))
         })
-        return
 
         $('[src^="http://localhost/leaf"]').each(function () {
             const $el = $(this)

@@ -11823,11 +11823,11 @@ $(document).ready(function () {
     */
     var localhost = location.host.indexOf('localhost') > -1;
     if (localhost) {
+        return;
         $('[src^="http://localhost/leaf"]').each(function () {
             var $el = $(this);
             $el.attr('src', $el.attr('src').replace(/\/localhost\/leaf/g, '\/leaf.sk'));
         });
-        return;
 
         $('[src^="http://localhost/leaf"]').each(function () {
             var $el = $(this);
@@ -33827,10 +33827,141 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            activeSelectBox: 0,
             checkedExpertise: [],
             checkedLocation: [],
             checkedFocus: [],
@@ -33865,31 +33996,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             return this.posts.filter(function (p) {
                 if (_this.checkedExpertise.length > 0 && p.ped_expertise.filter(function (x) {
-                    return _this.checkedExpertise.indexOf(x) > -1;
+                    return _this.checkedExpertise.indexOf(x.id) > -1;
                 }).length === 0) {
                     return false;
                 }
 
                 if (_this.checkedLocation.length > 0 && p.ped_location.filter(function (x) {
-                    return _this.checkedLocation.indexOf(x) > -1;
+                    return _this.checkedLocation.indexOf(x.id) > -1;
                 }).length === 0) {
                     return false;
                 }
 
                 if (_this.checkedFocus.length > 0 && p.ped_focus.filter(function (x) {
-                    return _this.checkedFocus.indexOf(x) > -1;
+                    return _this.checkedFocus.indexOf(x.id) > -1;
                 }).length === 0) {
                     return false;
                 }
 
                 if (_this.checkedKind.length > 0 && p.ped_kind.filter(function (x) {
-                    return _this.checkedKind.indexOf(x) > -1;
+                    return _this.checkedKind.indexOf(x.id) > -1;
                 }).length === 0) {
                     return false;
                 }
 
                 if (_this.checkedPeriod.length > 0 && p.ped_period.filter(function (x) {
-                    return _this.checkedPeriod.indexOf(x) > -1;
+                    return _this.checkedPeriod.indexOf(x.id) > -1;
                 }).length === 0) {
                     return false;
                 }
@@ -33898,7 +34029,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
-    mounted: function mounted() {}
+    methods: {
+        setActiveSelectBox: function setActiveSelectBox(id) {
+            if (this.activeSelectBox === id) {
+                this.closeSelectBox();
+            } else {
+                this.activeSelectBox = id;
+            }
+        },
+        closeSelectBox: function closeSelectBox() {
+            this.activeSelectBox = 0;
+        }
+    }
 });
 
 /***/ }),
@@ -33910,289 +34052,672 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "flex flex--grid-mini" }, [
-      _c(
-        "div",
-        { staticClass: "flex-1-2" },
-        _vm._l(_vm.expertise, function(e) {
-          return _c("div", [
-            _c("label", [
-              _c("input", {
-                directives: [
+    _c("div", { staticClass: "wrapper filters" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "flex flex--grid-mini" }, [
+          _c("div", { staticClass: "flex-1 filters__title" }, [
+            _vm._v("\n                    FILTER PONÚK\n                ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex-1-2" }, [
+            _c(
+              "div",
+              { staticClass: "select-box" },
+              [
+                _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.checkedExpertise,
-                    expression: "checkedExpertise"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  value: e.id,
-                  checked: Array.isArray(_vm.checkedExpertise)
-                    ? _vm._i(_vm.checkedExpertise, e.id) > -1
-                    : _vm.checkedExpertise
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.checkedExpertise,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = e.id,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.checkedExpertise = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.checkedExpertise = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                    staticClass: "select-box__title",
+                    on: {
+                      click: function($event) {
+                        _vm.setActiveSelectBox(1)
                       }
-                    } else {
-                      _vm.checkedExpertise = $$c
                     }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(e.name))])
-            ])
-          ])
-        })
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex-1-2" },
-        _vm._l(_vm.location, function(e) {
-          return _c("div", [
-            _c("label", [
-              _c("input", {
-                directives: [
+                  },
+                  [_c("strong", [_vm._v("Expertíza dobrovoľníka")])]
+                ),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "transition-drop" } }, [
+                  _vm.activeSelectBox === 1
+                    ? _c(
+                        "div",
+                        { staticClass: "select-box__options transition-drop" },
+                        [
+                          _vm._l(_vm.expertise, function(e) {
+                            return _c(
+                              "label",
+                              { staticClass: "select-box__option checkbox" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.checkedExpertise,
+                                      expression: "checkedExpertise"
+                                    }
+                                  ],
+                                  staticClass: "checkbox__input",
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    value: e.id,
+                                    checked: Array.isArray(_vm.checkedExpertise)
+                                      ? _vm._i(_vm.checkedExpertise, e.id) > -1
+                                      : _vm.checkedExpertise
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.checkedExpertise,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = e.id,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.checkedExpertise = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.checkedExpertise = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.checkedExpertise = $$c
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__box" }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__label" }, [
+                                  _vm._v(_vm._s(e.name))
+                                ])
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "select-box__submit",
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.closeSelectBox($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Potvrdiť výber\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ])
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex-1-2" }, [
+            _c(
+              "div",
+              { staticClass: "select-box" },
+              [
+                _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.checkedLocation,
-                    expression: "checkedLocation"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  value: e.id,
-                  checked: Array.isArray(_vm.checkedLocation)
-                    ? _vm._i(_vm.checkedLocation, e.id) > -1
-                    : _vm.checkedLocation
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.checkedLocation,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = e.id,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.checkedLocation = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.checkedLocation = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                    staticClass: "select-box__title",
+                    on: {
+                      click: function($event) {
+                        _vm.setActiveSelectBox(2)
                       }
-                    } else {
-                      _vm.checkedLocation = $$c
                     }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(e.name))])
-            ])
-          ])
-        })
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex-1-3" },
-        _vm._l(_vm.focus, function(e) {
-          return _c("div", [
-            _c("label", [
-              _c("input", {
-                directives: [
+                  },
+                  [_c("strong", [_vm._v("Lokalita")])]
+                ),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "transition-drop" } }, [
+                  _vm.activeSelectBox === 2
+                    ? _c(
+                        "div",
+                        { staticClass: "select-box__options transition-drop" },
+                        [
+                          _vm._l(_vm.location, function(e, i) {
+                            return _c(
+                              "label",
+                              { staticClass: "select-box__option checkbox" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.checkedLocation,
+                                      expression: "checkedLocation"
+                                    }
+                                  ],
+                                  staticClass: "checkbox__input",
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    value: e.id,
+                                    checked: Array.isArray(_vm.checkedLocation)
+                                      ? _vm._i(_vm.checkedLocation, e.id) > -1
+                                      : _vm.checkedLocation
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.checkedLocation,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = e.id,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.checkedLocation = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.checkedLocation = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.checkedLocation = $$c
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__box" }),
+                                _vm._v(" "),
+                                i === 0
+                                  ? _c(
+                                      "strong",
+                                      { staticClass: "checkbox__label" },
+                                      [_vm._v(_vm._s(e.name))]
+                                    )
+                                  : _vm._e(),
+                                _vm._v(" "),
+                                i > 0
+                                  ? _c(
+                                      "span",
+                                      { staticClass: "checkbox__label" },
+                                      [_vm._v(_vm._s(e.name))]
+                                    )
+                                  : _vm._e()
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "select-box__submit",
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.closeSelectBox($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Potvrdiť výber\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ])
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex-1-3" }, [
+            _c(
+              "div",
+              { staticClass: "select-box" },
+              [
+                _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.checkedFocus,
-                    expression: "checkedFocus"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  value: e.id,
-                  checked: Array.isArray(_vm.checkedFocus)
-                    ? _vm._i(_vm.checkedFocus, e.id) > -1
-                    : _vm.checkedFocus
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.checkedFocus,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = e.id,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.checkedFocus = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.checkedFocus = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                    staticClass: "select-box__title",
+                    on: {
+                      click: function($event) {
+                        _vm.setActiveSelectBox(3)
                       }
-                    } else {
-                      _vm.checkedFocus = $$c
                     }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(e.name))])
-            ])
-          ])
-        })
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex-1-3" },
-        _vm._l(_vm.kind, function(e) {
-          return _c("div", [
-            _c("label", [
-              _c("input", {
-                directives: [
+                  },
+                  [
+                    _vm._v(
+                      "\n                            Zameranie organizácie\n                        "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "transition-drop" } }, [
+                  _vm.activeSelectBox === 3
+                    ? _c(
+                        "div",
+                        { staticClass: "select-box__options transition-drop" },
+                        [
+                          _vm._l(_vm.focus, function(e) {
+                            return _c(
+                              "label",
+                              { staticClass: "select-box__option checkbox" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.checkedFocus,
+                                      expression: "checkedFocus"
+                                    }
+                                  ],
+                                  staticClass: "checkbox__input",
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    value: e.id,
+                                    checked: Array.isArray(_vm.checkedFocus)
+                                      ? _vm._i(_vm.checkedFocus, e.id) > -1
+                                      : _vm.checkedFocus
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.checkedFocus,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = e.id,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.checkedFocus = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.checkedFocus = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.checkedFocus = $$c
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__box" }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__label" }, [
+                                  _vm._v(_vm._s(e.name))
+                                ])
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "select-box__submit",
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.closeSelectBox($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Potvrdiť výber\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ])
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex-1-3" }, [
+            _c(
+              "div",
+              { staticClass: "select-box" },
+              [
+                _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.checkedKind,
-                    expression: "checkedKind"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  value: e.id,
-                  checked: Array.isArray(_vm.checkedKind)
-                    ? _vm._i(_vm.checkedKind, e.id) > -1
-                    : _vm.checkedKind
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.checkedKind,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = e.id,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.checkedKind = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.checkedKind = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                    staticClass: "select-box__title",
+                    on: {
+                      click: function($event) {
+                        _vm.setActiveSelectBox(4)
                       }
-                    } else {
-                      _vm.checkedKind = $$c
                     }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(e.name))])
-            ])
-          ])
-        })
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "flex-1-3" },
-        _vm._l(_vm.period, function(e) {
-          return _c("div", [
-            _c("label", [
-              _c("input", {
-                directives: [
+                  },
+                  [
+                    _vm._v(
+                      "\n                            Druh organizácie\n                        "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "transition-drop" } }, [
+                  _vm.activeSelectBox === 4
+                    ? _c(
+                        "div",
+                        { staticClass: "select-box__options transition-drop" },
+                        [
+                          _vm._l(_vm.kind, function(e) {
+                            return _c(
+                              "label",
+                              { staticClass: "select-box__option checkbox" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.checkedKind,
+                                      expression: "checkedKind"
+                                    }
+                                  ],
+                                  staticClass: "checkbox__input",
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    value: e.id,
+                                    checked: Array.isArray(_vm.checkedKind)
+                                      ? _vm._i(_vm.checkedKind, e.id) > -1
+                                      : _vm.checkedKind
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.checkedKind,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = e.id,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.checkedKind = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.checkedKind = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.checkedKind = $$c
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__box" }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__label" }, [
+                                  _vm._v(_vm._s(e.name))
+                                ])
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "select-box__submit",
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.closeSelectBox($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Potvrdiť výber\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ])
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex-1-3" }, [
+            _c(
+              "div",
+              { staticClass: "select-box" },
+              [
+                _c(
+                  "div",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.checkedPeriod,
-                    expression: "checkedPeriod"
-                  }
-                ],
-                attrs: { type: "checkbox" },
-                domProps: {
-                  value: e.id,
-                  checked: Array.isArray(_vm.checkedPeriod)
-                    ? _vm._i(_vm.checkedPeriod, e.id) > -1
-                    : _vm.checkedPeriod
-                },
-                on: {
-                  change: function($event) {
-                    var $$a = _vm.checkedPeriod,
-                      $$el = $event.target,
-                      $$c = $$el.checked ? true : false
-                    if (Array.isArray($$a)) {
-                      var $$v = e.id,
-                        $$i = _vm._i($$a, $$v)
-                      if ($$el.checked) {
-                        $$i < 0 && (_vm.checkedPeriod = $$a.concat([$$v]))
-                      } else {
-                        $$i > -1 &&
-                          (_vm.checkedPeriod = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                    staticClass: "select-box__title",
+                    on: {
+                      click: function($event) {
+                        _vm.setActiveSelectBox(5)
                       }
-                    } else {
-                      _vm.checkedPeriod = $$c
                     }
-                  }
-                }
-              }),
-              _vm._v(" "),
-              _c("span", [_vm._v(_vm._s(e.name))])
-            ])
-          ])
-        })
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "flex-1-2" })
-    ]),
-    _vm._v(
-      "\n\n    Našli sme " +
-        _vm._s(_vm.filteredPosts.length) +
-        " " +
-        _vm._s(
-          _vm._f("pluralize")(
-            _vm.filteredPosts.length,
-            "ponuku,",
-            "ponuky",
-            "ponúk"
-          )
-        ) +
-        "\n\n    "
-    ),
-    _c(
-      "div",
-      { staticClass: "flex flex--grid-mini" },
-      _vm._l(_vm.filteredPosts, function(post) {
-        return _c("div", { staticClass: "flex-1-3" }, [
-          _c("div", { staticClass: "card" }, [
-            _vm._v("\n                " + _vm._s(post.title) + "\n            ")
+                  },
+                  [
+                    _vm._v(
+                      "\n                            Dĺžka projektu\n                        "
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c("transition", { attrs: { name: "transition-drop" } }, [
+                  _vm.activeSelectBox === 5
+                    ? _c(
+                        "div",
+                        { staticClass: "select-box__options transition-drop" },
+                        [
+                          _vm._l(_vm.period, function(e) {
+                            return _c(
+                              "label",
+                              { staticClass: "select-box__option checkbox" },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.checkedPeriod,
+                                      expression: "checkedPeriod"
+                                    }
+                                  ],
+                                  staticClass: "checkbox__input",
+                                  attrs: { type: "checkbox" },
+                                  domProps: {
+                                    value: e.id,
+                                    checked: Array.isArray(_vm.checkedPeriod)
+                                      ? _vm._i(_vm.checkedPeriod, e.id) > -1
+                                      : _vm.checkedPeriod
+                                  },
+                                  on: {
+                                    change: function($event) {
+                                      var $$a = _vm.checkedPeriod,
+                                        $$el = $event.target,
+                                        $$c = $$el.checked ? true : false
+                                      if (Array.isArray($$a)) {
+                                        var $$v = e.id,
+                                          $$i = _vm._i($$a, $$v)
+                                        if ($$el.checked) {
+                                          $$i < 0 &&
+                                            (_vm.checkedPeriod = $$a.concat([
+                                              $$v
+                                            ]))
+                                        } else {
+                                          $$i > -1 &&
+                                            (_vm.checkedPeriod = $$a
+                                              .slice(0, $$i)
+                                              .concat($$a.slice($$i + 1)))
+                                        }
+                                      } else {
+                                        _vm.checkedPeriod = $$c
+                                      }
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__box" }),
+                                _vm._v(" "),
+                                _c("span", { staticClass: "checkbox__label" }, [
+                                  _vm._v(_vm._s(e.name))
+                                ])
+                              ]
+                            )
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "a",
+                            {
+                              staticClass: "select-box__submit",
+                              attrs: { href: "" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.closeSelectBox($event)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                                    Potvrdiť výber\n                                "
+                              )
+                            ]
+                          )
+                        ],
+                        2
+                      )
+                    : _vm._e()
+                ])
+              ],
+              1
+            )
           ])
         ])
-      })
-    )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "ped" }, [
+      _c("div", { staticClass: "page-content entry-content" }, [
+        _c("div", { staticClass: "ped__content" }, [
+          _c("div", { staticClass: "ped__result-count" }, [
+            _vm._v("\n                    Našli sme "),
+            _c("span", { staticClass: "text-primary" }, [
+              _vm._v(_vm._s(_vm.filteredPosts.length))
+            ]),
+            _vm._v(
+              " " +
+                _vm._s(
+                  _vm._f("pluralize")(
+                    _vm.filteredPosts.length,
+                    "ponuku",
+                    "ponuky",
+                    "ponúk"
+                  )
+                ) +
+                "\n                "
+            )
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex flex--grid-mini" },
+            _vm._l(_vm.filteredPosts, function(post) {
+              return _c("div", { staticClass: "flex-1-3" }, [
+                _c("div", { staticClass: "card card--ped" }, [
+                  _c("div", { staticClass: "card__header" }, [
+                    _c("div", { staticClass: "card__title" }, [
+                      _vm._v(
+                        "\n                                    " +
+                          _vm._s(post.title) +
+                          "\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card__subtitle" },
+                      _vm._l(post.ped_expertise, function(e) {
+                        return _c("span", [_vm._v(_vm._s(e.name))])
+                      })
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card__body" }, [
+                    _c(
+                      "div",
+                      {},
+                      _vm._l(post.ped_kind, function(e) {
+                        return _c("span", [_vm._v(_vm._s(e.name))])
+                      })
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card__subtitle" },
+                      _vm._l(post.ped_period, function(e) {
+                        return _c("span", [_vm._v(_vm._s(e.name))])
+                      })
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card__excerpt" }, [
+                      _vm._v(
+                        "\n                                    " +
+                          _vm._s(post.ped_excerpt) +
+                          "\n                                "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn--block btn--blank",
+                        attrs: { href: post.link }
+                      },
+                      [_vm._v("Toto chcem")]
+                    )
+                  ])
+                ])
+              ])
+            })
+          )
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

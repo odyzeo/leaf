@@ -8,24 +8,24 @@ define( 'LEAF_POST_TYPE_PED', 'ped-8' );
 /*
  * Expertíza dobrovoľníka
  */
-define( 'LEAF_PED_EXPERTISE', 'ped_expertise' );
+define( 'LEAF_PED_EXPERTISE', 'expertise-ped_expertise' );
 
 // Financie a biznis
-define( 'LEAF_PED_FINANCE', 'finance' );
+define( 'LEAF_PED_FINANCE', 'expertise-finance' );
 // Ľudské zdroje
-define( 'LEAF_PED_HR', 'hr' );
+define( 'LEAF_PED_HR', 'expertise-hr' );
 // Marketing
-define( 'LEAF_PED_MARKETING', 'marketing' );
+define( 'LEAF_PED_MARKETING', 'expertise-marketing' );
 // Predaj
-define( 'LEAF_PED_SALES', 'sales' );
+define( 'LEAF_PED_SALES', 'expertise-sales' );
 // Právo
-define( 'LEAF_PED_LAW', 'law' );
+define( 'LEAF_PED_LAW', 'expertise-law' );
 // IT
-define( 'LEAF_PED_IT', 'it' );
+define( 'LEAF_PED_IT', 'expertise-it' );
 // Analýza dát
-define( 'LEAF_PED_ANALYSE', 'analyse' );
+define( 'LEAF_PED_ANALYSE', 'expertise-analyse' );
 // Iné
-define( 'LEAF_PED_OTHER', 'other' );
+define( 'LEAF_PED_OTHER', 'expertise-other' );
 
 define( 'LEAF_META_EXPERTISE', array(
     array(
@@ -68,6 +68,11 @@ define( 'LEAF_META_EXPERTISE', array(
  */
 define( 'LEAF_PED_LOCATION', 'ped_location' );
 
+// Offline - ped_offline
+define( 'LEAF_PED_OFFLINE', 'ped_offline' );
+
+// Homeoffice
+define( 'LEAF_PED_LOCATION_HO', 'ho' );
 // Bratislavský kraj
 define( 'LEAF_PED_LOCATION_BA', 'ba' );
 // Trnavský kraj
@@ -84,10 +89,12 @@ define( 'LEAF_PED_LOCATION_BB', 'bb' );
 define( 'LEAF_PED_LOCATION_PO', 'po' );
 // Košický kraj
 define( 'LEAF_PED_LOCATION_KE', 'ke' );
-// Homeoffice
-define( 'LEAF_PED_LOCATION_HO', 'ho' );
 
 define( 'LEAF_META_LOCATION', array(
+    array(
+        'id'   => LEAF_PED_LOCATION_HO,
+        'name' => __( 'Možné robiť aj na diaľku / zo zahraničia', 'workout' ),
+    ),
     array(
         'id'   => LEAF_PED_LOCATION_BA,
         'name' => __( 'Bratislavský kraj', 'workout' ),
@@ -120,10 +127,6 @@ define( 'LEAF_META_LOCATION', array(
         'id'   => LEAF_PED_LOCATION_KE,
         'name' => __( 'Košický kraj', 'workout' ),
     ),
-    array(
-        'id'   => LEAF_PED_LOCATION_HO,
-        'name' => __( 'Možné robiť aj na diaľku / zo zahraničia', 'workout' ),
-    ),
 ) );
 
 
@@ -133,29 +136,29 @@ define( 'LEAF_META_LOCATION', array(
 define( 'LEAF_PED_FOCUS', 'ped_focus' );
 
 // Humanitárna činnosť
-define( 'LEAF_PED_FOCUS_HUMANITARIAN', 'humanitarian' );
+define( 'LEAF_PED_FOCUS_HUMANITARIAN', 'focus-humanitarian' );
 // Kultúra
-define( 'LEAF_PED_FOCUS_CULTURE', 'culture' );
+define( 'LEAF_PED_FOCUS_CULTURE', 'focus-culture' );
 // Rozvoj občianskej spoločnosti
-define( 'LEAF_PED_FOCUS_DEVELOPMENT', 'development' );
+define( 'LEAF_PED_FOCUS_DEVELOPMENT', 'focus-development' );
 // Vzdelávanie a rozvoj
-define( 'LEAF_PED_FOCUS_LEARNING', 'learning' );
+define( 'LEAF_PED_FOCUS_LEARNING', 'focus-learning' );
 // Sociálne znevýhodnení občania
-define( 'LEAF_PED_FOCUS_SOCIAL', 'social' );
+define( 'LEAF_PED_FOCUS_SOCIAL', 'focus-social' );
 // Zdravotne znevýhodnení občania
-define( 'LEAF_PED_FOCUS_HEALTH', 'health' );
+define( 'LEAF_PED_FOCUS_HEALTH', 'focus-health' );
 // Rozvoj SR
-define( 'LEAF_PED_FOCUS_DEV_SK', 'dev-sk' );
+define( 'LEAF_PED_FOCUS_DEV_SK', 'focus-dev-sk' );
 // Seniori
-define( 'LEAF_PED_FOCUS_SENIORS', 'seniors' );
+define( 'LEAF_PED_FOCUS_SENIORS', 'focus-seniors' );
 // Životné prostredie
-define( 'LEAF_PED_FOCUS_ENV', 'env' );
+define( 'LEAF_PED_FOCUS_ENV', 'focus-env' );
 // Veda a technológie
-define( 'LEAF_PED_FOCUS_SCIENCE', 'science' );
+define( 'LEAF_PED_FOCUS_SCIENCE', 'focus-science' );
 // Start up
-define( 'LEAF_PED_FOCUS_START_UP', 'start-up' );
+define( 'LEAF_PED_FOCUS_START_UP', 'focus-start-up' );
 // iné
-define( 'LEAF_PED_FOCUS_OTHER', 'other' );
+define( 'LEAF_PED_FOCUS_OTHER', 'focus-other' );
 
 define( 'LEAF_META_FOCUS', array(
     array(
@@ -204,7 +207,7 @@ define( 'LEAF_META_FOCUS', array(
     ),
     array(
         'id'   => LEAF_PED_FOCUS_OTHER,
-        'name' => __( 'iné', 'workout' ),
+        'name' => __( 'Iné', 'workout' ),
     ),
 ) );
 
@@ -215,11 +218,11 @@ define( 'LEAF_META_FOCUS', array(
 define( 'LEAF_PED_KIND', 'ped_kind' );
 
 // Nezisková organizácia
-define( 'LEAF_PED_KIND_NON_PROFIT', 'non-profit' );
+define( 'LEAF_PED_KIND_NON_PROFIT', 'kind-non-profit' );
 // Sociálny podnik
-define( 'LEAF_PED_KIND_SOCIAL', 'social' );
+define( 'LEAF_PED_KIND_SOCIAL', 'kind-social' );
 // Start-up
-define( 'LEAF_PED_KIND_START_UP', 'start-up' );
+define( 'LEAF_PED_KIND_START_UP', 'kind-start-up' );
 
 define( 'LEAF_META_KIND', array(
     array(
@@ -238,18 +241,18 @@ define( 'LEAF_META_KIND', array(
 
 
 /*
- * Dĺžka projektu:
+ * Dĺžka projektu
  */
 define( 'LEAF_PED_PERIOD', 'ped_period' );
 
 // 3 mesiace
-define( 'LEAF_PED_PERIOD_3', '3' );
+define( 'LEAF_PED_PERIOD_3', 'period-3' );
 // 6 mesiace
-define( 'LEAF_PED_PERIOD_6', '6' );
+define( 'LEAF_PED_PERIOD_6', 'period-6' );
 // 9 mesiace
-define( 'LEAF_PED_PERIOD_9', '9' );
+define( 'LEAF_PED_PERIOD_9', 'period-9' );
 // 12 mesiace
-define( 'LEAF_PED_PERIOD_12', '12' );
+define( 'LEAF_PED_PERIOD_12', 'period-12' );
 
 define( 'LEAF_META_PERIOD', array(
     array(
@@ -279,6 +282,9 @@ define( 'LEAF_PED_EXCERPT', 'ped_excerpt' );
 // Mesto
 define( 'LEAF_PED_CITY', 'ped_city' );
 
+// Približný počet hodín na týždeň
+define( 'LEAF_PED_HOURS_ESTIMATED', 'ped_hours' );
+
 // Výstup
 define( 'LEAF_PED_OUTPUT', 'ped_output' );
 
@@ -295,35 +301,43 @@ define( 'LEAF_PED_ABOUT', 'ped_about' );
 define( 'LEAF_PED_WEB', 'ped_web' );
 
 define( 'LEAF_META_TEXTS', array(
-    LEAF_PED_CHALLENGE => array(
+    LEAF_PED_OFFLINE         => array(
+        'id'   => LEAF_PED_OFFLINE,
+        'name' => __( 'Možnosť zapojenia na diaľku', 'workout' ),
+    ),
+    LEAF_PED_CHALLENGE       => array(
         'id'   => LEAF_PED_CHALLENGE,
         'name' => __( 'Výzva', 'workout' ),
     ),
-    LEAF_PED_EXCERPT   => array(
+    LEAF_PED_EXCERPT         => array(
         'id'   => LEAF_PED_EXCERPT,
         'name' => __( 'Zhrnutie', 'workout' ),
     ),
-    LEAF_PED_CITY      => array(
+    LEAF_PED_CITY            => array(
         'id'   => LEAF_PED_CITY,
         'name' => __( 'Mesto', 'workout' ),
     ),
-    LEAF_PED_OUTPUT    => array(
+    LEAF_PED_HOURS_ESTIMATED => array(
+        'id'   => LEAF_PED_HOURS_ESTIMATED,
+        'name' => __( 'Približný počet hodín na týždeň', 'workout' ),
+    ),
+    LEAF_PED_OUTPUT          => array(
         'id'   => LEAF_PED_OUTPUT,
         'name' => __( 'Výstup', 'workout' ),
     ),
-    LEAF_PED_PROFILE   => array(
+    LEAF_PED_PROFILE         => array(
         'id'   => LEAF_PED_PROFILE,
         'name' => __( 'Profil dobrovoľníka', 'workout' ),
     ),
-    LEAF_PED_WHY       => array(
+    LEAF_PED_WHY             => array(
         'id'   => LEAF_PED_WHY,
         'name' => __( 'Prečo by si si nás mal vybrať', 'workout' ),
     ),
-    LEAF_PED_ABOUT     => array(
+    LEAF_PED_ABOUT           => array(
         'id'   => LEAF_PED_ABOUT,
         'name' => __( 'O organizácii', 'workout' ),
     ),
-    LEAF_PED_WEB       => array(
+    LEAF_PED_WEB             => array(
         'id'   => LEAF_PED_WEB,
         'name' => __( 'Webstránka', 'workout' ),
     ),
@@ -355,9 +369,42 @@ function get_ped_opportunities() {
             $post['title'] = $title;
             $post['link']  = get_permalink();
 
-            $metas = [LEAF_PED_EXPERTISE, LEAF_PED_LOCATION, LEAF_PED_FOCUS, LEAF_PED_KIND, LEAF_PED_PERIOD];
+            $metas = [
+                LEAF_PED_EXPERTISE,
+                LEAF_PED_LOCATION,
+                LEAF_PED_FOCUS,
+                LEAF_PED_KIND,
+                LEAF_PED_PERIOD,
+                LEAF_PED_EXCERPT
+            ];
             foreach ( $metas as $meta ) {
-                $post[$meta]  = get_post_meta( $post_id, $meta, true );
+                $post[ $meta ] = get_post_meta( $post_id, $meta, true );
+
+                foreach ( LEAF_META_EXPERTISE as $EXPERTISE ) {
+                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $EXPERTISE;
+                    }
+                }
+                foreach ( LEAF_META_LOCATION as $EXPERTISE ) {
+                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $EXPERTISE;
+                    }
+                }
+                foreach ( LEAF_META_FOCUS as $EXPERTISE ) {
+                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $EXPERTISE;
+                    }
+                }
+                foreach ( LEAF_META_KIND as $EXPERTISE ) {
+                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $EXPERTISE;
+                    }
+                }
+                foreach ( LEAF_META_PERIOD as $EXPERTISE ) {
+                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $EXPERTISE;
+                    }
+                }
             }
 
             $result[] = $post;
@@ -374,7 +421,7 @@ function get_ped_opportunities() {
 add_action( "admin_notices", function () {
     $screen = get_current_screen();
 
-    if ( $screen->id === 'edit-ped-8' ) {
+    if ( $screen->id === 'ped-8' ) {
         echo "<div class='updated'>";
         echo "<p>";
         echo "To insert the posts into the database, click the button to the right.";
@@ -388,19 +435,12 @@ add_action( "admin_notices", function () {
  * Create and insert posts from CSV files
  */
 add_action( "admin_init", function () {
-    global $wpdb;
 
     // I'd recommend replacing this with your own code to make sure
     //  the post creation _only_ happens when you want it to.
     if ( ! isset( $_GET["insert_sitepoint_posts"] ) ) {
         return;
     }
-
-    // Change these to whatever you set
-    $sitepoint = array(
-        "custom-field"     => "sitepoint_post_attachment",
-        "custom-post-type" => "sitepoint_posts"
-    );
 
     // Get the data from all those CSVs!
     $posts = function () {
@@ -450,64 +490,56 @@ add_action( "admin_init", function () {
         return $data;
     };
 
-
-    var_dump( $posts() );
-
-    $okk = add_post_meta( 4080, 'wpcf-expertise', 'it' );
-    var_dump( $okk );
-
-    return;
-
-    // Simple check to see if the current post exists within the
-    //  database. This isn't very efficient, but it works.
-    $post_exists = function ( $title ) use ( $wpdb, $sitepoint ) {
-
-        // Get an array of all posts within our custom post type
-        $posts = $wpdb->get_col( "SELECT post_title FROM {$wpdb->posts} WHERE post_type = '{$sitepoint["custom-post-type"]}'" );
-
-        // Check if the passed title exists in array
-        return in_array( $title, $posts );
-    };
-
     foreach ( $posts() as $post ) {
 
-        // If the post exists, skip this post and go to the next one
-        if ( $post_exists( $post["title"] ) ) {
-            continue;
-        }
+        // Check post values
+//        var_dump( $post );
+//        return
 
         // Insert the post into the database
-        $post["id"] = wp_insert_post( array(
-            "post_title"   => $post["title"],
-            "post_content" => $post["content"],
-            "post_type"    => $sitepoint["custom-post-type"],
-            "post_status"  => "publish"
+        $post_id = wp_insert_post( array(
+            "post_title"  => $post["title"],
+            "post_type"   => LEAF_POST_TYPE_PED,
+            "post_status" => "publish"
         ) );
 
-        // Get uploads dir
-        $uploads_dir = wp_upload_dir();
+        // Meta values as array
+        $metas = [
+            LEAF_PED_EXPERTISE,
+            LEAF_PED_KIND,
+            LEAF_PED_FOCUS,
+            LEAF_PED_PERIOD,
+        ];
 
-        // Set attachment meta
-        $attachment         = array();
-        $attachment["path"] = "{$uploads_dir["baseurl"]}/sitepoint-attachments/{$post["attachment"]}";
-        $attachment["file"] = wp_check_filetype( $attachment["path"] );
-        $attachment["name"] = basename( $attachment["path"], ".{$attachment["file"]["ext"]}" );
+        foreach ( $metas as $meta ) {
+            update_post_meta( $post_id, $meta, [ $post[ $meta ] ] );
+        }
 
-        // Replace post attachment data
-        $post["attachment"] = $attachment;
+        $locations   = [];
+        $locations[] = $post_id[ LEAF_PED_LOCATION ];
 
-        // Insert attachment into media library
-        $post["attachment"]["id"] = wp_insert_attachment( array(
-            "guid"           => $post["attachment"]["path"],
-            "post_mime_type" => $post["attachment"]["file"]["type"],
-            "post_title"     => $post["attachment"]["name"],
-            "post_content"   => "",
-            "post_status"    => "inherit"
-        ) );
+        $offline = $post[ LEAF_PED_OFFLINE ] === 'Áno';
+        if ( $offline ) {
+            $locations[] = LEAF_PED_LOCATION_HO;
+        }
+        update_post_meta( $post_id, LEAF_PED_LOCATION, $locations );
 
-        // Update post's custom field with attachment
-        update_field( $sitepoint["custom-field"], $post["attachment"]["id"], $post["id"] );
+        // Meta values as single value
+        $metas = [
+            LEAF_PED_CHALLENGE,
+            LEAF_PED_EXCERPT,
+            LEAF_PED_CITY,
+            LEAF_PED_HOURS_ESTIMATED,
+            LEAF_PED_OUTPUT,
+            LEAF_PED_PROFILE,
+            LEAF_PED_WHY,
+            LEAF_PED_ABOUT,
+            LEAF_PED_WEB,
+        ];
 
+        foreach ( $metas as $meta ) {
+            update_post_meta( $post_id, $meta, $post[ $meta ] );
+        }
     }
 
 } );

@@ -24,23 +24,15 @@ global $themify; ?>
 
             <?php echo get_leaf_page_title(); ?>
 
-            <div class="page-content entry-content">
-<pre>
-                    <?php
-
-                    ?>
-</pre>
-
-                <div id="ped">
-                    <ped
-                        :expertise='<?php echo json_encode( LEAF_META_EXPERTISE, JSON_UNESCAPED_UNICODE ); ?>'
-                        :location='<?php echo json_encode( LEAF_META_LOCATION, JSON_UNESCAPED_UNICODE ); ?>'
-                        :focus='<?php echo json_encode( LEAF_META_FOCUS, JSON_UNESCAPED_UNICODE ); ?>'
-                        :kind='<?php echo json_encode( LEAF_META_KIND, JSON_UNESCAPED_UNICODE ); ?>'
-                        :period='<?php echo json_encode( LEAF_META_PERIOD, JSON_UNESCAPED_UNICODE ); ?>'
-                        :posts='<?php echo json_encode( get_ped_opportunities() ); ?>'>
-                    </ped>
-                </div>
+            <div id="ped">
+                <ped
+                    :expertise='<?php echo json_encode( LEAF_META_EXPERTISE, JSON_UNESCAPED_UNICODE ); ?>'
+                    :location='<?php echo json_encode( LEAF_META_LOCATION, JSON_UNESCAPED_UNICODE ); ?>'
+                    :focus='<?php echo json_encode( LEAF_META_FOCUS, JSON_UNESCAPED_UNICODE ); ?>'
+                    :kind='<?php echo json_encode( LEAF_META_KIND, JSON_UNESCAPED_UNICODE ); ?>'
+                    :period='<?php echo json_encode( LEAF_META_PERIOD, JSON_UNESCAPED_UNICODE ); ?>'
+                    :posts='<?php echo json_encode( get_ped_opportunities() ); ?>'>
+                </ped>
             </div>
 
         </div><!-- /.type-page -->
