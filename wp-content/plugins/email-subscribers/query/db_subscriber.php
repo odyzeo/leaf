@@ -83,33 +83,34 @@ class es_cls_dbquery {
 			return "invalid";
 		}
 
-		$data["es_email_mail"] = apply_filters('es_validate_subscribers_email', $data["es_email_mail"]);
+		$data = apply_filters('es_validate_subscribers_email', $data);
 
 		if($data["es_email_mail"] === 'invalid'){
 			return "invalid";
 		}
 
-		$es_subscriber_name = sanitize_text_field(esc_attr($data["es_email_name"]));
-		$es_subscriber_status = sanitize_text_field(esc_attr($data["es_email_status"]));
-		$es_subscriber_group = sanitize_text_field(esc_attr($data["es_email_group"]));
-		$es_subscriber_email = sanitize_email(esc_attr($data["es_email_mail"]));
+		$data["es_email_name"] = sanitize_text_field(esc_attr($data["es_email_name"]));
+		$data["es_email_status"] = sanitize_text_field(esc_attr($data["es_email_status"]));
+		$data["es_email_group"] = sanitize_text_field(esc_attr($data["es_email_group"]));
+		$data["es_email_mail"] = sanitize_email(esc_attr($data["es_email_mail"]));
 
 		// santize_email sometimes discards invalid emails. Hence returning 'invalid' for the same.
-		if ( empty( $es_subscriber_email ) ) {
+		if ( empty( $data["es_email_mail"] ) ) {
 			return "invalid";
 		} else {
 			$CurrentDate = date('Y-m-d G:i:s');
-			if($action == "insert") {
-				$sSql = "SELECT * FROM `".$wpdb->prefix."es_emaillist` where es_email_mail='".$es_subscriber_email."' and es_email_group='".trim($es_subscriber_group)."'";
+			if( $action == "insert" ) {
+				$sSql = "SELECT * FROM `".$wpdb->prefix."es_emaillist` where es_email_mail='".$data["es_email_mail"]."' and es_email_group='".trim($data["es_email_group"])."'";
 				$result = $wpdb->get_var($sSql);
-				if ( $result > 0) {
+				if ( $result > 0 ) {
 					return "ext";
 				} else {
-					$guid = es_cls_common::es_generate_guid(60);
+					$data['guid'] = es_cls_common::es_generate_guid(60);
 					$sql = $wpdb->prepare("INSERT INTO `".$wpdb->prefix."es_emaillist`
 							(`es_email_name`,`es_email_mail`, `es_email_status`, `es_email_created`, `es_email_viewcount`, `es_email_group`, `es_email_guid`)
-							VALUES(%s, %s, %s, %s, %d, %s, %s)", array(trim($es_subscriber_name), trim($es_subscriber_email),
-							trim($es_subscriber_status), $CurrentDate, 0, trim($es_subscriber_group), $guid));
+							VALUES(%s, %s, %s, %s, %d, %s, %s)", array(trim($data["es_email_name"]), trim($data["es_email_mail"]),
+							trim($data["es_email_status"]), $CurrentDate, 0, trim($data["es_email_group"]), $data['guid']));
+					$sql = apply_filters( 'es_insert_subscribers_sql', $sql, $data );
 					$wpdb->query($sql);
 
 					/* Added from ES v3.1.5 - If subscribing via Rainmaker
@@ -125,7 +126,7 @@ class es_cls_dbquery {
 
 						$es_c_optinoption = get_option( 'ig_es_optintype' );
 						$subscribers = array();
-						$subscribers = self::es_view_subscriber_one($es_subscriber_email,$es_subscriber_group);
+						$subscribers = self::es_view_subscriber_one($data["es_email_mail"],$data["es_email_group"]);
 
 						if( did_action( 'rainmaker_post_lead' ) >= 1 ) {
 							if ( (!empty($es_c_optinoption)) && ($es_c_optinoption == 'Double Opt In') ) {
@@ -137,16 +138,16 @@ class es_cls_dbquery {
 					}
 					return "sus";
 				}
-			} elseif($action == "update") {
-				$sSql = "SELECT * FROM `".$wpdb->prefix."es_emaillist` where es_email_mail='".$es_subscriber_email."'";
-				$sSql = $sSql . " and es_email_group='".trim($es_subscriber_group)."' and es_email_id != ".$data["es_email_id"];
+			} elseif( $action == "update" ) {
+				$sSql = "SELECT * FROM `".$wpdb->prefix."es_emaillist` where es_email_mail='".$data["es_email_mail"]."'";
+				$sSql = $sSql . " and es_email_group='".trim($data["es_email_group"])."' and es_email_id != ".$data["es_email_id"];
 				$result = $wpdb->get_var($sSql);
-				if ( $result > 0) {
+				if ( $result > 0 ) {
 					return "ext";
 				} else {
 					$sSql = $wpdb->prepare("UPDATE `".$wpdb->prefix."es_emaillist` SET `es_email_name` = %s, `es_email_mail` = %s,
-							`es_email_status` = %s, `es_email_group` = %s WHERE es_email_id = %d LIMIT 1", array($es_subscriber_name, $es_subscriber_email,
-							$es_subscriber_status, $es_subscriber_group, $data["es_email_id"]));
+							`es_email_status` = %s, `es_email_group` = %s WHERE es_email_id = %d LIMIT 1", array($data["es_email_name"], $data["es_email_mail"],
+							$data["es_email_status"], $data["es_email_group"], $data["es_email_id"]));
 					$wpdb->query($sSql);
 					return "sus";
 				}

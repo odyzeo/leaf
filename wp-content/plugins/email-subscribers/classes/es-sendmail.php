@@ -47,11 +47,14 @@ class es_cls_sendmail {
 			$notification = es_cls_notification::es_notification_prepare($post_id);
 
 			if ( count($notification) > 0 ) {
-				$template = $notification[0]["es_note_templ"];
+
+				$template_id = $notification[0]["es_note_templ"];
+				$template_status = get_post_status( $template_id );	// to confirm if template exists in ES->Templates
+
 				$mailsenttype = $notification[0]["es_note_status"];
-				if($mailsenttype == "Enable") {
+				if ( $mailsenttype == "Enable" ) {
 					$mailsenttype = "Immediately";
-				} elseif($mailsenttype == "Cron") {
+				} elseif ( $mailsenttype == "Cron" ) {
 					$mailsenttype = "Cron";
 				} else {
 					$mailsenttype = "Immediately";
@@ -59,9 +62,11 @@ class es_cls_sendmail {
 
 				$subscribers = array();
 				$subscribers = es_cls_notification::es_notification_subscribers($notification);
-				if ( count($subscribers) > 0 ) {
-					es_cls_sendmail::es_sendmail( "notification", $template, $subscribers, "Post Notification", $post_id,  $mailsenttype );
+
+				if ( count($subscribers) > 0 && !empty( $template_status ) ) {
+					es_cls_sendmail::es_sendmail( "notification", $template_id, $subscribers, "Post Notification", $post_id,  $mailsenttype );
 				}
+
 			}
 		}
 	}
@@ -128,7 +133,7 @@ class es_cls_sendmail {
 			if(count($subscriber) > 0) {
 				$unsublink = $settings['ig_es_unsublink'];
 				$unsublink = str_replace("{{DBID}}", $subscriber[0]["es_email_id"], $unsublink);
-				$unsublink = str_replace("{{EMAIL}}", rawurlencode($subscriber[0]["es_email_mail"]), $unsublink);
+				$unsublink = str_replace("{{EMAIL}}", $subscriber[0]["es_email_mail"], $unsublink);
 				$unsublink = str_replace("{{GUID}}", $subscriber[0]["es_email_guid"], $unsublink);
 				$unsublink  = $unsublink . "&cache=".$cacheid;
 
@@ -372,7 +377,7 @@ class es_cls_sendmail {
 
 						$optinlink = $settings['ig_es_optinlink'];
 						$optinlink = str_replace("{{DBID}}", $subscriber["es_email_id"], $optinlink);
-						$optinlink = str_replace("{{EMAIL}}", rawurlencode($subscriber["es_email_mail"]), $optinlink);
+						$optinlink = str_replace("{{EMAIL}}", $subscriber["es_email_mail"], $optinlink);
 						$optinlink = str_replace("{{GUID}}", $subscriber["es_email_guid"], $optinlink);
 						$optinlink  = $optinlink . "&cache=".$cacheid;
 
@@ -387,7 +392,7 @@ class es_cls_sendmail {
 						// Making an unsubscribe link
 						$unsublink = $settings['ig_es_unsublink'];
 						$unsublink = str_replace("{{DBID}}", $subscriber["es_email_id"], $unsublink);
-						$unsublink = str_replace("{{EMAIL}}", rawurlencode($subscriber["es_email_mail"]), $unsublink);
+						$unsublink = str_replace("{{EMAIL}}", $subscriber["es_email_mail"], $unsublink);
 						$unsublink = str_replace("{{GUID}}", $subscriber["es_email_guid"], $unsublink);
 						$unsublink  = $unsublink . "&cache=".$cacheid;
 						$content_send = str_replace("{{LINK}}", $unsublink, $content_send);
@@ -411,7 +416,7 @@ class es_cls_sendmail {
 						if($mailsenttype != "Cron") { 					// Cron mail not sending by this method
 							$unsublink = $settings['ig_es_unsublink'];
 							$unsublink = str_replace("{{DBID}}", $subscriber["es_email_id"], $unsublink);
-							$unsublink = str_replace("{{EMAIL}}", rawurlencode($subscriber["es_email_mail"]), $unsublink);
+							$unsublink = str_replace("{{EMAIL}}", $subscriber["es_email_mail"], $unsublink);
 							$unsublink = str_replace("{{GUID}}", $subscriber["es_email_guid"], $unsublink);
 							$unsublink  = $unsublink . "&cache=".$cacheid;
 
@@ -446,7 +451,7 @@ class es_cls_sendmail {
 
 							$unsublink = $settings['ig_es_unsublink'];
 							$unsublink = str_replace("{{DBID}}", $subscriber["es_email_id"], $unsublink);
-							$unsublink = str_replace("{{EMAIL}}", rawurlencode($subscriber["es_email_mail"]), $unsublink);
+							$unsublink = str_replace("{{EMAIL}}", $subscriber["es_email_mail"], $unsublink);
 							$unsublink = str_replace("{{GUID}}", $subscriber["es_email_guid"], $unsublink);
 							$unsublink  = $unsublink . "&cache=".$cacheid;
 
@@ -501,7 +506,7 @@ class es_cls_sendmail {
 						}
 					} else {
 						if($mailsenttype != "Cron") { 					// Cron mail not sending by this method
-							mail($to ,$subject, $content_send . $unsubtext . $viewstslink, $headers);
+							mail($to, $subject, $content_send . $unsubtext . $viewstslink, $headers);
 						}
 					}
 

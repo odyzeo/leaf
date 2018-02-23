@@ -4,8 +4,8 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Author URI: https://www.icegram.com/
 Tags: email marketing, email newsletter form, email signup, email widget, newsletter, newsletter signup, subscribe, subscription form, bulk emails, signup form, list builder, lead generation
 Requires at least: 3.4
-Tested up to: 4.9.1
-Stable tag: 3.4.6
+Tested up to: 4.9.2
+Stable tag: 3.4.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses
 
@@ -315,6 +315,27 @@ Use our free plugin [Email Subscribers - Group Selector](https://wordpress.org/p
 11. Admin page - Delivery Report of emails i.e. email sent, opened, viewed status, viewed date
 
 == Changelog ==
+
+= 3.4.8 (19.01.2018) =
+
+* Fix: Security vulnerability (Thanks to Dominykas Gelucevicius from [ThreatPress Security](https://profiles.wordpress.org/threatpress))
+* Update: Only site administrator will be able to export list of subscribers
+* Update: POT file
+* Localization: Translation for German (de_DE) language updated (Thanks to Markus Buschmann)
+* Localization: Made all other translation files up-to-date with latest POT file
+* Tweak: Doc link addition for newsletter keywords while creating/updating a template
+
+= 3.4.7 (16.01.2018) =
+
+* Fix: Empty email with only unsubscribe links sent to subscribers
+* Fix: Remove usage of rawurlencode() to prevent broken subscribe & unsubscribe links
+* Update: Removed the functionality to subscribe emails with special characters
+* Update: Change in logic for updating subscribers information in subscribers dashboard
+* Update: POT file
+* Localization: Translation for Italian (it_IT) language added (Thanks to  Roberto Pavesi)
+* Localization: Translation for German (de_DE) language updated (Thanks to Markus Buschmann)
+* Localization: Translation for Polish (pl_PL) language updated (Thanks to Witold)
+* Localization: Made all other translation files up-to-date with latest POT file
 
 = 3.4.6 (19.12.2017) =
 
@@ -700,6 +721,27 @@ Use our free plugin [Email Subscribers - Group Selector](https://wordpress.org/p
 For the changelog of earlier versions, please refer to the separate [changelog.txt](https://plugins.svn.wordpress.org/email-subscribers/trunk/changelog.txt) file.
 
 == Upgrade Notice ==
+
+= 3.4.8 (19.01.2018) =
+
+* Fix: Security vulnerability (Thanks to Dominykas Gelucevicius from [ThreatPress Security](https://profiles.wordpress.org/threatpress))
+* Update: Only site administrator will be able to export list of subscribers
+* Update: POT file
+* Localization: Translation for German (de_DE) language updated (Thanks to Markus Buschmann)
+* Localization: Made all other translation files up-to-date with latest POT file
+* Tweak: Doc link addition for newsletter keywords while creating/updating a template
+
+= 3.4.7 (16.01.2018) =
+
+* Fix: Empty email with only unsubscribe links sent to subscribers
+* Fix: Remove usage of rawurlencode() to prevent broken subscribe & unsubscribe links
+* Update: Removed the functionality to subscribe emails with special characters
+* Update: Change in logic for updating subscribers information in subscribers dashboard
+* Update: POT file
+* Localization: Translation for Italian (it_IT) language added (Thanks to  Roberto Pavesi)
+* Localization: Translation for German (de_DE) language updated (Thanks to Markus Buschmann)
+* Localization: Translation for Polish (pl_PL) language updated (Thanks to Witold)
+* Localization: Made all other translation files up-to-date with latest POT file
 
 = 3.4.6 (19.12.2017) =
 

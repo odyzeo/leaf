@@ -10,6 +10,7 @@ require_once( 'leaf/latest-blogs.php' );
 require_once( 'leaf/latest-news.php' );
 require_once( 'leaf/media.php' );
 require_once( 'leaf/news.php' );
+require_once( 'leaf/ped/ped.php' );
 require_once( 'leaf/videostrip.php' );
 
 /*
