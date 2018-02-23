@@ -11753,8 +11753,8 @@ $(document).ready(function () {
     __WEBPACK_IMPORTED_MODULE_1__components_LoadMore__["a" /* default */].init();
 
     /**
-    * Mobile menu
-    */
+     * Mobile menu
+     */
     $('.menu-mobile .menu-item-has-children > a').on('click', function (e) {
         e.preventDefault();
 
@@ -11766,9 +11766,9 @@ $(document).ready(function () {
     });
 
     /**
-    * Add placeholder to email-subscribers plugin input field
-    * @type {*|jQuery|HTMLElement}
-    */
+     * Add placeholder to email-subscribers plugin input field
+     * @type {*|jQuery|HTMLElement}
+     */
     var $newsletterFooterInput = $('.footer #es_txt_email_pg');
     if ($newsletterFooterInput.length > 0) {
         $('.footer #es_txt_email_pg').attr('placeholder', 'email@email.com');
@@ -11786,8 +11786,8 @@ $(document).ready(function () {
     }
 
     /**
-    * Scroll to top
-    */
+     * Scroll to top
+     */
     var SCROLL_TOP_TRESHOLD = 100;
     var $top = $('.js-to-top');
     $top.on('click', function (e) {
@@ -11803,8 +11803,8 @@ $(document).ready(function () {
     window.addEventListener('scroll', scrollFunction);
 
     /**
-    * Hide menu on scrolldown, show on scrollup
-    */
+     * Hide menu on scrolldown, show on scrollup
+     */
     var lastScrollTop = void 0;
     $(window).on('scroll', scrollDown).trigger('scroll');
 
@@ -11818,9 +11818,9 @@ $(document).ready(function () {
     }
 
     /**
-    * Load remote images on localhost
-    * @type {boolean}
-    */
+     * Load remote images on localhost
+     * @type {boolean}
+     */
     var localhost = location.host.indexOf('localhost') > -1;
     if (localhost) {
         return;

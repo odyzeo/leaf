@@ -28,8 +28,8 @@ $(document).ready(() => {
     LoadMore.init()
 
     /**
-   * Mobile menu
-   */
+     * Mobile menu
+     */
     $('.menu-mobile .menu-item-has-children > a').on('click', function (e) {
         e.preventDefault()
 
@@ -42,9 +42,9 @@ $(document).ready(() => {
 
 
     /**
-   * Add placeholder to email-subscribers plugin input field
-   * @type {*|jQuery|HTMLElement}
-   */
+     * Add placeholder to email-subscribers plugin input field
+     * @type {*|jQuery|HTMLElement}
+     */
     const $newsletterFooterInput = $('.footer #es_txt_email_pg')
     if ($newsletterFooterInput.length > 0) {
         $('.footer #es_txt_email_pg').attr('placeholder', 'email@email.com')
@@ -63,8 +63,8 @@ $(document).ready(() => {
 
 
     /**
-   * Scroll to top
-   */
+     * Scroll to top
+     */
     const SCROLL_TOP_TRESHOLD = 100
     const $top = $('.js-to-top')
     $top.on('click', e => {
@@ -74,15 +74,15 @@ $(document).ready(() => {
 
     const scrollFunction = () => {
         const scrolledTop = window.pageYOffset
-      || document.body.scrollTop || document.documentElement.scrollTop
+            || document.body.scrollTop || document.documentElement.scrollTop
 
         $top.toggleClass('scroll-top--active', scrolledTop > SCROLL_TOP_TRESHOLD)
     }
     window.addEventListener('scroll', scrollFunction)
 
     /**
-   * Hide menu on scrolldown, show on scrollup
-   */
+     * Hide menu on scrolldown, show on scrollup
+     */
     let lastScrollTop
     $(window).on('scroll', scrollDown).trigger('scroll')
 
@@ -97,9 +97,9 @@ $(document).ready(() => {
 
 
     /**
-   * Load remote images on localhost
-   * @type {boolean}
-   */
+     * Load remote images on localhost
+     * @type {boolean}
+     */
     const localhost = location.host.indexOf('localhost') > -1
     if (localhost) {
         return
