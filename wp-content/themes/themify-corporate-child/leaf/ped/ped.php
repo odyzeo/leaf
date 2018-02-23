@@ -402,7 +402,6 @@ function leaf_register_ped_post_type() {
         "show_in_menu"        => true,
         "exclude_from_search" => false,
         "hierarchical"        => false,
-        "rewrite"             => false,
         "query_var"           => true,
         "menu_position"       => 22,
         "supports"            => array( "title", "editor", "thumbnail" ),
@@ -493,9 +492,9 @@ add_action( "admin_notices", function () {
         echo "<div class='updated'>";
         echo "<p>";
         echo "To insert the posts into the database, set FILE ID and click the button below.";
-        echo "<form action='{$_SERVER["REQUEST_URI"]}&insert_ped_posts' method='GET'>";
+        echo "<form action='{$_SERVER["REQUEST_URI"]}' method='GET'>";
         echo "<input type='hidden' name='post_type' value='ped-8'>";
-        echo "<input type='hidden' name='insert_sitepoint_posts' value='true'>";
+        echo "<input type='hidden' name='insert_ped_posts' value='true'>";
         echo "<input name='ped-upload'>";
         echo "<button class='button button-primary' type='submit'>Insert Posts</button>";
         echo "</form>";
@@ -509,8 +508,7 @@ add_action( "admin_notices", function () {
  */
 add_action( "admin_init", function () {
 
-    // I'd recommend replacing this with your own code to make sure
-    //  the post creation _only_ happens when you want it to.
+    // Only execute this when we want to.
     if ( ! isset( $_GET["insert_ped_posts"] ) ) {
         return;
     }
@@ -646,6 +644,11 @@ add_action( "admin_init", function () {
         foreach ( $metas as $meta ) {
             update_post_meta( $post_id, $meta, $post[ $meta ] );
         }
+    }
+
+    $ped_admin_url = get_admin_url() . 'edit.php?post_type=ped-8';
+    if ( wp_redirect( $ped_admin_url ) ) {
+        exit;
     }
 
 } );
