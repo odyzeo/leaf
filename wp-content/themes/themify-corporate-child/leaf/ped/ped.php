@@ -2,13 +2,33 @@
 
 define( 'LEAF_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
+define( 'LEAF_PED_META_BOX_ID', 'ped-meta-box-id' );
+
 define( 'LEAF_POST_TYPE_PED', 'ped-8' );
 
+define( 'LEAF_PED_CSV_HEADERS', array(
+    'title',
+    'ped_excerpt',
+    'ped_focus',
+    'ped_kind',
+    'ped_expertise',
+    'ped_period',
+    'ped_hours',
+    'ped_location',
+    'ped_city',
+    'ped_offline',
+    'ped_challenge',
+    'ped_output',
+    'ped_profile',
+    'ped_why',
+    'ped_about',
+    'ped_web'
+) );
 
 /*
  * Expertíza dobrovoľníka
  */
-define( 'LEAF_PED_EXPERTISE', 'expertise-ped_expertise' );
+define( 'LEAF_PED_EXPERTISE', 'ped_expertise' );
 
 // Financie a biznis
 define( 'LEAF_PED_FINANCE', 'expertise-finance' );
@@ -28,35 +48,35 @@ define( 'LEAF_PED_ANALYSE', 'expertise-analyse' );
 define( 'LEAF_PED_OTHER', 'expertise-other' );
 
 define( 'LEAF_META_EXPERTISE', array(
-    array(
+    LEAF_PED_FINANCE   => array(
         'id'   => LEAF_PED_FINANCE,
         'name' => __( 'Financie a biznis', 'workout' ),
     ),
-    array(
+    LEAF_PED_HR        => array(
         'id'   => LEAF_PED_HR,
         'name' => __( 'Ľudské zdroje', 'workout' ),
     ),
-    array(
+    LEAF_PED_MARKETING => array(
         'id'   => LEAF_PED_MARKETING,
         'name' => __( 'Marketing', 'workout' ),
     ),
-    array(
+    LEAF_PED_SALES     => array(
         'id'   => LEAF_PED_SALES,
         'name' => __( 'Predaj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LAW       => array(
         'id'   => LEAF_PED_LAW,
         'name' => __( 'Právo', 'workout' ),
     ),
-    array(
+    LEAF_PED_IT        => array(
         'id'   => LEAF_PED_IT,
         'name' => __( 'IT', 'workout' ),
     ),
-    array(
+    LEAF_PED_ANALYSE   => array(
         'id'   => LEAF_PED_ANALYSE,
         'name' => __( 'Analýza dát', 'workout' ),
     ),
-    array(
+    LEAF_PED_OTHER     => array(
         'id'   => LEAF_PED_OTHER,
         'name' => __( 'Iné', 'workout' ),
     ),
@@ -68,7 +88,7 @@ define( 'LEAF_META_EXPERTISE', array(
  */
 define( 'LEAF_PED_LOCATION', 'ped_location' );
 
-// Offline - ped_offline
+// Offline status from CSV
 define( 'LEAF_PED_OFFLINE', 'ped_offline' );
 
 // Homeoffice
@@ -91,39 +111,39 @@ define( 'LEAF_PED_LOCATION_PO', 'po' );
 define( 'LEAF_PED_LOCATION_KE', 'ke' );
 
 define( 'LEAF_META_LOCATION', array(
-    array(
+    LEAF_PED_LOCATION_HO => array(
         'id'   => LEAF_PED_LOCATION_HO,
         'name' => __( 'Možné robiť aj na diaľku / zo zahraničia', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_BA => array(
         'id'   => LEAF_PED_LOCATION_BA,
         'name' => __( 'Bratislavský kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_TA => array(
         'id'   => LEAF_PED_LOCATION_TA,
         'name' => __( 'Trnavský kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_TT => array(
         'id'   => LEAF_PED_LOCATION_TT,
         'name' => __( 'Trenčiansky kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_NA => array(
         'id'   => LEAF_PED_LOCATION_NA,
         'name' => __( 'Nitriansky kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_ZA => array(
         'id'   => LEAF_PED_LOCATION_ZA,
         'name' => __( 'Žilinský kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_BB => array(
         'id'   => LEAF_PED_LOCATION_BB,
         'name' => __( 'Banskobystrický kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_PO => array(
         'id'   => LEAF_PED_LOCATION_PO,
         'name' => __( 'Prešovský kraj', 'workout' ),
     ),
-    array(
+    LEAF_PED_LOCATION_KE => array(
         'id'   => LEAF_PED_LOCATION_KE,
         'name' => __( 'Košický kraj', 'workout' ),
     ),
@@ -161,51 +181,51 @@ define( 'LEAF_PED_FOCUS_START_UP', 'focus-start-up' );
 define( 'LEAF_PED_FOCUS_OTHER', 'focus-other' );
 
 define( 'LEAF_META_FOCUS', array(
-    array(
+    LEAF_PED_FOCUS_HUMANITARIAN => array(
         'id'   => LEAF_PED_FOCUS_HUMANITARIAN,
         'name' => __( 'Humanitárna činnosť', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_CULTURE      => array(
         'id'   => LEAF_PED_FOCUS_CULTURE,
         'name' => __( 'Kultúra', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_DEVELOPMENT  => array(
         'id'   => LEAF_PED_FOCUS_DEVELOPMENT,
         'name' => __( 'Rozvoj občianskej spoločnosti', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_LEARNING     => array(
         'id'   => LEAF_PED_FOCUS_LEARNING,
         'name' => __( 'Vzdelávanie a rozvoj', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_SOCIAL       => array(
         'id'   => LEAF_PED_FOCUS_SOCIAL,
         'name' => __( 'Sociálne znevýhodnení občania', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_HEALTH       => array(
         'id'   => LEAF_PED_FOCUS_HEALTH,
         'name' => __( 'Zdravotne znevýhodnení občania', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_DEV_SK       => array(
         'id'   => LEAF_PED_FOCUS_DEV_SK,
         'name' => __( 'Rozvoj SR', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_SENIORS      => array(
         'id'   => LEAF_PED_FOCUS_SENIORS,
         'name' => __( 'Seniori', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_ENV          => array(
         'id'   => LEAF_PED_FOCUS_ENV,
         'name' => __( 'Životné prostredie', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_SCIENCE      => array(
         'id'   => LEAF_PED_FOCUS_SCIENCE,
         'name' => __( 'Veda a technológie', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_START_UP     => array(
         'id'   => LEAF_PED_FOCUS_START_UP,
         'name' => __( 'Start up', 'workout' ),
     ),
-    array(
+    LEAF_PED_FOCUS_OTHER        => array(
         'id'   => LEAF_PED_FOCUS_OTHER,
         'name' => __( 'Iné', 'workout' ),
     ),
@@ -225,15 +245,15 @@ define( 'LEAF_PED_KIND_SOCIAL', 'kind-social' );
 define( 'LEAF_PED_KIND_START_UP', 'kind-start-up' );
 
 define( 'LEAF_META_KIND', array(
-    array(
+    LEAF_PED_KIND_NON_PROFIT => array(
         'id'   => LEAF_PED_KIND_NON_PROFIT,
         'name' => __( 'Nezisková organizácia', 'workout' ),
     ),
-    array(
+    LEAF_PED_KIND_SOCIAL     => array(
         'id'   => LEAF_PED_KIND_SOCIAL,
         'name' => __( 'Sociálny podnik', 'workout' ),
     ),
-    array(
+    LEAF_PED_KIND_START_UP   => array(
         'id'   => LEAF_PED_KIND_START_UP,
         'name' => __( 'Start-up', 'workout' ),
     ),
@@ -255,19 +275,19 @@ define( 'LEAF_PED_PERIOD_9', 'period-9' );
 define( 'LEAF_PED_PERIOD_12', 'period-12' );
 
 define( 'LEAF_META_PERIOD', array(
-    array(
+    LEAF_PED_PERIOD_3  => array(
         'id'   => LEAF_PED_PERIOD_3,
         'name' => __( '3 mesiace', 'workout' ),
     ),
-    array(
+    LEAF_PED_PERIOD_6  => array(
         'id'   => LEAF_PED_PERIOD_6,
         'name' => __( '6 mesiacov', 'workout' ),
     ),
-    array(
+    LEAF_PED_PERIOD_9  => array(
         'id'   => LEAF_PED_PERIOD_9,
         'name' => __( '9 mesiasov', 'workout' ),
     ),
-    array(
+    LEAF_PED_PERIOD_12 => array(
         'id'   => LEAF_PED_PERIOD_12,
         'name' => __( '12 mesiacov', 'workout' ),
     ),
@@ -301,10 +321,6 @@ define( 'LEAF_PED_ABOUT', 'ped_about' );
 define( 'LEAF_PED_WEB', 'ped_web' );
 
 define( 'LEAF_META_TEXTS', array(
-    LEAF_PED_OFFLINE         => array(
-        'id'   => LEAF_PED_OFFLINE,
-        'name' => __( 'Možnosť zapojenia na diaľku', 'workout' ),
-    ),
     LEAF_PED_CHALLENGE       => array(
         'id'   => LEAF_PED_CHALLENGE,
         'name' => __( 'Výzva', 'workout' ),
@@ -321,18 +337,6 @@ define( 'LEAF_META_TEXTS', array(
         'id'   => LEAF_PED_HOURS_ESTIMATED,
         'name' => __( 'Približný počet hodín na týždeň', 'workout' ),
     ),
-    LEAF_PED_OUTPUT          => array(
-        'id'   => LEAF_PED_OUTPUT,
-        'name' => __( 'Výstup', 'workout' ),
-    ),
-    LEAF_PED_PROFILE         => array(
-        'id'   => LEAF_PED_PROFILE,
-        'name' => __( 'Profil dobrovoľníka', 'workout' ),
-    ),
-    LEAF_PED_WHY             => array(
-        'id'   => LEAF_PED_WHY,
-        'name' => __( 'Prečo by si si nás mal vybrať', 'workout' ),
-    ),
     LEAF_PED_ABOUT           => array(
         'id'   => LEAF_PED_ABOUT,
         'name' => __( 'O organizácii', 'workout' ),
@@ -343,6 +347,20 @@ define( 'LEAF_META_TEXTS', array(
     ),
 ) );
 
+define( 'LEAF_META_WYSIWYG', array(
+    LEAF_PED_OUTPUT  => array(
+        'id'   => LEAF_PED_OUTPUT,
+        'name' => __( 'Výstup', 'workout' ),
+    ),
+    LEAF_PED_PROFILE => array(
+        'id'   => LEAF_PED_PROFILE,
+        'name' => __( 'Profil dobrovoľníka', 'workout' ),
+    ),
+    LEAF_PED_WHY     => array(
+        'id'   => LEAF_PED_WHY,
+        'name' => __( 'Prečo by si si nás mal vybrať', 'workout' ),
+    ),
+) );
 
 require_once( LEAF_PLUGIN_DIR . 'class.ped-meta-box.php' );
 new Ped_Meta_Box();
@@ -380,29 +398,29 @@ function get_ped_opportunities() {
             foreach ( $metas as $meta ) {
                 $post[ $meta ] = get_post_meta( $post_id, $meta, true );
 
-                foreach ( LEAF_META_EXPERTISE as $EXPERTISE ) {
-                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
-                        $post[ $meta ][] = $EXPERTISE;
+                foreach ( LEAF_META_EXPERTISE as $period => $v ) {
+                    if ( in_array( $period, $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $v;
                     }
                 }
-                foreach ( LEAF_META_LOCATION as $EXPERTISE ) {
-                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
-                        $post[ $meta ][] = $EXPERTISE;
+                foreach ( LEAF_META_LOCATION as $period => $v ) {
+                    if ( in_array( $period, $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $v;
                     }
                 }
-                foreach ( LEAF_META_FOCUS as $EXPERTISE ) {
-                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
-                        $post[ $meta ][] = $EXPERTISE;
+                foreach ( LEAF_META_FOCUS as $period => $v ) {
+                    if ( in_array( $period, $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $v;
                     }
                 }
-                foreach ( LEAF_META_KIND as $EXPERTISE ) {
-                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
-                        $post[ $meta ][] = $EXPERTISE;
+                foreach ( LEAF_META_KIND as $period => $v ) {
+                    if ( in_array( $period, $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $v;
                     }
                 }
-                foreach ( LEAF_META_PERIOD as $EXPERTISE ) {
-                    if ( in_array( $EXPERTISE['id'], $post[ $meta ] ) ) {
-                        $post[ $meta ][] = $EXPERTISE;
+                foreach ( LEAF_META_PERIOD as $period => $v ) {
+                    if ( in_array( $period, $post[ $meta ] ) ) {
+                        $post[ $meta ][] = $v;
                     }
                 }
             }
@@ -421,11 +439,16 @@ function get_ped_opportunities() {
 add_action( "admin_notices", function () {
     $screen = get_current_screen();
 
-    if ( $screen->id === 'ped-8' ) {
+    if ( $screen->id === 'edit-ped-8' ) {
         echo "<div class='updated'>";
         echo "<p>";
-        echo "To insert the posts into the database, click the button to the right.";
-        echo "<a class='button button-primary' style='margin:0.25em 1em' href='{$_SERVER["REQUEST_URI"]}&insert_sitepoint_posts'>Insert Posts</a>";
+        echo "To insert the posts into the database, set FILE ID and click the button below.";
+        echo "<form action='{$_SERVER["REQUEST_URI"]}&insert_sitepoint_posts' method='GET'>";
+        echo "<input type='hidden' name='post_type' value='ped-8'>";
+        echo "<input type='hidden' name='insert_sitepoint_posts' value='true'>";
+        echo "<input name='ped-upload'>";
+        echo "<button class='button button-primary' type='submit'>Insert Posts</button>";
+        echo "</form>";
         echo "</p>";
         echo "</div>";
     }
@@ -442,31 +465,38 @@ add_action( "admin_init", function () {
         return;
     }
 
-    // Get the data from all those CSVs!
     $posts = function () {
-        $data   = array();
-        $errors = array();
+        $attachment_id = $_GET["ped-upload"];
 
-        // Get array of CSV files
-        $files = glob( __DIR__ . "/data/*.csv" );
+        $data = array();
+        global $ped_csv_errors;
+        $ped_csv_errors = array();
 
-        foreach ( $files as $file ) {
+        $file = get_attached_file( $attachment_id );
 
-            // Attempt to change permissions if not readable
-            if ( ! is_readable( $file ) ) {
-                chmod( $file, 0744 );
+        // Attempt to change permissions if not readable
+        if ( ! is_readable( $file ) ) {
+            chmod( $file, 0744 );
+        }
+
+        // Check if file is writable, then open it in 'read only' mode
+        if ( is_readable( $file ) && $_file = fopen( $file, "r" ) ) {
+            $post = array();
+
+            // Get first row in CSV, which is of course the headers
+            $header = fgetcsv( $_file );
+
+            // Check if headers are OK
+            $wrong_header = false;
+            foreach ( $header as $i => $key ) {
+                if ( ! in_array( $key, LEAF_PED_CSV_HEADERS ) ) {
+                    $wrong_header     = true;
+                    $right_header     = implode( ',', LEAF_PED_CSV_HEADERS );
+                    $ped_csv_errors[] = "File '$file' contains wrong header '$key'.<br> Acceptable headers are: $right_header";
+                }
             }
 
-            // Check if file is writable, then open it in 'read only' mode
-            if ( is_readable( $file ) && $_file = fopen( $file, "r" ) ) {
-
-                // To sum this part up, all it really does is go row by
-                //  row, column by column, saving all the data
-                $post = array();
-
-                // Get first row in CSV, which is of course the headers
-                $header = fgetcsv( $_file );
-
+            if ( $wrong_header === false ) {
                 while ( $row = fgetcsv( $_file ) ) {
 
                     foreach ( $header as $i => $key ) {
@@ -475,26 +505,36 @@ add_action( "admin_init", function () {
 
                     $data[] = $post;
                 }
-
-                fclose( $_file );
-
-            } else {
-                $errors[] = "File '$file' could not be opened. Check the file's permissions to make sure it's readable by your server.";
             }
+
+            fclose( $_file );
+
+        } else {
+            $ped_csv_errors[] = "File '$file' could not be opened. Check the file's permissions to make sure it's readable by your server.";
         }
 
-        if ( ! empty( $errors ) ) {
+        if ( ! empty( $ped_csv_errors ) ) {
             // ... do stuff with the errors
+
+            add_action( "admin_notices", function () {
+                global $ped_csv_errors;
+
+                ?>
+                <div class="error notice">
+                    <?php
+                    foreach ( $ped_csv_errors as $err ) {
+                        echo "<p>$err</p>";
+                    }
+                    ?>
+                </div>
+                <?php
+            } );
         }
 
         return $data;
     };
 
     foreach ( $posts() as $post ) {
-
-        // Check post values
-//        var_dump( $post );
-//        return
 
         // Insert the post into the database
         $post_id = wp_insert_post( array(
@@ -503,20 +543,36 @@ add_action( "admin_init", function () {
             "post_status" => "publish"
         ) );
 
-        // Meta values as array
-        $metas = [
-            LEAF_PED_EXPERTISE,
-            LEAF_PED_KIND,
-            LEAF_PED_FOCUS,
-            LEAF_PED_PERIOD,
-        ];
+        $get_meta_id = function ( $arr, $val ) {
+            foreach ( $arr as $item ) {
+                if ( $item['name'] === $val ) {
+                    return $item['id'];
+                }
+            }
 
-        foreach ( $metas as $meta ) {
-            update_post_meta( $post_id, $meta, [ $post[ $meta ] ] );
-        }
+            return "";
+        };
 
+        // EXPERTISE
+        $expertise = $get_meta_id( LEAF_META_EXPERTISE, $post[ LEAF_PED_EXPERTISE ] );
+        update_post_meta( $post_id, LEAF_PED_EXPERTISE, [ $expertise ] );
+
+        // KIND
+        $expertise = $get_meta_id( LEAF_META_KIND, $post[ LEAF_PED_KIND ] );
+        update_post_meta( $post_id, LEAF_PED_KIND, [ $expertise ] );
+
+        // FOCUS
+        $expertise = $get_meta_id( LEAF_META_FOCUS, $post[ LEAF_PED_FOCUS ] );
+        update_post_meta( $post_id, LEAF_PED_FOCUS, [ $expertise ] );
+
+        // PERIOD
+        $expertise = $get_meta_id( LEAF_META_PERIOD, $post[ LEAF_PED_PERIOD ] );
+        update_post_meta( $post_id, LEAF_PED_PERIOD, [ $expertise ] );
+
+        // LOCATION
         $locations   = [];
-        $locations[] = $post_id[ LEAF_PED_LOCATION ];
+        $location    = $get_meta_id( LEAF_META_LOCATION, $post[ LEAF_PED_LOCATION ] );
+        $locations[] = $location;
 
         $offline = $post[ LEAF_PED_OFFLINE ] === 'Áno';
         if ( $offline ) {

@@ -21,10 +21,10 @@ class Ped_Meta_Box {
     public function add_metabox() {
 
         add_meta_box(
-            'PED meta box',
+            LEAF_PED_META_BOX_ID,
             __( 'PED 8', 'leaf' ),
             array( $this, 'render_metabox' ),
-            'ped-8',
+            LEAF_POST_TYPE_PED,
             'advanced',
             'default'
         );
@@ -128,6 +128,16 @@ class Ped_Meta_Box {
             echo '	</tr>';
         }
 
+        foreach ( LEAF_META_WYSIWYG as $text_field ) {
+            echo '	<tr>';
+            echo '		<th><label for="' . $text_field['id'] . '" class="leaf_state_label">' . $text_field['name'] . '</label></th>';
+            echo '		<td>';
+            $content = get_post_meta( $post->ID, $text_field['id'], true );
+            wp_editor( $content, $text_field['id'] );
+            echo '		</td>';
+            echo '	</tr>';
+        }
+
         echo '</table>';
     }
 
@@ -178,6 +188,10 @@ class Ped_Meta_Box {
         }
 
         foreach ( LEAF_META_TEXTS as $text_field ) {
+            update_post_meta( $post_id, $text_field['id'], $_POST[ $text_field['id'] ] );
+        }
+
+        foreach ( LEAF_META_WYSIWYG as $text_field ) {
             update_post_meta( $post_id, $text_field['id'], $_POST[ $text_field['id'] ] );
         }
     }

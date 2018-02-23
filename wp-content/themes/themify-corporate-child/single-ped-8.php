@@ -35,6 +35,9 @@
                             foreach ( LEAF_META_TEXTS as $meta => $v ) {
                                 $meta_values[ $meta ] = get_post_meta( $post_id, $meta, true );
                             }
+                            foreach ( LEAF_META_WYSIWYG as $meta => $v ) {
+                                $meta_values[ $meta ] = get_post_meta( $post_id, $meta, true );
+                            }
 
                             // ARRAYS
                             $meta_arrays = [
@@ -56,11 +59,31 @@
                                 return "";
                             };
 
+                            $get_meta_name_from_id = function ( $arr, $id ) {
+                                foreach ( $arr as $item ) {
+                                    if ( $item['id'] == $id ) {
+                                        return $item['name'];
+                                    }
+                                }
+
+                                return "";
+                            };
+
                             $meta_values[ LEAF_PED_EXPERTISE ] = $get_meta_name( $post_id, LEAF_META_EXPERTISE, LEAF_PED_EXPERTISE );
-                            $meta_values[ LEAF_PED_LOCATION ]  = $get_meta_name( $post_id, LEAF_META_LOCATION, LEAF_PED_LOCATION );
+                            $meta_values[ LEAF_PED_LOCATION ]  = $id = get_post_meta( $post_id, LEAF_PED_LOCATION, true );
                             $meta_values[ LEAF_PED_KIND ]      = $get_meta_name( $post_id, LEAF_META_KIND, LEAF_PED_KIND );
                             $meta_values[ LEAF_PED_FOCUS ]     = $get_meta_name( $post_id, LEAF_META_FOCUS, LEAF_PED_FOCUS );
                             $meta_values[ LEAF_PED_PERIOD ]    = $get_meta_name( $post_id, LEAF_META_PERIOD, LEAF_PED_PERIOD );
+
+                            $location    = "";
+                            $home_office = false;
+                            foreach ( $meta_values[ LEAF_PED_LOCATION ] as $loc ) {
+                                if ( $loc === LEAF_PED_LOCATION_HO ) {
+                                    $home_office = true;
+                                } else {
+                                    $location .= $get_meta_name_from_id( LEAF_META_LOCATION, $loc );
+                                }
+                            }
 
                             $thumbnail = get_the_post_thumbnail_url( $post_id, 'medium_large' );
                             ?>
@@ -78,17 +101,17 @@
 
                             echo '<div class="ped-detail__section">';
                             echo '<div class="ped-detail__title">Výstup</div>';
-                            echo $meta_values[ LEAF_PED_OUTPUT ];
+                            echo apply_filters( 'the_content', $meta_values[ LEAF_PED_OUTPUT ] );
                             echo '</div>';
 
                             echo '<div class="ped-detail__section">';
                             echo '<div class="ped-detail__title">Profil dobrovoľníka</div>';
-                            echo $meta_values[ LEAF_PED_PROFILE ];
+                            echo apply_filters( 'the_content', $meta_values[ LEAF_PED_PROFILE ] );
                             echo '</div>';
 
                             echo '<div class="ped-detail__section">';
                             echo '<div class="ped-detail__title">Prečo by si si nás mal vybrať</div>';
-                            echo $meta_values[ LEAF_PED_WHY ];
+                            echo apply_filters( 'the_content', $meta_values[ LEAF_PED_WHY ] );
                             echo '</div>';
 
                             echo '<div class="ped-detail__section">';
@@ -152,12 +175,12 @@
 
                                 echo '<div class="ped-detail__section">';
                                 echo '<div class="ped-detail__subtitle">Lokalita</div>';
-                                echo $meta_values[ LEAF_PED_LOCATION ];
+                                echo $location;
                                 echo '</div>';
 
                                 echo '<div class="ped-detail__section">';
                                 echo '<div class="ped-detail__subtitle">Možnosť zapojenia na diaľku</div>';
-                                echo $meta_values[ LEAF_PED_OFFLINE ];
+                                echo ( $home_office ) ? 'Áno' : 'Nie';
                                 echo '</div>';
                                 ?>
 

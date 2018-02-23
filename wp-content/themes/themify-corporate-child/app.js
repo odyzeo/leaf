@@ -33966,35 +33966,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             checkedLocation: [],
             checkedFocus: [],
             checkedKind: [],
-            checkedPeriod: []
+            checkedPeriod: [],
+            filteredPosts: this.posts
         };
     },
 
     props: {
         expertise: {
-            type: Array
+            type: Object
         },
         location: {
-            type: Array
+            type: Object
         },
         focus: {
-            type: Array
+            type: Object
         },
         kind: {
-            type: Array
+            type: Object
         },
         period: {
-            type: Array
+            type: Object
         },
         posts: {
             type: Array
         }
     },
-    computed: {
-        filteredPosts: function filteredPosts() {
+    methods: {
+        setActiveSelectBox: function setActiveSelectBox(id) {
+            if (this.activeSelectBox === id) {
+                this.applySelectBox();
+            } else {
+                this.activeSelectBox = id;
+            }
+        },
+        applySelectBox: function applySelectBox() {
             var _this = this;
 
-            return this.posts.filter(function (p) {
+            this.activeSelectBox = 0;
+
+            this.filteredPosts = this.posts.filter(function (p) {
                 if (_this.checkedExpertise.length > 0 && p.ped_expertise.filter(function (x) {
                     return _this.checkedExpertise.indexOf(x.id) > -1;
                 }).length === 0) {
@@ -34028,18 +34038,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 return true;
             });
         }
-    },
-    methods: {
-        setActiveSelectBox: function setActiveSelectBox(id) {
-            if (this.activeSelectBox === id) {
-                this.closeSelectBox();
-            } else {
-                this.activeSelectBox = id;
-            }
-        },
-        closeSelectBox: function closeSelectBox() {
-            this.activeSelectBox = 0;
-        }
     }
 });
 
@@ -34062,7 +34060,10 @@ var render = function() {
           _c("div", { staticClass: "flex-1-2" }, [
             _c(
               "div",
-              { staticClass: "select-box" },
+              {
+                staticClass: "select-box",
+                class: { "select-box--active": _vm.activeSelectBox === 1 }
+              },
               [
                 _c(
                   "div",
@@ -34148,7 +34149,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.closeSelectBox($event)
+                                  _vm.applySelectBox($event)
                                 }
                               }
                             },
@@ -34171,7 +34172,10 @@ var render = function() {
           _c("div", { staticClass: "flex-1-2" }, [
             _c(
               "div",
-              { staticClass: "select-box" },
+              {
+                staticClass: "select-box",
+                class: { "select-box--active": _vm.activeSelectBox === 2 }
+              },
               [
                 _c(
                   "div",
@@ -34192,7 +34196,7 @@ var render = function() {
                         "div",
                         { staticClass: "select-box__options transition-drop" },
                         [
-                          _vm._l(_vm.location, function(e, i) {
+                          _vm._l(_vm.location, function(e, key, i) {
                             return _c(
                               "label",
                               { staticClass: "select-box__option checkbox" },
@@ -34269,7 +34273,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.closeSelectBox($event)
+                                  _vm.applySelectBox($event)
                                 }
                               }
                             },
@@ -34292,7 +34296,10 @@ var render = function() {
           _c("div", { staticClass: "flex-1-3" }, [
             _c(
               "div",
-              { staticClass: "select-box" },
+              {
+                staticClass: "select-box",
+                class: { "select-box--active": _vm.activeSelectBox === 3 }
+              },
               [
                 _c(
                   "div",
@@ -34382,7 +34389,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.closeSelectBox($event)
+                                  _vm.applySelectBox($event)
                                 }
                               }
                             },
@@ -34405,7 +34412,10 @@ var render = function() {
           _c("div", { staticClass: "flex-1-3" }, [
             _c(
               "div",
-              { staticClass: "select-box" },
+              {
+                staticClass: "select-box",
+                class: { "select-box--active": _vm.activeSelectBox === 4 }
+              },
               [
                 _c(
                   "div",
@@ -34495,7 +34505,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.closeSelectBox($event)
+                                  _vm.applySelectBox($event)
                                 }
                               }
                             },
@@ -34518,7 +34528,10 @@ var render = function() {
           _c("div", { staticClass: "flex-1-3" }, [
             _c(
               "div",
-              { staticClass: "select-box" },
+              {
+                staticClass: "select-box",
+                class: { "select-box--active": _vm.activeSelectBox === 5 }
+              },
               [
                 _c(
                   "div",
@@ -34608,7 +34621,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  _vm.closeSelectBox($event)
+                                  _vm.applySelectBox($event)
                                 }
                               }
                             },

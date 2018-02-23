@@ -24,7 +24,7 @@ global $themify; ?>
 
             <?php echo get_leaf_page_title(); ?>
 
-            <div id="ped">
+            <div id="ped" class="ped-placeholder">
                 <ped
                     :expertise='<?php echo json_encode( LEAF_META_EXPERTISE, JSON_UNESCAPED_UNICODE ); ?>'
                     :location='<?php echo json_encode( LEAF_META_LOCATION, JSON_UNESCAPED_UNICODE ); ?>'

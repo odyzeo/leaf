@@ -8,7 +8,7 @@
                         FILTER PONÚK
                     </div>
                     <div class="flex-1-2">
-                        <div class="select-box">
+                        <div class="select-box" :class="{'select-box--active': activeSelectBox === 1}">
                             <div class="select-box__title" @click="setActiveSelectBox(1)">
                                 <strong>Expertíza dobrovoľníka</strong>
                             </div>
@@ -25,7 +25,7 @@
                                         <span class="checkbox__label">{{ e.name }}</span>
                                     </label>
 
-                                    <a href class="select-box__submit" @click.prevent="closeSelectBox">
+                                    <a href class="select-box__submit" @click.prevent="applySelectBox">
                                         Potvrdiť výber
                                     </a>
                                 </div>
@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="flex-1-2">
-                        <div class="select-box">
+                        <div class="select-box" :class="{'select-box--active': activeSelectBox === 2}">
                             <div class="select-box__title" @click="setActiveSelectBox(2)">
                                 <strong>Lokalita</strong>
                             </div>
@@ -42,7 +42,7 @@
                             <transition name="transition-drop">
                                 <div class="select-box__options transition-drop" v-if="activeSelectBox === 2">
 
-                                    <label v-for="(e, i) in location" class="select-box__option checkbox">
+                                    <label v-for="(e, key, i) in location" class="select-box__option checkbox">
                                         <input type="checkbox"
                                                class="checkbox__input"
                                                v-model="checkedLocation"
@@ -52,7 +52,7 @@
                                         <span class="checkbox__label" v-if="i > 0">{{ e.name }}</span>
                                     </label>
 
-                                    <a href class="select-box__submit" @click.prevent="closeSelectBox">
+                                    <a href class="select-box__submit" @click.prevent="applySelectBox">
                                         Potvrdiť výber
                                     </a>
                                 </div>
@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="flex-1-3">
-                        <div class="select-box">
+                        <div class="select-box" :class="{'select-box--active': activeSelectBox === 3}">
                             <div class="select-box__title" @click="setActiveSelectBox(3)">
                                 Zameranie organizácie
                             </div>
@@ -78,7 +78,7 @@
                                         <span class="checkbox__label">{{ e.name }}</span>
                                     </label>
 
-                                    <a href class="select-box__submit" @click.prevent="closeSelectBox">
+                                    <a href class="select-box__submit" @click.prevent="applySelectBox">
                                         Potvrdiť výber
                                     </a>
                                 </div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="flex-1-3">
-                        <div class="select-box">
+                        <div class="select-box" :class="{'select-box--active': activeSelectBox === 4}">
                             <div class="select-box__title" @click="setActiveSelectBox(4)">
                                 Druh organizácie
                             </div>
@@ -103,7 +103,7 @@
                                         <span class="checkbox__label">{{ e.name }}</span>
                                     </label>
 
-                                    <a href class="select-box__submit" @click.prevent="closeSelectBox">
+                                    <a href class="select-box__submit" @click.prevent="applySelectBox">
                                         Potvrdiť výber
                                     </a>
                                 </div>
@@ -111,7 +111,7 @@
                         </div>
                     </div>
                     <div class="flex-1-3">
-                        <div class="select-box">
+                        <div class="select-box" :class="{'select-box--active': activeSelectBox === 5}">
                             <div class="select-box__title" @click="setActiveSelectBox(5)">
                                 Dĺžka projektu
                             </div>
@@ -128,7 +128,7 @@
                                         <span class="checkbox__label">{{ e.name }}</span>
                                     </label>
 
-                                    <a href class="select-box__submit" @click.prevent="closeSelectBox">
+                                    <a href class="select-box__submit" @click.prevent="applySelectBox">
                                         Potvrdiť výber
                                     </a>
                                 </div>
@@ -200,31 +200,41 @@
                 checkedFocus: [],
                 checkedKind: [],
                 checkedPeriod: [],
+                filteredPosts: this.posts,
             }
         },
         props: {
             expertise: {
-                type: Array,
+                type: Object,
             },
             location: {
-                type: Array,
+                type: Object,
             },
             focus: {
-                type: Array,
+                type: Object,
             },
             kind: {
-                type: Array,
+                type: Object,
             },
             period: {
-                type: Array,
+                type: Object,
             },
             posts: {
                 type: Array,
             },
         },
-        computed: {
-            filteredPosts() {
-                return this.posts.filter(p => {
+        methods: {
+            setActiveSelectBox(id) {
+                if (this.activeSelectBox === id) {
+                    this.applySelectBox()
+                } else {
+                    this.activeSelectBox = id
+                }
+            },
+            applySelectBox() {
+                this.activeSelectBox = 0
+
+                this.filteredPosts = this.posts.filter(p => {
                     if (this.checkedExpertise.length > 0
                         && p.ped_expertise.filter(x => this.checkedExpertise.indexOf(x.id) > -1).length === 0
                     ) {
@@ -257,18 +267,6 @@
 
                     return true
                 })
-            },
-        },
-        methods: {
-            setActiveSelectBox(id) {
-                if (this.activeSelectBox === id) {
-                    this.closeSelectBox()
-                } else {
-                    this.activeSelectBox = id
-                }
-            },
-            closeSelectBox() {
-                this.activeSelectBox = 0
             },
         },
     }
