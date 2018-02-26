@@ -285,7 +285,7 @@ define( 'LEAF_META_PERIOD', array(
     ),
     LEAF_PED_PERIOD_9  => array(
         'id'   => LEAF_PED_PERIOD_9,
-        'name' => __( '9 mesiasov', 'PED' ),
+        'name' => __( '9 mesiacov', 'PED' ),
     ),
     LEAF_PED_PERIOD_12 => array(
         'id'   => LEAF_PED_PERIOD_12,
