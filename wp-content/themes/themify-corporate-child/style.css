@@ -6634,14 +6634,29 @@ body .themify_builder_content .module-text .banner a {
 }
 .card--ped .card__title {
   margin-bottom: -3px;
+  color: #fff !important;
+}
+.card--ped:hover .card__title {
+  color: #fff !important;
 }
 .card--ped .card__header {
+  position: relative;
   padding: 18px 10px 15px;
-  background: #e9e9e9;
+  background-color: #40b153;
+}
+.card--ped .card__header:after {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  content: '';
+  background: url(assets/images/img-brain-white.png) no-repeat center/contain;
 }
 .card--ped .card__subtitle {
   font-size: 10px;
   text-transform: uppercase;
+  color: #000;
 }
 .card--ped .card__subtitle--light {
   color: #bdbdbd;
@@ -6669,22 +6684,22 @@ body .themify_builder_content .module-text .banner a {
   background: no-repeat center/100%;
 }
 .poppy--1 {
-  background-image: url(components/assets/images/poppies/poppy-1.jpg);
+  background-image: url(assets/images/poppies/poppy-1.jpg);
 }
 .poppy--2 {
-  background-image: url(components/assets/images/poppies/poppy-2.jpg);
+  background-image: url(assets/images/poppies/poppy-2.jpg);
 }
 .poppy--3 {
-  background-image: url(components/assets/images/poppies/poppy-3.jpg);
+  background-image: url(assets/images/poppies/poppy-3.jpg);
 }
 .poppy--4 {
-  background-image: url(components/assets/images/poppies/poppy-4.jpg);
+  background-image: url(assets/images/poppies/poppy-4.jpg);
 }
 .poppy--5 {
-  background-image: url(components/assets/images/poppies/poppy-5.jpg);
+  background-image: url(assets/images/poppies/poppy-5.jpg);
 }
 .poppy--6 {
-  background-image: url(components/assets/images/poppies/poppy-6.jpg);
+  background-image: url(assets/images/poppies/poppy-6.jpg);
 }
 .select-box {
   position: relative;
