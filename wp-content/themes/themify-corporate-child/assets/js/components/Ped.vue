@@ -167,7 +167,7 @@
                                         <span v-for="e in post.ped_kind">{{e.name}}</span>
                                     </div>
 
-                                    <div class="card__subtitle">
+                                    <div class="card__subtitle card__subtitle--light">
                                         <span v-for="e in post.ped_period">{{e.name}}</span>
                                     </div>
 
@@ -175,7 +175,7 @@
                                         {{ post.ped_excerpt }}
                                     </div>
 
-                                    <a :href="post.link" class="btn btn--block btn--blank">Toto chcem</a>
+                                    <a :href="post.link" class="btn btn--block btn--blank">VIAC INFORMÁCIÍ</a>
                                 </div>
                             </div>
                         </div>

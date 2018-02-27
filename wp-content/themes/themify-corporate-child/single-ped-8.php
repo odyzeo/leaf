@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php get_header(); ?>
+<?php get_header('volunteers'); ?>
 
 <div id="layout" class="pagewidth clearfix">
 
@@ -38,6 +38,9 @@
                             foreach ( LEAF_META_WYSIWYG as $meta => $v ) {
                                 $meta_values[ $meta ] = get_post_meta( $post_id, $meta, true );
                             }
+
+                            $link = str_replace( 'https://', '', trim( $meta_values[ LEAF_PED_WEB ] ) );
+                            $link = str_replace( 'http://', '', $link );
 
                             // ARRAYS
                             $meta_arrays = [
@@ -122,8 +125,8 @@
                             ?>
 
                             <div class="text-center">
-                                <a href="" class="btn btn--primary btn--min">
-                                    Prihlásiť
+                                <a href="<?php echo LEAF_PED_REGISTER_LINK; ?>" class="btn btn--primary btn--min">
+                                    Prihlásiť sa
                                 </a>
                             </div>
 
@@ -132,8 +135,8 @@
                         <div class="ped-detail__side">
 
                             <div class="ped-detail__section">
-                                <a href="" class="btn btn--primary btn--block">
-                                    Prihlásiť
+                                <a href="<?php echo LEAF_PED_REGISTER_LINK; ?>" class="btn btn--primary btn--block">
+                                    Prihlásiť sa
                                 </a>
                             </div>
 
@@ -181,6 +184,11 @@
                                 echo '<div class="ped-detail__section">';
                                 echo '<div class="ped-detail__subtitle">Možnosť zapojenia na diaľku</div>';
                                 echo ( $home_office ) ? 'Áno' : 'Nie';
+                                echo '</div>';
+
+                                echo '<div class="ped-detail__section">';
+                                echo '<div class="ped-detail__subtitle">Web</div>';
+                                echo "<a href='http://$link' target='_blank'>$link</a>";
                                 echo '</div>';
                                 ?>
 

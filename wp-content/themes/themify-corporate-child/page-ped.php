@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php get_header(); ?>
+<?php get_header( 'volunteers' ); ?>
 
 <?php
 /** Themify Default Variables

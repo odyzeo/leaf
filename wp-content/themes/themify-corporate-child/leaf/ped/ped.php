@@ -6,6 +6,8 @@ define( 'LEAF_PED_META_BOX_ID', 'ped-meta-box-id' );
 
 define( 'LEAF_POST_TYPE_PED', 'ped-8' );
 
+define( 'LEAF_PED_REGISTER_LINK', 'https://www.leaf.sk/dobrovolnici/prihlaska-dobrovolnika/' );
+
 define( 'LEAF_PED_CSV_HEADERS', array(
     'title',
     'ped_excerpt',

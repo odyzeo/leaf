@@ -34701,7 +34701,7 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "card__subtitle" },
+                      { staticClass: "card__subtitle card__subtitle--light" },
                       _vm._l(post.ped_period, function(e) {
                         return _c("span", [_vm._v(_vm._s(e.name))])
                       })
@@ -34721,7 +34721,7 @@ var render = function() {
                         staticClass: "btn btn--block btn--blank",
                         attrs: { href: post.link }
                       },
-                      [_vm._v("Toto chcem")]
+                      [_vm._v("VIAC INFORMÁCIÍ")]
                     )
                   ])
                 ])

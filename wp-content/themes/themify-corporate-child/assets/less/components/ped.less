@@ -108,20 +108,27 @@
 
     .card__header {
         padding: 18px 10px 15px;
-        background-image: linear-gradient(to bottom, #ffffff, #f4f4f4);
+        background: #e9e9e9;
     }
 
     .card__subtitle {
-        color: #bdbdbd;
         font-size: 10px;
         text-transform: uppercase;
     }
 
+    .card__subtitle--light {
+        color: #bdbdbd;
+    }
+
     .card__body {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
         padding: 15px 25px 25px;
     }
 
     .card__excerpt {
+        flex: 1;
         margin: 15px 0;
     }
 }
