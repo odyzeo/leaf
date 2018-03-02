@@ -447,7 +447,8 @@ function get_ped_opportunities() {
                 LEAF_PED_EXCERPT
             ];
             foreach ( $metas as $meta ) {
-                $post[ $meta ] = get_post_meta( $post_id, $meta, true );
+                $post_meta     = get_post_meta( $post_id, $meta, true );
+                $post[ $meta ] = ( empty( $post_meta ) ) ? [] : $post_meta;
 
                 foreach ( LEAF_META_EXPERTISE as $period => $v ) {
                     if ( in_array( $period, $post[ $meta ] ) ) {
