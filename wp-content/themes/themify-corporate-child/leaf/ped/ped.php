@@ -405,6 +405,7 @@ function leaf_register_ped_post_type() {
         "exclude_from_search" => false,
         "hierarchical"        => false,
         "query_var"           => true,
+        "rewrite"             => array( 'slug' => 'dobrovolnici/projekt' ),
         "menu_position"       => 22,
         "supports"            => array( "title", "editor", "thumbnail" ),
         'menu_icon'           => 'dashicons-heart',
