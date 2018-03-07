@@ -6641,7 +6641,18 @@ body .themify_builder_content .module-text .banner a {
 }
 .card--ped .card__header {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding: 18px 10px 15px;
+  min-height: 91px;
   background-color: #40b153;
 }
 .card--ped .card__header:after {
