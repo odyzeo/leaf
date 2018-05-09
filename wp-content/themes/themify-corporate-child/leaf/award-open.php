@@ -17,7 +17,6 @@ function add_award_open_shortcode( $atts ) {
 					<span>Hľadáme</span> <span>šikovné</span> <span>makovice</span>
 				</h1>
 				<div class='award-open__bubble'>{$args['bubble']}</div>
-				<div class='award-open__stamp'></div>
 			</div>
 		</div>
 	";
