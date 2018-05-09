@@ -452,27 +452,27 @@ function get_ped_opportunities() {
                 $post[ $meta ] = ( empty( $post_meta ) ) ? [] : $post_meta;
 
                 foreach ( LEAF_META_EXPERTISE as $period => $v ) {
-                    if ( in_array( $period, $post[ $meta ] ) ) {
+                    if ( is_array($post[ $meta ]) && in_array( $period, $post[ $meta ] ) ) {
                         $post[ $meta ][] = $v;
                     }
                 }
                 foreach ( LEAF_META_LOCATION as $period => $v ) {
-                    if ( in_array( $period, $post[ $meta ] ) ) {
+                    if ( is_array($post[ $meta ]) && in_array( $period, $post[ $meta ] ) ) {
                         $post[ $meta ][] = $v;
                     }
                 }
                 foreach ( LEAF_META_FOCUS as $period => $v ) {
-                    if ( in_array( $period, $post[ $meta ] ) ) {
+                    if ( is_array($post[ $meta ]) && in_array( $period, $post[ $meta ] ) ) {
                         $post[ $meta ][] = $v;
                     }
                 }
                 foreach ( LEAF_META_KIND as $period => $v ) {
-                    if ( in_array( $period, $post[ $meta ] ) ) {
+                    if ( is_array($post[ $meta ]) && in_array( $period, $post[ $meta ] ) ) {
                         $post[ $meta ][] = $v;
                     }
                 }
                 foreach ( LEAF_META_PERIOD as $period => $v ) {
-                    if ( in_array( $period, $post[ $meta ] ) ) {
+                    if ( is_array($post[ $meta ]) && in_array( $period, $post[ $meta ] ) ) {
                         $post[ $meta ][] = $v;
                     }
                 }

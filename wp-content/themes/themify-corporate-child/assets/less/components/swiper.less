@@ -1,5 +1,5 @@
 @import '../variables';
-@import '../../../node_modules/swiper/src/swiper';
+@import '../../../node_modules/swiper/dist/css/swiper.css';
 
 .swiper {
     position: relative;
@@ -36,6 +36,9 @@
 
 .swiper-button-prev,
 .swiper-button-next {
+    width: auto;
+    height: auto;
+    background-image: none !important;
 
     &:hover {
         cursor: pointer;
