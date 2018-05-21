@@ -15,7 +15,7 @@ function ajax_posts() {
 	);
 
 	if ( isset( $category ) ) {
-		$args['cat'] = explode( ',', $category );
+		$args['category__in'] = explode( ',', $category );
 	}
 
 	// To show on HP 10 posts but load more $args['posts_per_page']
