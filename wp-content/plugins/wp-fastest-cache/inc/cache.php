@@ -21,6 +21,20 @@
 			$this->set_exclude_rules();
 
 			$this->set_content_url();
+
+			if(isset($this->options->wpFastestCacheDisableEmojis) && $this->options->wpFastestCacheDisableEmojis){
+				add_action('init', array($this, 'disable_emojis'));
+			}
+		}
+
+		public function disable_emojis(){
+			remove_action('wp_head', 'print_emoji_detection_script', 7);
+			remove_action('admin_print_scripts', 'print_emoji_detection_script');
+			remove_filter('the_content_feed', 'wp_staticize_emoji');
+			remove_filter('comment_text_rss', 'wp_staticize_emoji');
+			remove_action('wp_print_styles', 'print_emoji_styles');
+			remove_action('admin_print_styles', 'print_emoji_styles');
+			remove_filter('wp_mail', 'wp_staticize_emoji_for_email');
 		}
 
 		public function detect_current_page_type(){
@@ -268,6 +282,13 @@
 					return 0;
 				}
 
+				//different domain names may be used for different languages
+				if($this->isPluginActive('polylang/polylang.php')){
+					if(!preg_match("/".preg_quote(str_replace("www.", "", $_SERVER["HTTP_HOST"]), "/")."/i", get_option("home"))){
+						return 0;
+					}
+				}
+
 				if($this->exclude_page()){
 					//echo "<!-- Wp Fastest Cache: Exclude Page -->"."\n";
 					return 0;
@@ -285,8 +306,12 @@
 				//to show cache version via php if htaccess rewrite rule does not work
 				if($this->cacheFilePath && @file_exists($this->cacheFilePath."index.html")){
 					if($content = @file_get_contents($this->cacheFilePath."index.html")){
-						$content = $content."<!-- via php -->";
-						die($content);
+						if(defined('WPFC_REMOVE_FOOTER_COMMENT') && WPFC_REMOVE_FOOTER_COMMENT){
+							die($content);
+						}else{
+							$content = $content."<!-- via php -->";
+							die($content);
+						}
 					}
 				}else{
 					if($this->isMobile()){

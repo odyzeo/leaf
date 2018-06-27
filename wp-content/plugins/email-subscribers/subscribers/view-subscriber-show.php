@@ -72,7 +72,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 					es_cls_sendmail::es_prepare_optin("single", $did, $idlist = "");
 					es_cls_dbquery::es_view_subscriber_upd_status("Unconfirmed", $did);
 					$es_success_msg = TRUE;
-					$es_success  = __( 'Confirmation emails Resent Successfully.', ES_TDOMAIN );
+					$es_success  = __( 'Confirmation emails resent successfully.', ES_TDOMAIN );
 				}
 			}
 		}
@@ -131,7 +131,7 @@ if (isset($_POST['frm_es_display']) && $_POST['frm_es_display'] == 'yes') {
 					es_cls_sendmail::es_prepare_optin("group", 0, $idlist);
 					es_cls_dbquery::es_view_subscriber_upd_status("Unconfirmed", $idlist);
 					$es_success_msg = TRUE;
-					$es_success = __( 'Confirmation emails Resent Successfully.', ES_TDOMAIN );
+					$es_success = __( 'Confirmation emails resent successfully.', ES_TDOMAIN );
 				} else {
 					?>
 					<div class="error fade">

@@ -2,8 +2,8 @@
 Contributors: wp_media, GregLone
 Tags: compress image, images, performance, optimization, photos, upload, resize, gif, png, jpg, reduce image size, retina
 Requires at least: 3.7.0
-Tested up to: 4.8.3
-Stable tag: 1.6.13.1
+Tested up to: 4.9.1
+Stable tag: 1.6.14.2
 
 Dramatically reduce image file sizes without losing quality, make your website load faster, boost your SEO and save money on your bandwidth.
 
@@ -136,6 +136,19 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 3. Media Page
 
 == Changelog ==
+= 1.6.14.2 - 2018/01/15 =
+* Improvement: force browsers not to use the old version of our script for the charts.
+
+= 1.6.14.1 - 2018/01/11 =
+* Bug Fix: no more conflicts between our script used for the charts and theme builders, or plugins that use an outdated version of this script.
+
+= 1.6.14 - 2018/01/10 =
+* New: added compatibility with partners' plugins.
+* Improvement: updated the script used for the charts, it will lower the risk of conflicts with other plugins (that are also up-to-date).
+* Improvement: the comparison tool button is now also inserted when clicking the next/previous buttons in the media modal.
+* Bug Fix: the comparison tool button should not be inserted several times anymore.
+* Bug Fix: the images wouldn't appear in the comparison tool sometimes.
+
 = 1.6.13.1 - 2017/11/08 =
 * Bug Fix: fixed a php error with php 5.2.
 
@@ -144,7 +157,7 @@ When the plugin is disabled, your existing images remain optimized. Backups of t
 * Improvement: better compatibility with NextGen Gallery plugin. Imagify no longer resizes NextGen images nor removes exif, to let NextGen Gallery do its job peacefully.
 * Improvement: better compatibility with WP Real Media Library plugin, our modal wasn't working correctly.
 * Improvement: better compatibility with plugins that use cookies, like Duo Two-Factor Authentication and Shield Security, to prevent being disconnected.
-* Improvement: better compatibility with SireGround. A "security" measure was preventing Imagify to work correctly.
+* Improvement: better compatibility with SiteGround. A "security" measure was preventing Imagify to work correctly.
 * Improvement: better compatibility with hosts that limit some SQL queries, it prevented our bulk optimization to work.
 * Improvement: better compatibility with Heartbeat Control plugin, it prevented our bulk optimization to work.
 * Improvement: better compatibility with Formidable Forms Pro plugin, the bulk optimizer was never satisfied.

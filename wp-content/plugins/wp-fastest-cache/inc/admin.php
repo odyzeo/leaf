@@ -794,6 +794,8 @@
 			$wpFastestCacheGzip = isset($this->options->wpFastestCacheGzip) ? 'checked="checked"' : "";
 			$wpFastestCacheCombineJs = isset($this->options->wpFastestCacheCombineJs) ? 'checked="checked"' : "";
 			$wpFastestCacheCombineJsPowerFul = isset($this->options->wpFastestCacheCombineJsPowerFul) ? 'checked="checked"' : "";
+			$wpFastestCacheDisableEmojis = isset($this->options->wpFastestCacheDisableEmojis) ? 'checked="checked"' : "";
+
 			$wpFastestCacheRenderBlocking = isset($this->options->wpFastestCacheRenderBlocking) ? 'checked="checked"' : "";
 			
 			$wpFastestCacheRenderBlockingCss = isset($this->options->wpFastestCacheRenderBlockingCss) ? 'checked="checked"' : "";
@@ -1117,6 +1119,13 @@
 								<div class="get-info"><a target="_blank" href="http://www.wpfastestcache.com/optimization/leverage-browser-caching/"><img src="<?php echo plugins_url("wp-fastest-cache/images/info.png"); ?>" /></a></div>
 							</div>
 
+							<div class="questionCon">
+								<div class="question">Disable Emojis</div>
+								<div class="inputCon"><input type="checkbox" <?php echo $wpFastestCacheDisableEmojis; ?> id="wpFastestCacheDisableEmojis" name="wpFastestCacheDisableEmojis"><label for="wpFastestCacheDisableEmojis">You can remove the emoji inline css and wp-emoji-release.min.js</label></div>
+								<div class="get-info"><a target="_blank" href="http://www.wpfastestcache.com/optimization/disableremove-wordpress-emojis/"><img src="<?php echo plugins_url("wp-fastest-cache/images/info.png"); ?>" /></a></div>
+							</div>
+
+
 							<?php if(class_exists("WpFastestCachePowerfulHtml")){ ?> 
 								<?php if(method_exists("WpFastestCachePowerfulHtml", "render_blocking")){ ?>
 									<div class="questionCon">
@@ -1197,6 +1206,8 @@
 											// "pt-PT",
 											// "pt-BR",
 											"tr-TR",
+											"rynofitness.com.au",
+											"margotickets.com",
 											"berkatan.com",
 											"yenihobiler.com",
 											"hobiblogu.com",

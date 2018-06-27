@@ -1,0 +1,155 @@
+@import "../variables";
+
+.ped {
+    background-color: #f9f9f9;
+}
+
+.ped-placeholder {
+    min-height: 300px;
+    background-color: #fff;
+}
+
+.ped__result-count {
+    padding: 15px 0;
+    font-size: 22px;
+    font-weight: 700;
+
+    @media (min-width: @tablet-width-min) {
+        padding: 20px 0;
+    }
+}
+
+.ped__content {
+    padding-bottom: 50px;
+}
+
+.ped-detail {
+    padding: 40px 0;
+    display: flex;
+    flex-direction: column-reverse;
+
+    @media (min-width: @mobile-width-min) {
+        flex-direction: row;
+    }
+}
+
+.ped-detail__detail {
+    font-size: 22px;
+    margin-bottom: 15px;
+
+    @media (min-width: @tablet-width-min) {
+        font-size: 26px;
+        margin-bottom: 25px;
+    }
+}
+
+.ped-detail__title {
+    margin-bottom: 10px;
+    color: @color--primary;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.33;
+    text-transform: uppercase;
+}
+
+.ped-detail__subtitle {
+    font-size: 11px;
+    line-height: 1;
+    color: #7a7a7a;
+}
+
+.ped-detail__image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.ped-detail__section {
+    margin-bottom: 15px;
+}
+
+.ped-detail__main {
+    .flex-2-3;
+
+    @media (min-width: @mobile-width-min) {
+        padding-right: 20px;
+    }
+}
+
+.ped-detail__side {
+    .flex-1-3;
+
+    .btn {
+        display: none;
+
+        @media (min-width: @mobile-width-min) {
+            display: block;
+        }
+    }
+}
+
+.ped-detail__box {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 2px;
+    background-color: #f9f9f9;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+.card--ped {
+    background-color: #fff;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.15);
+    font-size: 13px;
+    text-align: center;
+
+    .card__title {
+        margin-bottom: -3px;
+        color: #fff !important;
+    }
+
+    &:hover .card__title {
+        color: #fff !important;
+    }
+
+    .card__header {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 18px 10px 15px;
+        min-height: 91px;
+        background-color: @color--primary;
+
+        &:after {
+            position: absolute;
+            bottom: 8px;
+            right: 10px;
+            width: 40px;
+            height: 40px;
+            content: '';
+            background: url(../assets/images/img-brain-white.png) no-repeat ~"center/contain";
+        }
+    }
+
+    .card__subtitle {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #000;
+    }
+
+    .card__subtitle--light {
+        color: #bdbdbd;
+    }
+
+    .card__body {
+        display: flex;
+        flex-direction: column;
+        flex: 1 0 auto;
+        padding: 15px 25px 25px;
+    }
+
+    .card__excerpt {
+        flex: 1 0 auto;
+        margin: 15px 0;
+    }
+}

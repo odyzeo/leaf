@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Subscribers & Newsletters 3.4.5\n"
+"Project-Id-Version: Email Subscribers & Newsletters 3.4.7\n"
 "Report-Msgid-Bugs-To: https://www.icegram.com/contact/\n"
 "POT-Creation-Date: 2017-07-26 12:00:36+00:00\n"
-"PO-Revision-Date: Fri Dec 15 2017 12:24:30 GMT+0530 (IST)\n"
+"PO-Revision-Date: Fri Jan 19 2018 13:22:26 GMT+0530 (IST)\n"
 "Last-Translator: admin <mansi.shah@appsmagnet.com>\n"
 "Language-Team: StoreApps <support@storeapps.org>, Icegram <hello@icegram."
 "com>\n"
@@ -32,8 +32,27 @@ msgstr ""
 msgid "(Use templates menu to create new)"
 msgstr ""
 
+#: ../subscribers/view-subscriber-show.php:75 ../subscribers/view-subscriber-show.
+#: php:134
+msgid "Confirmation emails resent successfully."
+msgstr ""
+
 #: ../subscribers/view-subscriber-show.php:256
 msgid "Total Subscribers: "
+msgstr ""
+
+#: ../subscribers/view-subscriber-export.php:12
+msgid ""
+"Oops! Looks like you are not the site administrator.<br><br>Only the site "
+"administrator can export subscriber list."
+msgstr ""
+
+#: ../subscribers/view-subscriber-export.php:14
+msgid "Go back to Subscribers dashboard"
+msgstr ""
+
+#: ../export/export-email-address.php:50 ../export/export-email-address.php:54
+msgid "Unexpected url submit has been detected!"
 msgstr ""
 
 #: ../help/help.php:267
@@ -76,19 +95,23 @@ msgctxt "notification-enhanced-select"
 msgid "Please select notification mail subject. Use templates menu to create new."
 msgstr ""
 
-#: ../classes/es-register.php:746
+#: ../classes/es-register.php:739
 msgid ""
-"Compose is now changed to <b>Templates</b> and Keyword structure has been "
-"simplified. All your previously created templates and keywords have been "
-"automatically updated to the new structure.<br>"
+"<b>Want readymade email templates?</b> Also want to <b>clean your "
+"subscribers list?</b> Come check our Pro plan."
 msgstr ""
 
-#: ../classes/es-register.php:747
-msgid "Check all the changes&nbsp;&nbsp;"
+#: ../classes/es-register.php:740
+msgid "Check Pro plan&nbsp;&nbsp;"
 msgstr ""
 
-#: ../classes/es-register.php:747
-msgid "No thanks, I know about it already."
+#: ../classes/es-register.php:740
+msgid "Not interested."
+msgstr ""
+
+#: ../classes/es-register.php:975
+#, php-format
+msgid "<br/><br/>%s for Newsletter: {{NAME}}, {{EMAIL}}"
 msgstr ""
 
 #: ../notification/notification-add.php:33
@@ -116,7 +139,7 @@ msgstr "Adicionar Notificação"
 #: ./sentmail/sentmail-preview.php:28 ../sentmail/sentmail-show.php:94 ..
 #: sentmail/deliverreport-show.php:58 ../subscribers/view-subscriber-import.php:
 #: 146 ../subscribers/view-subscriber-show.php:247 ../subscribers/view-subscriber-
-#: export.php:38 ../subscribers/view-subscriber-add.php:114 ../subscribers/view-
+#: export.php:51 ../subscribers/view-subscriber-add.php:114 ../subscribers/view-
 #: subscriber-edit.php:113 ../subscribers/view-subscriber-sync.php:92 ..
 #: templates/template-preview.php:32 ../sendmail/sendmail.php:94
 msgid "Help"
@@ -419,7 +442,7 @@ msgstr "Tamanho Completo"
 msgid "Medium Size"
 msgstr "Tamanho Médio"
 
-#: ../settings/settings-edit.php:123 ../classes/es-register.php:857
+#: ../settings/settings-edit.php:123 ../classes/es-register.php:842
 msgid "Thumbnail"
 msgstr "Miniatura"
 
@@ -448,12 +471,12 @@ msgstr ""
 "Esta opção deve ser definida como SIM."
 
 #: ../settings/settings-edit.php:142 ../settings/settings-edit.php:217 ..
-#: subscribers/view-subscriber-sync.php:107 ../classes/es-register.php:1126
+#: subscribers/view-subscriber-sync.php:107 ../classes/es-register.php:1111
 msgid "YES"
 msgstr "SIM"
 
 #: ../settings/settings-edit.php:143 ../settings/settings-edit.php:218 ..
-#: subscribers/view-subscriber-sync.php:106 ../classes/es-register.php:1127
+#: subscribers/view-subscriber-sync.php:106 ../classes/es-register.php:1112
 msgid "NO"
 msgstr "NÃO"
 
@@ -866,7 +889,7 @@ msgid "View Reports"
 msgstr "Exibir Relatórios"
 
 #: ../sentmail/sentmail-show.php:108 ../sentmail/sentmail-show.php:121 ..
-#: classes/es-register.php:905
+#: classes/es-register.php:890
 msgid "Preview"
 msgstr "Visualizar"
 
@@ -899,7 +922,7 @@ msgstr "Total"
 
 #: ../sentmail/sentmail-show.php:115 ../sentmail/sentmail-show.php:128 ..
 #: subscribers/view-subscriber-show.php:293 ../subscribers/view-subscriber-
-#: export.php:48 ../subscribers/view-subscriber-export.php:56
+#: export.php:61 ../subscribers/view-subscriber-export.php:69
 msgid "Action"
 msgstr "Ação"
 
@@ -924,8 +947,8 @@ msgid "Delivery Report"
 msgstr "Relatório de Entrega"
 
 #: ../sentmail/deliverreport-show.php:68 ../sentmail/deliverreport-show.php:79 ..
-#: subscribers/view-subscriber-export.php:45 ../subscribers/view-subscriber-
-#: export.php:53
+#: subscribers/view-subscriber-export.php:58 ../subscribers/view-subscriber-
+#: export.php:66
 msgid "Sno"
 msgstr "Sno"
 
@@ -984,7 +1007,7 @@ msgid "Import Email Addresses"
 msgstr "Importar Endereços de E-mails"
 
 #: ../subscribers/view-subscriber-import.php:143 ../subscribers/view-subscriber-
-#: show.php:243 ../subscribers/view-subscriber-export.php:35 ../subscribers/view-
+#: show.php:243 ../subscribers/view-subscriber-export.php:48 ../subscribers/view-
 #: subscriber-add.php:110 ../subscribers/view-subscriber-edit.php:109 ..
 #: subscribers/view-subscriber-sync.php:89
 msgid "Add New Subscriber"
@@ -997,7 +1020,7 @@ msgid "Export"
 msgstr "Exportar"
 
 #: ../subscribers/view-subscriber-import.php:145 ../subscribers/view-subscriber-
-#: show.php:246 ../subscribers/view-subscriber-export.php:37 ../subscribers/view-
+#: show.php:246 ../subscribers/view-subscriber-export.php:50 ../subscribers/view-
 #: subscriber-add.php:113 ../subscribers/view-subscriber-edit.php:112 ..
 #: subscribers/view-subscriber-sync.php:143
 msgid "Sync"
@@ -1047,7 +1070,7 @@ msgid "(or)"
 msgstr "(ou)"
 
 #: ../subscribers/view-subscriber-import.php:210 ../subscribers/view-subscriber-
-#: show.php:244 ../subscribers/view-subscriber-export.php:36 ../subscribers/view-
+#: show.php:244 ../subscribers/view-subscriber-export.php:49 ../subscribers/view-
 #: subscriber-add.php:111 ../subscribers/view-subscriber-edit.php:110 ..
 #: subscribers/view-subscriber-sync.php:90
 msgid "Import"
@@ -1069,11 +1092,6 @@ msgstr "Registro excluído."
 #: ../subscribers/view-subscriber-show.php:67
 msgid "To send confirmation email, please change the Opt-in option to Double Opt In."
 msgstr "Para enviar e-mail de confirmação, altere a opção Opt-In para Opt-In Duplo."
-
-#: ../subscribers/view-subscriber-show.php:75 ../subscribers/view-subscriber-show.
-#: php:134
-msgid "Confirmation emails Resent Successfully."
-msgstr "E-mail de Confirmação Reenviado com Sucesso."
 
 #: ../subscribers/view-subscriber-show.php:100 ../subscribers/view-subscriber-
 #: show.php:139 ../subscribers/view-subscriber-show.php:178 ../subscribers/view-
@@ -1115,7 +1133,7 @@ msgstr "Assinantes Ativos: %s"
 msgid "Email Address"
 msgstr "Endereço de e-mail"
 
-#: ../subscribers/view-subscriber-show.php:289 ../classes/es-register.php:1068 ..
+#: ../subscribers/view-subscriber-show.php:289 ../classes/es-register.php:1053 ..
 #: classes/es-loadwidget.php:28
 msgid "Name"
 msgstr "Nome"
@@ -1193,63 +1211,63 @@ msgstr "6001 a 10000"
 msgid "Display All"
 msgstr "Exibir Todos"
 
-#: ../subscribers/view-subscriber-export.php:34
+#: ../subscribers/view-subscriber-export.php:47
 msgid "Export Email Addresses"
 msgstr "Exportar Endereços de E-mails"
 
-#: ../subscribers/view-subscriber-export.php:46 ../subscribers/view-subscriber-
-#: export.php:54
+#: ../subscribers/view-subscriber-export.php:59 ../subscribers/view-subscriber-
+#: export.php:67
 msgid "Type of List to Export"
 msgstr "Tipo de Lista para Exportar"
 
-#: ../subscribers/view-subscriber-export.php:47 ../subscribers/view-subscriber-
-#: export.php:55
+#: ../subscribers/view-subscriber-export.php:60 ../subscribers/view-subscriber-
+#: export.php:68
 msgid "Total Emails Count"
 msgstr "Número Total de E-mails"
 
-#: ../subscribers/view-subscriber-export.php:61
+#: ../subscribers/view-subscriber-export.php:74
 msgid "1"
 msgstr "1"
 
-#: ../subscribers/view-subscriber-export.php:62
+#: ../subscribers/view-subscriber-export.php:75
 msgid "All Subscribers"
 msgstr "Todos os Assinantes"
 
-#: ../subscribers/view-subscriber-export.php:64 ../subscribers/view-subscriber-
-#: export.php:70 ../subscribers/view-subscriber-export.php:76 ../subscribers/view-
-#: subscriber-export.php:82 ../subscribers/view-subscriber-export.php:88
+#: ../subscribers/view-subscriber-export.php:77 ../subscribers/view-subscriber-
+#: export.php:83 ../subscribers/view-subscriber-export.php:89 ../subscribers/view-
+#: subscriber-export.php:95 ../subscribers/view-subscriber-export.php:101
 msgid "Click to Export in CSV"
 msgstr "Clique para Exportar em CSV"
 
-#: ../subscribers/view-subscriber-export.php:67
+#: ../subscribers/view-subscriber-export.php:80
 msgid "2"
 msgstr "2"
 
-#: ../subscribers/view-subscriber-export.php:68
+#: ../subscribers/view-subscriber-export.php:81
 msgid "Active Subscribers (Status: Confirmed & Single Opt In)"
 msgstr "Assinantes Ativos (Status: Confirmados e Opt-In Simples)"
 
-#: ../subscribers/view-subscriber-export.php:73
+#: ../subscribers/view-subscriber-export.php:86
 msgid "3"
 msgstr "3"
 
-#: ../subscribers/view-subscriber-export.php:74
+#: ../subscribers/view-subscriber-export.php:87
 msgid "Inactive Subscribers (Status: Unconfirmed & Unsubscribed)"
 msgstr "Assinantes Inativos (Status: Não Confirmados e Sem Subscrição)"
 
-#: ../subscribers/view-subscriber-export.php:79
+#: ../subscribers/view-subscriber-export.php:92
 msgid "4"
 msgstr "4"
 
-#: ../subscribers/view-subscriber-export.php:80
+#: ../subscribers/view-subscriber-export.php:93
 msgid "WordPress Registered Users"
 msgstr "Usuários Registrados do WordPress"
 
-#: ../subscribers/view-subscriber-export.php:85
+#: ../subscribers/view-subscriber-export.php:98
 msgid "5"
 msgstr "5"
 
-#: ../subscribers/view-subscriber-export.php:86
+#: ../subscribers/view-subscriber-export.php:99
 msgid "Commented Authors"
 msgstr "Autores Comentados"
 
@@ -1354,10 +1372,6 @@ msgstr "Sincronizar os usuários recém-registrados para a lista de assinantes"
 msgid "Select group to add newly registered users to"
 msgstr "Selecione o grupo para adicionar usuários recém-registrados a"
 
-#: ../export/export-email-address.php:45 ../export/export-email-address.php:49
-msgid "Unexpected url submit has been detected"
-msgstr "Um envio de URL inesperado foi detectado"
-
 #: ../templates/template-preview.php:31
 msgid "Template Preview"
 msgstr "Pré-visualização do Modelo"
@@ -1409,7 +1423,7 @@ msgstr "Obrigado pela instalação e esperamos que você aproveite o Email Subsc
 msgid "Get more help and tips..."
 msgstr "Obtenha mais ajuda e dicas..."
 
-#: ../help/help.php:183 ../classes/es-register.php:1078 ../classes/es-loadwidget.
+#: ../help/help.php:183 ../classes/es-register.php:1063 ../classes/es-loadwidget.
 #: php:38
 msgid "Subscribe"
 msgstr "Inscrever"
@@ -1858,12 +1872,12 @@ msgid "<span style=\"color:#993399;\">Immediately</span>"
 msgstr "<span style=\"color:#993399;\">Imediatamente</span>"
 
 #: ../classes/es-register.php:162 ../classes/es-register.php:163 ../classes/es-
-#: register.php:817
+#: register.php:802
 msgid "Email Subscribers"
 msgstr "Email Subscribers"
 
 #: ../classes/es-register.php:168 ../classes/es-register.php:169 ../classes/es-
-#: register.php:805 ../classes/es-register.php:806 ../classes/es-register.php:811
+#: register.php:790 ../classes/es-register.php:791 ../classes/es-register.php:796
 msgid "Templates"
 msgstr "Modelos"
 
@@ -2110,12 +2124,7 @@ msgctxt "widget-page-enhanced-select"
 msgid "There was a problem with the request"
 msgstr "Houve um problema com o pedido"
 
-#: ../classes/es-register.php:704 ../classes/es-register.php:761
-msgctxt "timezone date format"
-msgid "Y-m-d"
-msgstr "Y-m-d"
-
-#: ../classes/es-register.php:782
+#: ../classes/es-register.php:767
 msgid ""
 "If you like <strong>Email Subscribers</strong>, please consider leaving us a "
 "<a target=\"_blank\" href=\"https://wordpress.org/support/plugin/email-"
@@ -2127,72 +2136,72 @@ msgstr ""
 "org/support/plugin/email-subscribers/reviews/?filter=5#new-post\">&#9733;"
 "&#9733;&#9733;&#9733;&#9733;</a> avaliação. Um enorme obrigado do Icegram!"
 
-#: ../classes/es-register.php:796
+#: ../classes/es-register.php:781
 #, php-format
 msgid "Email Subscribers version: <strong>%s</strong>"
 msgstr "Email Subscribers versão: <strong>%s</strong>"
 
-#: ../classes/es-register.php:807 ../classes/es-register.php:808
+#: ../classes/es-register.php:792 ../classes/es-register.php:793
 msgid "Add new Template"
 msgstr "Adicionar Novo Modelo"
 
-#: ../classes/es-register.php:809
+#: ../classes/es-register.php:794
 msgid "Edit Templates"
 msgstr "Editar Modelos"
 
-#: ../classes/es-register.php:810
+#: ../classes/es-register.php:795
 msgid "New Templates"
 msgstr "Novos Modelos"
 
-#: ../classes/es-register.php:812
+#: ../classes/es-register.php:797
 msgid "View Templates"
 msgstr "Exibir Modelos"
 
-#: ../classes/es-register.php:813
+#: ../classes/es-register.php:798
 msgid "Search Templates"
 msgstr "Procurar Modelos"
 
-#: ../classes/es-register.php:814
+#: ../classes/es-register.php:799
 msgid "No Templates found"
 msgstr "Nenhum Modelo encontrado"
 
-#: ../classes/es-register.php:815
+#: ../classes/es-register.php:800
 msgid "No Templates found in Trash"
 msgstr "Nenhum Modelo encontrado na Lixeira"
 
-#: ../classes/es-register.php:818
+#: ../classes/es-register.php:803
 msgid "Thumbnail (For Visual Representation only)"
 msgstr "Miniaturas (Para Representação Visual apenas)"
 
-#: ../classes/es-register.php:819
+#: ../classes/es-register.php:804
 msgid "Set thumbnail"
 msgstr "Definir miniatura"
 
-#: ../classes/es-register.php:856
+#: ../classes/es-register.php:841
 msgid "Template Type"
 msgstr "Tipo de Modelo"
 
-#: ../classes/es-register.php:922
+#: ../classes/es-register.php:907
 msgid "Available Keyword for Post Notification: {{POSTTITLE}}"
 msgstr "Palavra-chave disponível para Notificação de Postagem: {{POSTTITLE}}"
 
-#: ../classes/es-register.php:925
+#: ../classes/es-register.php:910
 msgid "Select your Email Template Type"
 msgstr "Selecione o seu Tipo de Modelo de E-mail"
 
-#: ../classes/es-register.php:927
+#: ../classes/es-register.php:912
 msgid "Newsletter"
 msgstr "Newsletter"
 
-#: ../classes/es-register.php:928
+#: ../classes/es-register.php:913
 msgid "Post Notification"
 msgstr "Notificação de Postagem"
 
-#: ../classes/es-register.php:975
+#: ../classes/es-register.php:960
 msgid "Preview Template"
 msgstr "Visualização do Modelo"
 
-#: ../classes/es-register.php:989
+#: ../classes/es-register.php:974
 #, php-format
 msgid ""
 "%s for Post Notification: {{NAME}}, {{EMAIL}}, {{DATE}}, {{POSTTITLE}}, "
@@ -2203,30 +2212,26 @@ msgstr ""
 "{{POSTTITLE}}, {{POSTLINK}}, {{POSTIMAGE}}, {{POSTDESC}}, {{POSTAUTHOR}}, "
 "{{POSTLINK-WITHTITLE}}, {{POSTLINK-ONLY}}, {{POSTFULL}}"
 
-#: ../classes/es-register.php:989
+#: ../classes/es-register.php:974 ../classes/es-register.php:975
 msgid "Available Keywords"
 msgstr "Palavras-chave disponíveis"
 
-#: ../classes/es-register.php:990
-msgid "<br/><br/>Available Keywords for Newsletter: {{NAME}}, {{EMAIL}}"
-msgstr "<br/><br/>Palavras-chave disponíveis para Newsletter: {{NAME}}, {{EMAIL}}"
-
-#: ../classes/es-register.php:1073 ../classes/es-loadwidget.php:33
+#: ../classes/es-register.php:1058 ../classes/es-loadwidget.php:33
 msgid "Email *"
 msgstr "E-mail *"
 
-#: ../classes/es-register.php:1116
+#: ../classes/es-register.php:1101
 msgid "Widget Title"
 msgstr "Título do Widget"
 
-#: ../classes/es-register.php:1120
+#: ../classes/es-register.php:1105
 msgid "Short description about subscription form"
 msgstr "Breve descrição sobre o formulário de inscrição"
 
-#: ../classes/es-register.php:1124
+#: ../classes/es-register.php:1109
 msgid "Display Name Field"
 msgstr "Exibir Campo do Nome"
 
-#: ../classes/es-register.php:1131
+#: ../classes/es-register.php:1116
 msgid "Subscriber Group"
 msgstr "Grupo do Assinante"

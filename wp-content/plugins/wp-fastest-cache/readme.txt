@@ -4,7 +4,7 @@ Donate link: http://profiles.wordpress.org/emrevona/
 Tags: cache, performance, wp-cache, total cache, super cache
 Requires at least: 3.3
 Tested up to: 4.9
-Stable tag: 0.8.7.5
+Stable tag: 0.8.7.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,7 @@ Wpfc does not support Wordpress Multisite yet.
 5. Leverage browser caching - Reduce page load times for repeat visitors
 6. Combine CSS - Reduce number of HTTP round-trips by combining multiple CSS resources into one
 7. Combine JS
+8. Disable Emoji - You can remove the emoji inline css and wp-emoji-release.min.js
 
 <h4>Supported languages: </h4>
 
@@ -100,6 +101,11 @@ Wpfc does not support Wordpress Multisite yet.
 18. Database Cleanup
 
 == Changelog ==
+
+= 0.8.7.6 =
+* to remove "via php" text if WPFC_REMOVE_FOOTER_COMMENT is defined as true
+* to fix the problem which show the same cache for every language on Polylang
+* <strong>[FEATURE]</strong> to remove wordpress emojis [<a target="_blank" href="http://www.wpfastestcache.com/optimization/disableremove-wordpress-emojis/">Details</a>]
 
 = 0.8.7.5 =
 * <strong>[FEATURE]</strong> Compatible with Easy HTTPS (SSL) Redirection

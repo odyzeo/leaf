@@ -43,7 +43,27 @@ body.single-post .post {
 }
 
 .post-heading {
-    background: url(./assets/images/bgr-blog.jpg) no-repeat ~"center/cover";
+    background: url(../assets/images/bgr-blog.jpg) no-repeat ~"center/cover";
+}
+
+.post-heading--large {
+    line-height: 1;
+
+    .post-heading__title {
+
+        small {
+            font-size: 18px;
+            text-transform: none;
+
+            @media (min-width: @tablet-width-min) {
+                font-size: 26px;
+            }
+        }
+
+        @media (min-width: @tablet-width-min) {
+            padding: 50px 0;
+        }
+    }
 }
 
 .post-heading__container {
@@ -68,13 +88,13 @@ body.single-post .post {
             bottom: -24px;
             width: 240px;
             height: 108px;
-            background: url(./assets/images/img-poppies.png) no-repeat ~"center/100%";
+            background: url(../assets/images/img-poppies.png) no-repeat ~"center/100%";
             content: '';
 
             @media (min-width: @tablet-width-min) {
                 width: 320px;
                 height: 144px;
-                background: url(./assets/images/img-poppies.png) no-repeat ~"center";
+                background: url(../assets/images/img-poppies.png) no-repeat ~"center";
             }
         }
 

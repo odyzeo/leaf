@@ -1,9 +1,9 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Email Subscribers & Newsletters 3.4.5\n"
+"Project-Id-Version: Email Subscribers & Newsletters 3.4.7\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-26 12:00:36+00:00\n"
-"PO-Revision-Date: Fri Dec 15 2017 12:24:35 GMT+0530 (IST)\n"
+"PO-Revision-Date: Fri Jan 19 2018 13:22:30 GMT+0530 (IST)\n"
 "Last-Translator: admin <mansi.shah@appsmagnet.com>\n"
 "Language-Team: StoreApps <support@storeapps.org>, Icegram <hello@icegram."
 "com>\n"
@@ -24,273 +24,51 @@ msgstr ""
 "X-Loco-Target-Locale: pl_PL\n"
 "X-Poedit-SearchPath-0: .."
 
-#: ../notification/notification-add.php:45 ../notification/notification-edit.php:61
-msgid "Please select notification mail subject. Use templates menu to create new."
+#: ../subscribers/view-subscriber-show.php:75 ../subscribers/view-subscriber-show.
+#: php:134
+msgid "Confirmation emails resent successfully."
 msgstr ""
 
-#: ../notification/notification-add.php:144 ../notification/notification-edit.php:
-#: 164
-msgid "(Use templates menu to create new)"
-msgstr ""
-
-#: ../settings/settings-edit.php:117
+#: ../subscribers/view-subscriber-export.php:12
 msgid ""
-"Select image size for {{POSTIMAGE}} to be shown in the Post Notification "
-"Emails."
+"Oops! Looks like you are not the site administrator.<br><br>Only the site "
+"administrator can export subscriber list."
 msgstr ""
 
-#: ../settings/settings-edit.php:157
+#: ../subscribers/view-subscriber-export.php:14
+msgid "Go back to Subscribers dashboard"
+msgstr ""
+
+#: ../export/export-email-address.php:50 ../export/export-email-address.php:54
+msgid "Unexpected url submit has been detected!"
+msgstr ""
+
+#: ../classes/es-register.php:739
 msgid ""
-"Content for the admin email whenever a new subscriber signs up and is "
-"confirmed.<br />Available Keywords: {{NAME}}, {{EMAIL}}, {{GROUP}}"
+"<b>Want readymade email templates?</b> Also want to <b>clean your "
+"subscribers list?</b> Come check our Pro plan."
 msgstr ""
 
-#: ../settings/settings-edit.php:172
-msgid ""
-"Content for the email report which will be sent to admin.<br />Available "
-"Keywords: {{COUNT}}, {{UNIQUE}}, {{STARTTIME}}, {{ENDTIME}}"
+#: ../classes/es-register.php:740
+msgid "Check Pro plan&nbsp;&nbsp;"
 msgstr ""
 
-#: ../settings/settings-edit.php:191
-msgid ""
-"Content for the confirmation email to be sent for Double Opt-In whenever a "
-"subscriber signs up.<br />Available Keywords: {{NAME}}, {{LINK}}"
-msgstr ""
-
-#: ../settings/settings-edit.php:232
-msgid ""
-"Content for the subscriber welcome email whenever a user's email is either "
-"confirmed (if Double Opt In) / subscribed (if Single Opt In) successfully."
-"<br />Available Keywords: {{NAME}}, {{GROUP}}, {{LINK}}"
-msgstr ""
-
-#: ../settings/settings-edit.php:248
-msgid ""
-"The text for the unsubscribe link. This text is automatically added with "
-"unsubscribe link in the emails.<br />Available Keyword: {{LINK}}"
-msgstr ""
-
-#: ../settings/settings-edit.php:300
-msgid "Templates Menu"
-msgstr ""
-
-#: ../settings/settings-edit.php:375
-msgid ""
-"Email to admin whenever a cron URL is triggered from your server.<br "
-"/>Available Keywords: {{DATE}}, {{SUBJECT}}, {{COUNT}}"
-msgstr ""
-
-#: ../sentmail/sentmail-preview.php:27
-msgid "Preview Email"
-msgstr ""
-
-#: ../sentmail/sentmail-preview.php:31
-msgid ""
-"This is how the email you sent may look. <br>Note: Different email services "
-"(like gmail, yahoo etc) display email content differently. So there could be "
-"a slight variation on how your customer will view the email content."
-msgstr ""
-
-#: ../subscribers/view-subscriber-show.php:256
-msgid "Total Subscribers: "
-msgstr ""
-
-#: ../templates/template-preview.php:31
-msgid "Template Preview"
-msgstr ""
-
-#: ../templates/template-preview.php:39
-msgid "This is how your email may look."
-msgstr ""
-
-#: ../templates/template-preview.php:41
-msgid ""
-"<br><br>This Post Notification preview has replaced keywords from your last "
-"published blog post."
-msgstr ""
-
-#: ../templates/template-preview.php:43
-msgid ""
-"<br><br>Note: Different email services (like gmail, yahoo etc) display email "
-"content differently. So there could be a slight variation on how your "
-"customer will view the email content."
-msgstr ""
-
-#: ../help/help.php:267
-msgid "Use HTML editor to create newsletters and post notifications."
-msgstr ""
-
-#: ../help/help.php:308
-msgid "General Plugin Configuration"
-msgstr ""
-
-#: ../help/help.php:326
-msgid "How to check sent emails?"
-msgstr ""
-
-#: ../help/help.php:338
-msgid "Create and Send Newsletter Emails"
-msgstr ""
-
-#: ../help/help.php:341
-msgid "Keywords in the Newsletters"
-msgstr ""
-
-#: ../help/help.php:348
-msgid "Create and Send Post Notification Emails when new posts are published"
-msgstr ""
-
-#: ../help/help.php:362
-msgid "What is Cron and how to Schedule Cron Emails?"
-msgstr ""
-
-#: ../help/help.php:401
-msgid "The user can then subscribe to whichever group most appeals to them."
-msgstr ""
-
-#: ../help/help.php:434
-msgid "Rainmaker"
-msgstr ""
-
-#: ../classes/es-register.php:168 ../classes/es-register.php:169 ../classes/es-
-#: register.php:805 ../classes/es-register.php:806 ../classes/es-register.php:811
-msgid "Templates"
-msgstr ""
-
-#: ../classes/es-register.php:201
-msgctxt "view-subscriber-enhanced-select"
-msgid ""
-"Do you want to resend confirmation email? Also please note, this will update "
-"subscriber current status to 'Unconfirmed'."
-msgstr ""
-
-#: ../classes/es-register.php:215
-msgctxt "notification-enhanced-select"
-msgid "Please select notification mail subject. Use templates menu to create new."
-msgstr ""
-
-#: ../classes/es-register.php:704 ../classes/es-register.php:761
-msgctxt "timezone date format"
-msgid "Y-m-d"
-msgstr ""
-
-#: ../classes/es-register.php:746
-msgid ""
-"Compose is now changed to <b>Templates</b> and Keyword structure has been "
-"simplified. All your previously created templates and keywords have been "
-"automatically updated to the new structure.<br>"
-msgstr ""
-
-#: ../classes/es-register.php:747
-msgid "Check all the changes&nbsp;&nbsp;"
-msgstr ""
-
-#: ../classes/es-register.php:747
-msgid "No thanks, I know about it already."
-msgstr ""
-
-#: ../classes/es-register.php:796
-#, php-format
-msgid "Email Subscribers version: <strong>%s</strong>"
-msgstr ""
-
-#: ../classes/es-register.php:807 ../classes/es-register.php:808
-msgid "Add new Template"
-msgstr ""
-
-#: ../classes/es-register.php:809
-msgid "Edit Templates"
-msgstr ""
-
-#: ../classes/es-register.php:810
-msgid "New Templates"
-msgstr ""
-
-#: ../classes/es-register.php:812
-msgid "View Templates"
-msgstr ""
-
-#: ../classes/es-register.php:813
-msgid "Search Templates"
-msgstr ""
-
-#: ../classes/es-register.php:814
-msgid "No Templates found"
-msgstr ""
-
-#: ../classes/es-register.php:815
-msgid "No Templates found in Trash"
-msgstr ""
-
-#: ../classes/es-register.php:818
-msgid "Thumbnail (For Visual Representation only)"
-msgstr ""
-
-#: ../classes/es-register.php:819
-msgid "Set thumbnail"
-msgstr ""
-
-#: ../classes/es-register.php:856
-msgid "Template Type"
-msgstr ""
-
-#: ../classes/es-register.php:922
-msgid "Available Keyword for Post Notification: {{POSTTITLE}}"
-msgstr ""
-
-#: ../classes/es-register.php:925
-msgid "Select your Email Template Type"
+#: ../classes/es-register.php:740
+msgid "Not interested."
 msgstr ""
 
 #: ../classes/es-register.php:975
-msgid "Preview Template"
-msgstr ""
-
-#: ../classes/es-register.php:989
 #, php-format
-msgid ""
-"%s for Post Notification: {{NAME}}, {{EMAIL}}, {{DATE}}, {{POSTTITLE}}, "
-"{{POSTLINK}}, {{POSTIMAGE}}, {{POSTDESC}}, {{POSTAUTHOR}}, {{POSTLINK-"
-"WITHTITLE}}, {{POSTLINK-ONLY}}, {{POSTFULL}}"
-msgstr ""
-
-#: ../classes/es-register.php:990
-msgid "<br/><br/>Available Keywords for Newsletter: {{NAME}}, {{EMAIL}}"
+msgid "<br/><br/>%s for Newsletter: {{NAME}}, {{EMAIL}}"
 msgstr ""
 
 #: ../subscribers/view-subscriber-import.php:145 ../subscribers/view-subscriber-
-#: show.php:246 ../subscribers/view-subscriber-export.php:37 ../subscribers/view-
+#: show.php:246 ../subscribers/view-subscriber-export.php:50 ../subscribers/view-
 #: subscriber-add.php:113 ../subscribers/view-subscriber-edit.php:112 ..
 #: subscribers/view-subscriber-sync.php:143
 #, fuzzy
 msgid "Sync"
 msgstr "Synchronizuj"
-
-#: ../help/help.php:391
-#, fuzzy
-msgid "Allow Subscribers to get subscribed to any group"
-msgstr "Zezwalaj subskrybentom na subskrybowanie jakiejkolwiek grupy"
-
-#: ../help/help.php:396
-#, fuzzy
-msgid "Using our free "
-msgstr "Korzystając z naszej bezpłatnej "
-
-#: ../help/help.php:398
-#, fuzzy
-msgid ""
-"plugin, you can extend Email Subscribers Form functionality by providing an "
-"grouping option right next to the form."
-msgstr ""
-"wtyczki, możesz rozszerzyć funkcjonalność formularza Email Subscribers "
-"poprzez udostępnienie opcji grupowania tuż obok formularza."
-
-#: ../help/help.php:416
-#, fuzzy
-msgid "Using Email Subscribers you can achieve this easily with our free plugin "
-msgstr ""
-"Możesz to łatwo osiągnąć za pomocą naszej bezpłatnej wtyczki Email "
-"Subscribers "
 
 #: ../notification/notification-add.php:33
 msgid "Please select subscribers group."
@@ -299,6 +77,12 @@ msgstr "Proszę wybrać grupę subskrybentów."
 #: ../notification/notification-add.php:39
 msgid "Please select notification status."
 msgstr "Wybierz status powiadamiania."
+
+#: ../notification/notification-add.php:45 ../notification/notification-edit.php:61
+msgid "Please select notification mail subject. Use templates menu to create new."
+msgstr ""
+"Wybierz temat wiadomości z powiadomieniem. Użyj menu szablonów, aby utworzyć "
+"nowe."
 
 #: ../notification/notification-add.php:51 ../notification/notification-edit.php:67
 msgid "Please select post categories."
@@ -317,7 +101,7 @@ msgstr "Dodaj powiadomienie"
 #: ./sentmail/sentmail-preview.php:28 ../sentmail/sentmail-show.php:94 ..
 #: sentmail/deliverreport-show.php:58 ../subscribers/view-subscriber-import.php:
 #: 146 ../subscribers/view-subscriber-show.php:247 ../subscribers/view-subscriber-
-#: export.php:38 ../subscribers/view-subscriber-add.php:114 ../subscribers/view-
+#: export.php:51 ../subscribers/view-subscriber-add.php:114 ../subscribers/view-
 #: subscriber-edit.php:113 ../subscribers/view-subscriber-sync.php:92 ..
 #: templates/template-preview.php:32 ../sendmail/sendmail.php:94
 msgid "Help"
@@ -340,6 +124,11 @@ msgstr "Wybierz"
 #: 163
 msgid "Select Notification Email Subject"
 msgstr "Wybierz Temat e-maila powiadomienia"
+
+#: ../notification/notification-add.php:144 ../notification/notification-edit.php:
+#: 164
+msgid "(Use templates menu to create new)"
+msgstr "(Użyj menu szablonów, aby utworzyć nowe)"
 
 #: ../notification/notification-add.php:168 ../notification/notification-edit.php:
 #: 191
@@ -604,6 +393,14 @@ msgstr "Pojedyncze Ot-In"
 msgid "Image Size"
 msgstr "Rozmiar obrazu"
 
+#: ../settings/settings-edit.php:117
+msgid ""
+"Select image size for {{POSTIMAGE}} to be shown in the Post Notification "
+"Emails."
+msgstr ""
+"Wybierz rozmiar obrazu dla {{POSTIMAGE}}, który ma być wyświetlany w E-mailu "
+"Powiadamiającym."
+
 #: ../settings/settings-edit.php:121
 msgid "Full Size"
 msgstr "Pełny rozmiar"
@@ -612,7 +409,7 @@ msgstr "Pełny rozmiar"
 msgid "Medium Size"
 msgstr "Średni rozmiar"
 
-#: ../settings/settings-edit.php:123 ../classes/es-register.php:857
+#: ../settings/settings-edit.php:123 ../classes/es-register.php:842
 msgid "Thumbnail"
 msgstr "Miniatura"
 
@@ -641,12 +438,12 @@ msgstr ""
 "opcja musi być ustawiona na YES (TAK)."
 
 #: ../settings/settings-edit.php:142 ../settings/settings-edit.php:217 ..
-#: subscribers/view-subscriber-sync.php:107 ../classes/es-register.php:1126
+#: subscribers/view-subscriber-sync.php:107 ../classes/es-register.php:1111
 msgid "YES"
 msgstr "TAK"
 
 #: ../settings/settings-edit.php:143 ../settings/settings-edit.php:218 ..
-#: subscribers/view-subscriber-sync.php:106 ../classes/es-register.php:1127
+#: subscribers/view-subscriber-sync.php:106 ../classes/es-register.php:1112
 msgid "NO"
 msgstr "NIE"
 
@@ -666,6 +463,15 @@ msgstr ""
 msgid "Admin Email Content on new subscriber signs up"
 msgstr "Treść wiadomości e-mail administratora o zarejestrowaniu nowego subskrybenta"
 
+#: ../settings/settings-edit.php:157
+msgid ""
+"Content for the admin email whenever a new subscriber signs up and is "
+"confirmed.<br />Available Keywords: {{NAME}}, {{EMAIL}}, {{GROUP}}"
+msgstr ""
+"Treść wiadomości e-mail administratora, gdy nowy subskrybent zarejestruje "
+"się i zostanie potwierdzony.<br />Dostępne słowa kluczowe: {{NAME}}, "
+"{{EMAIL}}, {{GROUP}}"
+
 #: ../settings/settings-edit.php:164
 msgid "Sent Report Subject"
 msgstr "Temat wysłanego raportu"
@@ -677,6 +483,14 @@ msgstr "Temat raportu e-mail, wysyłanego do administratora."
 #: ../settings/settings-edit.php:171
 msgid "Sent Report Content"
 msgstr "Treść wysłanego raportu"
+
+#: ../settings/settings-edit.php:172
+msgid ""
+"Content for the email report which will be sent to admin.<br />Available "
+"Keywords: {{COUNT}}, {{UNIQUE}}, {{STARTTIME}}, {{ENDTIME}}"
+msgstr ""
+"Treść raportu e-mailowego, który zostanie wysłany do administratora.<br "
+"/>Dostępne słowa kluczowe: {{COUNT}}, {{UNIQUE}}, {{STARTTIME}}, {{ENDTIME}}"
 
 #: ../settings/settings-edit.php:183
 msgid "Double Opt-In Email Subject (Confirmation Email)"
@@ -693,6 +507,15 @@ msgstr ""
 #: ../settings/settings-edit.php:190
 msgid "Double Opt-In Email Content (Confirmation Email)"
 msgstr "Treść e-maila Podwójnego Opt-In (E-mail potwierdzający)"
+
+#: ../settings/settings-edit.php:191
+msgid ""
+"Content for the confirmation email to be sent for Double Opt-In whenever a "
+"subscriber signs up.<br />Available Keywords: {{NAME}}, {{LINK}}"
+msgstr ""
+"Treść e-maila potwierdzającego wysyłana przy opcji podwójnego potwierdzenia "
+"gdy subskrybent się zarejestruje.<br />Dostępne słowa kluczowe: {{NAME}}, "
+"{{GROUP}}, {{LINK}}"
 
 #: ../settings/settings-edit.php:197
 msgid "Double Opt-In Confirmation Link"
@@ -748,6 +571,17 @@ msgstr ""
 msgid "Email Content for Welcome Email"
 msgstr "Treść e-maila powitalnego"
 
+#: ../settings/settings-edit.php:232
+msgid ""
+"Content for the subscriber welcome email whenever a user's email is either "
+"confirmed (if Double Opt In) / subscribed (if Single Opt In) successfully."
+"<br />Available Keywords: {{NAME}}, {{GROUP}}, {{LINK}}"
+msgstr ""
+"Treść e-maila powitalnego dla subskrybenta za każdym razem, gdy wiadomość e-"
+"mail użytkownika zostanie potwierdzona (przy opcji podwójnego potwierdzenia) "
+"/ zasubskrybowania pomyślnie (przy opcji pojedynczego potwierdzenia).<br "
+"/>Dostępne słowa kluczowe: {{NAME}}, {{GROUP}}, {{LINK}}"
+
 #: ../settings/settings-edit.php:240
 msgid "Unsubscribe Link"
 msgstr "Link anulujący subskrypcję"
@@ -765,6 +599,15 @@ msgstr ""
 #: ../settings/settings-edit.php:247
 msgid "Unsubscribe Text in Email"
 msgstr "Tekst anulujący subskrypcję w Email Subscribers"
+
+#: ../settings/settings-edit.php:248
+msgid ""
+"The text for the unsubscribe link. This text is automatically added with "
+"unsubscribe link in the emails.<br />Available Keyword: {{LINK}}"
+msgstr ""
+"Tekst linku do rezygnacji z subskrypcji. Ten tekst jest automatycznie "
+"dodawany do linku do anulowania subskrypcji w e-mailu.<br />Dostępne słowo "
+"kluczowe: {{LINK}}"
 
 #: ../settings/settings-edit.php:254
 msgid "Text to display after an email address is unsubscribed"
@@ -832,6 +675,10 @@ msgstr "Administrator/Edytor"
 msgid "Administrator/Editor/Author/Contributor"
 msgstr "Administrator/Edytor/Autor/Specjalista"
 
+#: ../settings/settings-edit.php:300
+msgid "Templates Menu"
+msgstr "Szablony Menu"
+
 #: ../settings/settings-edit.php:312
 msgid "Post Notifications Menu"
 msgstr "Menu Powiadomień"
@@ -874,6 +721,15 @@ msgstr ""
 #: ../settings/settings-edit.php:374
 msgid "Cron Report"
 msgstr "Raport Crona"
+
+#: ../settings/settings-edit.php:375
+msgid ""
+"Email to admin whenever a cron URL is triggered from your server.<br "
+"/>Available Keywords: {{DATE}}, {{SUBJECT}}, {{COUNT}}"
+msgstr ""
+"Wyślij e-mail do administratora, gdy tylko cron URL zostanie uruchomiony z "
+"twojego serwera.<br />Możliwe słowa kluczowe: {{DATE}}, {{SUBJECT}}, "
+"{{COUNT}}"
 
 #: ../settings/settings-edit.php:385
 msgid "What is Cron (auto emails) and how to setup Cron Job?"
@@ -959,6 +815,20 @@ msgstr "Synchronizacja tabeli wtyczek"
 msgid "Click to sync tables"
 msgstr "Kliknij by synchronizować tabele"
 
+#: ../sentmail/sentmail-preview.php:27
+msgid "Preview Email"
+msgstr "Podgląd e-maila"
+
+#: ../sentmail/sentmail-preview.php:31
+msgid ""
+"This is how the email you sent may look. <br>Note: Different email services "
+"(like gmail, yahoo etc) display email content differently. So there could be "
+"a slight variation on how your customer will view the email content."
+msgstr ""
+"Tak może wyglądać twój e-mail.<br>Uwaga: różne serwisy pocztowe (takie jak "
+"Gmail, Yahoo itp.) wyświetlają treść wiadomości e-mail w różny sposób. Może "
+"więc występować niewielka różnica w sposobie wyświetlania treści wiadomości."
+
 #: ../sentmail/sentmail-preview.php:53
 msgid "Back"
 msgstr "Cofnij"
@@ -989,7 +859,7 @@ msgid "View Reports"
 msgstr "Pokaż raporty"
 
 #: ../sentmail/sentmail-show.php:108 ../sentmail/sentmail-show.php:121 ..
-#: classes/es-register.php:905
+#: classes/es-register.php:890
 msgid "Preview"
 msgstr "Podgląd"
 
@@ -1022,7 +892,7 @@ msgstr "Całkowity"
 
 #: ../sentmail/sentmail-show.php:115 ../sentmail/sentmail-show.php:128 ..
 #: subscribers/view-subscriber-show.php:293 ../subscribers/view-subscriber-
-#: export.php:48 ../subscribers/view-subscriber-export.php:56
+#: export.php:61 ../subscribers/view-subscriber-export.php:69
 msgid "Action"
 msgstr "Akcja"
 
@@ -1047,8 +917,8 @@ msgid "Delivery Report"
 msgstr "Raport dostarczenia"
 
 #: ../sentmail/deliverreport-show.php:68 ../sentmail/deliverreport-show.php:79 ..
-#: subscribers/view-subscriber-export.php:45 ../subscribers/view-subscriber-
-#: export.php:53
+#: subscribers/view-subscriber-export.php:58 ../subscribers/view-subscriber-
+#: export.php:66
 msgid "Sno"
 msgstr "Sno"
 
@@ -1107,7 +977,7 @@ msgid "Import Email Addresses"
 msgstr "Importuj Adresy E-maili"
 
 #: ../subscribers/view-subscriber-import.php:143 ../subscribers/view-subscriber-
-#: show.php:243 ../subscribers/view-subscriber-export.php:35 ../subscribers/view-
+#: show.php:243 ../subscribers/view-subscriber-export.php:48 ../subscribers/view-
 #: subscriber-add.php:110 ../subscribers/view-subscriber-edit.php:109 ..
 #: subscribers/view-subscriber-sync.php:89
 msgid "Add New Subscriber"
@@ -1163,7 +1033,7 @@ msgid "(or)"
 msgstr "(lub)"
 
 #: ../subscribers/view-subscriber-import.php:210 ../subscribers/view-subscriber-
-#: show.php:244 ../subscribers/view-subscriber-export.php:36 ../subscribers/view-
+#: show.php:244 ../subscribers/view-subscriber-export.php:49 ../subscribers/view-
 #: subscriber-add.php:111 ../subscribers/view-subscriber-edit.php:110 ..
 #: subscribers/view-subscriber-sync.php:90
 msgid "Import"
@@ -1185,11 +1055,6 @@ msgstr "Rekord usunięty."
 #: ../subscribers/view-subscriber-show.php:67
 msgid "To send confirmation email, please change the Opt-in option to Double Opt In."
 msgstr "By wysłać e-mail potwierdzający, zmień opcję Opt-in na Podwójne Opt In."
-
-#: ../subscribers/view-subscriber-show.php:75 ../subscribers/view-subscriber-show.
-#: php:134
-msgid "Confirmation emails Resent Successfully."
-msgstr "Poprawnie wysłano e-maile potwierdzające."
 
 #: ../subscribers/view-subscriber-show.php:100 ../subscribers/view-subscriber-
 #: show.php:139 ../subscribers/view-subscriber-show.php:178 ../subscribers/view-
@@ -1222,6 +1087,10 @@ msgstr "Proszę wybrać Nowy Status do aktualizacji."
 msgid "Subscribers"
 msgstr "Subskrybujący"
 
+#: ../subscribers/view-subscriber-show.php:256
+msgid "Total Subscribers: "
+msgstr "Łączna ilość subskrybentów:"
+
 #: ../subscribers/view-subscriber-show.php:258
 #, php-format
 msgid "Active Subscribers: %s"
@@ -1231,7 +1100,7 @@ msgstr "Subskrybenci aktywni: %s"
 msgid "Email Address"
 msgstr "Adres E-mail"
 
-#: ../subscribers/view-subscriber-show.php:289 ../classes/es-register.php:1068 ..
+#: ../subscribers/view-subscriber-show.php:289 ../classes/es-register.php:1053 ..
 #: classes/es-loadwidget.php:28
 msgid "Name"
 msgstr "Nazwa"
@@ -1309,63 +1178,63 @@ msgstr "6001 do 10000"
 msgid "Display All"
 msgstr "Wyświetl Wszystko"
 
-#: ../subscribers/view-subscriber-export.php:34
+#: ../subscribers/view-subscriber-export.php:47
 msgid "Export Email Addresses"
 msgstr "Eksportuj Adresy E-maili"
 
-#: ../subscribers/view-subscriber-export.php:46 ../subscribers/view-subscriber-
-#: export.php:54
+#: ../subscribers/view-subscriber-export.php:59 ../subscribers/view-subscriber-
+#: export.php:67
 msgid "Type of List to Export"
 msgstr "Rodzaj Listy do Eksportu"
 
-#: ../subscribers/view-subscriber-export.php:47 ../subscribers/view-subscriber-
-#: export.php:55
+#: ../subscribers/view-subscriber-export.php:60 ../subscribers/view-subscriber-
+#: export.php:68
 msgid "Total Emails Count"
 msgstr "Łączna liczba e-maili"
 
-#: ../subscribers/view-subscriber-export.php:61
+#: ../subscribers/view-subscriber-export.php:74
 msgid "1"
 msgstr "1"
 
-#: ../subscribers/view-subscriber-export.php:62
+#: ../subscribers/view-subscriber-export.php:75
 msgid "All Subscribers"
 msgstr "Wszyscy Subskrybenci"
 
-#: ../subscribers/view-subscriber-export.php:64 ../subscribers/view-subscriber-
-#: export.php:70 ../subscribers/view-subscriber-export.php:76 ../subscribers/view-
-#: subscriber-export.php:82 ../subscribers/view-subscriber-export.php:88
+#: ../subscribers/view-subscriber-export.php:77 ../subscribers/view-subscriber-
+#: export.php:83 ../subscribers/view-subscriber-export.php:89 ../subscribers/view-
+#: subscriber-export.php:95 ../subscribers/view-subscriber-export.php:101
 msgid "Click to Export in CSV"
 msgstr "Kliknij by wyeksportować do CSV"
 
-#: ../subscribers/view-subscriber-export.php:67
+#: ../subscribers/view-subscriber-export.php:80
 msgid "2"
 msgstr "2"
 
-#: ../subscribers/view-subscriber-export.php:68
+#: ../subscribers/view-subscriber-export.php:81
 msgid "Active Subscribers (Status: Confirmed & Single Opt In)"
 msgstr "Aktywni Subskrybenci (Status: Potwierdzony i Pojedynczy Opt-In)"
 
-#: ../subscribers/view-subscriber-export.php:73
+#: ../subscribers/view-subscriber-export.php:86
 msgid "3"
 msgstr "3"
 
-#: ../subscribers/view-subscriber-export.php:74
+#: ../subscribers/view-subscriber-export.php:87
 msgid "Inactive Subscribers (Status: Unconfirmed & Unsubscribed)"
 msgstr "Nieaktywni Subskrybenci (Status: Niepotwierdzony i Anulowany)"
 
-#: ../subscribers/view-subscriber-export.php:79
+#: ../subscribers/view-subscriber-export.php:92
 msgid "4"
 msgstr "4"
 
-#: ../subscribers/view-subscriber-export.php:80
+#: ../subscribers/view-subscriber-export.php:93
 msgid "WordPress Registered Users"
 msgstr "Zarejestrowany Użytkownik WordPress"
 
-#: ../subscribers/view-subscriber-export.php:85
+#: ../subscribers/view-subscriber-export.php:98
 msgid "5"
 msgstr "5"
 
-#: ../subscribers/view-subscriber-export.php:86
+#: ../subscribers/view-subscriber-export.php:99
 msgid "Commented Authors"
 msgstr "Autorzy komentujący"
 
@@ -1470,9 +1339,31 @@ msgstr "Synchronizacja nowo zarejestrowanych użytkowników z listą subskrybent
 msgid "Select group to add newly registered users to"
 msgstr "Wybierz grupę, do której przypisani zostaną nowo rejestrowani użytkownicy"
 
-#: ../export/export-email-address.php:45 ../export/export-email-address.php:49
-msgid "Unexpected url submit has been detected"
-msgstr "Zostało wykryte niespodziewane zgłoszenie URL"
+#: ../templates/template-preview.php:31
+msgid "Template Preview"
+msgstr "Podgląd szablonu"
+
+#: ../templates/template-preview.php:39
+msgid "This is how your email may look."
+msgstr "Tak może wyglądać twój e-mail."
+
+#: ../templates/template-preview.php:41
+msgid ""
+"<br><br>This Post Notification preview has replaced keywords from your last "
+"published blog post."
+msgstr ""
+"<br><br>Ten podgląd e-maila powiadamiającego zastąpił słowa kluczowe z "
+"Twojego ostatniego opublikowanego wpisu na blogu."
+
+#: ../templates/template-preview.php:43
+msgid ""
+"<br><br>Note: Different email services (like gmail, yahoo etc) display email "
+"content differently. So there could be a slight variation on how your "
+"customer will view the email content."
+msgstr ""
+"<br><br>Uwaga: różne serwisy pocztowe (takie jak Gmail, Yahoo itp.) "
+"wyświetlają treść wiadomości e-mail w różny sposób. Może więc występować "
+"niewielka różnica w sposobie wyświetlania treści wiadomości."
 
 #: ../job/es-unsubscribe.php:54 ../job/es-unsubscribe.php:61 ../job/es-optin.php:
 #: 58 ../job/es-optin.php:68
@@ -1501,7 +1392,7 @@ msgstr ""
 msgid "Get more help and tips..."
 msgstr "Więcej pomocy i wskazówek..."
 
-#: ../help/help.php:183 ../classes/es-register.php:1078 ../classes/es-loadwidget.
+#: ../help/help.php:183 ../classes/es-register.php:1063 ../classes/es-loadwidget.
 #: php:38
 msgid "Subscribe"
 msgstr "Subskrypcja"
@@ -1595,6 +1486,10 @@ msgstr ""
 "Łatwe przenoszenie subskrybentów z innej aplikacji przy użyciu opcji Import "
 "i Eksport."
 
+#: ../help/help.php:267
+msgid "Use HTML editor to create newsletters and post notifications."
+msgstr "Użyj edytora HTML do stworzenia biuletynów i e-maili powiadamiających."
+
 #: ../help/help.php:270
 msgid "Send newsletters to different groups."
 msgstr "Wyślij biuletyny do różnych grup."
@@ -1662,6 +1557,10 @@ msgstr ""
 msgid "How to add captcha in Subscribe form of Email Subscribers?"
 msgstr "Jak dodać captcha do formularza Email Subscribers?"
 
+#: ../help/help.php:308
+msgid "General Plugin Configuration"
+msgstr "Ogólna konfiguracja wtyczki"
+
 #: ../help/help.php:311
 #, php-format
 msgid "Modify %s"
@@ -1695,6 +1594,22 @@ msgstr "Jak zmienić/zaktualizować/przetłumaczyć dowolne teksty z wtyczki?"
 msgid "How to add Unsubscribe link in emails?"
 msgstr "Jak dodać do maila link rezygnacji z subskrypcji?"
 
+#: ../help/help.php:326
+msgid "How to check sent emails?"
+msgstr "Jak sprawdzić wysłane e-maile?"
+
+#: ../help/help.php:338
+msgid "Create and Send Newsletter Emails"
+msgstr "Stwórz i wyślij e-maile biuletynu"
+
+#: ../help/help.php:341
+msgid "Keywords in the Newsletters"
+msgstr "Słowa kluczowe w biuletynie"
+
+#: ../help/help.php:348
+msgid "Create and Send Post Notification Emails when new posts are published"
+msgstr "Stwórz i wyślij e-maile powiadamiające po opublikowaniu nowych postów"
+
 #: ../help/help.php:351
 msgid "Keywords in the Post Notifications"
 msgstr "Słowa kluczowe w e-mailu powiadamiającym"
@@ -1706,6 +1621,10 @@ msgstr "Wyślij testowy e-mail do mnie/grupy testowej"
 #: ../help/help.php:359
 msgid "Cron Job Setup"
 msgstr "Ustawienie zadań Cron"
+
+#: ../help/help.php:362
+msgid "What is Cron and how to Schedule Cron Emails?"
+msgstr "Co to jest Cron i jak zapanować harmonogram wysyłki e-malii przez Cron?"
 
 #: ../help/help.php:365
 msgid "Schedule Cron Emails in cPanel"
@@ -1739,9 +1658,31 @@ msgstr "FAQ"
 msgid "Want to do more? Here's how.."
 msgstr "Chcesz zrobić coś więcej? Oto jak.."
 
+#: ../help/help.php:391
+msgid "Allow Subscribers to get subscribed to any group"
+msgstr "Zezwalaj subskrybentom na subskrybowanie dowolnej grupy"
+
+#: ../help/help.php:396
+msgid "Using our free "
+msgstr "Korzystając z naszej bezpłatnej "
+
 #: ../help/help.php:397
 msgid "Group Selector"
 msgstr "Selektor grup"
+
+#: ../help/help.php:398
+msgid ""
+"plugin, you can extend Email Subscribers Form functionality by providing an "
+"grouping option right next to the form."
+msgstr ""
+"wtyczki, możesz rozszerzyć funkcjonalność formularza Email Subscribers "
+"poprzez udostępnienie opcji grupowania tuż obok formularza."
+
+#: ../help/help.php:401
+msgid "The user can then subscribe to whichever group most appeals to them."
+msgstr ""
+"Użytkownik może następnie zasubskrybować tę grupę, która najbardziej do "
+"niego pasuje."
 
 #: ../help/help.php:404
 msgid "For example: Subscribe either to Updates or to Offers."
@@ -1758,6 +1699,12 @@ msgid ""
 msgstr ""
 "Nie ograniczaj formy abonenta do widgetu. Umieść ją w wyskakujących "
 "okienkach, w paskach, slajdach, paskach bocznych, na pełnym ekranie itd."
+
+#: ../help/help.php:416
+msgid "Using Email Subscribers you can achieve this easily with our free plugin "
+msgstr ""
+"Możesz to łatwo osiągnąć za pomocą naszej bezpłatnej wtyczki Email "
+"Subscribers "
 
 #: ../help/help.php:420
 msgid ""
@@ -1783,6 +1730,10 @@ msgstr "Zdobądź piękne i eleganckie style formularzy"
 #: ../help/help.php:433
 msgid "Email subscribers easily integrates with another free plugin "
 msgstr "Email Subscribers łatwo integruje się z inną bezpłatną wtyczką "
+
+#: ../help/help.php:434
+msgid "Rainmaker"
+msgstr "Rainmaker"
 
 #: ../help/help.php:437
 msgid ""
@@ -1921,9 +1872,14 @@ msgstr "<span style=\"color:#993399;\">Natychmiast</span>"
 
 #. Name of the plugin
 #: ../classes/es-register.php:162 ../classes/es-register.php:163 ../classes/es-
-#: register.php:817
+#: register.php:802
 msgid "Email Subscribers"
 msgstr "Email Subscribers"
+
+#: ../classes/es-register.php:168 ../classes/es-register.php:169 ../classes/es-
+#: register.php:790 ../classes/es-register.php:791 ../classes/es-register.php:796
+msgid "Templates"
+msgstr "Szablony"
 
 #: ../classes/es-register.php:183
 msgid "Help & Info"
@@ -1963,6 +1919,15 @@ msgctxt "view-subscriber-enhanced-select"
 msgid "Are you sure you want to delete selected records?"
 msgstr "Jesteś pewien, że chcesz usunąć zaznaczone rekordy?"
 
+#: ../classes/es-register.php:201
+msgctxt "view-subscriber-enhanced-select"
+msgid ""
+"Do you want to resend confirmation email? Also please note, this will update "
+"subscriber current status to 'Unconfirmed'."
+msgstr ""
+"Chcesz powtórnie wysłać mail potwierdzający? Zwróć też uwagę, że "
+"zaktualizuje to aktualny status subskrybenta do \"Niepotwierdzony\"."
+
 #: ../classes/es-register.php:202
 msgctxt "view-subscriber-enhanced-select"
 msgid "Please select new subscriber group."
@@ -1996,6 +1961,13 @@ msgstr ""
 msgctxt "notification-enhanced-select"
 msgid "Please select subscribers group."
 msgstr "Proszę wybrać grupę subskrybentów."
+
+#: ../classes/es-register.php:215
+msgctxt "notification-enhanced-select"
+msgid "Please select notification mail subject. Use templates menu to create new."
+msgstr ""
+"Wybierz temat wiadomości z powiadomieniem. Użyj menu szablonów, aby utworzyć "
+"nowe."
 
 #: ../classes/es-register.php:216
 msgctxt "notification-enhanced-select"
@@ -2166,7 +2138,7 @@ msgctxt "widget-page-enhanced-select"
 msgid "There was a problem with the request"
 msgstr "Wystąpił problem z żądaniem"
 
-#: ../classes/es-register.php:782
+#: ../classes/es-register.php:767
 msgid ""
 "If you like <strong>Email Subscribers</strong>, please consider leaving us a "
 "<a target=\"_blank\" href=\"https://wordpress.org/support/plugin/email-"
@@ -2178,34 +2150,102 @@ msgstr ""
 "subscribers/reviews/?filter=5#new-post\">&#9733;&#9733;&#9733;&#9733;&#9733;"
 "</a>. Z góry dziękujemy, Icegram!"
 
-#: ../classes/es-register.php:927
+#: ../classes/es-register.php:781
+#, php-format
+msgid "Email Subscribers version: <strong>%s</strong>"
+msgstr "Wersja Email Subscribers: <strong>%s</strong>"
+
+#: ../classes/es-register.php:792 ../classes/es-register.php:793
+msgid "Add new Template"
+msgstr "Dodaj nowy szablon"
+
+#: ../classes/es-register.php:794
+msgid "Edit Templates"
+msgstr "Edytuj szablony"
+
+#: ../classes/es-register.php:795
+msgid "New Templates"
+msgstr "Nowe szablony"
+
+#: ../classes/es-register.php:797
+msgid "View Templates"
+msgstr "Pokaż szablony"
+
+#: ../classes/es-register.php:798
+msgid "Search Templates"
+msgstr "Szukaj szablonów"
+
+#: ../classes/es-register.php:799
+msgid "No Templates found"
+msgstr "Brak szablonów"
+
+#: ../classes/es-register.php:800
+msgid "No Templates found in Trash"
+msgstr "Brak szablonów w koszu"
+
+#: ../classes/es-register.php:803
+msgid "Thumbnail (For Visual Representation only)"
+msgstr "Miniatura (jedynie dla wizualizacji)"
+
+#: ../classes/es-register.php:804
+msgid "Set thumbnail"
+msgstr "Ustaw miniaturę"
+
+#: ../classes/es-register.php:841
+msgid "Template Type"
+msgstr "Typ szablonu"
+
+#: ../classes/es-register.php:907
+msgid "Available Keyword for Post Notification: {{POSTTITLE}}"
+msgstr "Słowa kluczowe możliwe dla powiadomienia pocztowego: {{POSTTITLE}}"
+
+#: ../classes/es-register.php:910
+msgid "Select your Email Template Type"
+msgstr "Wybierz typ szablonu e-maila"
+
+#: ../classes/es-register.php:912
 msgid "Newsletter"
 msgstr "Biuletyn"
 
-#: ../classes/es-register.php:928
+#: ../classes/es-register.php:913
 msgid "Post Notification"
 msgstr "Wpis"
 
-#: ../classes/es-register.php:989
+#: ../classes/es-register.php:960
+msgid "Preview Template"
+msgstr "Podgląd szablonu"
+
+#: ../classes/es-register.php:974
+#, php-format
+msgid ""
+"%s for Post Notification: {{NAME}}, {{EMAIL}}, {{DATE}}, {{POSTTITLE}}, "
+"{{POSTLINK}}, {{POSTIMAGE}}, {{POSTDESC}}, {{POSTAUTHOR}}, {{POSTLINK-"
+"WITHTITLE}}, {{POSTLINK-ONLY}}, {{POSTFULL}}"
+msgstr ""
+"%s dla powiadomienia pocztowego: {{NAME}}, {{EMAIL}}, {{DATE}}, "
+"{{POSTTITLE}}, {{POSTLINK}}, {{POSTIMAGE}}, {{POSTDESC}}, {{POSTAUTHOR}}, "
+"{{POSTLINK-WITHTITLE}}, {{POSTLINK-ONLY}}, {{POSTFULL}}"
+
+#: ../classes/es-register.php:974 ../classes/es-register.php:975
 msgid "Available Keywords"
 msgstr "Dostępne słowa kluczowe"
 
-#: ../classes/es-register.php:1073 ../classes/es-loadwidget.php:33
+#: ../classes/es-register.php:1058 ../classes/es-loadwidget.php:33
 msgid "Email *"
 msgstr "E-mail *"
 
-#: ../classes/es-register.php:1116
+#: ../classes/es-register.php:1101
 msgid "Widget Title"
 msgstr "Tytuł wtyczki"
 
-#: ../classes/es-register.php:1120
+#: ../classes/es-register.php:1105
 msgid "Short description about subscription form"
 msgstr "Krótki opis formularza subskrypcji"
 
-#: ../classes/es-register.php:1124
+#: ../classes/es-register.php:1109
 msgid "Display Name Field"
 msgstr "Wyświetl nazwę pola"
 
-#: ../classes/es-register.php:1131
+#: ../classes/es-register.php:1116
 msgid "Subscriber Group"
 msgstr "Grupa subskrybenta"

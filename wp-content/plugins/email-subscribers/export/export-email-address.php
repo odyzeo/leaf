@@ -9,6 +9,11 @@ if ( preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF']) ) {
 	die('You are not allowed to call this page directly.');
 }
 
+global $current_user;
+if ( !( $current_user instanceof WP_User ) || !current_user_can( 'manage_options' ) ) {
+	die();
+}
+
 if ( !empty($_SERVER) && !empty($_GET) && !empty($_GET['es']) && $_GET['es'] == 'export' ) {
 	global $wpdb;
 	$option = isset($_REQUEST['option']) ? $_REQUEST['option'] : '';
@@ -42,10 +47,10 @@ if ( !empty($_SERVER) && !empty($_GET) && !empty($_GET['es']) && $_GET['es'] == 
 			es_cls_common::download($data, 'c', '');
 			break;
 		default:
-			echo __( 'Unexpected url submit has been detected', ES_TDOMAIN );
+			echo __( 'Unexpected url submit has been detected!', ES_TDOMAIN );
 			break;
 	}
 } else {
-	echo __( 'Unexpected url submit has been detected', ES_TDOMAIN );
+	echo __( 'Unexpected url submit has been detected!', ES_TDOMAIN );
 }
 die();

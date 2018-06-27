@@ -10,6 +10,7 @@ require_once( 'leaf/latest-blogs.php' );
 require_once( 'leaf/latest-news.php' );
 require_once( 'leaf/media.php' );
 require_once( 'leaf/news.php' );
+require_once( 'leaf/ped/ped.php' );
 require_once( 'leaf/videostrip.php' );
 
 /*
@@ -70,6 +71,9 @@ function themify_custom_enqueue_child_theme_styles() {
 			'ajax_url' => admin_url( 'admin-ajax.php' )
 		)
 	);
+    wp_enqueue_style( 'wpb-google-fonts-open', 'https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin-ext', false );
+    wp_enqueue_style( 'wpb-google-fonts-nunito', 'https://fonts.googleapis.com/css?family=Nunito:400,400i,700,700i&subset=latin-ext', false );
+    wp_enqueue_style( 'wpb-google-fonts-pt', 'https://fonts.googleapis.com/css?family=PT+Serif:400,400i,700,700i&subset=latin-ext', false );
 }
 
 add_action( 'wp_enqueue_scripts', 'themify_custom_enqueue_child_theme_styles', 11 );

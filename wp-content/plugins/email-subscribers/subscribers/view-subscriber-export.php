@@ -5,6 +5,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; 
 }
 
+global $current_user;
+if ( !( $current_user instanceof WP_User ) || !current_user_can( 'manage_options' ) ) {
+	?>
+	<div style="text-align: center; width: 90%; height: 75%; display: flex; position: fixed; align-items: center; justify-content: center;">
+		<h1><?php echo __( 'Oops! Looks like you are not the site administrator.<br><br>Only the site administrator can export subscriber list.', ES_TDOMAIN ); ?>
+			<br><br>
+			<a style="line-height: 30px; height: 35px;" class="button-primary" href="<?php echo ES_ADMINURL; ?>?page=es-view-subscribers"><?php echo __( 'Go back to Subscribers dashboard', ES_TDOMAIN ); ?></a>
+		</h1>
+	</div>
+	<?php
+	return;
+}
+
 $home_url = home_url('/');
 
 // All Subscribers

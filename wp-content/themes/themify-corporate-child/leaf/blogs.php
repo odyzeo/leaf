@@ -15,7 +15,7 @@ function ajax_posts() {
 	);
 
 	if ( isset( $category ) ) {
-		$args['cat'] = explode( ',', $category );
+		$args['category__in'] = explode( ',', $category );
 	}
 
 	// To show on HP 10 posts but load more $args['posts_per_page']
@@ -129,6 +129,7 @@ function add_blogs_shortcode( $atts ) {
 	$args = shortcode_atts( array(
 		'category' => '1', // Blog
 		'count'    => '9',
+        'layout'   => '', // 'grid' - First blog will be not 100%
 	), $atts );
 
 	$cat          = $args['category'];
@@ -145,7 +146,7 @@ function add_blogs_shortcode( $atts ) {
 	);
 
 	$wp_query = new WP_Query( $args );
-	$posts    = get_leaf_posts( $wp_query, $initial = true );
+	$posts    = get_leaf_posts( $wp_query, $args['category'] === '' );
 
 	$result .= "
 		<div class='cards cards--listing'>

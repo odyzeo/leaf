@@ -4,6 +4,27 @@ Author		: Icegram
 Author URI	: https://www.icegram.com/
 License		: GPLv3
 
+************************************************************Version 3.4.8************************************************************
+
+* Fix: Security vulnerability (Thanks to Dominykas Gelucevicius from [ThreatPress Security](https://profiles.wordpress.org/threatpress))
+* Update: Only site administrator will be able to export list of subscribers
+* Update: POT file
+* Localization: Translation for German (de_DE) language updated (Thanks to Markus Buschmann)
+* Localization: Made all other translation files up-to-date with latest POT file
+* Tweak: Doc link addition for newsletter keywords while creating/updating a template
+
+************************************************************Version 3.4.7************************************************************
+
+* Fix: Empty email with only unsubscribe links sent to subscribers
+* Fix: Remove usage of rawurlencode() to prevent broken subscribe & unsubscribe links
+* Update: Removed the functionality to subscribe emails with special characters
+* Update: Change in logic for updating subscribers information in subscribers dashboard
+* Update: POT file
+* Localization: Translation for Italian (it_IT) language added (Thanks to  Roberto Pavesi)
+* Localization: Translation for German (de_DE) language updated (Thanks to Markus Buschmann)
+* Localization: Translation for Polish (pl_PL) language updated (Thanks to Witold)
+* Localization: Made all other translation files up-to-date with latest POT file
+
 ************************************************************Version 3.4.6************************************************************
 
 * Fix: Fatal error while accessing subscribers export screen
