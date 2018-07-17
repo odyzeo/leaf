@@ -46,31 +46,6 @@ the_post(); ?>
 		    echo do_shortcode( "[latest-blogs category='1' post='$post_id']" );
 		    ?>
 
-            <div class="newsletter__row">
-                <div class="module module-divider solid">
-                    <h3 class="module-title">
-					    <?php _e( 'Newsletter', 'leaf' ); ?>
-                    </h3>
-                </div>
-
-                <div class="flex flex--grid">
-                    <div class="flex-1-2">
-                        <div class="page-content">
-						    <?php
-						    echo do_shortcode( "[email-subscribers namefield='NO' desc='' group='leaf']" );
-						    ?>
-                        </div>
-                    </div>
-                    <div class="flex-1-2">
-					    <?php
-					    _e( 'Prihlás sa, ak chceš vedieť, čo je nové.', 'leaf' );
-					    echo '<br>';
-					    _e( 'Pošleme ti občas newsletter.', 'leaf' );
-					    ?>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
     </div>
