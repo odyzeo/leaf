@@ -6,7 +6,7 @@
  */
 ?>
 
-<?php get_header( 'irpu' ); ?>
+<?php get_header(); ?>
 
 <?php
 /** Themify Default Variables
@@ -33,20 +33,7 @@ the_post(); ?>
 
 		<?php get_template_part( 'includes/loop', 'single' ); ?>
 
-        <div class="container themify_builder_content">
-
-            <div class="module module-divider solid">
-                <h3 class="module-title">
-				    <?php _e( 'Blogs', 'leaf' ); ?>
-                </h3>
-            </div>
-
-		    <?php
-		    $post_id = get_the_ID();
-		    echo do_shortcode( "[latest-blogs category='59' post='$post_id']" );
-		    ?>
-
-        </div>
+        <div class="post-spacing-bottom"></div>
 
     </div>
 
