@@ -37,7 +37,7 @@ the_post(); ?>
 
             <div class="module module-divider solid">
                 <h3 class="module-title">
-					<?php _e( 'Blogs', 'leaf' ); ?>
+					<?php _e( 'Novinky', 'leaf' ); ?>
                 </h3>
             </div>
 
