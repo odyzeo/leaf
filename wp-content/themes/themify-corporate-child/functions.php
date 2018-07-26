@@ -56,7 +56,8 @@ function themify_child_register_custom_nav() {
 		'talent-nav'     => __( 'TalentGuide Navigation', 'themify' ),
 		'irpu-nav'       => __( 'IRPU Navigation', 'themify' ),
 		'delta-nav'      => __( 'Delta Navigation', 'themify' ),
-		'volunteers-nav' => __( 'Volunteers Navigation', 'themify' ),
+        'volunteers-nav' => __( 'Volunteers Navigation', 'themify' ),
+        'marta-nav'      => __( 'Marta Navigation', 'themify' ),
 	) );
 }
 
