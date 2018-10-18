@@ -11732,6 +11732,10 @@ var _Swipers = __webpack_require__(14);
 
 var _Swipers2 = _interopRequireDefault(_Swipers);
 
+var _Cookie = __webpack_require__(40);
+
+var _Cookie2 = _interopRequireDefault(_Cookie);
+
 __webpack_require__(21);
 
 var _vue = __webpack_require__(5);
@@ -11757,12 +11761,37 @@ if ($('#ped').length > 0) {
     });
 }
 
+if ($('.js-newsletter').length > 0) {
+    new _vue2.default({
+        el: '.js-newsletter',
+
+        data: {
+            checked: false
+        },
+        watch: {
+            checked: function checked(val) {
+                if (val === false) {
+                    this.$el.querySelector('.es_submit_button').disabled = true;
+                } else {
+                    this.$el.querySelector('.es_submit_button').removeAttribute('disabled');
+                }
+            }
+        },
+        mounted: function mounted() {
+            var checkbox = document.querySelector('.js-checkbox');
+
+            this.$el.querySelector('.flex-1-2:last-child').appendChild(checkbox);
+        }
+    });
+}
+
 $(document).ready(function () {
     _Adaptive2.default.init();
     _SlideMenu2.default.init();
     _YouTube2.default.init();
     _Swipers2.default.init();
     _LoadMore2.default.init();
+    _Cookie2.default.init();
 
     /**
      * Mobile menu
@@ -34803,6 +34832,57 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 33 */,
+/* 34 */,
+/* 35 */,
+/* 36 */,
+/* 37 */,
+/* 38 */,
+/* 39 */,
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var leafCookie = {
+    lang: '',
+    cookieName: 'Agreement',
+    element: document.getElementById('cookie-agreement'),
+    elementBtn: document.getElementById('cookie-agreement-btn'),
+    storage: window.localStorage,
+
+    init: function init() {
+        this.lang = document.documentElement.lang || 'sk';
+        this.cookieName = 'cookie-agreement-' + this.lang;
+
+        if (this.storage.getItem(this.cookieName) === null) {
+            this.showMessage();
+        }
+    },
+    showMessage: function showMessage() {
+        var self = this;
+
+        console.log('joz');
+        this.element.classList.add('cookie-agreement--show');
+        this.elementBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            self.agree();
+        });
+    },
+    agree: function agree() {
+        this.storage.setItem(this.cookieName, 'checked');
+        this.element.classList.remove('cookie-agreement--show');
+    }
+
+};
+
+exports.default = leafCookie;
 
 /***/ })
 /******/ ]);

@@ -3,6 +3,7 @@ import LoadMore from './components/LoadMore'
 import SlideMenu from './components/SlideMenu'
 import YouTube from './components/YouTube'
 import Swipers from './components/Swipers'
+import Cookies from './components/Cookie'
 import 'lity'
 
 import Vue from 'vue'
@@ -26,6 +27,7 @@ $(document).ready(() => {
     YouTube.init()
     Swipers.init()
     LoadMore.init()
+    Cookies.init()
 
     /**
      * Mobile menu

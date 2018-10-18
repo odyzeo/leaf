@@ -29,6 +29,17 @@ global $themify;
 </footer>
 
 </div>
+
+<div id="cookie-agreement" class="cookie-agreement">
+    <div class="container cookie-agreement__container">
+        <div class="cookie-agreement__text">
+            Text si vypytaj od Erika
+        </div>
+        <a href id="cookie-agreement-btn" class="cookie-agreement__btn">
+            OK
+        </a>
+    </div>
+</div>
 <!-- /#pagewrap -->
 
 <?php themify_body_end(); // hook ?>

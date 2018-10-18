@@ -1,0 +1,46 @@
+@import '../variables';
+
+.cookie-agreement {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: none; // Show with JS if not agreed
+    background: @color--primary;
+
+    font-size: 12px;
+
+    @media (min-width: @tablet-width-min) {
+        font-size: 14px;
+    }
+}
+
+.cookie-agreement__container {
+    display: flex;
+    align-items: center;
+}
+
+.cookie-agreement__text {
+    padding: 10px 10px 10px 0;
+    color: #fff;
+
+    @media (min-width: @tablet-width-min) {
+        padding: 15px 10px 15px 0;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+}
+
+.cookie-agreement__btn {
+    padding: 3px 15px;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    color: #fff;
+}
+
+.cookie-agreement--show {
+    display: block;
+}
