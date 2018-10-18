@@ -23,7 +23,7 @@ the_post(); ?>
 
     <div id="content" class="list-post">
 
-        <div class="wrapper post-heading post-heading--award">
+        <div class="wrapper post-heading">
             <div class="container post-heading__container">
                 <h1 class="post-heading__title">
 					<?php the_title(); ?>
