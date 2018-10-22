@@ -23,6 +23,21 @@ if ($('#ped').length > 0) {
 
 if ($('.js-newsletter').length > 0) {
     $('.js-newsletter').each(function () {
+        const innerHtml = '<div class="js-checkbox">\n' +
+            '                        <label>\n' +
+            '                            <input type="checkbox" v-model="checked">\n' +
+            '                            Súhlasím so\n' +
+            '                            <a href="https://www.leaf.sk/spracovanie-osobnych-udajov/"\n' +
+            '                               title="Spracovanie kontaktných údajov">spracovaním kontaktných údajov</a> za účelom\n' +
+            '                            informovania o vzdelávacich a rozvojových aktivitách LEAF a LEAF Academy.\n' +
+            '                        </label>\n' +
+            '                    </div>'
+
+        // const checkbox = $(this).find('.js-checkbox');
+        const form = $(this).find('.es_shortcode_form')
+
+        form.append(innerHtml)
+
         new Vue({
             el: $(this)[0],
             self: this,
@@ -42,6 +57,9 @@ if ($('.js-newsletter').length > 0) {
             },
             mounted() {
                 this.$el.querySelector('.es_submit_button').disabled = true
+                setTimeout(() => {
+                    this.$el.classList.add('show')
+                }, 300)
             },
         })
     })

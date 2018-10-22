@@ -30,15 +30,15 @@ global $themify;
                     echo do_shortcode('[email-subscribers namefield="YES" desc="" group="footer"]');
                     ?>
 
-                    <div class="footer__agreement js-checkbox">
-                        <label>
-                            <input type="checkbox" v-model="checked">
-                            Súhlasím so
-                            <a href="https://www.leaf.sk/spracovanie-osobnych-udajov/"
-                               title="Spracovanie kontaktných údajov">spracovaním kontaktných údajov</a> za účelom
-                            informovania o vzdelávacich a rozvojových aktivitách LEAF a LEAF Academy.
-                        </label>
-                    </div>
+<!--                    <div class="js-checkbox">-->
+<!--                        <label>-->
+<!--                            <input type="checkbox" v-model="checked">-->
+<!--                            Súhlasím so-->
+<!--                            <a href="https://www.leaf.sk/spracovanie-osobnych-udajov/"-->
+<!--                               title="Spracovanie kontaktných údajov">spracovaním kontaktných údajov</a> za účelom-->
+<!--                            informovania o vzdelávacich a rozvojových aktivitách LEAF a LEAF Academy.-->
+<!--                        </label>-->
+<!--                    </div>-->
                 </div>
 
                 <?php dynamic_sidebar('footer-social-widget'); ?>

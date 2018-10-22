@@ -71,16 +71,6 @@ the_post(); ?>
                         ?>
 
                     </div>
-
-                    <div class="js-checkbox">
-                        <label>
-                            <input type="checkbox" v-model="checked">
-                            Súhlasím so
-                            <a href="https://www.leaf.sk/spracovanie-osobnych-udajov/"
-                               title="Spracovanie kontaktných údajov">spracovaním kontaktných údajov</a> za účelom
-                            informovania o vzdelávacich a rozvojových aktivitách LEAF a LEAF Academy.
-                        </label>
-                    </div>
                 </div>
             </div>
         </div>
