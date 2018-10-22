@@ -52,10 +52,11 @@ global $themify;
 <div id="cookie-agreement" class="cookie-agreement">
     <div class="container cookie-agreement__container">
         <div class="cookie-agreement__text">
-            Text si vypytaj od Erika
+            Táto stránka využíva cookies, pomocou ktorých vylepšujeme naše služby. Pri pokračovaní súhlasíte s aktuálnym nastavením. O cookies, ktoré používame nájdete informácie
+            <a href=" https://www.leaf.sk/subory-cookies/" target="_blank" title="Cookie informácie" class="text-white">tu</a>.
         </div>
         <a href id="cookie-agreement-btn" class="cookie-agreement__btn">
-            OK
+            Rozumiem
         </a>
     </div>
 </div>
