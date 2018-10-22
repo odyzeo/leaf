@@ -3228,6 +3228,9 @@ template {
 .text-center {
   text-align: center !important;
 }
+.text-white {
+  color: #fff;
+}
 .text-gray {
   color: #9ba0a2;
 }
@@ -6045,13 +6048,6 @@ body .themify_builder_content .module-text .banner a {
   border-radius: 3px;
   margin-top: 10px;
 }
-@media (min-width: 768px) {
-  .footer__newsletter .es_textbox_button {
-    width: auto;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-  }
-}
 .footer__newsletter .es_shortcode_form_email,
 .footer__newsletter .es_shortcode_form_name {
   display: none;
@@ -6064,8 +6060,9 @@ body .themify_builder_content .module-text .banner a {
   line-height: 2;
 }
 .footer__agreement {
-  color: #fff;
   margin-bottom: 20px;
+  color: #fff;
+  font-size: 12px;
 }
 .hcard {
   display: -webkit-box;
