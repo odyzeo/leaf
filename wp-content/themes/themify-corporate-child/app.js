@@ -11668,7 +11668,7 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(23).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(24).setImmediate))
 
 /***/ }),
 /* 6 */
@@ -11702,7 +11702,7 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(8);
-module.exports = __webpack_require__(32);
+module.exports = __webpack_require__(33);
 
 
 /***/ }),
@@ -11732,19 +11732,19 @@ var _Swipers = __webpack_require__(14);
 
 var _Swipers2 = _interopRequireDefault(_Swipers);
 
-var _Cookie = __webpack_require__(40);
+var _Cookie = __webpack_require__(21);
 
 var _Cookie2 = _interopRequireDefault(_Cookie);
 
-__webpack_require__(21);
+__webpack_require__(22);
 
 var _vue = __webpack_require__(5);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-__webpack_require__(26);
+__webpack_require__(27);
 
-var _Ped = __webpack_require__(28);
+var _Ped = __webpack_require__(29);
 
 var _Ped2 = _interopRequireDefault(_Ped);
 
@@ -11762,26 +11762,28 @@ if ($('#ped').length > 0) {
 }
 
 if ($('.js-newsletter').length > 0) {
-    new _vue2.default({
-        el: '.js-newsletter',
+    $('.js-newsletter').each(function () {
+        new _vue2.default({
+            el: $(this)[0],
+            self: this,
 
-        data: {
-            checked: false
-        },
-        watch: {
-            checked: function checked(val) {
-                if (val === false) {
-                    this.$el.querySelector('.es_submit_button').disabled = true;
-                } else {
-                    this.$el.querySelector('.es_submit_button').removeAttribute('disabled');
+            data: {
+                checked: false
+            },
+            watch: {
+                checked: function checked(val) {
+                    if (val === false) {
+                        console.log('jojo');
+                        this.$el.querySelector('.es_submit_button').disabled = true;
+                    } else {
+                        this.$el.querySelector('.es_submit_button').removeAttribute('disabled');
+                    }
                 }
+            },
+            mounted: function mounted() {
+                this.$el.querySelector('.es_submit_button').disabled = true;
             }
-        },
-        mounted: function mounted() {
-            var checkbox = document.querySelector('.js-checkbox');
-
-            this.$el.querySelector('.flex-1-2:last-child').appendChild(checkbox);
-        }
+        });
     });
 }
 
@@ -11813,10 +11815,12 @@ $(document).ready(function () {
     var $newsletterFooterInput = $('.footer #es_txt_email_pg');
     if ($newsletterFooterInput.length > 0) {
         $('.footer #es_txt_email_pg').attr('placeholder', 'email@email.com');
+        $('.footer #es_txt_name_pg').attr('placeholder', 'Meno');
     }
     var $newsletterInput = $('.page-content #es_txt_email_pg');
     if ($newsletterInput.length > 0) {
         $('.page-content #es_txt_email_pg').attr('placeholder', 'Váš e-mail');
+        $('#es_txt_name_pg').attr('placeholder', 'Meno');
     }
     var $newsletterForm = $('.es_shortcode_form');
     if ($newsletterForm.length > 0) {
@@ -22198,12 +22202,56 @@ function scroll(...args) {
 /* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var leafCookie = {
+    lang: '',
+    cookieName: 'Agreement',
+    element: document.getElementById('cookie-agreement'),
+    elementBtn: document.getElementById('cookie-agreement-btn'),
+    storage: window.localStorage,
+
+    init: function init() {
+        this.lang = document.documentElement.lang || 'sk';
+        this.cookieName = 'cookie-agreement-' + this.lang;
+
+        if (this.storage.getItem(this.cookieName) === null) {
+            this.showMessage();
+        }
+    },
+    showMessage: function showMessage() {
+        var self = this;
+
+        console.log('joz');
+        this.element.classList.add('cookie-agreement--show');
+        this.elementBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            self.agree();
+        });
+    },
+    agree: function agree() {
+        this.storage.setItem(this.cookieName, 'checked');
+        this.element.classList.remove('cookie-agreement--show');
+    }
+
+};
+
+exports.default = leafCookie;
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Lity - v2.2.2 - 2017-07-17
 * http://sorgalla.com/lity/
 * Copyright (c) 2015-2017 Jan Sorgalla; Licensed MIT */
 (function(window, factory) {
     if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(22)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(23)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($) {
             return factory(window, $);
         }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22840,7 +22888,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Lity - v2.2.
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -33211,7 +33259,7 @@ return jQuery;
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -33264,13 +33312,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(24);
+__webpack_require__(25);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -33460,10 +33508,10 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(25)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(26)))
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -33653,16 +33701,16 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(27);
+__webpack_require__(28);
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -33684,15 +33732,15 @@ _vue2.default.filter('pluralize', function (number, first, second, five) {
 });
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(29)
+var normalizeComponent = __webpack_require__(30)
 /* script */
-var __vue_script__ = __webpack_require__(30)
+var __vue_script__ = __webpack_require__(31)
 /* template */
-var __vue_template__ = __webpack_require__(31)
+var __vue_template__ = __webpack_require__(32)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -33731,7 +33779,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -33840,7 +33888,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34126,7 +34174,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -34828,61 +34876,10 @@ if (false) {
 }
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 33 */,
-/* 34 */,
-/* 35 */,
-/* 36 */,
-/* 37 */,
-/* 38 */,
-/* 39 */,
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var leafCookie = {
-    lang: '',
-    cookieName: 'Agreement',
-    element: document.getElementById('cookie-agreement'),
-    elementBtn: document.getElementById('cookie-agreement-btn'),
-    storage: window.localStorage,
-
-    init: function init() {
-        this.lang = document.documentElement.lang || 'sk';
-        this.cookieName = 'cookie-agreement-' + this.lang;
-
-        if (this.storage.getItem(this.cookieName) === null) {
-            this.showMessage();
-        }
-    },
-    showMessage: function showMessage() {
-        var self = this;
-
-        console.log('joz');
-        this.element.classList.add('cookie-agreement--show');
-        this.elementBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            self.agree();
-        });
-    },
-    agree: function agree() {
-        this.storage.setItem(this.cookieName, 'checked');
-        this.element.classList.remove('cookie-agreement--show');
-    }
-
-};
-
-exports.default = leafCookie;
 
 /***/ })
 /******/ ]);

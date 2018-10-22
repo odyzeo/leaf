@@ -1,13 +1,11 @@
 @import '../variables';
 
-
 .form__input {
     padding: 14px;
     border: 1px solid #d2d2d2;
     border-radius: 2px;
     background-color: #fff;
 }
-
 
 /**
  * Newsletter form only for page
@@ -52,7 +50,7 @@
 
         @media (min-width: @mobile-width-small-min) {
             margin-top: 0;
-            flex-wrap: nowrap;
+            //flex-wrap: nowrap;
         }
 
         // Themify breakpoint
@@ -62,9 +60,9 @@
     }
 
     .es_lablebox {
-        position: absolute;
-        top: -25px;
-        left: 0;
+        //position: absolute;
+        //top: -25px;
+        //left: 0;
 
         .es_shortcode_form_email {
             font-size: 11px;
@@ -96,24 +94,91 @@
 
         .es_textbox_button {
             width: 100%;
+            max-width: 140px;
             background: @color--primary;
-            padding: 14px;
+            padding: 14px 0;
             font-weight: 700;
             border: 1px solid @color--primary;
             border-radius: 2px;
             color: #fff;
 
-            @media (min-width: @mobile-width-small-min) {
-                width: auto;
-            }
-
-            @media (min-width: @tablet-width-min) {
-                padding: 14px 40px;
-            }
+            //@media (min-width: @tablet-width-min) {
+            //    padding: 14px 40px;
+            //}
         }
 
         @media (min-width: @mobile-width-small-min) {
             width: auto;
+        }
+    }
+}
+
+.newsletter__row {
+    .flex-1-2 {
+        padding-bottom: 0;
+    }
+
+    .flex-1-2:nth-of-type(2) {
+        align-items: flex-end;
+        display: flex;
+        padding-bottom: 10px;
+    }
+}
+
+.page-content {
+    .es_lablebox:nth-of-type(1) {
+        order: 1;
+        width: 40%;
+    }
+
+    .es_textbox:nth-of-type(2) {
+        order: 3;
+        width: 40%;
+    }
+
+    .es_lablebox:nth-of-type(3) {
+        order: 2;
+        width: 60%;
+    }
+
+    .es_textbox:nth-of-type(4) {
+        order: 4;
+        width: 40%;
+    }
+
+    .es_button:nth-of-type(5) {
+        order: 5;
+        width: 20%;
+    }
+
+    @media (max-width: @mobile-width-max) {
+        .es_lablebox:nth-of-type(1),
+        .es_textbox:nth-of-type(2),
+        .es_lablebox:nth-of-type(3),
+        .es_textbox:nth-of-type(4),
+        .es_button:nth-of-type(5) {
+            width: 100%;
+        }
+
+        .es_textbox:nth-of-type(2) {
+            order: 2;
+        }
+
+        .es_lablebox:nth-of-type(3) {
+            order: 3;
+        }
+
+        .es_textbox:nth-of-type(4) {
+            order: 4;
+        }
+
+        .es_button:nth-of-type(5) {
+            order: 5;
+            margin-top: 20px;
+        }
+
+        .es_shortcode_form {
+            margin-bottom: 10px;
         }
     }
 }

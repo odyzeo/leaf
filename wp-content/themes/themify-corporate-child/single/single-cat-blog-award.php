@@ -46,7 +46,7 @@ the_post(); ?>
             echo do_shortcode("[latest-blogs category='57' post='$post_id']");
             ?>
 
-            <div class="newsletter__row">
+            <div class="newsletter__row js-newsletter">
                 <div class="module module-divider solid">
                     <h3 class="module-title">
                         <?php _e('Newsletter', 'leaf'); ?>
@@ -57,16 +57,27 @@ the_post(); ?>
                     <div class="flex-1-2">
                         <div class="page-content">
                             <?php
-                            echo do_shortcode("[email-subscribers namefield='NO' desc='' group='award']");
+                            echo do_shortcode("[email-subscribers namefield='YES' desc='' group='award']");
                             ?>
                         </div>
                     </div>
+
                     <div class="flex-1-2">
                         <?php
                         _e('Prihlás sa, ak chceš vedieť, čo je nové.', 'leaf');
                         echo '<br>';
                         _e('Pošleme ti občas newsletter.', 'leaf');
                         ?>
+                    </div>
+
+                    <div class="js-checkbox">
+                        <label>
+                            <input type="checkbox" v-model="checked">
+                            Súhlasím so
+                            <a href="https://www.leaf.sk/spracovanie-osobnych-udajov/"
+                               title="Spracovanie kontaktných údajov">spracovaním kontaktných údajov</a> za účelom
+                            informovania o vzdelávacich a rozvojových aktivitách LEAF a LEAF Academy.
+                        </label>
                     </div>
                 </div>
             </div>

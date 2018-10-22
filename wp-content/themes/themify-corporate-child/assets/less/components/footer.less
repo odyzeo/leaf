@@ -96,13 +96,14 @@
     justify-content: space-between;
 
     @media (min-width: @tablet-width-min) {
-        flex: 1 0 auto;
+        flex: 0 1 auto;
         align-items: flex-end;
     }
 }
 
 .footer__newsletter {
     width: 100%;
+    max-width: 320px;
 
     .es_msg {
         color: #3fc539;
@@ -115,11 +116,7 @@
     .es_shortcode_form {
         display: flex;
         flex-direction: column;
-        margin-bottom: 30px;
-
-        @media (min-width: @tablet-width-min) {
-            flex-direction: row;
-        }
+        margin-bottom: 10px;
     }
 
     .es_button,
@@ -169,13 +166,13 @@
 
         @media (min-width: @tablet-width-min) {
             width: auto;
-            margin-top: 0;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
     }
 
-    .es_shortcode_form_email {
+    .es_shortcode_form_email,
+    .es_shortcode_form_name {
         display: none;
     }
 }
@@ -186,4 +183,9 @@
     font-size: 10px;
     font-weight: 700;
     line-height: 2;
+}
+
+.footer__agreement {
+    color: #fff;
+    margin-bottom: 20px;
 }

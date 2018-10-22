@@ -13,16 +13,35 @@ global $themify;
     <div class="container">
         <div class="footer__row">
             <div class="footer__col">
-				<?php dynamic_sidebar( 'footer-widget-1' ); ?>
+                <?php dynamic_sidebar('footer-widget-1'); ?>
             </div>
             <div class="footer__col">
-				<?php dynamic_sidebar( 'footer-widget-2' ); ?>
+                <?php dynamic_sidebar('footer-widget-2'); ?>
             </div>
 
             <div class="flex-grow"></div>
 
             <div class="footer__right">
-				<?php dynamic_sidebar( 'footer-social-widget' ); ?>
+                <div class="footer__newsletter js-newsletter">
+                    <p class="footer__subtitle widgettitle">
+                        <?php _e('Subscribe to newsletter', 'leaf'); ?>
+                    </p>
+                    <?php
+                    echo do_shortcode('[email-subscribers namefield="YES" desc="" group="footer"]');
+                    ?>
+
+                    <div class="footer__agreement js-checkbox">
+                        <label>
+                            <input type="checkbox" v-model="checked">
+                            Súhlasím so
+                            <a href="https://www.leaf.sk/spracovanie-osobnych-udajov/"
+                               title="Spracovanie kontaktných údajov">spracovaním kontaktných údajov</a> za účelom
+                            informovania o vzdelávacich a rozvojových aktivitách LEAF a LEAF Academy.
+                        </label>
+                    </div>
+                </div>
+
+                <?php dynamic_sidebar('footer-social-widget'); ?>
             </div>
         </div>
     </div>

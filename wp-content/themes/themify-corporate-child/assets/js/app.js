@@ -21,6 +21,32 @@ if ($('#ped').length > 0) {
     })
 }
 
+if ($('.js-newsletter').length > 0) {
+    $('.js-newsletter').each(function () {
+        new Vue({
+            el: $(this)[0],
+            self: this,
+
+            data: {
+                checked: false,
+            },
+            watch: {
+                checked(val) {
+                    if (val === false) {
+                        console.log('jojo')
+                        this.$el.querySelector('.es_submit_button').disabled = true
+                    } else {
+                        this.$el.querySelector('.es_submit_button').removeAttribute('disabled')
+                    }
+                },
+            },
+            mounted() {
+                this.$el.querySelector('.es_submit_button').disabled = true
+            },
+        })
+    })
+}
+
 $(document).ready(() => {
     Adaptive.init()
     SlideMenu.init()
@@ -50,10 +76,12 @@ $(document).ready(() => {
     const $newsletterFooterInput = $('.footer #es_txt_email_pg')
     if ($newsletterFooterInput.length > 0) {
         $('.footer #es_txt_email_pg').attr('placeholder', 'email@email.com')
+        $('.footer #es_txt_name_pg').attr('placeholder', 'Meno')
     }
     const $newsletterInput = $('.page-content #es_txt_email_pg')
     if ($newsletterInput.length > 0) {
         $('.page-content #es_txt_email_pg').attr('placeholder', 'Váš e-mail')
+        $('#es_txt_name_pg').attr('placeholder', 'Meno')
     }
     const $newsletterForm = $('.es_shortcode_form')
     if ($newsletterForm.length > 0) {
