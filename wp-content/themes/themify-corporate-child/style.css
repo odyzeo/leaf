@@ -6981,6 +6981,9 @@ body .themify_builder_content .module-text .banner a {
     margin-bottom: 10px;
   }
 }
+.js-checkbox {
+  font-size: 12px;
+}
 .form-leaf {
   margin-bottom: 30px;
   font-size: 16px;
