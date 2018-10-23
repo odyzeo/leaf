@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -536,7 +536,7 @@ module.exports = Shape;
 
 // Lower level API to animate any kind of svg path
 
-var Tweenable = __webpack_require__(17);
+var Tweenable = __webpack_require__(16);
 var utils = __webpack_require__(0);
 
 var EASING_ALIASES = {
@@ -756,105 +756,6 @@ module.exports = Circle;
 
 /***/ }),
 /* 4 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return win; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return doc; });
-/**
- * SSR Window 1.0.0
- * Better handling for window object in SSR environment
- * https://github.com/nolimits4web/ssr-window
- *
- * Copyright 2018, Vladimir Kharlampidi
- *
- * Licensed under MIT
- *
- * Released on: February 10, 2018
- */
-var d;
-if (typeof document === 'undefined') {
-  d = {
-    body: {},
-    addEventListener: function addEventListener() {},
-    removeEventListener: function removeEventListener() {},
-    activeElement: {
-      blur: function blur() {},
-      nodeName: '',
-    },
-    querySelector: function querySelector() {
-      return null;
-    },
-    querySelectorAll: function querySelectorAll() {
-      return [];
-    },
-    getElementById: function getElementById() {
-      return null;
-    },
-    createEvent: function createEvent() {
-      return {
-        initEvent: function initEvent() {},
-      };
-    },
-    createElement: function createElement() {
-      return {
-        children: [],
-        childNodes: [],
-        style: {},
-        setAttribute: function setAttribute() {},
-        getElementsByTagName: function getElementsByTagName() {
-          return [];
-        },
-      };
-    },
-    location: { hash: '' },
-  };
-} else {
-  // eslint-disable-next-line
-  d = document;
-}
-
-var doc = d;
-
-var w;
-if (typeof window === 'undefined') {
-  w = {
-    document: doc,
-    navigator: {
-      userAgent: '',
-    },
-    location: {},
-    history: {},
-    CustomEvent: function CustomEvent() {
-      return this;
-    },
-    addEventListener: function addEventListener() {},
-    removeEventListener: function removeEventListener() {},
-    getComputedStyle: function getComputedStyle() {
-      return {
-        getPropertyValue: function getPropertyValue() {
-          return '';
-        },
-      };
-    },
-    Image: function Image() {},
-    Date: function Date() {},
-    screen: {},
-    setTimeout: function setTimeout() {},
-    clearTimeout: function clearTimeout() {},
-  };
-} else {
-  // eslint-disable-next-line
-  w = window;
-}
-
-var win = w;
-
-
-
-
-/***/ }),
-/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1215,12 +1116,12 @@ var config = ({
   /**
    * Show production mode tip message on boot?
    */
-  productionTip: "development" !== 'production',
+  productionTip: "production" !== 'production',
 
   /**
    * Whether to enable devtools
    */
-  devtools: "development" !== 'production',
+  devtools: "production" !== 'production',
 
   /**
    * Whether to record perf
@@ -1424,7 +1325,7 @@ var tip = noop;
 var generateComponentTrace = (noop); // work around flow check
 var formatComponentName = (noop);
 
-if (true) {
+if (false) {
   var hasConsole = typeof console !== 'undefined';
   var classifyRE = /(?:^|[-_])(\w)/g;
   var classify = function (str) { return str
@@ -1859,7 +1760,7 @@ function defineReactive (
         return
       }
       /* eslint-enable no-self-compare */
-      if ("development" !== 'production' && customSetter) {
+      if (false) {
         customSetter();
       }
       if (setter) {
@@ -1890,7 +1791,7 @@ function set (target, key, val) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    "development" !== 'production' && warn(
+    "production" !== 'production' && warn(
       'Avoid adding reactive properties to a Vue instance or its root $data ' +
       'at runtime - declare it upfront in the data option.'
     );
@@ -1915,7 +1816,7 @@ function del (target, key) {
   }
   var ob = (target).__ob__;
   if (target._isVue || (ob && ob.vmCount)) {
-    "development" !== 'production' && warn(
+    "production" !== 'production' && warn(
       'Avoid deleting properties on a Vue instance or its root $data ' +
       '- just set it to null.'
     );
@@ -1957,7 +1858,7 @@ var strats = config.optionMergeStrategies;
 /**
  * Options with restrictions
  */
-if (true) {
+if (false) {
   strats.el = strats.propsData = function (parent, child, vm, key) {
     if (!vm) {
       warn(
@@ -2041,7 +1942,7 @@ strats.data = function (
 ) {
   if (!vm) {
     if (childVal && typeof childVal !== 'function') {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         'The "data" option should be a function ' +
         'that returns a per-instance value in component ' +
         'definitions.',
@@ -2091,7 +1992,7 @@ function mergeAssets (
 ) {
   var res = Object.create(parentVal || null);
   if (childVal) {
-    "development" !== 'production' && assertObjectType(key, childVal, vm);
+    "production" !== 'production' && assertObjectType(key, childVal, vm);
     return extend(res, childVal)
   } else {
     return res
@@ -2119,7 +2020,7 @@ strats.watch = function (
   if (childVal === nativeWatch) { childVal = undefined; }
   /* istanbul ignore if */
   if (!childVal) { return Object.create(parentVal || null) }
-  if (true) {
+  if (false) {
     assertObjectType(key, childVal, vm);
   }
   if (!parentVal) { return childVal }
@@ -2150,7 +2051,7 @@ strats.computed = function (
   vm,
   key
 ) {
-  if (childVal && "development" !== 'production') {
+  if (childVal && "production" !== 'production') {
     assertObjectType(key, childVal, vm);
   }
   if (!parentVal) { return childVal }
@@ -2211,7 +2112,7 @@ function normalizeProps (options, vm) {
       if (typeof val === 'string') {
         name = camelize(val);
         res[name] = { type: null };
-      } else if (true) {
+      } else if (false) {
         warn('props must be strings when using array syntax.');
       }
     }
@@ -2223,7 +2124,7 @@ function normalizeProps (options, vm) {
         ? val
         : { type: val };
     }
-  } else if (true) {
+  } else if (false) {
     warn(
       "Invalid value for option \"props\": expected an Array or an Object, " +
       "but got " + (toRawType(props)) + ".",
@@ -2251,7 +2152,7 @@ function normalizeInject (options, vm) {
         ? extend({ from: key }, val)
         : { from: val };
     }
-  } else if (true) {
+  } else if (false) {
     warn(
       "Invalid value for option \"inject\": expected an Array or an Object, " +
       "but got " + (toRawType(inject)) + ".",
@@ -2294,7 +2195,7 @@ function mergeOptions (
   child,
   vm
 ) {
-  if (true) {
+  if (false) {
     checkComponents(child);
   }
 
@@ -2355,7 +2256,7 @@ function resolveAsset (
   if (hasOwn(assets, PascalCaseId)) { return assets[PascalCaseId] }
   // fallback to prototype chain
   var res = assets[id] || assets[camelizedId] || assets[PascalCaseId];
-  if ("development" !== 'production' && warnMissing && !res) {
+  if (false) {
     warn(
       'Failed to resolve ' + type.slice(0, -1) + ': ' + id,
       options
@@ -2394,7 +2295,7 @@ function validateProp (
     observerState.shouldConvert = prevShouldConvert;
   }
   if (
-    true
+    false
   ) {
     assertProp(prop, key, value, vm, absent);
   }
@@ -2411,7 +2312,7 @@ function getPropDefaultValue (vm, prop, key) {
   }
   var def = prop.default;
   // warn against non-factory defaults for Object & Array
-  if ("development" !== 'production' && isObject(def)) {
+  if (false) {
     warn(
       'Invalid default value for prop "' + key + '": ' +
       'Props with type Object/Array must use a factory function ' +
@@ -2569,7 +2470,7 @@ function globalHandleError (err, vm, info) {
 }
 
 function logError (err, vm, info) {
-  if (true) {
+  if (false) {
     warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
   }
   /* istanbul ignore else */
@@ -2699,7 +2600,7 @@ function nextTick (cb, ctx) {
 var mark;
 var measure;
 
-if (true) {
+if (false) {
   var perf = inBrowser && window.performance;
   /* istanbul ignore if */
   if (
@@ -2723,7 +2624,7 @@ if (true) {
 
 var initProxy;
 
-if (true) {
+if (false) {
   var allowedGlobals = makeMap(
     'Infinity,undefined,NaN,isFinite,isNaN,' +
     'parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent,' +
@@ -2882,7 +2783,7 @@ function updateListeners (
     event = normalizeEvent(name);
     /* istanbul ignore if */
     if (isUndef(cur)) {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         "Invalid handler for event \"" + (event.name) + "\": got " + String(cur),
         vm
       );
@@ -2959,7 +2860,7 @@ function extractPropsFromVNodeData (
   if (isDef(attrs) || isDef(props)) {
     for (var key in propOptions) {
       var altKey = hyphenate(key);
-      if (true) {
+      if (false) {
         var keyInLowerCase = key.toLowerCase();
         if (
           key !== keyInLowerCase &&
@@ -3162,7 +3063,7 @@ function resolveAsyncComponent (
     });
 
     var reject = once(function (reason) {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         "Failed to resolve async component: " + (String(factory)) +
         (reason ? ("\nReason: " + reason) : '')
       );
@@ -3205,7 +3106,7 @@ function resolveAsyncComponent (
           setTimeout(function () {
             if (isUndef(factory.resolved)) {
               reject(
-                 true
+                 false
                   ? ("timeout (" + (res.timeout) + "ms)")
                   : null
               );
@@ -3354,7 +3255,7 @@ function eventsMixin (Vue) {
 
   Vue.prototype.$emit = function (event) {
     var vm = this;
-    if (true) {
+    if (false) {
       var lowerCaseEvent = event.toLowerCase();
       if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
         tip(
@@ -3581,7 +3482,7 @@ function mountComponent (
   vm.$el = el;
   if (!vm.$options.render) {
     vm.$options.render = createEmptyVNode;
-    if (true) {
+    if (false) {
       /* istanbul ignore if */
       if ((vm.$options.template && vm.$options.template.charAt(0) !== '#') ||
         vm.$options.el || el) {
@@ -3603,7 +3504,7 @@ function mountComponent (
 
   var updateComponent;
   /* istanbul ignore if */
-  if ("development" !== 'production' && config.performance && mark) {
+  if (false) {
     updateComponent = function () {
       var name = vm._name;
       var id = vm._uid;
@@ -3648,7 +3549,7 @@ function updateChildComponent (
   parentVnode,
   renderChildren
 ) {
-  if (true) {
+  if (false) {
     isUpdatingChildComponent = true;
   }
 
@@ -3701,7 +3602,7 @@ function updateChildComponent (
     vm.$forceUpdate();
   }
 
-  if (true) {
+  if (false) {
     isUpdatingChildComponent = false;
   }
 }
@@ -3782,7 +3683,7 @@ var index = 0;
 function resetSchedulerState () {
   index = queue.length = activatedChildren.length = 0;
   has = {};
-  if (true) {
+  if (false) {
     circular = {};
   }
   waiting = flushing = false;
@@ -3813,7 +3714,7 @@ function flushSchedulerQueue () {
     has[id] = null;
     watcher.run();
     // in dev build, check and stop circular updates.
-    if ("development" !== 'production' && has[id] != null) {
+    if (false) {
       circular[id] = (circular[id] || 0) + 1;
       if (circular[id] > MAX_UPDATE_COUNT) {
         warn(
@@ -3941,7 +3842,7 @@ var Watcher = function Watcher (
   this.newDeps = [];
   this.depIds = new _Set();
   this.newDepIds = new _Set();
-  this.expression =  true
+  this.expression =  false
     ? expOrFn.toString()
     : '';
   // parse expression for getter
@@ -3951,7 +3852,7 @@ var Watcher = function Watcher (
     this.getter = parsePath(expOrFn);
     if (!this.getter) {
       this.getter = function () {};
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         "Failed watching path: \"" + expOrFn + "\" " +
         'Watcher only accepts simple dot-delimited paths. ' +
         'For full control, use a function instead.',
@@ -4164,7 +4065,7 @@ function initProps (vm, propsOptions) {
     keys.push(key);
     var value = validateProp(key, propsOptions, propsData, vm);
     /* istanbul ignore else */
-    if (true) {
+    if (false) {
       var hyphenatedKey = hyphenate(key);
       if (isReservedAttribute(hyphenatedKey) ||
           config.isReservedAttr(hyphenatedKey)) {
@@ -4206,7 +4107,7 @@ function initData (vm) {
     : data || {};
   if (!isPlainObject(data)) {
     data = {};
-    "development" !== 'production' && warn(
+    "production" !== 'production' && warn(
       'data functions should return an object:\n' +
       'https://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function',
       vm
@@ -4219,7 +4120,7 @@ function initData (vm) {
   var i = keys.length;
   while (i--) {
     var key = keys[i];
-    if (true) {
+    if (false) {
       if (methods && hasOwn(methods, key)) {
         warn(
           ("Method \"" + key + "\" has already been defined as a data property."),
@@ -4228,7 +4129,7 @@ function initData (vm) {
       }
     }
     if (props && hasOwn(props, key)) {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         "The data property \"" + key + "\" is already declared as a prop. " +
         "Use prop default value instead.",
         vm
@@ -4261,7 +4162,7 @@ function initComputed (vm, computed) {
   for (var key in computed) {
     var userDef = computed[key];
     var getter = typeof userDef === 'function' ? userDef : userDef.get;
-    if ("development" !== 'production' && getter == null) {
+    if (false) {
       warn(
         ("Getter is missing for computed property \"" + key + "\"."),
         vm
@@ -4283,7 +4184,7 @@ function initComputed (vm, computed) {
     // at instantiation here.
     if (!(key in vm)) {
       defineComputed(vm, key, userDef);
-    } else if (true) {
+    } else if (false) {
       if (key in vm.$data) {
         warn(("The computed property \"" + key + "\" is already defined in data."), vm);
       } else if (vm.$options.props && key in vm.$options.props) {
@@ -4314,8 +4215,7 @@ function defineComputed (
       ? userDef.set
       : noop;
   }
-  if ("development" !== 'production' &&
-      sharedPropertyDefinition.set === noop) {
+  if (false) {
     sharedPropertyDefinition.set = function () {
       warn(
         ("Computed property \"" + key + "\" was assigned to but it has no setter."),
@@ -4344,7 +4244,7 @@ function createComputedGetter (key) {
 function initMethods (vm, methods) {
   var props = vm.$options.props;
   for (var key in methods) {
-    if (true) {
+    if (false) {
       if (methods[key] == null) {
         warn(
           "Method \"" + key + "\" has an undefined value in the component definition. " +
@@ -4406,7 +4306,7 @@ function stateMixin (Vue) {
   dataDef.get = function () { return this._data };
   var propsDef = {};
   propsDef.get = function () { return this._props };
-  if (true) {
+  if (false) {
     dataDef.set = function (newData) {
       warn(
         'Avoid replacing instance root $data. ' +
@@ -4462,7 +4362,7 @@ function initInjections (vm) {
     observerState.shouldConvert = false;
     Object.keys(result).forEach(function (key) {
       /* istanbul ignore else */
-      if (true) {
+      if (false) {
         defineReactive(vm, key, result[key], function () {
           warn(
             "Avoid mutating an injected value directly since the changes will be " +
@@ -4507,7 +4407,7 @@ function resolveInject (inject, vm) {
           result[key] = typeof provideDefault === 'function'
             ? provideDefault.call(vm)
             : provideDefault;
-        } else if (true) {
+        } else if (false) {
           warn(("Injection \"" + key + "\" not found"), vm);
         }
       }
@@ -4566,7 +4466,7 @@ function renderSlot (
   if (scopedSlotFn) { // scoped slot
     props = props || {};
     if (bindObject) {
-      if ("development" !== 'production' && !isObject(bindObject)) {
+      if (false) {
         warn(
           'slot v-bind without argument expects an Object',
           this
@@ -4579,7 +4479,7 @@ function renderSlot (
     var slotNodes = this.$slots[name];
     // warn duplicate slot usage
     if (slotNodes) {
-      if ("development" !== 'production' && slotNodes._rendered) {
+      if (false) {
         warn(
           "Duplicate presence of slot \"" + name + "\" found in the same render tree " +
           "- this will likely cause render errors.",
@@ -4647,7 +4547,7 @@ function bindObjectProps (
 ) {
   if (value) {
     if (!isObject(value)) {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         'v-bind without argument expects an Object or Array value',
         this
       );
@@ -4755,7 +4655,7 @@ function markStaticNode (node, key, isOnce) {
 function bindObjectListeners (data, value) {
   if (value) {
     if (!isPlainObject(value)) {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         'v-on without argument expects an Object value',
         this
       );
@@ -4998,7 +4898,7 @@ function createComponent (
   // if at this stage it's not a constructor or an async component factory,
   // reject.
   if (typeof Ctor !== 'function') {
-    if (true) {
+    if (false) {
       warn(("Invalid Component definition: " + (String(Ctor))), context);
     }
     return
@@ -5168,7 +5068,7 @@ function _createElement (
   normalizationType
 ) {
   if (isDef(data) && isDef((data).__ob__)) {
-    "development" !== 'production' && warn(
+    "production" !== 'production' && warn(
       "Avoid using observed data object as vnode data: " + (JSON.stringify(data)) + "\n" +
       'Always create fresh vnode data objects in each render!',
       context
@@ -5184,8 +5084,7 @@ function _createElement (
     return createEmptyVNode()
   }
   // warn against non-primitive key
-  if ("development" !== 'production' &&
-    isDef(data) && isDef(data.key) && !isPrimitive(data.key)
+  if (false
   ) {
     {
       warn(
@@ -5283,7 +5182,7 @@ function initRender (vm) {
   var parentData = parentVnode && parentVnode.data;
 
   /* istanbul ignore else */
-  if (true) {
+  if (false) {
     defineReactive(vm, '$attrs', parentData && parentData.attrs || emptyObject, function () {
       !isUpdatingChildComponent && warn("$attrs is readonly.", vm);
     }, true);
@@ -5337,7 +5236,7 @@ function renderMixin (Vue) {
       // return error render result,
       // or previous vnode to prevent render error causing blank component
       /* istanbul ignore else */
-      if (true) {
+      if (false) {
         if (vm.$options.renderError) {
           try {
             vnode = vm.$options.renderError.call(vm._renderProxy, vm.$createElement, e);
@@ -5354,7 +5253,7 @@ function renderMixin (Vue) {
     }
     // return empty vnode in case the render function errored out
     if (!(vnode instanceof VNode)) {
-      if ("development" !== 'production' && Array.isArray(vnode)) {
+      if (false) {
         warn(
           'Multiple root nodes returned from render function. Render function ' +
           'should return a single root node.',
@@ -5381,7 +5280,7 @@ function initMixin (Vue) {
 
     var startTag, endTag;
     /* istanbul ignore if */
-    if ("development" !== 'production' && config.performance && mark) {
+    if (false) {
       startTag = "vue-perf-start:" + (vm._uid);
       endTag = "vue-perf-end:" + (vm._uid);
       mark(startTag);
@@ -5403,7 +5302,7 @@ function initMixin (Vue) {
       );
     }
     /* istanbul ignore else */
-    if (true) {
+    if (false) {
       initProxy(vm);
     } else {
       vm._renderProxy = vm;
@@ -5420,7 +5319,7 @@ function initMixin (Vue) {
     callHook(vm, 'created');
 
     /* istanbul ignore if */
-    if ("development" !== 'production' && config.performance && mark) {
+    if (false) {
       vm._name = formatComponentName(vm, false);
       mark(endTag);
       measure(("vue " + (vm._name) + " init"), startTag, endTag);
@@ -5511,8 +5410,7 @@ function dedupe (latest, extended, sealed) {
 }
 
 function Vue$3 (options) {
-  if ("development" !== 'production' &&
-    !(this instanceof Vue$3)
+  if (false
   ) {
     warn('Vue is a constructor and should be called with the `new` keyword');
   }
@@ -5580,7 +5478,7 @@ function initExtend (Vue) {
     }
 
     var name = extendOptions.name || Super.options.name;
-    if ("development" !== 'production' && name) {
+    if (false) {
       validateComponentName(name);
     }
 
@@ -5663,7 +5561,7 @@ function initAssetRegisters (Vue) {
         return this.options[type + 's'][id]
       } else {
         /* istanbul ignore if */
-        if ("development" !== 'production' && type === 'component') {
+        if (false) {
           validateComponentName(id);
         }
         if (type === 'component' && isPlainObject(definition)) {
@@ -5818,7 +5716,7 @@ function initGlobalAPI (Vue) {
   // config
   var configDef = {};
   configDef.get = function () { return config; };
-  if (true) {
+  if (false) {
     configDef.set = function () {
       warn(
         'Do not replace the Vue.config object, set individual fields instead.'
@@ -6080,7 +5978,7 @@ function query (el) {
   if (typeof el === 'string') {
     var selected = document.querySelector(el);
     if (!selected) {
-      "development" !== 'production' && warn(
+      "production" !== 'production' && warn(
         'Cannot find element: ' + el
       );
       return document.createElement('div')
@@ -6325,7 +6223,7 @@ function createPatchFunction (backend) {
     var children = vnode.children;
     var tag = vnode.tag;
     if (isDef(tag)) {
-      if (true) {
+      if (false) {
         if (data && data.pre) {
           creatingElmInVPre++;
         }
@@ -6352,7 +6250,7 @@ function createPatchFunction (backend) {
         insert(parentElm, vnode.elm, refElm);
       }
 
-      if ("development" !== 'production' && data && data.pre) {
+      if (false) {
         creatingElmInVPre--;
       }
     } else if (isTrue(vnode.isComment)) {
@@ -6439,7 +6337,7 @@ function createPatchFunction (backend) {
 
   function createChildren (vnode, children, insertedVnodeQueue) {
     if (Array.isArray(children)) {
-      if (true) {
+      if (false) {
         checkDuplicateKeys(children);
       }
       for (var i = 0; i < children.length; ++i) {
@@ -6573,7 +6471,7 @@ function createPatchFunction (backend) {
     // during leaving transitions
     var canMove = !removeOnly;
 
-    if (true) {
+    if (false) {
       checkDuplicateKeys(newCh);
     }
 
@@ -6747,7 +6645,7 @@ function createPatchFunction (backend) {
       return true
     }
     // assert node match
-    if (true) {
+    if (false) {
       if (!assertNodeMatch(elm, vnode, inVPre)) {
         return false
       }
@@ -6770,9 +6668,7 @@ function createPatchFunction (backend) {
           if (isDef(i = data) && isDef(i = i.domProps) && isDef(i = i.innerHTML)) {
             if (i !== elm.innerHTML) {
               /* istanbul ignore if */
-              if ("development" !== 'production' &&
-                typeof console !== 'undefined' &&
-                !hydrationBailed
+              if (false
               ) {
                 hydrationBailed = true;
                 console.warn('Parent: ', elm);
@@ -6796,9 +6692,7 @@ function createPatchFunction (backend) {
             // longer than the virtual children list.
             if (!childrenMatch || childNode) {
               /* istanbul ignore if */
-              if ("development" !== 'production' &&
-                typeof console !== 'undefined' &&
-                !hydrationBailed
+              if (false
               ) {
                 hydrationBailed = true;
                 console.warn('Parent: ', elm);
@@ -6871,7 +6765,7 @@ function createPatchFunction (backend) {
             if (hydrate(oldVnode, vnode, insertedVnodeQueue)) {
               invokeInsertHook(vnode, insertedVnodeQueue, true);
               return oldVnode
-            } else if (true) {
+            } else if (false) {
               warn(
                 'The client-side rendered virtual DOM tree is not matching ' +
                 'server-rendered content. This is likely caused by incorrect ' +
@@ -7353,8 +7247,7 @@ function addHandler (
   // warn prevent and passive modifier
   /* istanbul ignore if */
   if (
-    "development" !== 'production' && warn &&
-    modifiers.prevent && modifiers.passive
+    false
   ) {
     warn(
       'passive and prevent can\'t be used together. ' +
@@ -7628,7 +7521,7 @@ function model (
   var tag = el.tag;
   var type = el.attrsMap.type;
 
-  if (true) {
+  if (false) {
     // inputs with type="file" are read only and setting the input's
     // value will throw an error.
     if (tag === 'input' && type === 'file') {
@@ -7655,7 +7548,7 @@ function model (
     genComponentModel(el, value, modifiers);
     // component v-model doesn't need extra runtime
     return false
-  } else if (true) {
+  } else if (false) {
     warn$1(
       "<" + (el.tag) + " v-model=\"" + value + "\">: " +
       "v-model is not supported on this element type. " +
@@ -7736,7 +7629,7 @@ function genDefaultModel (
   var type = el.attrsMap.type;
 
   // warn if v-bind:value conflicts with v-model
-  if (true) {
+  if (false) {
     var value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'];
     if (value$1) {
       var binding = el.attrsMap['v-bind:value'] ? 'v-bind:value' : ':value';
@@ -8443,7 +8336,7 @@ function enter (vnode, toggleDisplay) {
       : duration
   );
 
-  if ("development" !== 'production' && explicitEnterDuration != null) {
+  if (false) {
     checkDuration(explicitEnterDuration, 'enter', vnode);
   }
 
@@ -8549,7 +8442,7 @@ function leave (vnode, rm) {
       : duration
   );
 
-  if ("development" !== 'production' && isDef(explicitLeaveDuration)) {
+  if (false) {
     checkDuration(explicitLeaveDuration, 'leave', vnode);
   }
 
@@ -8776,7 +8669,7 @@ function actuallySetSelected (el, binding, vm) {
   var value = binding.value;
   var isMultiple = el.multiple;
   if (isMultiple && !Array.isArray(value)) {
-    "development" !== 'production' && warn(
+    "production" !== 'production' && warn(
       "<select multiple v-model=\"" + (binding.expression) + "\"> " +
       "expects an Array value for its binding, but got " + (Object.prototype.toString.call(value).slice(8, -1)),
       vm
@@ -8992,7 +8885,7 @@ var Transition = {
     }
 
     // warn multiple elements
-    if ("development" !== 'production' && children.length > 1) {
+    if (false) {
       warn(
         '<transition> can only be used on a single element. Use ' +
         '<transition-group> for lists.',
@@ -9003,8 +8896,7 @@ var Transition = {
     var mode = this.mode;
 
     // warn invalid mode
-    if ("development" !== 'production' &&
-      mode && mode !== 'in-out' && mode !== 'out-in'
+    if (false
     ) {
       warn(
         'invalid <transition> mode: ' + mode,
@@ -9128,7 +9020,7 @@ var TransitionGroup = {
           children.push(c);
           map[c.key] = c
           ;(c.data || (c.data = {})).transition = transitionData;
-        } else if (true) {
+        } else if (false) {
           var opts = c.componentOptions;
           var name = opts ? (opts.Ctor.options.name || opts.tag || '') : c.tag;
           warn(("<transition-group> children must be keyed: <" + name + ">"));
@@ -9295,16 +9187,14 @@ Vue$3.nextTick(function () {
   if (config.devtools) {
     if (devtools) {
       devtools.emit('init', Vue$3);
-    } else if ("development" !== 'production' && isChrome) {
+    } else if (false) {
       console[console.info ? 'info' : 'log'](
         'Download the Vue Devtools extension for a better development experience:\n' +
         'https://github.com/vuejs/vue-devtools'
       );
     }
   }
-  if ("development" !== 'production' &&
-    config.productionTip !== false &&
-    inBrowser && typeof console !== 'undefined'
+  if (false
   ) {
     console[console.info ? 'info' : 'log'](
       "You are running Vue in development mode.\n" +
@@ -9367,7 +9257,7 @@ function parseText (
 function transformNode (el, options) {
   var warn = options.warn || baseWarn;
   var staticClass = getAndRemoveAttr(el, 'class');
-  if ("development" !== 'production' && staticClass) {
+  if (false) {
     var res = parseText(staticClass, options.delimiters);
     if (res) {
       warn(
@@ -9411,7 +9301,7 @@ function transformNode$1 (el, options) {
   var staticStyle = getAndRemoveAttr(el, 'style');
   if (staticStyle) {
     /* istanbul ignore if */
-    if (true) {
+    if (false) {
       var res = parseText(staticStyle, options.delimiters);
       if (res) {
         warn(
@@ -9652,7 +9542,7 @@ function parseHTML (html, options) {
 
     if (html === last) {
       options.chars && options.chars(html);
-      if ("development" !== 'production' && !stack.length && options.warn) {
+      if (false) {
         options.warn(("Mal-formatted tag at end of template: \"" + html + "\""));
       }
       break
@@ -9759,9 +9649,7 @@ function parseHTML (html, options) {
     if (pos >= 0) {
       // Close all the open elements, up the stack
       for (var i = stack.length - 1; i >= pos; i--) {
-        if ("development" !== 'production' &&
-          (i > pos || !tagName) &&
-          options.warn
+        if (false
         ) {
           options.warn(
             ("tag <" + (stack[i].tag) + "> has no matching end tag.")
@@ -9905,7 +9793,7 @@ function parse (
 
       if (isForbiddenTag(element) && !isServerRendering()) {
         element.forbidden = true;
-        "development" !== 'production' && warn$2(
+        "production" !== 'production' && warn$2(
           'Templates should only be responsible for mapping the state to the ' +
           'UI. Avoid placing tags with side-effects in your templates, such as ' +
           "<" + tag + ">" + ', as they will not be parsed.'
@@ -9938,7 +9826,7 @@ function parse (
       }
 
       function checkRootConstraints (el) {
-        if (true) {
+        if (false) {
           if (el.tag === 'slot' || el.tag === 'template') {
             warnOnce(
               "Cannot use <" + (el.tag) + "> as component root element because it may " +
@@ -9966,7 +9854,7 @@ function parse (
             exp: element.elseif,
             block: element
           });
-        } else if (true) {
+        } else if (false) {
           warnOnce(
             "Component template should contain exactly one root element. " +
             "If you are using v-if on multiple elements, " +
@@ -10008,7 +9896,7 @@ function parse (
 
     chars: function chars (text) {
       if (!currentParent) {
-        if (true) {
+        if (false) {
           if (text === template) {
             warnOnce(
               'Component template requires a root element, rather than just text.'
@@ -10103,7 +9991,7 @@ function processElement (element, options) {
 function processKey (el) {
   var exp = getBindingAttr(el, 'key');
   if (exp) {
-    if ("development" !== 'production' && el.tag === 'template') {
+    if (false) {
       warn$2("<template> cannot be keyed. Place the key on real elements instead.");
     }
     el.key = exp;
@@ -10124,7 +10012,7 @@ function processFor (el) {
     var res = parseFor(exp);
     if (res) {
       extend(el, res);
-    } else if (true) {
+    } else if (false) {
       warn$2(
         ("Invalid v-for expression: " + exp)
       );
@@ -10177,7 +10065,7 @@ function processIfConditions (el, parent) {
       exp: el.elseif,
       block: el
     });
-  } else if (true) {
+  } else if (false) {
     warn$2(
       "v-" + (el.elseif ? ('else-if="' + el.elseif + '"') : 'else') + " " +
       "used on element <" + (el.tag) + "> without corresponding v-if."
@@ -10191,7 +10079,7 @@ function findPrevElement (children) {
     if (children[i].type === 1) {
       return children[i]
     } else {
-      if ("development" !== 'production' && children[i].text !== ' ') {
+      if (false) {
         warn$2(
           "text \"" + (children[i].text.trim()) + "\" between v-if and v-else(-if) " +
           "will be ignored."
@@ -10219,7 +10107,7 @@ function processOnce (el) {
 function processSlot (el) {
   if (el.tag === 'slot') {
     el.slotName = getBindingAttr(el, 'name');
-    if ("development" !== 'production' && el.key) {
+    if (false) {
       warn$2(
         "`key` does not work on <slot> because slots are abstract outlets " +
         "and can possibly expand into multiple elements. " +
@@ -10231,7 +10119,7 @@ function processSlot (el) {
     if (el.tag === 'template') {
       slotScope = getAndRemoveAttr(el, 'scope');
       /* istanbul ignore if */
-      if ("development" !== 'production' && slotScope) {
+      if (false) {
         warn$2(
           "the \"scope\" attribute for scoped slots have been deprecated and " +
           "replaced by \"slot-scope\" since 2.5. The new \"slot-scope\" attribute " +
@@ -10243,7 +10131,7 @@ function processSlot (el) {
       el.slotScope = slotScope || getAndRemoveAttr(el, 'slot-scope');
     } else if ((slotScope = getAndRemoveAttr(el, 'slot-scope'))) {
       /* istanbul ignore if */
-      if ("development" !== 'production' && el.attrsMap['v-for']) {
+      if (false) {
         warn$2(
           "Ambiguous combined usage of slot-scope and v-for on <" + (el.tag) + "> " +
           "(v-for takes higher priority). Use a wrapper <template> for the " +
@@ -10329,13 +10217,13 @@ function processAttrs (el) {
           name = name.slice(0, -(arg.length + 1));
         }
         addDirective(el, name, rawName, value, arg, modifiers);
-        if ("development" !== 'production' && name === 'model') {
+        if (false) {
           checkForAliasModel(el, value);
         }
       }
     } else {
       // literal attribute
-      if (true) {
+      if (false) {
         var res = parseText(value, delimiters);
         if (res) {
           warn$2(
@@ -10382,8 +10270,7 @@ function makeAttrsMap (attrs) {
   var map = {};
   for (var i = 0, l = attrs.length; i < l; i++) {
     if (
-      "development" !== 'production' &&
-      map[attrs[i].name] && !isIE && !isEdge
+      false
     ) {
       warn$2('duplicate attribute: ' + attrs[i].name);
     }
@@ -10810,7 +10697,7 @@ function genFilterCode (key) {
 /*  */
 
 function on (el, dir) {
-  if ("development" !== 'production' && dir.modifiers) {
+  if (false) {
     warn("v-on without argument does not support modifiers.");
   }
   el.wrapListeners = function (code) { return ("_g(" + code + "," + (dir.value) + ")"); };
@@ -10915,7 +10802,7 @@ function genOnce (el, state) {
       parent = parent.parent;
     }
     if (!key) {
-      "development" !== 'production' && state.warn(
+      "production" !== 'production' && state.warn(
         "v-once can only be used inside v-for that is keyed. "
       );
       return genElement(el, state)
@@ -10974,11 +10861,7 @@ function genFor (
   var iterator1 = el.iterator1 ? ("," + (el.iterator1)) : '';
   var iterator2 = el.iterator2 ? ("," + (el.iterator2)) : '';
 
-  if ("development" !== 'production' &&
-    state.maybeComponent(el) &&
-    el.tag !== 'slot' &&
-    el.tag !== 'template' &&
-    !el.key
+  if (false
   ) {
     state.warn(
       "<" + (el.tag) + " v-for=\"" + alias + " in " + exp + "\">: component lists rendered with " +
@@ -11100,9 +10983,7 @@ function genDirectives (el, state) {
 
 function genInlineTemplate (el, state) {
   var ast = el.children[0];
-  if ("development" !== 'production' && (
-    el.children.length !== 1 || ast.type !== 1
-  )) {
+  if (false) {
     state.warn('Inline-template components must have exactly one child element.');
   }
   if (ast.type === 1) {
@@ -11408,7 +11289,7 @@ function createCompileToFunctionFn (compile) {
     delete options.warn;
 
     /* istanbul ignore if */
-    if (true) {
+    if (false) {
       // detect possible CSP restriction
       try {
         new Function('return 1');
@@ -11437,7 +11318,7 @@ function createCompileToFunctionFn (compile) {
     var compiled = compile(template, options);
 
     // check compilation errors/tips
-    if (true) {
+    if (false) {
       if (compiled.errors && compiled.errors.length) {
         warn$$1(
           "Error compiling template:\n\n" + template + "\n\n" +
@@ -11462,7 +11343,7 @@ function createCompileToFunctionFn (compile) {
     // this should only happen if there is a bug in the compiler itself.
     // mostly for codegen development use
     /* istanbul ignore if */
-    if (true) {
+    if (false) {
       if ((!compiled.errors || !compiled.errors.length) && fnGenErrors.length) {
         warn$$1(
           "Failed to generate render function:\n\n" +
@@ -11518,7 +11399,7 @@ function createCompilerCreator (baseCompile) {
       }
 
       var compiled = baseCompile(template, finalOptions);
-      if (true) {
+      if (false) {
         errors.push.apply(errors, detectErrors(compiled.ast));
       }
       compiled.errors = errors;
@@ -11590,7 +11471,7 @@ Vue$3.prototype.$mount = function (
 
   /* istanbul ignore if */
   if (el === document.body || el === document.documentElement) {
-    "development" !== 'production' && warn(
+    "production" !== 'production' && warn(
       "Do not mount Vue to <html> or <body> - mount to normal elements instead."
     );
     return this
@@ -11605,7 +11486,7 @@ Vue$3.prototype.$mount = function (
         if (template.charAt(0) === '#') {
           template = idToTemplate(template);
           /* istanbul ignore if */
-          if ("development" !== 'production' && !template) {
+          if (false) {
             warn(
               ("Template element not found or is empty: " + (options.template)),
               this
@@ -11615,7 +11496,7 @@ Vue$3.prototype.$mount = function (
       } else if (template.nodeType) {
         template = template.innerHTML;
       } else {
-        if (true) {
+        if (false) {
           warn('invalid template option:' + template, this);
         }
         return this
@@ -11625,7 +11506,7 @@ Vue$3.prototype.$mount = function (
     }
     if (template) {
       /* istanbul ignore if */
-      if ("development" !== 'production' && config.performance && mark) {
+      if (false) {
         mark('compile');
       }
 
@@ -11641,7 +11522,7 @@ Vue$3.prototype.$mount = function (
       options.staticRenderFns = staticRenderFns;
 
       /* istanbul ignore if */
-      if ("development" !== 'production' && config.performance && mark) {
+      if (false) {
         mark('compile end');
         measure(("vue " + (this._name) + " compile"), 'compile', 'compile end');
       }
@@ -11668,10 +11549,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(24).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(22).setImmediate))
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 var g;
@@ -11698,53 +11579,53 @@ module.exports = g;
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(8);
-module.exports = __webpack_require__(33);
+__webpack_require__(7);
+module.exports = __webpack_require__(31);
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Adaptive = __webpack_require__(9);
+var _Adaptive = __webpack_require__(8);
 
 var _Adaptive2 = _interopRequireDefault(_Adaptive);
 
-var _LoadMore = __webpack_require__(11);
+var _LoadMore = __webpack_require__(10);
 
 var _LoadMore2 = _interopRequireDefault(_LoadMore);
 
-var _SlideMenu = __webpack_require__(12);
+var _SlideMenu = __webpack_require__(11);
 
 var _SlideMenu2 = _interopRequireDefault(_SlideMenu);
 
-var _YouTube = __webpack_require__(13);
+var _YouTube = __webpack_require__(12);
 
 var _YouTube2 = _interopRequireDefault(_YouTube);
 
-var _Swipers = __webpack_require__(14);
+var _Swipers = __webpack_require__(13);
 
 var _Swipers2 = _interopRequireDefault(_Swipers);
 
-var _Cookie = __webpack_require__(21);
+var _Cookie = __webpack_require__(19);
 
 var _Cookie2 = _interopRequireDefault(_Cookie);
 
-__webpack_require__(22);
+__webpack_require__(20);
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
-__webpack_require__(27);
+__webpack_require__(25);
 
-var _Ped = __webpack_require__(29);
+var _Ped = __webpack_require__(27);
 
 var _Ped2 = _interopRequireDefault(_Ped);
 
@@ -11909,7 +11790,7 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -11919,7 +11800,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _jsCookie = __webpack_require__(10);
+var _jsCookie = __webpack_require__(9);
 
 var _jsCookie2 = _interopRequireDefault(_jsCookie);
 
@@ -11942,7 +11823,7 @@ var Adaptive = {
 exports.default = Adaptive;
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -12117,7 +11998,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12158,7 +12039,7 @@ var LoadMore = {
 exports.default = LoadMore;
 
 /***/ }),
-/* 12 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12263,7 +12144,7 @@ var SlideMenu = {
 exports.default = SlideMenu;
 
 /***/ }),
-/* 13 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12313,7 +12194,7 @@ var YouTube = {
 exports.default = YouTube;
 
 /***/ }),
-/* 14 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -12323,11 +12204,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _progressbar = __webpack_require__(15);
+var _progressbar = __webpack_require__(14);
 
 var _progressbar2 = _interopRequireDefault(_progressbar);
 
-var _swiper = __webpack_require__(19);
+var _swiper = __webpack_require__(18);
 
 var _swiper2 = _interopRequireDefault(_swiper);
 
@@ -12528,14 +12409,14 @@ var Swipers = {
 exports.default = Swipers;
 
 /***/ }),
-/* 15 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = {
     // Higher level API, different shaped progress bars
-    Line: __webpack_require__(16),
+    Line: __webpack_require__(15),
     Circle: __webpack_require__(3),
-    SemiCircle: __webpack_require__(18),
+    SemiCircle: __webpack_require__(17),
 
     // Lower level API to use any SVG path
     Path: __webpack_require__(2),
@@ -12551,7 +12432,7 @@ module.exports = {
 
 
 /***/ }),
-/* 16 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Line shaped progress bar
@@ -12586,7 +12467,7 @@ module.exports = Line;
 
 
 /***/ }),
-/* 17 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* shifty - v1.5.3 - 2016-11-29 - http://jeremyckahn.github.io/shifty */
@@ -14243,7 +14124,7 @@ var Tweenable = (function () {
 
 
 /***/ }),
-/* 18 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // Semi-SemiCircle shaped progress bar
@@ -14297,13 +14178,1437 @@ module.exports = SemiCircle;
 
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ssr_window__ = __webpack_require__(4);
+
+// CONCATENATED MODULE: ./node_modules/ssr-window/dist/ssr-window.esm.js
+/**
+ * SSR Window 1.0.0
+ * Better handling for window object in SSR environment
+ * https://github.com/nolimits4web/ssr-window
+ *
+ * Copyright 2018, Vladimir Kharlampidi
+ *
+ * Licensed under MIT
+ *
+ * Released on: February 10, 2018
+ */
+var d;
+if (typeof document === 'undefined') {
+  d = {
+    body: {},
+    addEventListener: function addEventListener() {},
+    removeEventListener: function removeEventListener() {},
+    activeElement: {
+      blur: function blur() {},
+      nodeName: '',
+    },
+    querySelector: function querySelector() {
+      return null;
+    },
+    querySelectorAll: function querySelectorAll() {
+      return [];
+    },
+    getElementById: function getElementById() {
+      return null;
+    },
+    createEvent: function createEvent() {
+      return {
+        initEvent: function initEvent() {},
+      };
+    },
+    createElement: function createElement() {
+      return {
+        children: [],
+        childNodes: [],
+        style: {},
+        setAttribute: function setAttribute() {},
+        getElementsByTagName: function getElementsByTagName() {
+          return [];
+        },
+      };
+    },
+    location: { hash: '' },
+  };
+} else {
+  // eslint-disable-next-line
+  d = document;
+}
+
+var doc = d;
+
+var w;
+if (typeof window === 'undefined') {
+  w = {
+    document: doc,
+    navigator: {
+      userAgent: '',
+    },
+    location: {},
+    history: {},
+    CustomEvent: function CustomEvent() {
+      return this;
+    },
+    addEventListener: function addEventListener() {},
+    removeEventListener: function removeEventListener() {},
+    getComputedStyle: function getComputedStyle() {
+      return {
+        getPropertyValue: function getPropertyValue() {
+          return '';
+        },
+      };
+    },
+    Image: function Image() {},
+    Date: function Date() {},
+    screen: {},
+    setTimeout: function setTimeout() {},
+    clearTimeout: function clearTimeout() {},
+  };
+} else {
+  // eslint-disable-next-line
+  w = window;
+}
+
+var win = w;
+
+
+
+// CONCATENATED MODULE: ./node_modules/dom7/dist/dom7.modular.js
+/**
+ * Dom7 2.0.2
+ * Minimalistic JavaScript library for DOM manipulation, with a jQuery-compatible API
+ * http://framework7.io/docs/dom.html
+ *
+ * Copyright 2018, Vladimir Kharlampidi
+ * The iDangero.us
+ * http://www.idangero.us/
+ *
+ * Licensed under MIT
+ *
+ * Released on: February 10, 2018
+ */
+
+
+class Dom7 {
+  constructor(arr) {
+    const self = this;
+    // Create array-like object
+    for (let i = 0; i < arr.length; i += 1) {
+      self[i] = arr[i];
+    }
+    self.length = arr.length;
+    // Return collection with methods
+    return this;
+  }
+}
+
+function $(selector, context) {
+  const arr = [];
+  let i = 0;
+  if (selector && !context) {
+    if (selector instanceof Dom7) {
+      return selector;
+    }
+  }
+  if (selector) {
+      // String
+    if (typeof selector === 'string') {
+      let els;
+      let tempParent;
+      const html = selector.trim();
+      if (html.indexOf('<') >= 0 && html.indexOf('>') >= 0) {
+        let toCreate = 'div';
+        if (html.indexOf('<li') === 0) toCreate = 'ul';
+        if (html.indexOf('<tr') === 0) toCreate = 'tbody';
+        if (html.indexOf('<td') === 0 || html.indexOf('<th') === 0) toCreate = 'tr';
+        if (html.indexOf('<tbody') === 0) toCreate = 'table';
+        if (html.indexOf('<option') === 0) toCreate = 'select';
+        tempParent = doc.createElement(toCreate);
+        tempParent.innerHTML = html;
+        for (i = 0; i < tempParent.childNodes.length; i += 1) {
+          arr.push(tempParent.childNodes[i]);
+        }
+      } else {
+        if (!context && selector[0] === '#' && !selector.match(/[ .<>:~]/)) {
+          // Pure ID selector
+          els = [doc.getElementById(selector.trim().split('#')[1])];
+        } else {
+          // Other selectors
+          els = (context || doc).querySelectorAll(selector.trim());
+        }
+        for (i = 0; i < els.length; i += 1) {
+          if (els[i]) arr.push(els[i]);
+        }
+      }
+    } else if (selector.nodeType || selector === win || selector === doc) {
+      // Node/element
+      arr.push(selector);
+    } else if (selector.length > 0 && selector[0].nodeType) {
+      // Array of elements or instance of Dom
+      for (i = 0; i < selector.length; i += 1) {
+        arr.push(selector[i]);
+      }
+    }
+  }
+  return new Dom7(arr);
+}
+
+$.fn = Dom7.prototype;
+$.Class = Dom7;
+$.Dom7 = Dom7;
+
+function unique(arr) {
+  const uniqueArray = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (uniqueArray.indexOf(arr[i]) === -1) uniqueArray.push(arr[i]);
+  }
+  return uniqueArray;
+}
+function toCamelCase(string) {
+  return string.toLowerCase().replace(/-(.)/g, (match, group1) => group1.toUpperCase());
+}
+
+function requestAnimationFrame(callback) {
+  if (win.requestAnimationFrame) return win.requestAnimationFrame(callback);
+  else if (win.webkitRequestAnimationFrame) return win.webkitRequestAnimationFrame(callback);
+  return win.setTimeout(callback, 1000 / 60);
+}
+function cancelAnimationFrame(id) {
+  if (win.cancelAnimationFrame) return win.cancelAnimationFrame(id);
+  else if (win.webkitCancelAnimationFrame) return win.webkitCancelAnimationFrame(id);
+  return win.clearTimeout(id);
+}
+
+// Classes and attributes
+function addClass(className) {
+  if (typeof className === 'undefined') {
+    return this;
+  }
+  const classes = className.split(' ');
+  for (let i = 0; i < classes.length; i += 1) {
+    for (let j = 0; j < this.length; j += 1) {
+      if (typeof this[j].classList !== 'undefined') this[j].classList.add(classes[i]);
+    }
+  }
+  return this;
+}
+function removeClass(className) {
+  const classes = className.split(' ');
+  for (let i = 0; i < classes.length; i += 1) {
+    for (let j = 0; j < this.length; j += 1) {
+      if (typeof this[j].classList !== 'undefined') this[j].classList.remove(classes[i]);
+    }
+  }
+  return this;
+}
+function hasClass(className) {
+  if (!this[0]) return false;
+  return this[0].classList.contains(className);
+}
+function toggleClass(className) {
+  const classes = className.split(' ');
+  for (let i = 0; i < classes.length; i += 1) {
+    for (let j = 0; j < this.length; j += 1) {
+      if (typeof this[j].classList !== 'undefined') this[j].classList.toggle(classes[i]);
+    }
+  }
+  return this;
+}
+function attr(attrs, value) {
+  if (arguments.length === 1 && typeof attrs === 'string') {
+    // Get attr
+    if (this[0]) return this[0].getAttribute(attrs);
+    return undefined;
+  }
+
+  // Set attrs
+  for (let i = 0; i < this.length; i += 1) {
+    if (arguments.length === 2) {
+      // String
+      this[i].setAttribute(attrs, value);
+    } else {
+      // Object
+      // eslint-disable-next-line
+      for (const attrName in attrs) {
+        this[i][attrName] = attrs[attrName];
+        this[i].setAttribute(attrName, attrs[attrName]);
+      }
+    }
+  }
+  return this;
+}
+// eslint-disable-next-line
+function removeAttr(attr) {
+  for (let i = 0; i < this.length; i += 1) {
+    this[i].removeAttribute(attr);
+  }
+  return this;
+}
+// eslint-disable-next-line
+function dom7_modular_prop(props, value) {
+  if (arguments.length === 1 && typeof props === 'string') {
+    // Get prop
+    if (this[0]) return this[0][props];
+  } else {
+    // Set props
+    for (let i = 0; i < this.length; i += 1) {
+      if (arguments.length === 2) {
+        // String
+        this[i][props] = value;
+      } else {
+        // Object
+        // eslint-disable-next-line
+        for (const propName in props) {
+          this[i][propName] = props[propName];
+        }
+      }
+    }
+    return this;
+  }
+}
+function data(key, value) {
+  let el;
+  if (typeof value === 'undefined') {
+    el = this[0];
+    // Get value
+    if (el) {
+      if (el.dom7ElementDataStorage && (key in el.dom7ElementDataStorage)) {
+        return el.dom7ElementDataStorage[key];
+      }
+
+      const dataKey = el.getAttribute(`data-${key}`);
+      if (dataKey) {
+        return dataKey;
+      }
+      return undefined;
+    }
+    return undefined;
+  }
+
+  // Set value
+  for (let i = 0; i < this.length; i += 1) {
+    el = this[i];
+    if (!el.dom7ElementDataStorage) el.dom7ElementDataStorage = {};
+    el.dom7ElementDataStorage[key] = value;
+  }
+  return this;
+}
+function removeData(key) {
+  for (let i = 0; i < this.length; i += 1) {
+    const el = this[i];
+    if (el.dom7ElementDataStorage && el.dom7ElementDataStorage[key]) {
+      el.dom7ElementDataStorage[key] = null;
+      delete el.dom7ElementDataStorage[key];
+    }
+  }
+}
+function dataset() {
+  const el = this[0];
+  if (!el) return undefined;
+  const dataset = {}; // eslint-disable-line
+  if (el.dataset) {
+    // eslint-disable-next-line
+    for (const dataKey in el.dataset) {
+      dataset[dataKey] = el.dataset[dataKey];
+    }
+  } else {
+    for (let i = 0; i < el.attributes.length; i += 1) {
+      // eslint-disable-next-line
+      const attr = el.attributes[i];
+      if (attr.name.indexOf('data-') >= 0) {
+        dataset[toCamelCase(attr.name.split('data-')[1])] = attr.value;
+      }
+    }
+  }
+  // eslint-disable-next-line
+  for (const key in dataset) {
+    if (dataset[key] === 'false') dataset[key] = false;
+    else if (dataset[key] === 'true') dataset[key] = true;
+    else if (parseFloat(dataset[key]) === dataset[key] * 1) dataset[key] *= 1;
+  }
+  return dataset;
+}
+function val(value) {
+  if (typeof value === 'undefined') {
+    if (this[0]) {
+      if (this[0].multiple && this[0].nodeName.toLowerCase() === 'select') {
+        const values = [];
+        for (let i = 0; i < this[0].selectedOptions.length; i += 1) {
+          values.push(this[0].selectedOptions[i].value);
+        }
+        return values;
+      }
+      return this[0].value;
+    }
+    return undefined;
+  }
+
+  for (let i = 0; i < this.length; i += 1) {
+    this[i].value = value;
+  }
+  return this;
+}
+// Transforms
+// eslint-disable-next-line
+function transform(transform) {
+  for (let i = 0; i < this.length; i += 1) {
+    const elStyle = this[i].style;
+    elStyle.webkitTransform = transform;
+    elStyle.transform = transform;
+  }
+  return this;
+}
+function transition(duration) {
+  if (typeof duration !== 'string') {
+    duration = `${duration}ms`; // eslint-disable-line
+  }
+  for (let i = 0; i < this.length; i += 1) {
+    const elStyle = this[i].style;
+    elStyle.webkitTransitionDuration = duration;
+    elStyle.transitionDuration = duration;
+  }
+  return this;
+}
+// Events
+function on(...args) {
+  let [eventType, targetSelector, listener, capture] = args;
+  if (typeof args[1] === 'function') {
+    [eventType, listener, capture] = args;
+    targetSelector = undefined;
+  }
+  if (!capture) capture = false;
+
+  function handleLiveEvent(e) {
+    const target = e.target;
+    if (!target) return;
+    const eventData = e.target.dom7EventData || [];
+    eventData.unshift(e);
+    if ($(target).is(targetSelector)) listener.apply(target, eventData);
+    else {
+      const parents = $(target).parents(); // eslint-disable-line
+      for (let k = 0; k < parents.length; k += 1) {
+        if ($(parents[k]).is(targetSelector)) listener.apply(parents[k], eventData);
+      }
+    }
+  }
+  function handleEvent(e) {
+    const eventData = e && e.target ? e.target.dom7EventData || [] : [];
+    eventData.unshift(e);
+    listener.apply(this, eventData);
+  }
+  const events = eventType.split(' ');
+  let j;
+  for (let i = 0; i < this.length; i += 1) {
+    const el = this[i];
+    if (!targetSelector) {
+      for (j = 0; j < events.length; j += 1) {
+        if (!el.dom7Listeners) el.dom7Listeners = [];
+        el.dom7Listeners.push({
+          type: eventType,
+          listener,
+          proxyListener: handleEvent,
+        });
+        el.addEventListener(events[j], handleEvent, capture);
+      }
+    } else {
+      // Live events
+      for (j = 0; j < events.length; j += 1) {
+        if (!el.dom7LiveListeners) el.dom7LiveListeners = [];
+        el.dom7LiveListeners.push({
+          type: eventType,
+          listener,
+          proxyListener: handleLiveEvent,
+        });
+        el.addEventListener(events[j], handleLiveEvent, capture);
+      }
+    }
+  }
+  return this;
+}
+function off(...args) {
+  let [eventType, targetSelector, listener, capture] = args;
+  if (typeof args[1] === 'function') {
+    [eventType, listener, capture] = args;
+    targetSelector = undefined;
+  }
+  if (!capture) capture = false;
+
+  const events = eventType.split(' ');
+  for (let i = 0; i < events.length; i += 1) {
+    for (let j = 0; j < this.length; j += 1) {
+      const el = this[j];
+      if (!targetSelector) {
+        if (el.dom7Listeners) {
+          for (let k = 0; k < el.dom7Listeners.length; k += 1) {
+            if (listener) {
+              if (el.dom7Listeners[k].listener === listener) {
+                el.removeEventListener(events[i], el.dom7Listeners[k].proxyListener, capture);
+              }
+            } else if (el.dom7Listeners[k].type === events[i]) {
+              el.removeEventListener(events[i], el.dom7Listeners[k].proxyListener, capture);
+            }
+          }
+        }
+      } else if (el.dom7LiveListeners) {
+        for (let k = 0; k < el.dom7LiveListeners.length; k += 1) {
+          if (listener) {
+            if (el.dom7LiveListeners[k].listener === listener) {
+              el.removeEventListener(events[i], el.dom7LiveListeners[k].proxyListener, capture);
+            }
+          } else if (el.dom7LiveListeners[k].type === events[i]) {
+            el.removeEventListener(events[i], el.dom7LiveListeners[k].proxyListener, capture);
+          }
+        }
+      }
+    }
+  }
+  return this;
+}
+function once(...args) {
+  const dom = this;
+  let [eventName, targetSelector, listener, capture] = args;
+  if (typeof args[1] === 'function') {
+    [eventName, listener, capture] = args;
+    targetSelector = undefined;
+  }
+  function proxy(e) {
+    const eventData = e.target.dom7EventData || [];
+    listener.apply(this, eventData);
+    dom.off(eventName, targetSelector, proxy, capture);
+  }
+  return dom.on(eventName, targetSelector, proxy, capture);
+}
+function trigger(...args) {
+  const events = args[0].split(' ');
+  const eventData = args[1];
+  for (let i = 0; i < events.length; i += 1) {
+    for (let j = 0; j < this.length; j += 1) {
+      let evt;
+      try {
+        evt = new win.CustomEvent(events[i], {
+          detail: eventData,
+          bubbles: true,
+          cancelable: true,
+        });
+      } catch (e) {
+        evt = doc.createEvent('Event');
+        evt.initEvent(events[i], true, true);
+        evt.detail = eventData;
+      }
+      // eslint-disable-next-line
+      this[j].dom7EventData = args.filter((data, dataIndex) => dataIndex > 0);
+      this[j].dispatchEvent(evt);
+      this[j].dom7EventData = [];
+      delete this[j].dom7EventData;
+    }
+  }
+  return this;
+}
+function transitionEnd(callback) {
+  const events = ['webkitTransitionEnd', 'transitionend'];
+  const dom = this;
+  let i;
+  function fireCallBack(e) {
+    /* jshint validthis:true */
+    if (e.target !== this) return;
+    callback.call(this, e);
+    for (i = 0; i < events.length; i += 1) {
+      dom.off(events[i], fireCallBack);
+    }
+  }
+  if (callback) {
+    for (i = 0; i < events.length; i += 1) {
+      dom.on(events[i], fireCallBack);
+    }
+  }
+  return this;
+}
+function animationEnd(callback) {
+  const events = ['webkitAnimationEnd', 'animationend'];
+  const dom = this;
+  let i;
+  function fireCallBack(e) {
+    if (e.target !== this) return;
+    callback.call(this, e);
+    for (i = 0; i < events.length; i += 1) {
+      dom.off(events[i], fireCallBack);
+    }
+  }
+  if (callback) {
+    for (i = 0; i < events.length; i += 1) {
+      dom.on(events[i], fireCallBack);
+    }
+  }
+  return this;
+}
+// Sizing/Styles
+function width() {
+  if (this[0] === win) {
+    return win.innerWidth;
+  }
+
+  if (this.length > 0) {
+    return parseFloat(this.css('width'));
+  }
+
+  return null;
+}
+function dom7_modular_outerWidth(includeMargins) {
+  if (this.length > 0) {
+    if (includeMargins) {
+      // eslint-disable-next-line
+      const styles = this.styles();
+      return this[0].offsetWidth + parseFloat(styles.getPropertyValue('margin-right')) + parseFloat(styles.getPropertyValue('margin-left'));
+    }
+    return this[0].offsetWidth;
+  }
+  return null;
+}
+function height() {
+  if (this[0] === win) {
+    return win.innerHeight;
+  }
+
+  if (this.length > 0) {
+    return parseFloat(this.css('height'));
+  }
+
+  return null;
+}
+function dom7_modular_outerHeight(includeMargins) {
+  if (this.length > 0) {
+    if (includeMargins) {
+      // eslint-disable-next-line
+      const styles = this.styles();
+      return this[0].offsetHeight + parseFloat(styles.getPropertyValue('margin-top')) + parseFloat(styles.getPropertyValue('margin-bottom'));
+    }
+    return this[0].offsetHeight;
+  }
+  return null;
+}
+function offset() {
+  if (this.length > 0) {
+    const el = this[0];
+    const box = el.getBoundingClientRect();
+    const body = doc.body;
+    const clientTop = el.clientTop || body.clientTop || 0;
+    const clientLeft = el.clientLeft || body.clientLeft || 0;
+    const scrollTop = el === win ? win.scrollY : el.scrollTop;
+    const scrollLeft = el === win ? win.scrollX : el.scrollLeft;
+    return {
+      top: (box.top + scrollTop) - clientTop,
+      left: (box.left + scrollLeft) - clientLeft,
+    };
+  }
+
+  return null;
+}
+function hide() {
+  for (let i = 0; i < this.length; i += 1) {
+    this[i].style.display = 'none';
+  }
+  return this;
+}
+function show() {
+  for (let i = 0; i < this.length; i += 1) {
+    const el = this[i];
+    if (el.style.display === 'none') {
+      el.style.display = '';
+    }
+    if (win.getComputedStyle(el, null).getPropertyValue('display') === 'none') {
+      // Still not visible
+      el.style.display = 'block';
+    }
+  }
+  return this;
+}
+function styles() {
+  if (this[0]) return win.getComputedStyle(this[0], null);
+  return {};
+}
+function css(props, value) {
+  let i;
+  if (arguments.length === 1) {
+    if (typeof props === 'string') {
+      if (this[0]) return win.getComputedStyle(this[0], null).getPropertyValue(props);
+    } else {
+      for (i = 0; i < this.length; i += 1) {
+        // eslint-disable-next-line
+        for (let prop in props) {
+          this[i].style[prop] = props[prop];
+        }
+      }
+      return this;
+    }
+  }
+  if (arguments.length === 2 && typeof props === 'string') {
+    for (i = 0; i < this.length; i += 1) {
+      this[i].style[props] = value;
+    }
+    return this;
+  }
+  return this;
+}
+
+// Dom manipulation
+function toArray() {
+  const arr = [];
+  for (let i = 0; i < this.length; i += 1) {
+    arr.push(this[i]);
+  }
+  return arr;
+}
+// Iterate over the collection passing elements to `callback`
+function each(callback) {
+  // Don't bother continuing without a callback
+  if (!callback) return this;
+  // Iterate over the current collection
+  for (let i = 0; i < this.length; i += 1) {
+    // If the callback returns false
+    if (callback.call(this[i], i, this[i]) === false) {
+      // End the loop early
+      return this;
+    }
+  }
+  // Return `this` to allow chained DOM operations
+  return this;
+}
+function forEach(callback) {
+  // Don't bother continuing without a callback
+  if (!callback) return this;
+  // Iterate over the current collection
+  for (let i = 0; i < this.length; i += 1) {
+    // If the callback returns false
+    if (callback.call(this[i], this[i], i) === false) {
+      // End the loop early
+      return this;
+    }
+  }
+  // Return `this` to allow chained DOM operations
+  return this;
+}
+function filter(callback) {
+  const matchedItems = [];
+  const dom = this;
+  for (let i = 0; i < dom.length; i += 1) {
+    if (callback.call(dom[i], i, dom[i])) matchedItems.push(dom[i]);
+  }
+  return new Dom7(matchedItems);
+}
+function map(callback) {
+  const modifiedItems = [];
+  const dom = this;
+  for (let i = 0; i < dom.length; i += 1) {
+    modifiedItems.push(callback.call(dom[i], i, dom[i]));
+  }
+  return new Dom7(modifiedItems);
+}
+// eslint-disable-next-line
+function dom7_modular_html(html) {
+  if (typeof html === 'undefined') {
+    return this[0] ? this[0].innerHTML : undefined;
+  }
+
+  for (let i = 0; i < this.length; i += 1) {
+    this[i].innerHTML = html;
+  }
+  return this;
+}
+// eslint-disable-next-line
+function dom7_modular_text(text) {
+  if (typeof text === 'undefined') {
+    if (this[0]) {
+      return this[0].textContent.trim();
+    }
+    return null;
+  }
+
+  for (let i = 0; i < this.length; i += 1) {
+    this[i].textContent = text;
+  }
+  return this;
+}
+function is(selector) {
+  const el = this[0];
+  let compareWith;
+  let i;
+  if (!el || typeof selector === 'undefined') return false;
+  if (typeof selector === 'string') {
+    if (el.matches) return el.matches(selector);
+    else if (el.webkitMatchesSelector) return el.webkitMatchesSelector(selector);
+    else if (el.msMatchesSelector) return el.msMatchesSelector(selector);
+
+    compareWith = $(selector);
+    for (i = 0; i < compareWith.length; i += 1) {
+      if (compareWith[i] === el) return true;
+    }
+    return false;
+  } else if (selector === doc) return el === doc;
+  else if (selector === win) return el === win;
+
+  if (selector.nodeType || selector instanceof Dom7) {
+    compareWith = selector.nodeType ? [selector] : selector;
+    for (i = 0; i < compareWith.length; i += 1) {
+      if (compareWith[i] === el) return true;
+    }
+    return false;
+  }
+  return false;
+}
+function indexOf(el) {
+  for (let i = 0; i < this.length; i += 1) {
+    if (this[i] === el) return i;
+  }
+  return -1;
+}
+function dom7_modular_index() {
+  let child = this[0];
+  let i;
+  if (child) {
+    i = 0;
+    // eslint-disable-next-line
+    while ((child = child.previousSibling) !== null) {
+      if (child.nodeType === 1) i += 1;
+    }
+    return i;
+  }
+  return undefined;
+}
+// eslint-disable-next-line
+function eq(index) {
+  if (typeof index === 'undefined') return this;
+  const length = this.length;
+  let returnIndex;
+  if (index > length - 1) {
+    return new Dom7([]);
+  }
+  if (index < 0) {
+    returnIndex = length + index;
+    if (returnIndex < 0) return new Dom7([]);
+    return new Dom7([this[returnIndex]]);
+  }
+  return new Dom7([this[index]]);
+}
+function append(...args) {
+  let newChild;
+
+  for (let k = 0; k < args.length; k += 1) {
+    newChild = args[k];
+    for (let i = 0; i < this.length; i += 1) {
+      if (typeof newChild === 'string') {
+        const tempDiv = doc.createElement('div');
+        tempDiv.innerHTML = newChild;
+        while (tempDiv.firstChild) {
+          this[i].appendChild(tempDiv.firstChild);
+        }
+      } else if (newChild instanceof Dom7) {
+        for (let j = 0; j < newChild.length; j += 1) {
+          this[i].appendChild(newChild[j]);
+        }
+      } else {
+        this[i].appendChild(newChild);
+      }
+    }
+  }
+
+  return this;
+}
+ // eslint-disable-next-line
+function appendTo(parent) {
+  $(parent).append(this);
+  return this;
+}
+function prepend(newChild) {
+  let i;
+  let j;
+  for (i = 0; i < this.length; i += 1) {
+    if (typeof newChild === 'string') {
+      const tempDiv = doc.createElement('div');
+      tempDiv.innerHTML = newChild;
+      for (j = tempDiv.childNodes.length - 1; j >= 0; j -= 1) {
+        this[i].insertBefore(tempDiv.childNodes[j], this[i].childNodes[0]);
+      }
+    } else if (newChild instanceof Dom7) {
+      for (j = 0; j < newChild.length; j += 1) {
+        this[i].insertBefore(newChild[j], this[i].childNodes[0]);
+      }
+    } else {
+      this[i].insertBefore(newChild, this[i].childNodes[0]);
+    }
+  }
+  return this;
+}
+ // eslint-disable-next-line
+function prependTo(parent) {
+  $(parent).prepend(this);
+  return this;
+}
+function insertBefore(selector) {
+  const before = $(selector);
+  for (let i = 0; i < this.length; i += 1) {
+    if (before.length === 1) {
+      before[0].parentNode.insertBefore(this[i], before[0]);
+    } else if (before.length > 1) {
+      for (let j = 0; j < before.length; j += 1) {
+        before[j].parentNode.insertBefore(this[i].cloneNode(true), before[j]);
+      }
+    }
+  }
+}
+function insertAfter(selector) {
+  const after = $(selector);
+  for (let i = 0; i < this.length; i += 1) {
+    if (after.length === 1) {
+      after[0].parentNode.insertBefore(this[i], after[0].nextSibling);
+    } else if (after.length > 1) {
+      for (let j = 0; j < after.length; j += 1) {
+        after[j].parentNode.insertBefore(this[i].cloneNode(true), after[j].nextSibling);
+      }
+    }
+  }
+}
+function next(selector) {
+  if (this.length > 0) {
+    if (selector) {
+      if (this[0].nextElementSibling && $(this[0].nextElementSibling).is(selector)) {
+        return new Dom7([this[0].nextElementSibling]);
+      }
+      return new Dom7([]);
+    }
+
+    if (this[0].nextElementSibling) return new Dom7([this[0].nextElementSibling]);
+    return new Dom7([]);
+  }
+  return new Dom7([]);
+}
+function nextAll(selector) {
+  const nextEls = [];
+  let el = this[0];
+  if (!el) return new Dom7([]);
+  while (el.nextElementSibling) {
+    const next = el.nextElementSibling; // eslint-disable-line
+    if (selector) {
+      if ($(next).is(selector)) nextEls.push(next);
+    } else nextEls.push(next);
+    el = next;
+  }
+  return new Dom7(nextEls);
+}
+function prev(selector) {
+  if (this.length > 0) {
+    const el = this[0];
+    if (selector) {
+      if (el.previousElementSibling && $(el.previousElementSibling).is(selector)) {
+        return new Dom7([el.previousElementSibling]);
+      }
+      return new Dom7([]);
+    }
+
+    if (el.previousElementSibling) return new Dom7([el.previousElementSibling]);
+    return new Dom7([]);
+  }
+  return new Dom7([]);
+}
+function prevAll(selector) {
+  const prevEls = [];
+  let el = this[0];
+  if (!el) return new Dom7([]);
+  while (el.previousElementSibling) {
+    const prev = el.previousElementSibling; // eslint-disable-line
+    if (selector) {
+      if ($(prev).is(selector)) prevEls.push(prev);
+    } else prevEls.push(prev);
+    el = prev;
+  }
+  return new Dom7(prevEls);
+}
+function siblings(selector) {
+  return this.nextAll(selector).add(this.prevAll(selector));
+}
+function dom7_modular_parent(selector) {
+  const parents = []; // eslint-disable-line
+  for (let i = 0; i < this.length; i += 1) {
+    if (this[i].parentNode !== null) {
+      if (selector) {
+        if ($(this[i].parentNode).is(selector)) parents.push(this[i].parentNode);
+      } else {
+        parents.push(this[i].parentNode);
+      }
+    }
+  }
+  return $(unique(parents));
+}
+function parents(selector) {
+  const parents = []; // eslint-disable-line
+  for (let i = 0; i < this.length; i += 1) {
+    let parent = this[i].parentNode; // eslint-disable-line
+    while (parent) {
+      if (selector) {
+        if ($(parent).is(selector)) parents.push(parent);
+      } else {
+        parents.push(parent);
+      }
+      parent = parent.parentNode;
+    }
+  }
+  return $(unique(parents));
+}
+function closest(selector) {
+  let closest = this; // eslint-disable-line
+  if (typeof selector === 'undefined') {
+    return new Dom7([]);
+  }
+  if (!closest.is(selector)) {
+    closest = closest.parents(selector).eq(0);
+  }
+  return closest;
+}
+function find(selector) {
+  const foundElements = [];
+  for (let i = 0; i < this.length; i += 1) {
+    const found = this[i].querySelectorAll(selector);
+    for (let j = 0; j < found.length; j += 1) {
+      foundElements.push(found[j]);
+    }
+  }
+  return new Dom7(foundElements);
+}
+function children(selector) {
+  const children = []; // eslint-disable-line
+  for (let i = 0; i < this.length; i += 1) {
+    const childNodes = this[i].childNodes;
+
+    for (let j = 0; j < childNodes.length; j += 1) {
+      if (!selector) {
+        if (childNodes[j].nodeType === 1) children.push(childNodes[j]);
+      } else if (childNodes[j].nodeType === 1 && $(childNodes[j]).is(selector)) {
+        children.push(childNodes[j]);
+      }
+    }
+  }
+  return new Dom7(unique(children));
+}
+function remove() {
+  for (let i = 0; i < this.length; i += 1) {
+    if (this[i].parentNode) this[i].parentNode.removeChild(this[i]);
+  }
+  return this;
+}
+function detach() {
+  return this.remove();
+}
+function add(...args) {
+  const dom = this;
+  let i;
+  let j;
+  for (i = 0; i < args.length; i += 1) {
+    const toAdd = $(args[i]);
+    for (j = 0; j < toAdd.length; j += 1) {
+      dom[dom.length] = toAdd[j];
+      dom.length += 1;
+    }
+  }
+  return dom;
+}
+function empty() {
+  for (let i = 0; i < this.length; i += 1) {
+    const el = this[i];
+    if (el.nodeType === 1) {
+      for (let j = 0; j < el.childNodes.length; j += 1) {
+        if (el.childNodes[j].parentNode) {
+          el.childNodes[j].parentNode.removeChild(el.childNodes[j]);
+        }
+      }
+      el.textContent = '';
+    }
+  }
+  return this;
+}
+
+function scrollTo(...args) {
+  let [left, top, duration, easing, callback] = args;
+  if (args.length === 4 && typeof easing === 'function') {
+    callback = easing;
+    [left, top, duration, callback, easing] = args;
+  }
+  if (typeof easing === 'undefined') easing = 'swing';
+
+  return this.each(function animate() {
+    const el = this;
+    let currentTop;
+    let currentLeft;
+    let maxTop;
+    let maxLeft;
+    let newTop;
+    let newLeft;
+    let scrollTop; // eslint-disable-line
+    let scrollLeft; // eslint-disable-line
+    let animateTop = top > 0 || top === 0;
+    let animateLeft = left > 0 || left === 0;
+    if (typeof easing === 'undefined') {
+      easing = 'swing';
+    }
+    if (animateTop) {
+      currentTop = el.scrollTop;
+      if (!duration) {
+        el.scrollTop = top;
+      }
+    }
+    if (animateLeft) {
+      currentLeft = el.scrollLeft;
+      if (!duration) {
+        el.scrollLeft = left;
+      }
+    }
+    if (!duration) return;
+    if (animateTop) {
+      maxTop = el.scrollHeight - el.offsetHeight;
+      newTop = Math.max(Math.min(top, maxTop), 0);
+    }
+    if (animateLeft) {
+      maxLeft = el.scrollWidth - el.offsetWidth;
+      newLeft = Math.max(Math.min(left, maxLeft), 0);
+    }
+    let startTime = null;
+    if (animateTop && newTop === currentTop) animateTop = false;
+    if (animateLeft && newLeft === currentLeft) animateLeft = false;
+    function render(time = new Date().getTime()) {
+      if (startTime === null) {
+        startTime = time;
+      }
+      const progress = Math.max(Math.min((time - startTime) / duration, 1), 0);
+      const easeProgress = easing === 'linear' ? progress : (0.5 - (Math.cos(progress * Math.PI) / 2));
+      let done;
+      if (animateTop) scrollTop = currentTop + (easeProgress * (newTop - currentTop));
+      if (animateLeft) scrollLeft = currentLeft + (easeProgress * (newLeft - currentLeft));
+      if (animateTop && newTop > currentTop && scrollTop >= newTop) {
+        el.scrollTop = newTop;
+        done = true;
+      }
+      if (animateTop && newTop < currentTop && scrollTop <= newTop) {
+        el.scrollTop = newTop;
+        done = true;
+      }
+      if (animateLeft && newLeft > currentLeft && scrollLeft >= newLeft) {
+        el.scrollLeft = newLeft;
+        done = true;
+      }
+      if (animateLeft && newLeft < currentLeft && scrollLeft <= newLeft) {
+        el.scrollLeft = newLeft;
+        done = true;
+      }
+
+      if (done) {
+        if (callback) callback();
+        return;
+      }
+      if (animateTop) el.scrollTop = scrollTop;
+      if (animateLeft) el.scrollLeft = scrollLeft;
+      requestAnimationFrame(render);
+    }
+    requestAnimationFrame(render);
+  });
+}
+// scrollTop(top, duration, easing, callback) {
+function dom7_modular_scrollTop(...args) {
+  let [top, duration, easing, callback] = args;
+  if (args.length === 3 && typeof easing === 'function') {
+    [top, duration, callback, easing] = args;
+  }
+  const dom = this;
+  if (typeof top === 'undefined') {
+    if (dom.length > 0) return dom[0].scrollTop;
+    return null;
+  }
+  return dom.scrollTo(undefined, top, duration, easing, callback);
+}
+function dom7_modular_scrollLeft(...args) {
+  let [left, duration, easing, callback] = args;
+  if (args.length === 3 && typeof easing === 'function') {
+    [left, duration, callback, easing] = args;
+  }
+  const dom = this;
+  if (typeof left === 'undefined') {
+    if (dom.length > 0) return dom[0].scrollLeft;
+    return null;
+  }
+  return dom.scrollTo(left, undefined, duration, easing, callback);
+}
+
+function animate(initialProps, initialParams) {
+  const els = this;
+  const a = {
+    props: $.extend({}, initialProps),
+    params: $.extend({
+      duration: 300,
+      easing: 'swing', // or 'linear'
+      /* Callbacks
+      begin(elements)
+      complete(elements)
+      progress(elements, complete, remaining, start, tweenValue)
+      */
+    }, initialParams),
+
+    elements: els,
+    animating: false,
+    que: [],
+
+    easingProgress(easing, progress) {
+      if (easing === 'swing') {
+        return 0.5 - (Math.cos(progress * Math.PI) / 2);
+      }
+      if (typeof easing === 'function') {
+        return easing(progress);
+      }
+      return progress;
+    },
+    stop() {
+      if (a.frameId) {
+        cancelAnimationFrame(a.frameId);
+      }
+      a.animating = false;
+      a.elements.each((index, el) => {
+        const element = el;
+        delete element.dom7AnimateInstance;
+      });
+      a.que = [];
+    },
+    done(complete) {
+      a.animating = false;
+      a.elements.each((index, el) => {
+        const element = el;
+        delete element.dom7AnimateInstance;
+      });
+      if (complete) complete(els);
+      if (a.que.length > 0) {
+        const que = a.que.shift();
+        a.animate(que[0], que[1]);
+      }
+    },
+    animate(props, params) {
+      if (a.animating) {
+        a.que.push([props, params]);
+        return a;
+      }
+      const elements = [];
+
+      // Define & Cache Initials & Units
+      a.elements.each((index, el) => {
+        let initialFullValue;
+        let initialValue;
+        let unit;
+        let finalValue;
+        let finalFullValue;
+
+        if (!el.dom7AnimateInstance) a.elements[index].dom7AnimateInstance = a;
+
+        elements[index] = {
+          container: el,
+        };
+        Object.keys(props).forEach((prop) => {
+          initialFullValue = win.getComputedStyle(el, null).getPropertyValue(prop).replace(',', '.');
+          initialValue = parseFloat(initialFullValue);
+          unit = initialFullValue.replace(initialValue, '');
+          finalValue = parseFloat(props[prop]);
+          finalFullValue = props[prop] + unit;
+          elements[index][prop] = {
+            initialFullValue,
+            initialValue,
+            unit,
+            finalValue,
+            finalFullValue,
+            currentValue: initialValue,
+          };
+        });
+      });
+
+      let startTime = null;
+      let time;
+      let elementsDone = 0;
+      let propsDone = 0;
+      let done;
+      let began = false;
+
+      a.animating = true;
+
+      function render() {
+        time = new Date().getTime();
+        let progress;
+        let easeProgress;
+        // let el;
+        if (!began) {
+          began = true;
+          if (params.begin) params.begin(els);
+        }
+        if (startTime === null) {
+          startTime = time;
+        }
+        if (params.progress) {
+          // eslint-disable-next-line
+          params.progress(els, Math.max(Math.min((time - startTime) / params.duration, 1), 0), ((startTime + params.duration) - time < 0 ? 0 : (startTime + params.duration) - time), startTime);
+        }
+
+        elements.forEach((element) => {
+          const el = element;
+          if (done || el.done) return;
+          Object.keys(props).forEach((prop) => {
+            if (done || el.done) return;
+            progress = Math.max(Math.min((time - startTime) / params.duration, 1), 0);
+            easeProgress = a.easingProgress(params.easing, progress);
+            const { initialValue, finalValue, unit } = el[prop];
+            el[prop].currentValue = initialValue + (easeProgress * (finalValue - initialValue));
+            const currentValue = el[prop].currentValue;
+
+            if (
+              (finalValue > initialValue && currentValue >= finalValue) ||
+              (finalValue < initialValue && currentValue <= finalValue)) {
+              el.container.style[prop] = finalValue + unit;
+              propsDone += 1;
+              if (propsDone === Object.keys(props).length) {
+                el.done = true;
+                elementsDone += 1;
+              }
+              if (elementsDone === elements.length) {
+                done = true;
+              }
+            }
+            if (done) {
+              a.done(params.complete);
+              return;
+            }
+            el.container.style[prop] = currentValue + unit;
+          });
+        });
+        if (done) return;
+        // Then call
+        a.frameId = requestAnimationFrame(render);
+      }
+      a.frameId = requestAnimationFrame(render);
+      return a;
+    },
+  };
+
+  if (a.elements.length === 0) {
+    return els;
+  }
+
+  let animateInstance;
+  for (let i = 0; i < a.elements.length; i += 1) {
+    if (a.elements[i].dom7AnimateInstance) {
+      animateInstance = a.elements[i].dom7AnimateInstance;
+    } else a.elements[i].dom7AnimateInstance = a;
+  }
+  if (!animateInstance) {
+    animateInstance = a;
+  }
+
+  if (initialProps === 'stop') {
+    animateInstance.stop();
+  } else {
+    animateInstance.animate(a.props, a.params);
+  }
+
+  return els;
+}
+
+function stop() {
+  const els = this;
+  for (let i = 0; i < els.length; i += 1) {
+    if (els[i].dom7AnimateInstance) {
+      els[i].dom7AnimateInstance.stop();
+    }
+  }
+}
+
+const noTrigger = ('resize scroll').split(' ');
+function eventShortcut(name, ...args) {
+  if (typeof args[0] === 'undefined') {
+    for (let i = 0; i < this.length; i += 1) {
+      if (noTrigger.indexOf(name) < 0) {
+        if (name in this[i]) this[i][name]();
+        else {
+          $(this[i]).trigger(name);
+        }
+      }
+    }
+    return this;
+  }
+  return this.on(name, ...args);
+}
+
+function click(...args) {
+  return eventShortcut.bind(this)('click', ...args);
+}
+function dom7_modular_blur(...args) {
+  return eventShortcut.bind(this)('blur', ...args);
+}
+function dom7_modular_focus(...args) {
+  return eventShortcut.bind(this)('focus', ...args);
+}
+function focusin(...args) {
+  return eventShortcut.bind(this)('focusin', ...args);
+}
+function focusout(...args) {
+  return eventShortcut.bind(this)('focusout', ...args);
+}
+function keyup(...args) {
+  return eventShortcut.bind(this)('keyup', ...args);
+}
+function keydown(...args) {
+  return eventShortcut.bind(this)('keydown', ...args);
+}
+function keypress(...args) {
+  return eventShortcut.bind(this)('keypress', ...args);
+}
+function dom7_modular_submit(...args) {
+  return eventShortcut.bind(this)('submit', ...args);
+}
+function change(...args) {
+  return eventShortcut.bind(this)('change', ...args);
+}
+function mousedown(...args) {
+  return eventShortcut.bind(this)('mousedown', ...args);
+}
+function mousemove(...args) {
+  return eventShortcut.bind(this)('mousemove', ...args);
+}
+function mouseup(...args) {
+  return eventShortcut.bind(this)('mouseup', ...args);
+}
+function mouseenter(...args) {
+  return eventShortcut.bind(this)('mouseenter', ...args);
+}
+function mouseleave(...args) {
+  return eventShortcut.bind(this)('mouseleave', ...args);
+}
+function mouseout(...args) {
+  return eventShortcut.bind(this)('mouseout', ...args);
+}
+function mouseover(...args) {
+  return eventShortcut.bind(this)('mouseover', ...args);
+}
+function touchstart(...args) {
+  return eventShortcut.bind(this)('touchstart', ...args);
+}
+function touchend(...args) {
+  return eventShortcut.bind(this)('touchend', ...args);
+}
+function touchmove(...args) {
+  return eventShortcut.bind(this)('touchmove', ...args);
+}
+function resize(...args) {
+  return eventShortcut.bind(this)('resize', ...args);
+}
+function dom7_modular_scroll(...args) {
+  return eventShortcut.bind(this)('scroll', ...args);
+}
+
+
+
+// CONCATENATED MODULE: ./node_modules/swiper/dist/js/swiper.esm.bundle.js
 /**
  * Swiper 4.1.6
  * Most modern mobile touch slider and framework with hardware accelerated transitions
@@ -14320,47 +15625,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 const Methods = {
-  addClass: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["c" /* addClass */],
-  removeClass: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["E" /* removeClass */],
-  hasClass: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["m" /* hasClass */],
-  toggleClass: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["H" /* toggleClass */],
-  attr: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["e" /* attr */],
-  removeAttr: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["D" /* removeAttr */],
-  data: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["i" /* data */],
-  transform: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["I" /* transform */],
-  transition: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["J" /* transition */],
-  on: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["u" /* on */],
-  off: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["s" /* off */],
-  trigger: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["L" /* trigger */],
-  transitionEnd: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["K" /* transitionEnd */],
-  outerWidth: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["w" /* outerWidth */],
-  outerHeight: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["v" /* outerHeight */],
-  offset: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["t" /* offset */],
-  css: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["h" /* css */],
-  each: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["j" /* each */],
-  html: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["n" /* html */],
-  text: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["G" /* text */],
-  is: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["p" /* is */],
-  index: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["o" /* index */],
-  eq: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["k" /* eq */],
-  append: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["d" /* append */],
-  prepend: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["z" /* prepend */],
-  next: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["q" /* next */],
-  nextAll: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["r" /* nextAll */],
-  prev: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["A" /* prev */],
-  prevAll: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["B" /* prevAll */],
-  parent: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["x" /* parent */],
-  parents: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["y" /* parents */],
-  closest: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["g" /* closest */],
-  find: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["l" /* find */],
-  children: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["f" /* children */],
-  remove: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["C" /* remove */],
-  add: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["b" /* add */],
-  styles: __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["F" /* styles */],
+  addClass: addClass,
+  removeClass: removeClass,
+  hasClass: hasClass,
+  toggleClass: toggleClass,
+  attr: attr,
+  removeAttr: removeAttr,
+  data: data,
+  transform: transform,
+  transition: transition,
+  on: on,
+  off: off,
+  trigger: trigger,
+  transitionEnd: transitionEnd,
+  outerWidth: dom7_modular_outerWidth,
+  outerHeight: dom7_modular_outerHeight,
+  offset: offset,
+  css: css,
+  each: each,
+  html: dom7_modular_html,
+  text: dom7_modular_text,
+  is: is,
+  index: dom7_modular_index,
+  eq: eq,
+  append: append,
+  prepend: prepend,
+  next: next,
+  nextAll: nextAll,
+  prev: prev,
+  prevAll: prevAll,
+  parent: dom7_modular_parent,
+  parents: parents,
+  closest: closest,
+  find: find,
+  children: children,
+  remove: remove,
+  add: add,
+  styles: styles,
 };
 
 Object.keys(Methods).forEach((methodName) => {
-  __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */].fn[methodName] = Methods[methodName];
+  $.fn[methodName] = Methods[methodName];
 });
 
 const Utils = {
@@ -14390,16 +15695,16 @@ const Utils = {
     let curTransform;
     let transformMatrix;
 
-    const curStyle = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].getComputedStyle(el, null);
+    const curStyle = win.getComputedStyle(el, null);
 
-    if (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].WebKitCSSMatrix) {
+    if (win.WebKitCSSMatrix) {
       curTransform = curStyle.transform || curStyle.webkitTransform;
       if (curTransform.split(',').length > 6) {
         curTransform = curTransform.split(', ').map(a => a.replace(',', '.')).join(', ');
       }
       // Some old versions of Webkit choke when 'none' is passed; pass
       // empty string instead in this case
-      transformMatrix = new __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
+      transformMatrix = new win.WebKitCSSMatrix(curTransform === 'none' ? '' : curTransform);
     } else {
       transformMatrix = curStyle.MozTransform || curStyle.OTransform || curStyle.MsTransform || curStyle.msTransform || curStyle.transform || curStyle.getPropertyValue('transform').replace('translate(', 'matrix(1, 0, 0, 1,');
       matrix = transformMatrix.toString().split(',');
@@ -14407,7 +15712,7 @@ const Utils = {
 
     if (axis === 'x') {
       // Latest Chrome and webkits Fix
-      if (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].WebKitCSSMatrix) curTransform = transformMatrix.m41;
+      if (win.WebKitCSSMatrix) curTransform = transformMatrix.m41;
       // Crazy IE10 Matrix
       else if (matrix.length === 16) curTransform = parseFloat(matrix[12]);
       // Normal Browsers
@@ -14415,7 +15720,7 @@ const Utils = {
     }
     if (axis === 'y') {
       // Latest Chrome and webkits Fix
-      if (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].WebKitCSSMatrix) curTransform = transformMatrix.m42;
+      if (win.WebKitCSSMatrix) curTransform = transformMatrix.m42;
       // Crazy IE10 Matrix
       else if (matrix.length === 16) curTransform = parseFloat(matrix[13]);
       // Normal Browsers
@@ -14425,7 +15730,7 @@ const Utils = {
   },
   parseUrlQuery(url) {
     const query = {};
-    let urlToParse = url || __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].location.href;
+    let urlToParse = url || win.location.href;
     let i;
     let params;
     let param;
@@ -14471,21 +15776,21 @@ const Utils = {
   },
 };
 
-const Support = (function Support() {
-  const testDiv = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].createElement('div');
+const swiper_esm_bundle_Support = (function Support() {
+  const testDiv = doc.createElement('div');
   return {
-    touch: (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].Modernizr && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].Modernizr.touch === true) || (function checkTouch() {
-      return !!(('ontouchstart' in __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */]) || (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].DocumentTouch && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */] instanceof __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].DocumentTouch));
+    touch: (win.Modernizr && win.Modernizr.touch === true) || (function checkTouch() {
+      return !!(('ontouchstart' in win) || (win.DocumentTouch && doc instanceof win.DocumentTouch));
     }()),
 
-    pointerEvents: !!(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.pointerEnabled || __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].PointerEvent),
-    prefixedPointerEvents: !!__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.msPointerEnabled,
+    pointerEvents: !!(win.navigator.pointerEnabled || win.PointerEvent),
+    prefixedPointerEvents: !!win.navigator.msPointerEnabled,
 
     transition: (function checkTransition() {
       const style = testDiv.style;
       return ('transition' in style || 'webkitTransition' in style || 'MozTransition' in style);
     }()),
-    transforms3d: (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].Modernizr && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
+    transforms3d: (win.Modernizr && win.Modernizr.csstransforms3d === true) || (function checkTransforms3d() {
       const style = testDiv.style;
       return ('webkitPerspective' in style || 'MozPerspective' in style || 'OPerspective' in style || 'MsPerspective' in style || 'perspective' in style);
     }()),
@@ -14500,7 +15805,7 @@ const Support = (function Support() {
     }()),
 
     observer: (function checkObserver() {
-      return ('MutationObserver' in __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */] || 'WebkitMutationObserver' in __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */]);
+      return ('MutationObserver' in win || 'WebkitMutationObserver' in win);
     }()),
 
     passiveListener: (function checkPassiveListener() {
@@ -14512,7 +15817,7 @@ const Support = (function Support() {
             supportsPassive = true;
           },
         });
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].addEventListener('testPassiveListener', null, opts);
+        win.addEventListener('testPassiveListener', null, opts);
       } catch (e) {
         // No support
       }
@@ -14520,7 +15825,7 @@ const Support = (function Support() {
     }()),
 
     gestures: (function checkGestures() {
-      return 'ongesturestart' in __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */];
+      return 'ongesturestart' in win;
     }()),
   };
 }());
@@ -14859,7 +16164,7 @@ var updateSlides = function () {
     rtl && wrongRTL && (params.effect === 'slide' || params.effect === 'coverflow')) {
     $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
   }
-  if (!Support.flexbox || params.setWrapperSize) {
+  if (!swiper_esm_bundle_Support.flexbox || params.setWrapperSize) {
     if (swiper.isHorizontal()) $wrapperEl.css({ width: `${swiper.virtualSize + params.spaceBetween}px` });
     else $wrapperEl.css({ height: `${swiper.virtualSize + params.spaceBetween}px` });
   }
@@ -15160,7 +16465,7 @@ var updateActiveIndex = function (newActiveIndex) {
 var updateClickedSlide = function (e) {
   const swiper = this;
   const params = swiper.params;
-  const slide = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).closest(`.${params.slideClass}`)[0];
+  const slide = $(e.target).closest(`.${params.slideClass}`)[0];
   let slideFound = false;
   if (slide) {
     for (let i = 0; i < swiper.slides.length; i += 1) {
@@ -15171,9 +16476,9 @@ var updateClickedSlide = function (e) {
   if (slide && slideFound) {
     swiper.clickedSlide = slide;
     if (swiper.virtual && swiper.params.virtual.enabled) {
-      swiper.clickedIndex = parseInt(Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slide).attr('data-swiper-slide-index'), 10);
+      swiper.clickedIndex = parseInt($(slide).attr('data-swiper-slide-index'), 10);
     } else {
-      swiper.clickedIndex = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slide).index();
+      swiper.clickedIndex = $(slide).index();
     }
   } else {
     swiper.clickedSlide = undefined;
@@ -15235,7 +16540,7 @@ var setTranslate = function (translate, byController) {
   }
 
   if (!params.virtualTranslate) {
-    if (Support.transforms3d) $wrapperEl.transform(`translate3d(${x}px, ${y}px, ${z}px)`);
+    if (swiper_esm_bundle_Support.transforms3d) $wrapperEl.transform(`translate3d(${x}px, ${y}px, ${z}px)`);
     else $wrapperEl.transform(`translate(${x}px, ${y}px)`);
   }
 
@@ -15264,7 +16569,7 @@ var maxTranslate = function () {
   return (-this.snapGrid[this.snapGrid.length - 1]);
 };
 
-var translate = {
+var swiper_esm_bundle_translate = {
   getTranslate,
   setTranslate,
   minTranslate,
@@ -15410,7 +16715,7 @@ var slideTo = function (index$$1 = 0, speed = this.params.speed, runCallbacks = 
     return false;
   }
 
-  if (speed === 0 || !Support.transition) {
+  if (speed === 0 || !swiper_esm_bundle_Support.transition) {
     swiper.setTransition(0);
     swiper.setTranslate(translate);
     swiper.updateActiveIndex(slideIndex);
@@ -15491,7 +16796,7 @@ var slideToClickedSlide = function () {
   let realIndex;
   if (params.loop) {
     if (swiper.animating) return;
-    realIndex = parseInt(Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(swiper.clickedSlide).attr('data-swiper-slide-index'), 10);
+    realIndex = parseInt($(swiper.clickedSlide).attr('data-swiper-slide-index'), 10);
     if (params.centeredSlides) {
       if (
         (slideToIndex < swiper.loopedSlides - (slidesPerView / 2)) ||
@@ -15527,7 +16832,7 @@ var slideToClickedSlide = function () {
   }
 };
 
-var slide = {
+var swiper_esm_bundle_slide = {
   slideTo,
   slideToLoop,
   slideNext,
@@ -15548,7 +16853,7 @@ var loopCreate = function () {
     const blankSlidesNum = params.slidesPerGroup - (slides.length % params.slidesPerGroup);
     if (blankSlidesNum !== params.slidesPerGroup) {
       for (let i = 0; i < blankSlidesNum; i += 1) {
-        const blankNode = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
+        const blankNode = $(doc.createElement('div')).addClass(`${params.slideClass} ${params.slideBlankClass}`);
         $wrapperEl.append(blankNode);
       }
       slides = $wrapperEl.children(`.${params.slideClass}`);
@@ -15566,16 +16871,16 @@ var loopCreate = function () {
   const prependSlides = [];
   const appendSlides = [];
   slides.each((index$$1, el) => {
-    const slide = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(el);
+    const slide = $(el);
     if (index$$1 < swiper.loopedSlides) appendSlides.push(el);
     if (index$$1 < slides.length && index$$1 >= slides.length - swiper.loopedSlides) prependSlides.push(el);
     slide.attr('data-swiper-slide-index', index$$1);
   });
   for (let i = 0; i < appendSlides.length; i += 1) {
-    $wrapperEl.append(Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(appendSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
+    $wrapperEl.append($(appendSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
   }
   for (let i = prependSlides.length - 1; i >= 0; i -= 1) {
-    $wrapperEl.prepend(Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(prependSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
+    $wrapperEl.prepend($(prependSlides[i].cloneNode(true)).addClass(params.slideDuplicateClass));
   }
 };
 
@@ -15628,7 +16933,7 @@ var loop = {
 
 var setGrabCursor = function (moving) {
   const swiper = this;
-  if (Support.touch || !swiper.params.simulateTouch) return;
+  if (swiper_esm_bundle_Support.touch || !swiper.params.simulateTouch) return;
   const el = swiper.el;
   el.style.cursor = 'move';
   el.style.cursor = moving ? '-webkit-grabbing' : '-webkit-grab';
@@ -15638,7 +16943,7 @@ var setGrabCursor = function (moving) {
 
 var unsetGrabCursor = function () {
   const swiper = this;
-  if (Support.touch) return;
+  if (swiper_esm_bundle_Support.touch) return;
   swiper.el.style.cursor = '';
 };
 
@@ -15663,7 +16968,7 @@ var appendSlide = function (slides) {
   if (params.loop) {
     swiper.loopCreate();
   }
-  if (!(params.observer && Support.observer)) {
+  if (!(params.observer && swiper_esm_bundle_Support.observer)) {
     swiper.update();
   }
 };
@@ -15687,7 +16992,7 @@ var prependSlide = function (slides) {
   if (params.loop) {
     swiper.loopCreate();
   }
-  if (!(params.observer && Support.observer)) {
+  if (!(params.observer && swiper_esm_bundle_Support.observer)) {
     swiper.update();
   }
   swiper.slideTo(newActiveIndex, 0, false);
@@ -15722,7 +17027,7 @@ var removeSlide = function (slidesIndexes) {
     swiper.loopCreate();
   }
 
-  if (!(params.observer && Support.observer)) {
+  if (!(params.observer && swiper_esm_bundle_Support.observer)) {
     swiper.update();
   }
   if (params.loop) {
@@ -15749,8 +17054,8 @@ var manipulation = {
   removeAllSlides,
 };
 
-const Device = (function Device() {
-  const ua = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.userAgent;
+const swiper_esm_bundle_Device = (function Device() {
+  const ua = win.navigator.userAgent;
 
   const device = {
     ios: false,
@@ -15761,8 +17066,8 @@ const Device = (function Device() {
     iphone: false,
     ipod: false,
     ipad: false,
-    cordova: __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].cordova || __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].phonegap,
-    phonegap: __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].cordova || __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].phonegap,
+    cordova: win.cordova || win.phonegap,
+    phonegap: win.cordova || win.phonegap,
   };
 
   const windows = ua.match(/(Windows Phone);?[\s\/]+([\d.]+)?/); // eslint-disable-line
@@ -15818,7 +17123,7 @@ const Device = (function Device() {
   // Minimal UI
   if (device.os && device.os === 'ios') {
     const osVersionArr = device.osVersion.split('.');
-    const metaViewport = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].querySelector('meta[name="viewport"]');
+    const metaViewport = doc.querySelector('meta[name="viewport"]');
     device.minimalUi =
       !device.webView &&
       (ipod || iphone) &&
@@ -15827,7 +17132,7 @@ const Device = (function Device() {
   }
 
   // Pixel Ratio
-  device.pixelRatio = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].devicePixelRatio || 1;
+  device.pixelRatio = win.devicePixelRatio || 1;
 
   // Export object
   return device;
@@ -15845,12 +17150,12 @@ var onTouchStart = function (event) {
   data$$1.isTouchEvent = e.type === 'touchstart';
   if (!data$$1.isTouchEvent && 'which' in e && e.which === 3) return;
   if (data$$1.isTouched && data$$1.isMoved) return;
-  if (params.noSwiping && Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
+  if (params.noSwiping && $(e.target).closest(params.noSwipingSelector ? params.noSwipingSelector : `.${params.noSwipingClass}`)[0]) {
     swiper.allowClick = true;
     return;
   }
   if (params.swipeHandler) {
-    if (!Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e).closest(params.swipeHandler)[0]) return;
+    if (!$(e).closest(params.swipeHandler)[0]) return;
   }
 
   touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
@@ -15861,11 +17166,11 @@ var onTouchStart = function (event) {
   // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
 
   if (
-    Device.ios &&
-    !Device.cordova &&
+    swiper_esm_bundle_Device.ios &&
+    !swiper_esm_bundle_Device.cordova &&
     params.iOSEdgeSwipeDetection &&
     (startX <= params.iOSEdgeSwipeThreshold) &&
-    (startX >= __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].screen.width - params.iOSEdgeSwipeThreshold)
+    (startX >= win.screen.width - params.iOSEdgeSwipeThreshold)
   ) {
     return;
   }
@@ -15887,13 +17192,13 @@ var onTouchStart = function (event) {
   if (params.threshold > 0) data$$1.allowThresholdMove = false;
   if (e.type !== 'touchstart') {
     let preventDefault = true;
-    if (Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).is(data$$1.formElements)) preventDefault = false;
+    if ($(e.target).is(data$$1.formElements)) preventDefault = false;
     if (
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement &&
-      Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement).is(data$$1.formElements) &&
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement !== e.target
+      doc.activeElement &&
+      $(doc.activeElement).is(data$$1.formElements) &&
+      doc.activeElement !== e.target
     ) {
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement.blur();
+      doc.activeElement.blur();
     }
     if (preventDefault && swiper.allowTouchMove) {
       e.preventDefault();
@@ -15954,8 +17259,8 @@ var onTouchMove = function (event) {
       return;
     }
   }
-  if (data$$1.isTouchEvent && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement) {
-    if (e.target === __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement && Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).is(data$$1.formElements)) {
+  if (data$$1.isTouchEvent && doc.activeElement) {
+    if (e.target === doc.activeElement && $(e.target).is(data$$1.formElements)) {
       data$$1.isMoved = true;
       swiper.allowClick = false;
       return;
@@ -16398,7 +17703,7 @@ var onResize = function () {
   swiper.allowSlideNext = allowSlideNext;
 };
 
-var onClick = function (e) {
+var swiper_esm_bundle_onClick = function (e) {
   const swiper = this;
   if (!swiper.allowClick) {
     if (swiper.params.preventClicks) e.preventDefault();
@@ -16421,28 +17726,28 @@ function attachEvents() {
     swiper.onTouchEnd = onTouchEnd.bind(swiper);
   }
 
-  swiper.onClick = onClick.bind(swiper);
+  swiper.onClick = swiper_esm_bundle_onClick.bind(swiper);
 
   const target = params.touchEventsTarget === 'container' ? el : wrapperEl;
   const capture = !!params.nested;
 
   // Touch Events
   {
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    if (!swiper_esm_bundle_Support.touch && (swiper_esm_bundle_Support.pointerEvents || swiper_esm_bundle_Support.prefixedPointerEvents)) {
       target.addEventListener(touchEvents.start, swiper.onTouchStart, false);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      doc.addEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      doc.addEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
-      if (Support.touch) {
-        const passiveListener = touchEvents.start === 'touchstart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+      if (swiper_esm_bundle_Support.touch) {
+        const passiveListener = touchEvents.start === 'touchstart' && swiper_esm_bundle_Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
         target.addEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
-        target.addEventListener(touchEvents.move, swiper.onTouchMove, Support.passiveListener ? { passive: false, capture } : capture);
+        target.addEventListener(touchEvents.move, swiper.onTouchMove, swiper_esm_bundle_Support.passiveListener ? { passive: false, capture } : capture);
         target.addEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      if ((params.simulateTouch && !swiper_esm_bundle_Device.ios && !swiper_esm_bundle_Device.android) || (params.simulateTouch && !swiper_esm_bundle_Support.touch && swiper_esm_bundle_Device.ios)) {
         target.addEventListener('mousedown', swiper.onTouchStart, false);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener('mousemove', swiper.onTouchMove, capture);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener('mouseup', swiper.onTouchEnd, false);
+        doc.addEventListener('mousemove', swiper.onTouchMove, capture);
+        doc.addEventListener('mouseup', swiper.onTouchEnd, false);
       }
     }
     // Prevent Links Clicks
@@ -16467,21 +17772,21 @@ function detachEvents() {
 
   // Touch Events
   {
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    if (!swiper_esm_bundle_Support.touch && (swiper_esm_bundle_Support.pointerEvents || swiper_esm_bundle_Support.prefixedPointerEvents)) {
       target.removeEventListener(touchEvents.start, swiper.onTouchStart, false);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
+      doc.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
+      doc.removeEventListener(touchEvents.end, swiper.onTouchEnd, false);
     } else {
-      if (Support.touch) {
-        const passiveListener = touchEvents.start === 'onTouchStart' && Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
+      if (swiper_esm_bundle_Support.touch) {
+        const passiveListener = touchEvents.start === 'onTouchStart' && swiper_esm_bundle_Support.passiveListener && params.passiveListeners ? { passive: true, capture: false } : false;
         target.removeEventListener(touchEvents.start, swiper.onTouchStart, passiveListener);
         target.removeEventListener(touchEvents.move, swiper.onTouchMove, capture);
         target.removeEventListener(touchEvents.end, swiper.onTouchEnd, passiveListener);
       }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      if ((params.simulateTouch && !swiper_esm_bundle_Device.ios && !swiper_esm_bundle_Device.android) || (params.simulateTouch && !swiper_esm_bundle_Support.touch && swiper_esm_bundle_Device.ios)) {
         target.removeEventListener('mousedown', swiper.onTouchStart, false);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener('mousemove', swiper.onTouchMove, capture);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener('mouseup', swiper.onTouchEnd, false);
+        doc.removeEventListener('mousemove', swiper.onTouchMove, capture);
+        doc.removeEventListener('mouseup', swiper.onTouchEnd, false);
       }
     }
     // Prevent Links Clicks
@@ -16494,7 +17799,7 @@ function detachEvents() {
   swiper.off('resize observerUpdate', onResize);
 }
 
-var events = {
+var swiper_esm_bundle_events = {
   attachEvents,
   detachEvents,
 };
@@ -16541,24 +17846,24 @@ var getBreakpoint = function (breakpoints) {
   points.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
   for (let i = 0; i < points.length; i += 1) {
     const point = points[i];
-    if (point >= __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].innerWidth && !breakpoint) {
+    if (point >= win.innerWidth && !breakpoint) {
       breakpoint = point;
     }
   }
   return breakpoint || 'max';
 };
 
-var breakpoints = { setBreakpoint, getBreakpoint };
+var swiper_esm_bundle_breakpoints = { setBreakpoint, getBreakpoint };
 
-const Browser = (function Browser() {
+const swiper_esm_bundle_Browser = (function Browser() {
   function isSafari() {
-    const ua = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.userAgent.toLowerCase();
+    const ua = win.navigator.userAgent.toLowerCase();
     return (ua.indexOf('safari') >= 0 && ua.indexOf('chrome') < 0 && ua.indexOf('android') < 0);
   }
   return {
-    isIE: !!__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.userAgent.match(/Trident/g) || !!__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.userAgent.match(/MSIE/g),
+    isIE: !!win.navigator.userAgent.match(/Trident/g) || !!win.navigator.userAgent.match(/MSIE/g),
     isSafari: isSafari(),
-    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.userAgent),
+    isUiWebView: /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(win.navigator.userAgent),
   };
 }());
 
@@ -16574,7 +17879,7 @@ var addClasses = function () {
   if (params.freeMode) {
     suffixes.push('free-mode');
   }
-  if (!Support.flexbox) {
+  if (!swiper_esm_bundle_Support.flexbox) {
     suffixes.push('no-flexbox');
   }
   if (params.autoHeight) {
@@ -16586,14 +17891,14 @@ var addClasses = function () {
   if (params.slidesPerColumn > 1) {
     suffixes.push('multirow');
   }
-  if (Device.android) {
+  if (swiper_esm_bundle_Device.android) {
     suffixes.push('android');
   }
-  if (Device.ios) {
+  if (swiper_esm_bundle_Device.ios) {
     suffixes.push('ios');
   }
   // WP8 Touch Events Fix
-  if (Browser.isIE && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+  if (swiper_esm_bundle_Browser.isIE && (swiper_esm_bundle_Support.pointerEvents || swiper_esm_bundle_Support.prefixedPointerEvents)) {
     suffixes.push(`wp8-${params.direction}`);
   }
 
@@ -16620,7 +17925,7 @@ var loadImage = function (imageEl, src, srcset, sizes, checkForComplete, callbac
   }
   if (!imageEl.complete || !checkForComplete) {
     if (src) {
-      image = new __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].Image();
+      image = new win.Image();
       image.onload = onReady;
       image.onerror = onReady;
       if (sizes) {
@@ -16665,7 +17970,7 @@ var preloadImages = function () {
   }
 };
 
-var images = {
+var swiper_esm_bundle_images = {
   loadImage,
   preloadImages,
 };
@@ -16814,22 +18119,22 @@ var defaults = {
 
 const prototypes = {
   update,
-  translate,
+  translate: swiper_esm_bundle_translate,
   transition: transition$1,
-  slide,
+  slide: swiper_esm_bundle_slide,
   loop,
   grabCursor,
   manipulation,
-  events,
-  breakpoints,
+  events: swiper_esm_bundle_events,
+  breakpoints: swiper_esm_bundle_breakpoints,
   checkOverflow: checkOverflow$1,
   classes,
-  images,
+  images: swiper_esm_bundle_images,
 };
 
 const extendedDefaults = {};
 
-class Swiper$1 extends SwiperClass {
+class swiper_esm_bundle_Swiper$1 extends SwiperClass {
   constructor(...args) {
     let el;
     let params;
@@ -16847,8 +18152,8 @@ class Swiper$1 extends SwiperClass {
 
     Object.keys(prototypes).forEach((prototypeGroup) => {
       Object.keys(prototypes[prototypeGroup]).forEach((protoMethod) => {
-        if (!Swiper$1.prototype[protoMethod]) {
-          Swiper$1.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
+        if (!swiper_esm_bundle_Swiper$1.prototype[protoMethod]) {
+          swiper_esm_bundle_Swiper$1.prototype[protoMethod] = prototypes[prototypeGroup][protoMethod];
         }
       });
     });
@@ -16888,10 +18193,10 @@ class Swiper$1 extends SwiperClass {
     swiper.passedParams = Utils.extend({}, params);
 
     // Save Dom lib
-    swiper.$ = __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */];
+    swiper.$ = $;
 
     // Find el
-    const $el = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(swiper.params.el);
+    const $el = $(swiper.params.el);
     el = $el[0];
 
     if (!el) {
@@ -16902,7 +18207,7 @@ class Swiper$1 extends SwiperClass {
       const swipers = [];
       $el.each((index$$1, containerEl) => {
         const newParams = Utils.extend({}, params, { el: containerEl });
-        swipers.push(new Swiper$1(newParams));
+        swipers.push(new swiper_esm_bundle_Swiper$1(newParams));
       });
       return swipers;
     }
@@ -16924,7 +18229,7 @@ class Swiper$1 extends SwiperClass {
       classNames: [],
 
       // Slides
-      slides: Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(),
+      slides: $(),
       slidesGrid: [],
       snapGrid: [],
       slidesSizesGrid: [],
@@ -16962,9 +18267,9 @@ class Swiper$1 extends SwiperClass {
       touchEvents: (function touchEvents() {
         const touch = ['touchstart', 'touchmove', 'touchend'];
         let desktop = ['mousedown', 'mousemove', 'mouseup'];
-        if (Support.pointerEvents) {
+        if (swiper_esm_bundle_Support.pointerEvents) {
           desktop = ['pointerdown', 'pointermove', 'pointerup'];
-        } else if (Support.prefixedPointerEvents) {
+        } else if (swiper_esm_bundle_Support.prefixedPointerEvents) {
           desktop = ['MSPointerDown', 'MSPointerMove', 'MSPointerUp'];
         }
         swiper.touchEventsTouch = {
@@ -16977,7 +18282,7 @@ class Swiper$1 extends SwiperClass {
           move: desktop[1],
           end: desktop[2],
         };
-        return Support.touch || !swiper.params.simulateTouch ? swiper.touchEventsTouch : swiper.touchEventsDesktop;
+        return swiper_esm_bundle_Support.touch || !swiper.params.simulateTouch ? swiper.touchEventsTouch : swiper.touchEventsDesktop;
       }()),
       touchEventsData: {
         isTouched: undefined,
@@ -17215,37 +18520,37 @@ class Swiper$1 extends SwiperClass {
     return SwiperClass;
   }
   static get $() {
-    return __WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */];
+    return $;
   }
 }
 
 var Device$2 = {
   name: 'device',
   proto: {
-    device: Device,
+    device: swiper_esm_bundle_Device,
   },
   static: {
-    device: Device,
+    device: swiper_esm_bundle_Device,
   },
 };
 
 var Support$2 = {
   name: 'support',
   proto: {
-    support: Support,
+    support: swiper_esm_bundle_Support,
   },
   static: {
-    support: Support,
+    support: swiper_esm_bundle_Support,
   },
 };
 
 var Browser$2 = {
   name: 'browser',
   proto: {
-    browser: Browser,
+    browser: swiper_esm_bundle_Browser,
   },
   static: {
-    browser: Browser,
+    browser: swiper_esm_bundle_Browser,
   },
 };
 
@@ -17271,21 +18576,21 @@ var Resize = {
     init() {
       const swiper = this;
       // Emit resize
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].addEventListener('resize', swiper.resize.resizeHandler);
+      win.addEventListener('resize', swiper.resize.resizeHandler);
 
       // Emit orientationchange
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+      win.addEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
     destroy() {
       const swiper = this;
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].removeEventListener('resize', swiper.resize.resizeHandler);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
+      win.removeEventListener('resize', swiper.resize.resizeHandler);
+      win.removeEventListener('orientationchange', swiper.resize.orientationChangeHandler);
     },
   },
 };
 
 const Observer = {
-  func: __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].MutationObserver || __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].WebkitMutationObserver,
+  func: win.MutationObserver || win.WebkitMutationObserver,
   attach(target, options = {}) {
     const swiper = this;
 
@@ -17306,7 +18611,7 @@ const Observer = {
   },
   init() {
     const swiper = this;
-    if (!Support.observer || !swiper.params.observer) return;
+    if (!swiper_esm_bundle_Support.observer || !swiper.params.observer) return;
     if (swiper.params.observeParents) {
       const containerParents = swiper.$el.parents();
       for (let i = 0; i < containerParents.length; i += 1) {
@@ -17465,8 +18770,8 @@ const Virtual = {
       return swiper.virtual.cache[index$$1];
     }
     const $slideEl = params.renderSlide
-      ? Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(params.renderSlide.call(swiper, slide, index$$1))
-      : Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index$$1}">${slide}</div>`);
+      ? $(params.renderSlide.call(swiper, slide, index$$1))
+      : $(`<div class="${swiper.params.slideClass}" data-swiper-slide-index="${index$$1}">${slide}</div>`);
     if (!$slideEl.attr('data-swiper-slide-index')) $slideEl.attr('data-swiper-slide-index', index$$1);
     if (params.cache) swiper.virtual.cache[index$$1] = $slideEl;
     return $slideEl;
@@ -17553,7 +18858,7 @@ const Keyboard = {
     if (e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) {
       return undefined;
     }
-    if (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement.nodeName && (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement.nodeName.toLowerCase() === 'input' || __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].activeElement.nodeName.toLowerCase() === 'textarea')) {
+    if (doc.activeElement && doc.activeElement.nodeName && (doc.activeElement.nodeName.toLowerCase() === 'input' || doc.activeElement.nodeName.toLowerCase() === 'textarea')) {
       return undefined;
     }
     if (swiper.params.keyboard.onlyInViewport && (kc === 37 || kc === 39 || kc === 38 || kc === 40)) {
@@ -17562,8 +18867,8 @@ const Keyboard = {
       if (swiper.$el.parents(`.${swiper.params.slideClass}`).length > 0 && swiper.$el.parents(`.${swiper.params.slideActiveClass}`).length === 0) {
         return undefined;
       }
-      const windowWidth = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].innerWidth;
-      const windowHeight = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].innerHeight;
+      const windowWidth = win.innerWidth;
+      const windowHeight = win.innerHeight;
       const swiperOffset = swiper.$el.offset();
       if (swiper.rtl) swiperOffset.left -= swiper.$el[0].scrollLeft;
       const swiperCoord = [
@@ -17604,13 +18909,13 @@ const Keyboard = {
   enable() {
     const swiper = this;
     if (swiper.keyboard.enabled) return;
-    Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */]).on('keydown', swiper.keyboard.handle);
+    $(doc).on('keydown', swiper.keyboard.handle);
     swiper.keyboard.enabled = true;
   },
   disable() {
     const swiper = this;
     if (!swiper.keyboard.enabled) return;
-    Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */]).off('keydown', swiper.keyboard.handle);
+    $(doc).off('keydown', swiper.keyboard.handle);
     swiper.keyboard.enabled = false;
   },
 };
@@ -17652,23 +18957,23 @@ var Keyboard$1 = {
 
 function isEventSupported() {
   const eventName = 'onwheel';
-  let isSupported = eventName in __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */];
+  let isSupported = eventName in doc;
 
   if (!isSupported) {
-    const element = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].createElement('div');
+    const element = doc.createElement('div');
     element.setAttribute(eventName, 'return;');
     isSupported = typeof element[eventName] === 'function';
   }
 
   if (!isSupported &&
-    __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].implementation &&
-    __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].implementation.hasFeature &&
+    doc.implementation &&
+    doc.implementation.hasFeature &&
     // always returns true in newer browsers as per the standard.
     // @see http://dom.spec.whatwg.org/#dom-domimplementation-hasfeature
-    __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].implementation.hasFeature('', '') !== true
+    doc.implementation.hasFeature('', '') !== true
   ) {
     // This is the only way to test support for the `wheel` event in IE9+.
-    isSupported = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].implementation.hasFeature('Events.wheel', '3.0');
+    isSupported = doc.implementation.hasFeature('Events.wheel', '3.0');
   }
 
   return isSupported;
@@ -17676,7 +18981,7 @@ function isEventSupported() {
 const Mousewheel = {
   lastScrollTime: Utils.now(),
   event: (function getEvent() {
-    if (__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
+    if (win.navigator.userAgent.indexOf('firefox') > -1) return 'DOMMouseScroll';
     return isEventSupported() ? 'wheel' : 'mousewheel';
   }()),
   normalize(e) {
@@ -17781,7 +19086,7 @@ const Mousewheel = {
           swiper.emit('scroll', e);
         } else if (params.releaseOnEdges) return true;
       }
-      swiper.mousewheel.lastScrollTime = (new __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].Date()).getTime();
+      swiper.mousewheel.lastScrollTime = (new win.Date()).getTime();
     } else {
       // Freemode or scrollContainer:
       let position = swiper.getTranslate() + (delta * params.sensitivity);
@@ -17826,7 +19131,7 @@ const Mousewheel = {
     if (swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
-      target = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(swiper.params.mousewheel.eventsTarged);
+      target = $(swiper.params.mousewheel.eventsTarged);
     }
     target.on(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = true;
@@ -17838,7 +19143,7 @@ const Mousewheel = {
     if (!swiper.mousewheel.enabled) return false;
     let target = swiper.$el;
     if (swiper.params.mousewheel.eventsTarged !== 'container') {
-      target = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(swiper.params.mousewheel.eventsTarged);
+      target = $(swiper.params.mousewheel.eventsTarged);
     }
     target.off(Mousewheel.event, swiper.mousewheel.handle);
     swiper.mousewheel.enabled = false;
@@ -17916,7 +19221,7 @@ const Navigation = {
     let $nextEl;
     let $prevEl;
     if (params.nextEl) {
-      $nextEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(params.nextEl);
+      $nextEl = $(params.nextEl);
       if (
         swiper.params.uniqueNavElements &&
         typeof params.nextEl === 'string' &&
@@ -17927,7 +19232,7 @@ const Navigation = {
       }
     }
     if (params.prevEl) {
-      $prevEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(params.prevEl);
+      $prevEl = $(params.prevEl);
       if (
         swiper.params.uniqueNavElements &&
         typeof params.prevEl === 'string' &&
@@ -18020,8 +19325,8 @@ var Navigation$1 = {
       const { $nextEl, $prevEl } = swiper.navigation;
       if (
         swiper.params.navigation.hideOnClick &&
-        !Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).is($prevEl) &&
-        !Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).is($nextEl)
+        !$(e.target).is($prevEl) &&
+        !$(e.target).is($nextEl)
       ) {
         if ($nextEl) $nextEl.toggleClass(swiper.params.navigation.hiddenClass);
         if ($prevEl) $prevEl.toggleClass(swiper.params.navigation.hiddenClass);
@@ -18077,7 +19382,7 @@ const Pagination = {
       bullets.removeClass(`${params.bulletActiveClass} ${params.bulletActiveClass}-next ${params.bulletActiveClass}-next-next ${params.bulletActiveClass}-prev ${params.bulletActiveClass}-prev-prev ${params.bulletActiveClass}-main`);
       if ($el.length > 1) {
         bullets.each((index$$1, bullet) => {
-          const $bullet = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(bullet);
+          const $bullet = $(bullet);
           const bulletIndex = $bullet.index();
           if (bulletIndex === current) {
             $bullet.addClass(params.bulletActiveClass);
@@ -18201,7 +19506,7 @@ const Pagination = {
     const params = swiper.params.pagination;
     if (!params.el) return;
 
-    let $el = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(params.el);
+    let $el = $(params.el);
     if ($el.length === 0) return;
 
     if (
@@ -18230,7 +19535,7 @@ const Pagination = {
     if (params.clickable) {
       $el.on('click', `.${params.bulletClass}`, function onClick(e) {
         e.preventDefault();
-        let index$$1 = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(this).index() * swiper.params.slidesPerGroup;
+        let index$$1 = $(this).index() * swiper.params.slidesPerGroup;
         if (swiper.params.loop) index$$1 += swiper.loopedSlides;
         swiper.slideTo(index$$1);
       });
@@ -18339,7 +19644,7 @@ var Pagination$1 = {
         swiper.params.pagination.el &&
         swiper.params.pagination.hideOnClick &&
         swiper.pagination.$el.length > 0 &&
-        !Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).hasClass(swiper.params.pagination.bulletClass)
+        !$(e.target).hasClass(swiper.params.pagination.bulletClass)
       ) {
         swiper.pagination.$el.toggleClass(swiper.params.pagination.hiddenClass);
       }
@@ -18374,14 +19679,14 @@ const Scrollbar = {
       newSize = trackSize - newPos;
     }
     if (swiper.isHorizontal()) {
-      if (Support.transforms3d) {
+      if (swiper_esm_bundle_Support.transforms3d) {
         $dragEl.transform(`translate3d(${newPos}px, 0, 0)`);
       } else {
         $dragEl.transform(`translateX(${newPos}px)`);
       }
       $dragEl[0].style.width = `${newSize}px`;
     } else {
-      if (Support.transforms3d) {
+      if (swiper_esm_bundle_Support.transforms3d) {
         $dragEl.transform(`translate3d(0px, ${newPos}px, 0)`);
       } else {
         $dragEl.transform(`translateY(${newPos}px)`);
@@ -18533,22 +19838,22 @@ const Scrollbar = {
     } = swiper;
     const $el = scrollbar.$el;
     const target = $el[0];
-    const activeListener = Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
-    const passiveListener = Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    const activeListener = swiper_esm_bundle_Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
+    const passiveListener = swiper_esm_bundle_Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
+    if (!swiper_esm_bundle_Support.touch && (swiper_esm_bundle_Support.pointerEvents || swiper_esm_bundle_Support.prefixedPointerEvents)) {
       target.addEventListener(touchEventsDesktop.start, swiper.scrollbar.onDragStart, activeListener);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener(touchEventsDesktop.end, swiper.scrollbar.onDragEnd, passiveListener);
+      doc.addEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
+      doc.addEventListener(touchEventsDesktop.end, swiper.scrollbar.onDragEnd, passiveListener);
     } else {
-      if (Support.touch) {
+      if (swiper_esm_bundle_Support.touch) {
         target.addEventListener(touchEvents.start, swiper.scrollbar.onDragStart, activeListener);
         target.addEventListener(touchEvents.move, swiper.scrollbar.onDragMove, activeListener);
         target.addEventListener(touchEvents.end, swiper.scrollbar.onDragEnd, passiveListener);
       }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      if ((params.simulateTouch && !swiper_esm_bundle_Device.ios && !swiper_esm_bundle_Device.android) || (params.simulateTouch && !swiper_esm_bundle_Support.touch && swiper_esm_bundle_Device.ios)) {
         target.addEventListener('mousedown', swiper.scrollbar.onDragStart, activeListener);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener('mousemove', swiper.scrollbar.onDragMove, activeListener);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].addEventListener('mouseup', swiper.scrollbar.onDragEnd, passiveListener);
+        doc.addEventListener('mousemove', swiper.scrollbar.onDragMove, activeListener);
+        doc.addEventListener('mouseup', swiper.scrollbar.onDragEnd, passiveListener);
       }
     }
   },
@@ -18560,22 +19865,22 @@ const Scrollbar = {
     } = swiper;
     const $el = scrollbar.$el;
     const target = $el[0];
-    const activeListener = Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
-    const passiveListener = Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
-    if (!Support.touch && (Support.pointerEvents || Support.prefixedPointerEvents)) {
+    const activeListener = swiper_esm_bundle_Support.passiveListener && params.passiveListener ? { passive: false, capture: false } : false;
+    const passiveListener = swiper_esm_bundle_Support.passiveListener && params.passiveListener ? { passive: true, capture: false } : false;
+    if (!swiper_esm_bundle_Support.touch && (swiper_esm_bundle_Support.pointerEvents || swiper_esm_bundle_Support.prefixedPointerEvents)) {
       target.removeEventListener(touchEventsDesktop.start, swiper.scrollbar.onDragStart, activeListener);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener(touchEventsDesktop.end, swiper.scrollbar.onDragEnd, passiveListener);
+      doc.removeEventListener(touchEventsDesktop.move, swiper.scrollbar.onDragMove, activeListener);
+      doc.removeEventListener(touchEventsDesktop.end, swiper.scrollbar.onDragEnd, passiveListener);
     } else {
-      if (Support.touch) {
+      if (swiper_esm_bundle_Support.touch) {
         target.removeEventListener(touchEvents.start, swiper.scrollbar.onDragStart, activeListener);
         target.removeEventListener(touchEvents.move, swiper.scrollbar.onDragMove, activeListener);
         target.removeEventListener(touchEvents.end, swiper.scrollbar.onDragEnd, passiveListener);
       }
-      if ((params.simulateTouch && !Device.ios && !Device.android) || (params.simulateTouch && !Support.touch && Device.ios)) {
+      if ((params.simulateTouch && !swiper_esm_bundle_Device.ios && !swiper_esm_bundle_Device.android) || (params.simulateTouch && !swiper_esm_bundle_Support.touch && swiper_esm_bundle_Device.ios)) {
         target.removeEventListener('mousedown', swiper.scrollbar.onDragStart, activeListener);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener('mousemove', swiper.scrollbar.onDragMove, activeListener);
-        __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].removeEventListener('mouseup', swiper.scrollbar.onDragEnd, passiveListener);
+        doc.removeEventListener('mousemove', swiper.scrollbar.onDragMove, activeListener);
+        doc.removeEventListener('mouseup', swiper.scrollbar.onDragEnd, passiveListener);
       }
     }
   },
@@ -18585,14 +19890,14 @@ const Scrollbar = {
     const { scrollbar, $el: $swiperEl } = swiper;
     const params = swiper.params.scrollbar;
 
-    let $el = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(params.el);
+    let $el = $(params.el);
     if (swiper.params.uniqueNavElements && typeof params.el === 'string' && $el.length > 1 && $swiperEl.find(params.el).length === 1) {
       $el = $swiperEl.find(params.el);
     }
 
     let $dragEl = $el.find(`.${swiper.params.scrollbar.dragClass}`);
     if ($dragEl.length === 0) {
-      $dragEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="${swiper.params.scrollbar.dragClass}"></div>`);
+      $dragEl = $(`<div class="${swiper.params.scrollbar.dragClass}"></div>`);
       $el.append($dragEl);
     }
 
@@ -18686,7 +19991,7 @@ const Parallax = {
     const swiper = this;
     const { rtl } = swiper;
 
-    const $el = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(el);
+    const $el = $(el);
     const rtlFactor = rtl ? -1 : 1;
 
     const p = $el.attr('data-swiper-parallax') || '0';
@@ -18743,7 +20048,7 @@ const Parallax = {
         slideProgress += Math.ceil(slideIndex / 2) - (progress * (snapGrid.length - 1));
       }
       slideProgress = Math.min(Math.max(slideProgress, -1), 1);
-      Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slideEl).find('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]')
+      $(slideEl).find('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]')
         .each((index$$1, el) => {
           swiper.parallax.setTransform(el, slideProgress);
         });
@@ -18754,7 +20059,7 @@ const Parallax = {
     const { $el } = swiper;
     $el.find('[data-swiper-parallax], [data-swiper-parallax-x], [data-swiper-parallax-y]')
       .each((index$$1, parallaxEl) => {
-        const $parallaxEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(parallaxEl);
+        const $parallaxEl = $(parallaxEl);
         let parallaxDuration = parseInt($parallaxEl.attr('data-swiper-parallax-duration'), 10) || duration;
         if (duration === 0) parallaxDuration = 0;
         $parallaxEl.transition(parallaxDuration);
@@ -18822,7 +20127,7 @@ const Zoom = {
     const { gesture } = zoom;
     zoom.fakeGestureTouched = false;
     zoom.fakeGestureMoved = false;
-    if (!Support.gestures) {
+    if (!swiper_esm_bundle_Support.gestures) {
       if (e.type !== 'touchstart' || (e.type === 'touchstart' && e.targetTouches.length < 2)) {
         return;
       }
@@ -18830,7 +20135,7 @@ const Zoom = {
       gesture.scaleStart = Zoom.getDistanceBetweenTouches(e);
     }
     if (!gesture.$slideEl || !gesture.$slideEl.length) {
-      gesture.$slideEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target).closest('.swiper-slide');
+      gesture.$slideEl = $(e.target).closest('.swiper-slide');
       if (gesture.$slideEl.length === 0) gesture.$slideEl = swiper.slides.eq(swiper.activeIndex);
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
@@ -18848,7 +20153,7 @@ const Zoom = {
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
     const { gesture } = zoom;
-    if (!Support.gestures) {
+    if (!swiper_esm_bundle_Support.gestures) {
       if (e.type !== 'touchmove' || (e.type === 'touchmove' && e.targetTouches.length < 2)) {
         return;
       }
@@ -18856,7 +20161,7 @@ const Zoom = {
       gesture.scaleMove = Zoom.getDistanceBetweenTouches(e);
     }
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
-    if (Support.gestures) {
+    if (swiper_esm_bundle_Support.gestures) {
       swiper.zoom.scale = e.scale * zoom.currentScale;
     } else {
       zoom.scale = (gesture.scaleMove / gesture.scaleStart) * zoom.currentScale;
@@ -18874,11 +20179,11 @@ const Zoom = {
     const params = swiper.params.zoom;
     const zoom = swiper.zoom;
     const { gesture } = zoom;
-    if (!Support.gestures) {
+    if (!swiper_esm_bundle_Support.gestures) {
       if (!zoom.fakeGestureTouched || !zoom.fakeGestureMoved) {
         return;
       }
-      if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2 && !Device.android)) {
+      if (e.type !== 'touchend' || (e.type === 'touchend' && e.changedTouches.length < 2 && !swiper_esm_bundle_Device.android)) {
         return;
       }
       zoom.fakeGestureTouched = false;
@@ -18897,7 +20202,7 @@ const Zoom = {
     const { gesture, image } = zoom;
     if (!gesture.$imageEl || gesture.$imageEl.length === 0) return;
     if (image.isTouched) return;
-    if (Device.android) e.preventDefault();
+    if (swiper_esm_bundle_Device.android) e.preventDefault();
     image.isTouched = true;
     image.touchesStart.x = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
     image.touchesStart.y = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
@@ -19066,7 +20371,7 @@ const Zoom = {
     const { gesture, image } = zoom;
 
     if (!gesture.$slideEl) {
-      gesture.$slideEl = swiper.clickedSlide ? Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(swiper.clickedSlide) : swiper.slides.eq(swiper.activeIndex);
+      gesture.$slideEl = swiper.clickedSlide ? $(swiper.clickedSlide) : swiper.slides.eq(swiper.activeIndex);
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
@@ -19152,7 +20457,7 @@ const Zoom = {
     const { gesture } = zoom;
 
     if (!gesture.$slideEl) {
-      gesture.$slideEl = swiper.clickedSlide ? Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(swiper.clickedSlide) : swiper.slides.eq(swiper.activeIndex);
+      gesture.$slideEl = swiper.clickedSlide ? $(swiper.clickedSlide) : swiper.slides.eq(swiper.activeIndex);
       gesture.$imageEl = gesture.$slideEl.find('img, svg, canvas');
       gesture.$imageWrapEl = gesture.$imageEl.parent(`.${params.containerClass}`);
     }
@@ -19172,10 +20477,10 @@ const Zoom = {
     if (zoom.enabled) return;
     zoom.enabled = true;
 
-    const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
+    const passiveListener = swiper.touchEvents.start === 'touchstart' && swiper_esm_bundle_Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
 
     // Scale image
-    if (Support.gestures) {
+    if (swiper_esm_bundle_Support.gestures) {
       swiper.$wrapperEl.on('gesturestart', '.swiper-slide', zoom.onGestureStart, passiveListener);
       swiper.$wrapperEl.on('gesturechange', '.swiper-slide', zoom.onGestureChange, passiveListener);
       swiper.$wrapperEl.on('gestureend', '.swiper-slide', zoom.onGestureEnd, passiveListener);
@@ -19195,10 +20500,10 @@ const Zoom = {
 
     swiper.zoom.enabled = false;
 
-    const passiveListener = swiper.touchEvents.start === 'touchstart' && Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
+    const passiveListener = swiper.touchEvents.start === 'touchstart' && swiper_esm_bundle_Support.passiveListener && swiper.params.passiveListeners ? { passive: true, capture: false } : false;
 
     // Scale image
-    if (Support.gestures) {
+    if (swiper_esm_bundle_Support.gestures) {
       swiper.$wrapperEl.off('gesturestart', '.swiper-slide', zoom.onGestureStart, passiveListener);
       swiper.$wrapperEl.off('gesturechange', '.swiper-slide', zoom.onGestureChange, passiveListener);
       swiper.$wrapperEl.off('gestureend', '.swiper-slide', zoom.onGestureEnd, passiveListener);
@@ -19326,7 +20631,7 @@ const Lazy = {
     if ($images.length === 0) return;
 
     $images.each((imageIndex, imageEl) => {
-      const $imageEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(imageEl);
+      const $imageEl = $(imageEl);
       $imageEl.addClass(params.loadingClass);
 
       const background = $imageEl.attr('data-background');
@@ -19395,15 +20700,15 @@ const Lazy = {
     }
     function slideIndex(slideEl) {
       if (isVirtual) {
-        return Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slideEl).attr('data-swiper-slide-index');
+        return $(slideEl).attr('data-swiper-slide-index');
       }
-      return Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slideEl).index();
+      return $(slideEl).index();
     }
 
     if (!swiper.lazy.initialImageLoaded) swiper.lazy.initialImageLoaded = true;
     if (swiper.params.watchSlidesVisibility) {
       $wrapperEl.children(`.${swiperParams.slideVisibleClass}`).each((elIndex, slideEl) => {
-        const index$$1 = isVirtual ? Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slideEl).attr('data-swiper-slide-index') : Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(slideEl).index();
+        const index$$1 = isVirtual ? $(slideEl).attr('data-swiper-slide-index') : $(slideEl).index();
         swiper.lazy.loadInSlide(index$$1);
       });
     } else if (slidesPerView > 1) {
@@ -19596,11 +20901,11 @@ const Controller = {
     }
     if (Array.isArray(controlled)) {
       for (let i = 0; i < controlled.length; i += 1) {
-        if (controlled[i] !== byController && controlled[i] instanceof Swiper$1) {
+        if (controlled[i] !== byController && controlled[i] instanceof swiper_esm_bundle_Swiper$1) {
           setControlledTranslate(controlled[i]);
         }
       }
-    } else if (controlled instanceof Swiper$1 && byController !== controlled) {
+    } else if (controlled instanceof swiper_esm_bundle_Swiper$1 && byController !== controlled) {
       setControlledTranslate(controlled);
     }
   },
@@ -19623,11 +20928,11 @@ const Controller = {
     }
     if (Array.isArray(controlled)) {
       for (i = 0; i < controlled.length; i += 1) {
-        if (controlled[i] !== byController && controlled[i] instanceof Swiper$1) {
+        if (controlled[i] !== byController && controlled[i] instanceof swiper_esm_bundle_Swiper$1) {
           setControlledTransition(controlled[i]);
         }
       }
-    } else if (controlled instanceof Swiper$1 && byController !== controlled) {
+    } else if (controlled instanceof swiper_esm_bundle_Swiper$1 && byController !== controlled) {
       setControlledTransition(controlled);
     }
   },
@@ -19715,7 +21020,7 @@ const a11y = {
     const swiper = this;
     const params = swiper.params.a11y;
     if (e.keyCode !== 13) return;
-    const $targetEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(e.target);
+    const $targetEl = $(e.target);
     if (swiper.navigation && swiper.navigation.$nextEl && $targetEl.is(swiper.navigation.$nextEl)) {
       if (!(swiper.isEnd && !swiper.params.loop)) {
         swiper.slideNext();
@@ -19773,7 +21078,7 @@ const a11y = {
     const params = swiper.params.a11y;
     if (swiper.pagination && swiper.params.pagination.clickable && swiper.pagination.bullets && swiper.pagination.bullets.length) {
       swiper.pagination.bullets.each((bulletIndex, bulletEl) => {
-        const $bulletEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(bulletEl);
+        const $bulletEl = $(bulletEl);
         swiper.a11y.makeElFocusable($bulletEl);
         swiper.a11y.addElRole($bulletEl, 'button');
         swiper.a11y.addElLabel($bulletEl, params.paginationBulletMessage.replace(/{{index}}/, $bulletEl.index() + 1));
@@ -19855,7 +21160,7 @@ var A11y = {
     const swiper = this;
     Utils.extend(swiper, {
       a11y: {
-        liveRegion: Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`),
+        liveRegion: $(`<span class="${swiper.params.a11y.notificationClass}" aria-live="assertive" aria-atomic="true"></span>`),
       },
     });
     Object.keys(a11y).forEach((methodName) => {
@@ -19896,7 +21201,7 @@ const History = {
   init() {
     const swiper = this;
     if (!swiper.params.history) return;
-    if (!__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history || !__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history.pushState) {
+    if (!win.history || !win.history.pushState) {
       swiper.params.history.enabled = false;
       swiper.params.hashNavigation.enabled = true;
       return;
@@ -19907,13 +21212,13 @@ const History = {
     if (!history.paths.key && !history.paths.value) return;
     history.scrollToSlide(0, history.paths.value, swiper.params.runCallbacksOnInit);
     if (!swiper.params.history.replaceState) {
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].addEventListener('popstate', swiper.history.setHistoryPopState);
+      win.addEventListener('popstate', swiper.history.setHistoryPopState);
     }
   },
   destroy() {
     const swiper = this;
     if (!swiper.params.history.replaceState) {
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].removeEventListener('popstate', swiper.history.setHistoryPopState);
+      win.removeEventListener('popstate', swiper.history.setHistoryPopState);
     }
   },
   setHistoryPopState() {
@@ -19922,7 +21227,7 @@ const History = {
     swiper.history.scrollToSlide(swiper.params.speed, swiper.history.paths.value, false);
   },
   getPathValues() {
-    const pathArray = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].location.pathname.slice(1).split('/').filter(part => part !== '');
+    const pathArray = win.location.pathname.slice(1).split('/').filter(part => part !== '');
     const total = pathArray.length;
     const key = pathArray[total - 2];
     const value = pathArray[total - 1];
@@ -19933,17 +21238,17 @@ const History = {
     if (!swiper.history.initialized || !swiper.params.history.enabled) return;
     const slide = swiper.slides.eq(index$$1);
     let value = History.slugify(slide.attr('data-history'));
-    if (!__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].location.pathname.includes(key)) {
+    if (!win.location.pathname.includes(key)) {
       value = `${key}/${value}`;
     }
-    const currentState = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history.state;
+    const currentState = win.history.state;
     if (currentState && currentState.value === value) {
       return;
     }
     if (swiper.params.history.replaceState) {
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history.replaceState({ value }, null, value);
+      win.history.replaceState({ value }, null, value);
     } else {
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history.pushState({ value }, null, value);
+      win.history.pushState({ value }, null, value);
     }
   },
   slugify(text$$1) {
@@ -20017,7 +21322,7 @@ var History$1 = {
 const HashNavigation = {
   onHashCange() {
     const swiper = this;
-    const newHash = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].location.hash.replace('#', '');
+    const newHash = doc.location.hash.replace('#', '');
     const activeSlideHash = swiper.slides.eq(swiper.activeIndex).attr('data-hash');
     if (newHash !== activeSlideHash) {
       swiper.slideTo(swiper.$wrapperEl.children(`.${swiper.params.slideClass}[data-hash="${newHash}"]`).index());
@@ -20026,19 +21331,19 @@ const HashNavigation = {
   setHash() {
     const swiper = this;
     if (!swiper.hashNavigation.initialized || !swiper.params.hashNavigation.enabled) return;
-    if (swiper.params.hashNavigation.replaceState && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history && __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history.replaceState) {
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */].history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
+    if (swiper.params.hashNavigation.replaceState && win.history && win.history.replaceState) {
+      win.history.replaceState(null, null, (`#${swiper.slides.eq(swiper.activeIndex).attr('data-hash')}` || ''));
     } else {
       const slide = swiper.slides.eq(swiper.activeIndex);
       const hash = slide.attr('data-hash') || slide.attr('data-history');
-      __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].location.hash = hash || '';
+      doc.location.hash = hash || '';
     }
   },
   init() {
     const swiper = this;
     if (!swiper.params.hashNavigation.enabled || (swiper.params.history && swiper.params.history.enabled)) return;
     swiper.hashNavigation.initialized = true;
-    const hash = __WEBPACK_IMPORTED_MODULE_1_ssr_window__["a" /* document */].location.hash.replace('#', '');
+    const hash = doc.location.hash.replace('#', '');
     if (hash) {
       const speed = 0;
       for (let i = 0, length = swiper.slides.length; i < length; i += 1) {
@@ -20051,13 +21356,13 @@ const HashNavigation = {
       }
     }
     if (swiper.params.hashNavigation.watchState) {
-      Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */]).on('hashchange', swiper.hashNavigation.onHashCange);
+      $(win).on('hashchange', swiper.hashNavigation.onHashCange);
     }
   },
   destroy() {
     const swiper = this;
     if (swiper.params.hashNavigation.watchState) {
-      Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(__WEBPACK_IMPORTED_MODULE_1_ssr_window__["b" /* window */]).off('hashchange', swiper.hashNavigation.onHashCange);
+      $(win).off('hashchange', swiper.hashNavigation.onHashCange);
     }
   },
 };
@@ -20352,14 +21657,14 @@ const Cube = {
       if (isHorizontal) {
         $cubeShadowEl = $wrapperEl.find('.swiper-cube-shadow');
         if ($cubeShadowEl.length === 0) {
-          $cubeShadowEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])('<div class="swiper-cube-shadow"></div>');
+          $cubeShadowEl = $('<div class="swiper-cube-shadow"></div>');
           $wrapperEl.append($cubeShadowEl);
         }
         $cubeShadowEl.css({ height: `${swiperWidth}px` });
       } else {
         $cubeShadowEl = $el.find('.swiper-cube-shadow');
         if ($cubeShadowEl.length === 0) {
-          $cubeShadowEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])('<div class="swiper-cube-shadow"></div>');
+          $cubeShadowEl = $('<div class="swiper-cube-shadow"></div>');
           $el.append($cubeShadowEl);
         }
       }
@@ -20413,11 +21718,11 @@ const Cube = {
         let shadowBefore = isHorizontal ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
         let shadowAfter = isHorizontal ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
         if (shadowBefore.length === 0) {
-          shadowBefore = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
+          shadowBefore = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
           $slideEl.append(shadowBefore);
         }
         if (shadowAfter.length === 0) {
-          shadowAfter = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
+          shadowAfter = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
           $slideEl.append(shadowAfter);
         }
         if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
@@ -20446,7 +21751,7 @@ const Cube = {
         $cubeShadowEl.transform(`scale3d(${scale1}, 1, ${scale2}) translate3d(0px, ${(swiperHeight / 2) + offset$$1}px, ${-swiperHeight / 2 / scale2}px) rotateX(-90deg)`);
       }
     }
-    const zFactor = (Browser.isSafari || Browser.isUiWebView) ? (-swiperSize / 2) : 0;
+    const zFactor = (swiper_esm_bundle_Browser.isSafari || swiper_esm_bundle_Browser.isUiWebView) ? (-swiperSize / 2) : 0;
     $wrapperEl
       .transform(`translate3d(0px,0,${zFactor}px) rotateX(${swiper.isHorizontal() ? 0 : wrapperRotate}deg) rotateY(${swiper.isHorizontal() ? -wrapperRotate : 0}deg)`);
   },
@@ -20546,11 +21851,11 @@ const Flip = {
         let shadowBefore = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
         let shadowAfter = swiper.isHorizontal() ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
         if (shadowBefore.length === 0) {
-          shadowBefore = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'left' : 'top'}"></div>`);
+          shadowBefore = $(`<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'left' : 'top'}"></div>`);
           $slideEl.append(shadowBefore);
         }
         if (shadowAfter.length === 0) {
-          shadowAfter = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'right' : 'bottom'}"></div>`);
+          shadowAfter = $(`<div class="swiper-slide-shadow-${swiper.isHorizontal() ? 'right' : 'bottom'}"></div>`);
           $slideEl.append(shadowAfter);
         }
         if (shadowBefore.length) shadowBefore[0].style.opacity = Math.max(-progress, 0);
@@ -20675,11 +21980,11 @@ const Coverflow = {
         let $shadowBeforeEl = isHorizontal ? $slideEl.find('.swiper-slide-shadow-left') : $slideEl.find('.swiper-slide-shadow-top');
         let $shadowAfterEl = isHorizontal ? $slideEl.find('.swiper-slide-shadow-right') : $slideEl.find('.swiper-slide-shadow-bottom');
         if ($shadowBeforeEl.length === 0) {
-          $shadowBeforeEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
+          $shadowBeforeEl = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'left' : 'top'}"></div>`);
           $slideEl.append($shadowBeforeEl);
         }
         if ($shadowAfterEl.length === 0) {
-          $shadowAfterEl = Object(__WEBPACK_IMPORTED_MODULE_0_dom7_dist_dom7_modular__["a" /* $ */])(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
+          $shadowAfterEl = $(`<div class="swiper-slide-shadow-${isHorizontal ? 'right' : 'bottom'}"></div>`);
           $slideEl.append($shadowAfterEl);
         }
         if ($shadowBeforeEl.length) $shadowBeforeEl[0].style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
@@ -20688,7 +21993,7 @@ const Coverflow = {
     }
 
     // Set correct perspective for IE10
-    if (Support.pointerEvents || Support.prefixedPointerEvents) {
+    if (swiper_esm_bundle_Support.pointerEvents || swiper_esm_bundle_Support.prefixedPointerEvents) {
       const ws = $wrapperEl[0].style;
       ws.perspectiveOrigin = `${center}px 50%`;
     }
@@ -20774,1443 +22079,18 @@ const components = [
   EffectCoverflow
 ];
 
-if (typeof Swiper$1.use === 'undefined') {
-  Swiper$1.use = Swiper$1.Class.use;
-  Swiper$1.installModule = Swiper$1.Class.installModule;
+if (typeof swiper_esm_bundle_Swiper$1.use === 'undefined') {
+  swiper_esm_bundle_Swiper$1.use = swiper_esm_bundle_Swiper$1.Class.use;
+  swiper_esm_bundle_Swiper$1.installModule = swiper_esm_bundle_Swiper$1.Class.installModule;
 }
 
-Swiper$1.use(components);
+swiper_esm_bundle_Swiper$1.use(components);
 
-/* harmony default export */ __webpack_exports__["default"] = (Swiper$1);
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return $; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return addClass; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "E", function() { return removeClass; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return hasClass; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "H", function() { return toggleClass; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return attr; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "D", function() { return removeAttr; });
-/* unused harmony export prop */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return data; });
-/* unused harmony export removeData */
-/* unused harmony export dataset */
-/* unused harmony export val */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "I", function() { return transform; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "J", function() { return transition; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "u", function() { return on; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "s", function() { return off; });
-/* unused harmony export once */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "L", function() { return trigger; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "K", function() { return transitionEnd; });
-/* unused harmony export animationEnd */
-/* unused harmony export width */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "w", function() { return outerWidth; });
-/* unused harmony export height */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "v", function() { return outerHeight; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "t", function() { return offset; });
-/* unused harmony export hide */
-/* unused harmony export show */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "F", function() { return styles; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return css; });
-/* unused harmony export toArray */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return each; });
-/* unused harmony export forEach */
-/* unused harmony export filter */
-/* unused harmony export map */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "n", function() { return html; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "G", function() { return text; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "p", function() { return is; });
-/* unused harmony export indexOf */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "o", function() { return index; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return eq; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return append; });
-/* unused harmony export appendTo */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "z", function() { return prepend; });
-/* unused harmony export prependTo */
-/* unused harmony export insertBefore */
-/* unused harmony export insertAfter */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "q", function() { return next; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "r", function() { return nextAll; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "A", function() { return prev; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "B", function() { return prevAll; });
-/* unused harmony export siblings */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "x", function() { return parent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "y", function() { return parents; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return closest; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return find; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return children; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "C", function() { return remove; });
-/* unused harmony export detach */
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return add; });
-/* unused harmony export empty */
-/* unused harmony export scrollTo */
-/* unused harmony export scrollTop */
-/* unused harmony export scrollLeft */
-/* unused harmony export animate */
-/* unused harmony export stop */
-/* unused harmony export click */
-/* unused harmony export blur */
-/* unused harmony export focus */
-/* unused harmony export focusin */
-/* unused harmony export focusout */
-/* unused harmony export keyup */
-/* unused harmony export keydown */
-/* unused harmony export keypress */
-/* unused harmony export submit */
-/* unused harmony export change */
-/* unused harmony export mousedown */
-/* unused harmony export mousemove */
-/* unused harmony export mouseup */
-/* unused harmony export mouseenter */
-/* unused harmony export mouseleave */
-/* unused harmony export mouseout */
-/* unused harmony export mouseover */
-/* unused harmony export touchstart */
-/* unused harmony export touchend */
-/* unused harmony export touchmove */
-/* unused harmony export resize */
-/* unused harmony export scroll */
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_ssr_window__ = __webpack_require__(4);
-/**
- * Dom7 2.0.2
- * Minimalistic JavaScript library for DOM manipulation, with a jQuery-compatible API
- * http://framework7.io/docs/dom.html
- *
- * Copyright 2018, Vladimir Kharlampidi
- * The iDangero.us
- * http://www.idangero.us/
- *
- * Licensed under MIT
- *
- * Released on: February 10, 2018
- */
-
-
-class Dom7 {
-  constructor(arr) {
-    const self = this;
-    // Create array-like object
-    for (let i = 0; i < arr.length; i += 1) {
-      self[i] = arr[i];
-    }
-    self.length = arr.length;
-    // Return collection with methods
-    return this;
-  }
-}
-
-function $(selector, context) {
-  const arr = [];
-  let i = 0;
-  if (selector && !context) {
-    if (selector instanceof Dom7) {
-      return selector;
-    }
-  }
-  if (selector) {
-      // String
-    if (typeof selector === 'string') {
-      let els;
-      let tempParent;
-      const html = selector.trim();
-      if (html.indexOf('<') >= 0 && html.indexOf('>') >= 0) {
-        let toCreate = 'div';
-        if (html.indexOf('<li') === 0) toCreate = 'ul';
-        if (html.indexOf('<tr') === 0) toCreate = 'tbody';
-        if (html.indexOf('<td') === 0 || html.indexOf('<th') === 0) toCreate = 'tr';
-        if (html.indexOf('<tbody') === 0) toCreate = 'table';
-        if (html.indexOf('<option') === 0) toCreate = 'select';
-        tempParent = __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */].createElement(toCreate);
-        tempParent.innerHTML = html;
-        for (i = 0; i < tempParent.childNodes.length; i += 1) {
-          arr.push(tempParent.childNodes[i]);
-        }
-      } else {
-        if (!context && selector[0] === '#' && !selector.match(/[ .<>:~]/)) {
-          // Pure ID selector
-          els = [__WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */].getElementById(selector.trim().split('#')[1])];
-        } else {
-          // Other selectors
-          els = (context || __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */]).querySelectorAll(selector.trim());
-        }
-        for (i = 0; i < els.length; i += 1) {
-          if (els[i]) arr.push(els[i]);
-        }
-      }
-    } else if (selector.nodeType || selector === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */] || selector === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */]) {
-      // Node/element
-      arr.push(selector);
-    } else if (selector.length > 0 && selector[0].nodeType) {
-      // Array of elements or instance of Dom
-      for (i = 0; i < selector.length; i += 1) {
-        arr.push(selector[i]);
-      }
-    }
-  }
-  return new Dom7(arr);
-}
-
-$.fn = Dom7.prototype;
-$.Class = Dom7;
-$.Dom7 = Dom7;
-
-function unique(arr) {
-  const uniqueArray = [];
-  for (let i = 0; i < arr.length; i += 1) {
-    if (uniqueArray.indexOf(arr[i]) === -1) uniqueArray.push(arr[i]);
-  }
-  return uniqueArray;
-}
-function toCamelCase(string) {
-  return string.toLowerCase().replace(/-(.)/g, (match, group1) => group1.toUpperCase());
-}
-
-function requestAnimationFrame(callback) {
-  if (__WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].requestAnimationFrame) return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].requestAnimationFrame(callback);
-  else if (__WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].webkitRequestAnimationFrame) return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].webkitRequestAnimationFrame(callback);
-  return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].setTimeout(callback, 1000 / 60);
-}
-function cancelAnimationFrame(id) {
-  if (__WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].cancelAnimationFrame) return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].cancelAnimationFrame(id);
-  else if (__WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].webkitCancelAnimationFrame) return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].webkitCancelAnimationFrame(id);
-  return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].clearTimeout(id);
-}
-
-// Classes and attributes
-function addClass(className) {
-  if (typeof className === 'undefined') {
-    return this;
-  }
-  const classes = className.split(' ');
-  for (let i = 0; i < classes.length; i += 1) {
-    for (let j = 0; j < this.length; j += 1) {
-      if (typeof this[j].classList !== 'undefined') this[j].classList.add(classes[i]);
-    }
-  }
-  return this;
-}
-function removeClass(className) {
-  const classes = className.split(' ');
-  for (let i = 0; i < classes.length; i += 1) {
-    for (let j = 0; j < this.length; j += 1) {
-      if (typeof this[j].classList !== 'undefined') this[j].classList.remove(classes[i]);
-    }
-  }
-  return this;
-}
-function hasClass(className) {
-  if (!this[0]) return false;
-  return this[0].classList.contains(className);
-}
-function toggleClass(className) {
-  const classes = className.split(' ');
-  for (let i = 0; i < classes.length; i += 1) {
-    for (let j = 0; j < this.length; j += 1) {
-      if (typeof this[j].classList !== 'undefined') this[j].classList.toggle(classes[i]);
-    }
-  }
-  return this;
-}
-function attr(attrs, value) {
-  if (arguments.length === 1 && typeof attrs === 'string') {
-    // Get attr
-    if (this[0]) return this[0].getAttribute(attrs);
-    return undefined;
-  }
-
-  // Set attrs
-  for (let i = 0; i < this.length; i += 1) {
-    if (arguments.length === 2) {
-      // String
-      this[i].setAttribute(attrs, value);
-    } else {
-      // Object
-      // eslint-disable-next-line
-      for (const attrName in attrs) {
-        this[i][attrName] = attrs[attrName];
-        this[i].setAttribute(attrName, attrs[attrName]);
-      }
-    }
-  }
-  return this;
-}
-// eslint-disable-next-line
-function removeAttr(attr) {
-  for (let i = 0; i < this.length; i += 1) {
-    this[i].removeAttribute(attr);
-  }
-  return this;
-}
-// eslint-disable-next-line
-function prop(props, value) {
-  if (arguments.length === 1 && typeof props === 'string') {
-    // Get prop
-    if (this[0]) return this[0][props];
-  } else {
-    // Set props
-    for (let i = 0; i < this.length; i += 1) {
-      if (arguments.length === 2) {
-        // String
-        this[i][props] = value;
-      } else {
-        // Object
-        // eslint-disable-next-line
-        for (const propName in props) {
-          this[i][propName] = props[propName];
-        }
-      }
-    }
-    return this;
-  }
-}
-function data(key, value) {
-  let el;
-  if (typeof value === 'undefined') {
-    el = this[0];
-    // Get value
-    if (el) {
-      if (el.dom7ElementDataStorage && (key in el.dom7ElementDataStorage)) {
-        return el.dom7ElementDataStorage[key];
-      }
-
-      const dataKey = el.getAttribute(`data-${key}`);
-      if (dataKey) {
-        return dataKey;
-      }
-      return undefined;
-    }
-    return undefined;
-  }
-
-  // Set value
-  for (let i = 0; i < this.length; i += 1) {
-    el = this[i];
-    if (!el.dom7ElementDataStorage) el.dom7ElementDataStorage = {};
-    el.dom7ElementDataStorage[key] = value;
-  }
-  return this;
-}
-function removeData(key) {
-  for (let i = 0; i < this.length; i += 1) {
-    const el = this[i];
-    if (el.dom7ElementDataStorage && el.dom7ElementDataStorage[key]) {
-      el.dom7ElementDataStorage[key] = null;
-      delete el.dom7ElementDataStorage[key];
-    }
-  }
-}
-function dataset() {
-  const el = this[0];
-  if (!el) return undefined;
-  const dataset = {}; // eslint-disable-line
-  if (el.dataset) {
-    // eslint-disable-next-line
-    for (const dataKey in el.dataset) {
-      dataset[dataKey] = el.dataset[dataKey];
-    }
-  } else {
-    for (let i = 0; i < el.attributes.length; i += 1) {
-      // eslint-disable-next-line
-      const attr = el.attributes[i];
-      if (attr.name.indexOf('data-') >= 0) {
-        dataset[toCamelCase(attr.name.split('data-')[1])] = attr.value;
-      }
-    }
-  }
-  // eslint-disable-next-line
-  for (const key in dataset) {
-    if (dataset[key] === 'false') dataset[key] = false;
-    else if (dataset[key] === 'true') dataset[key] = true;
-    else if (parseFloat(dataset[key]) === dataset[key] * 1) dataset[key] *= 1;
-  }
-  return dataset;
-}
-function val(value) {
-  if (typeof value === 'undefined') {
-    if (this[0]) {
-      if (this[0].multiple && this[0].nodeName.toLowerCase() === 'select') {
-        const values = [];
-        for (let i = 0; i < this[0].selectedOptions.length; i += 1) {
-          values.push(this[0].selectedOptions[i].value);
-        }
-        return values;
-      }
-      return this[0].value;
-    }
-    return undefined;
-  }
-
-  for (let i = 0; i < this.length; i += 1) {
-    this[i].value = value;
-  }
-  return this;
-}
-// Transforms
-// eslint-disable-next-line
-function transform(transform) {
-  for (let i = 0; i < this.length; i += 1) {
-    const elStyle = this[i].style;
-    elStyle.webkitTransform = transform;
-    elStyle.transform = transform;
-  }
-  return this;
-}
-function transition(duration) {
-  if (typeof duration !== 'string') {
-    duration = `${duration}ms`; // eslint-disable-line
-  }
-  for (let i = 0; i < this.length; i += 1) {
-    const elStyle = this[i].style;
-    elStyle.webkitTransitionDuration = duration;
-    elStyle.transitionDuration = duration;
-  }
-  return this;
-}
-// Events
-function on(...args) {
-  let [eventType, targetSelector, listener, capture] = args;
-  if (typeof args[1] === 'function') {
-    [eventType, listener, capture] = args;
-    targetSelector = undefined;
-  }
-  if (!capture) capture = false;
-
-  function handleLiveEvent(e) {
-    const target = e.target;
-    if (!target) return;
-    const eventData = e.target.dom7EventData || [];
-    eventData.unshift(e);
-    if ($(target).is(targetSelector)) listener.apply(target, eventData);
-    else {
-      const parents = $(target).parents(); // eslint-disable-line
-      for (let k = 0; k < parents.length; k += 1) {
-        if ($(parents[k]).is(targetSelector)) listener.apply(parents[k], eventData);
-      }
-    }
-  }
-  function handleEvent(e) {
-    const eventData = e && e.target ? e.target.dom7EventData || [] : [];
-    eventData.unshift(e);
-    listener.apply(this, eventData);
-  }
-  const events = eventType.split(' ');
-  let j;
-  for (let i = 0; i < this.length; i += 1) {
-    const el = this[i];
-    if (!targetSelector) {
-      for (j = 0; j < events.length; j += 1) {
-        if (!el.dom7Listeners) el.dom7Listeners = [];
-        el.dom7Listeners.push({
-          type: eventType,
-          listener,
-          proxyListener: handleEvent,
-        });
-        el.addEventListener(events[j], handleEvent, capture);
-      }
-    } else {
-      // Live events
-      for (j = 0; j < events.length; j += 1) {
-        if (!el.dom7LiveListeners) el.dom7LiveListeners = [];
-        el.dom7LiveListeners.push({
-          type: eventType,
-          listener,
-          proxyListener: handleLiveEvent,
-        });
-        el.addEventListener(events[j], handleLiveEvent, capture);
-      }
-    }
-  }
-  return this;
-}
-function off(...args) {
-  let [eventType, targetSelector, listener, capture] = args;
-  if (typeof args[1] === 'function') {
-    [eventType, listener, capture] = args;
-    targetSelector = undefined;
-  }
-  if (!capture) capture = false;
-
-  const events = eventType.split(' ');
-  for (let i = 0; i < events.length; i += 1) {
-    for (let j = 0; j < this.length; j += 1) {
-      const el = this[j];
-      if (!targetSelector) {
-        if (el.dom7Listeners) {
-          for (let k = 0; k < el.dom7Listeners.length; k += 1) {
-            if (listener) {
-              if (el.dom7Listeners[k].listener === listener) {
-                el.removeEventListener(events[i], el.dom7Listeners[k].proxyListener, capture);
-              }
-            } else if (el.dom7Listeners[k].type === events[i]) {
-              el.removeEventListener(events[i], el.dom7Listeners[k].proxyListener, capture);
-            }
-          }
-        }
-      } else if (el.dom7LiveListeners) {
-        for (let k = 0; k < el.dom7LiveListeners.length; k += 1) {
-          if (listener) {
-            if (el.dom7LiveListeners[k].listener === listener) {
-              el.removeEventListener(events[i], el.dom7LiveListeners[k].proxyListener, capture);
-            }
-          } else if (el.dom7LiveListeners[k].type === events[i]) {
-            el.removeEventListener(events[i], el.dom7LiveListeners[k].proxyListener, capture);
-          }
-        }
-      }
-    }
-  }
-  return this;
-}
-function once(...args) {
-  const dom = this;
-  let [eventName, targetSelector, listener, capture] = args;
-  if (typeof args[1] === 'function') {
-    [eventName, listener, capture] = args;
-    targetSelector = undefined;
-  }
-  function proxy(e) {
-    const eventData = e.target.dom7EventData || [];
-    listener.apply(this, eventData);
-    dom.off(eventName, targetSelector, proxy, capture);
-  }
-  return dom.on(eventName, targetSelector, proxy, capture);
-}
-function trigger(...args) {
-  const events = args[0].split(' ');
-  const eventData = args[1];
-  for (let i = 0; i < events.length; i += 1) {
-    for (let j = 0; j < this.length; j += 1) {
-      let evt;
-      try {
-        evt = new __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].CustomEvent(events[i], {
-          detail: eventData,
-          bubbles: true,
-          cancelable: true,
-        });
-      } catch (e) {
-        evt = __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */].createEvent('Event');
-        evt.initEvent(events[i], true, true);
-        evt.detail = eventData;
-      }
-      // eslint-disable-next-line
-      this[j].dom7EventData = args.filter((data, dataIndex) => dataIndex > 0);
-      this[j].dispatchEvent(evt);
-      this[j].dom7EventData = [];
-      delete this[j].dom7EventData;
-    }
-  }
-  return this;
-}
-function transitionEnd(callback) {
-  const events = ['webkitTransitionEnd', 'transitionend'];
-  const dom = this;
-  let i;
-  function fireCallBack(e) {
-    /* jshint validthis:true */
-    if (e.target !== this) return;
-    callback.call(this, e);
-    for (i = 0; i < events.length; i += 1) {
-      dom.off(events[i], fireCallBack);
-    }
-  }
-  if (callback) {
-    for (i = 0; i < events.length; i += 1) {
-      dom.on(events[i], fireCallBack);
-    }
-  }
-  return this;
-}
-function animationEnd(callback) {
-  const events = ['webkitAnimationEnd', 'animationend'];
-  const dom = this;
-  let i;
-  function fireCallBack(e) {
-    if (e.target !== this) return;
-    callback.call(this, e);
-    for (i = 0; i < events.length; i += 1) {
-      dom.off(events[i], fireCallBack);
-    }
-  }
-  if (callback) {
-    for (i = 0; i < events.length; i += 1) {
-      dom.on(events[i], fireCallBack);
-    }
-  }
-  return this;
-}
-// Sizing/Styles
-function width() {
-  if (this[0] === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */]) {
-    return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].innerWidth;
-  }
-
-  if (this.length > 0) {
-    return parseFloat(this.css('width'));
-  }
-
-  return null;
-}
-function outerWidth(includeMargins) {
-  if (this.length > 0) {
-    if (includeMargins) {
-      // eslint-disable-next-line
-      const styles = this.styles();
-      return this[0].offsetWidth + parseFloat(styles.getPropertyValue('margin-right')) + parseFloat(styles.getPropertyValue('margin-left'));
-    }
-    return this[0].offsetWidth;
-  }
-  return null;
-}
-function height() {
-  if (this[0] === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */]) {
-    return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].innerHeight;
-  }
-
-  if (this.length > 0) {
-    return parseFloat(this.css('height'));
-  }
-
-  return null;
-}
-function outerHeight(includeMargins) {
-  if (this.length > 0) {
-    if (includeMargins) {
-      // eslint-disable-next-line
-      const styles = this.styles();
-      return this[0].offsetHeight + parseFloat(styles.getPropertyValue('margin-top')) + parseFloat(styles.getPropertyValue('margin-bottom'));
-    }
-    return this[0].offsetHeight;
-  }
-  return null;
-}
-function offset() {
-  if (this.length > 0) {
-    const el = this[0];
-    const box = el.getBoundingClientRect();
-    const body = __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */].body;
-    const clientTop = el.clientTop || body.clientTop || 0;
-    const clientLeft = el.clientLeft || body.clientLeft || 0;
-    const scrollTop = el === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */] ? __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].scrollY : el.scrollTop;
-    const scrollLeft = el === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */] ? __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].scrollX : el.scrollLeft;
-    return {
-      top: (box.top + scrollTop) - clientTop,
-      left: (box.left + scrollLeft) - clientLeft,
-    };
-  }
-
-  return null;
-}
-function hide() {
-  for (let i = 0; i < this.length; i += 1) {
-    this[i].style.display = 'none';
-  }
-  return this;
-}
-function show() {
-  for (let i = 0; i < this.length; i += 1) {
-    const el = this[i];
-    if (el.style.display === 'none') {
-      el.style.display = '';
-    }
-    if (__WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].getComputedStyle(el, null).getPropertyValue('display') === 'none') {
-      // Still not visible
-      el.style.display = 'block';
-    }
-  }
-  return this;
-}
-function styles() {
-  if (this[0]) return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].getComputedStyle(this[0], null);
-  return {};
-}
-function css(props, value) {
-  let i;
-  if (arguments.length === 1) {
-    if (typeof props === 'string') {
-      if (this[0]) return __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].getComputedStyle(this[0], null).getPropertyValue(props);
-    } else {
-      for (i = 0; i < this.length; i += 1) {
-        // eslint-disable-next-line
-        for (let prop in props) {
-          this[i].style[prop] = props[prop];
-        }
-      }
-      return this;
-    }
-  }
-  if (arguments.length === 2 && typeof props === 'string') {
-    for (i = 0; i < this.length; i += 1) {
-      this[i].style[props] = value;
-    }
-    return this;
-  }
-  return this;
-}
-
-// Dom manipulation
-function toArray() {
-  const arr = [];
-  for (let i = 0; i < this.length; i += 1) {
-    arr.push(this[i]);
-  }
-  return arr;
-}
-// Iterate over the collection passing elements to `callback`
-function each(callback) {
-  // Don't bother continuing without a callback
-  if (!callback) return this;
-  // Iterate over the current collection
-  for (let i = 0; i < this.length; i += 1) {
-    // If the callback returns false
-    if (callback.call(this[i], i, this[i]) === false) {
-      // End the loop early
-      return this;
-    }
-  }
-  // Return `this` to allow chained DOM operations
-  return this;
-}
-function forEach(callback) {
-  // Don't bother continuing without a callback
-  if (!callback) return this;
-  // Iterate over the current collection
-  for (let i = 0; i < this.length; i += 1) {
-    // If the callback returns false
-    if (callback.call(this[i], this[i], i) === false) {
-      // End the loop early
-      return this;
-    }
-  }
-  // Return `this` to allow chained DOM operations
-  return this;
-}
-function filter(callback) {
-  const matchedItems = [];
-  const dom = this;
-  for (let i = 0; i < dom.length; i += 1) {
-    if (callback.call(dom[i], i, dom[i])) matchedItems.push(dom[i]);
-  }
-  return new Dom7(matchedItems);
-}
-function map(callback) {
-  const modifiedItems = [];
-  const dom = this;
-  for (let i = 0; i < dom.length; i += 1) {
-    modifiedItems.push(callback.call(dom[i], i, dom[i]));
-  }
-  return new Dom7(modifiedItems);
-}
-// eslint-disable-next-line
-function html(html) {
-  if (typeof html === 'undefined') {
-    return this[0] ? this[0].innerHTML : undefined;
-  }
-
-  for (let i = 0; i < this.length; i += 1) {
-    this[i].innerHTML = html;
-  }
-  return this;
-}
-// eslint-disable-next-line
-function text(text) {
-  if (typeof text === 'undefined') {
-    if (this[0]) {
-      return this[0].textContent.trim();
-    }
-    return null;
-  }
-
-  for (let i = 0; i < this.length; i += 1) {
-    this[i].textContent = text;
-  }
-  return this;
-}
-function is(selector) {
-  const el = this[0];
-  let compareWith;
-  let i;
-  if (!el || typeof selector === 'undefined') return false;
-  if (typeof selector === 'string') {
-    if (el.matches) return el.matches(selector);
-    else if (el.webkitMatchesSelector) return el.webkitMatchesSelector(selector);
-    else if (el.msMatchesSelector) return el.msMatchesSelector(selector);
-
-    compareWith = $(selector);
-    for (i = 0; i < compareWith.length; i += 1) {
-      if (compareWith[i] === el) return true;
-    }
-    return false;
-  } else if (selector === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */]) return el === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */];
-  else if (selector === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */]) return el === __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */];
-
-  if (selector.nodeType || selector instanceof Dom7) {
-    compareWith = selector.nodeType ? [selector] : selector;
-    for (i = 0; i < compareWith.length; i += 1) {
-      if (compareWith[i] === el) return true;
-    }
-    return false;
-  }
-  return false;
-}
-function indexOf(el) {
-  for (let i = 0; i < this.length; i += 1) {
-    if (this[i] === el) return i;
-  }
-  return -1;
-}
-function index() {
-  let child = this[0];
-  let i;
-  if (child) {
-    i = 0;
-    // eslint-disable-next-line
-    while ((child = child.previousSibling) !== null) {
-      if (child.nodeType === 1) i += 1;
-    }
-    return i;
-  }
-  return undefined;
-}
-// eslint-disable-next-line
-function eq(index) {
-  if (typeof index === 'undefined') return this;
-  const length = this.length;
-  let returnIndex;
-  if (index > length - 1) {
-    return new Dom7([]);
-  }
-  if (index < 0) {
-    returnIndex = length + index;
-    if (returnIndex < 0) return new Dom7([]);
-    return new Dom7([this[returnIndex]]);
-  }
-  return new Dom7([this[index]]);
-}
-function append(...args) {
-  let newChild;
-
-  for (let k = 0; k < args.length; k += 1) {
-    newChild = args[k];
-    for (let i = 0; i < this.length; i += 1) {
-      if (typeof newChild === 'string') {
-        const tempDiv = __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */].createElement('div');
-        tempDiv.innerHTML = newChild;
-        while (tempDiv.firstChild) {
-          this[i].appendChild(tempDiv.firstChild);
-        }
-      } else if (newChild instanceof Dom7) {
-        for (let j = 0; j < newChild.length; j += 1) {
-          this[i].appendChild(newChild[j]);
-        }
-      } else {
-        this[i].appendChild(newChild);
-      }
-    }
-  }
-
-  return this;
-}
- // eslint-disable-next-line
-function appendTo(parent) {
-  $(parent).append(this);
-  return this;
-}
-function prepend(newChild) {
-  let i;
-  let j;
-  for (i = 0; i < this.length; i += 1) {
-    if (typeof newChild === 'string') {
-      const tempDiv = __WEBPACK_IMPORTED_MODULE_0_ssr_window__["a" /* document */].createElement('div');
-      tempDiv.innerHTML = newChild;
-      for (j = tempDiv.childNodes.length - 1; j >= 0; j -= 1) {
-        this[i].insertBefore(tempDiv.childNodes[j], this[i].childNodes[0]);
-      }
-    } else if (newChild instanceof Dom7) {
-      for (j = 0; j < newChild.length; j += 1) {
-        this[i].insertBefore(newChild[j], this[i].childNodes[0]);
-      }
-    } else {
-      this[i].insertBefore(newChild, this[i].childNodes[0]);
-    }
-  }
-  return this;
-}
- // eslint-disable-next-line
-function prependTo(parent) {
-  $(parent).prepend(this);
-  return this;
-}
-function insertBefore(selector) {
-  const before = $(selector);
-  for (let i = 0; i < this.length; i += 1) {
-    if (before.length === 1) {
-      before[0].parentNode.insertBefore(this[i], before[0]);
-    } else if (before.length > 1) {
-      for (let j = 0; j < before.length; j += 1) {
-        before[j].parentNode.insertBefore(this[i].cloneNode(true), before[j]);
-      }
-    }
-  }
-}
-function insertAfter(selector) {
-  const after = $(selector);
-  for (let i = 0; i < this.length; i += 1) {
-    if (after.length === 1) {
-      after[0].parentNode.insertBefore(this[i], after[0].nextSibling);
-    } else if (after.length > 1) {
-      for (let j = 0; j < after.length; j += 1) {
-        after[j].parentNode.insertBefore(this[i].cloneNode(true), after[j].nextSibling);
-      }
-    }
-  }
-}
-function next(selector) {
-  if (this.length > 0) {
-    if (selector) {
-      if (this[0].nextElementSibling && $(this[0].nextElementSibling).is(selector)) {
-        return new Dom7([this[0].nextElementSibling]);
-      }
-      return new Dom7([]);
-    }
-
-    if (this[0].nextElementSibling) return new Dom7([this[0].nextElementSibling]);
-    return new Dom7([]);
-  }
-  return new Dom7([]);
-}
-function nextAll(selector) {
-  const nextEls = [];
-  let el = this[0];
-  if (!el) return new Dom7([]);
-  while (el.nextElementSibling) {
-    const next = el.nextElementSibling; // eslint-disable-line
-    if (selector) {
-      if ($(next).is(selector)) nextEls.push(next);
-    } else nextEls.push(next);
-    el = next;
-  }
-  return new Dom7(nextEls);
-}
-function prev(selector) {
-  if (this.length > 0) {
-    const el = this[0];
-    if (selector) {
-      if (el.previousElementSibling && $(el.previousElementSibling).is(selector)) {
-        return new Dom7([el.previousElementSibling]);
-      }
-      return new Dom7([]);
-    }
-
-    if (el.previousElementSibling) return new Dom7([el.previousElementSibling]);
-    return new Dom7([]);
-  }
-  return new Dom7([]);
-}
-function prevAll(selector) {
-  const prevEls = [];
-  let el = this[0];
-  if (!el) return new Dom7([]);
-  while (el.previousElementSibling) {
-    const prev = el.previousElementSibling; // eslint-disable-line
-    if (selector) {
-      if ($(prev).is(selector)) prevEls.push(prev);
-    } else prevEls.push(prev);
-    el = prev;
-  }
-  return new Dom7(prevEls);
-}
-function siblings(selector) {
-  return this.nextAll(selector).add(this.prevAll(selector));
-}
-function parent(selector) {
-  const parents = []; // eslint-disable-line
-  for (let i = 0; i < this.length; i += 1) {
-    if (this[i].parentNode !== null) {
-      if (selector) {
-        if ($(this[i].parentNode).is(selector)) parents.push(this[i].parentNode);
-      } else {
-        parents.push(this[i].parentNode);
-      }
-    }
-  }
-  return $(unique(parents));
-}
-function parents(selector) {
-  const parents = []; // eslint-disable-line
-  for (let i = 0; i < this.length; i += 1) {
-    let parent = this[i].parentNode; // eslint-disable-line
-    while (parent) {
-      if (selector) {
-        if ($(parent).is(selector)) parents.push(parent);
-      } else {
-        parents.push(parent);
-      }
-      parent = parent.parentNode;
-    }
-  }
-  return $(unique(parents));
-}
-function closest(selector) {
-  let closest = this; // eslint-disable-line
-  if (typeof selector === 'undefined') {
-    return new Dom7([]);
-  }
-  if (!closest.is(selector)) {
-    closest = closest.parents(selector).eq(0);
-  }
-  return closest;
-}
-function find(selector) {
-  const foundElements = [];
-  for (let i = 0; i < this.length; i += 1) {
-    const found = this[i].querySelectorAll(selector);
-    for (let j = 0; j < found.length; j += 1) {
-      foundElements.push(found[j]);
-    }
-  }
-  return new Dom7(foundElements);
-}
-function children(selector) {
-  const children = []; // eslint-disable-line
-  for (let i = 0; i < this.length; i += 1) {
-    const childNodes = this[i].childNodes;
-
-    for (let j = 0; j < childNodes.length; j += 1) {
-      if (!selector) {
-        if (childNodes[j].nodeType === 1) children.push(childNodes[j]);
-      } else if (childNodes[j].nodeType === 1 && $(childNodes[j]).is(selector)) {
-        children.push(childNodes[j]);
-      }
-    }
-  }
-  return new Dom7(unique(children));
-}
-function remove() {
-  for (let i = 0; i < this.length; i += 1) {
-    if (this[i].parentNode) this[i].parentNode.removeChild(this[i]);
-  }
-  return this;
-}
-function detach() {
-  return this.remove();
-}
-function add(...args) {
-  const dom = this;
-  let i;
-  let j;
-  for (i = 0; i < args.length; i += 1) {
-    const toAdd = $(args[i]);
-    for (j = 0; j < toAdd.length; j += 1) {
-      dom[dom.length] = toAdd[j];
-      dom.length += 1;
-    }
-  }
-  return dom;
-}
-function empty() {
-  for (let i = 0; i < this.length; i += 1) {
-    const el = this[i];
-    if (el.nodeType === 1) {
-      for (let j = 0; j < el.childNodes.length; j += 1) {
-        if (el.childNodes[j].parentNode) {
-          el.childNodes[j].parentNode.removeChild(el.childNodes[j]);
-        }
-      }
-      el.textContent = '';
-    }
-  }
-  return this;
-}
-
-function scrollTo(...args) {
-  let [left, top, duration, easing, callback] = args;
-  if (args.length === 4 && typeof easing === 'function') {
-    callback = easing;
-    [left, top, duration, callback, easing] = args;
-  }
-  if (typeof easing === 'undefined') easing = 'swing';
-
-  return this.each(function animate() {
-    const el = this;
-    let currentTop;
-    let currentLeft;
-    let maxTop;
-    let maxLeft;
-    let newTop;
-    let newLeft;
-    let scrollTop; // eslint-disable-line
-    let scrollLeft; // eslint-disable-line
-    let animateTop = top > 0 || top === 0;
-    let animateLeft = left > 0 || left === 0;
-    if (typeof easing === 'undefined') {
-      easing = 'swing';
-    }
-    if (animateTop) {
-      currentTop = el.scrollTop;
-      if (!duration) {
-        el.scrollTop = top;
-      }
-    }
-    if (animateLeft) {
-      currentLeft = el.scrollLeft;
-      if (!duration) {
-        el.scrollLeft = left;
-      }
-    }
-    if (!duration) return;
-    if (animateTop) {
-      maxTop = el.scrollHeight - el.offsetHeight;
-      newTop = Math.max(Math.min(top, maxTop), 0);
-    }
-    if (animateLeft) {
-      maxLeft = el.scrollWidth - el.offsetWidth;
-      newLeft = Math.max(Math.min(left, maxLeft), 0);
-    }
-    let startTime = null;
-    if (animateTop && newTop === currentTop) animateTop = false;
-    if (animateLeft && newLeft === currentLeft) animateLeft = false;
-    function render(time = new Date().getTime()) {
-      if (startTime === null) {
-        startTime = time;
-      }
-      const progress = Math.max(Math.min((time - startTime) / duration, 1), 0);
-      const easeProgress = easing === 'linear' ? progress : (0.5 - (Math.cos(progress * Math.PI) / 2));
-      let done;
-      if (animateTop) scrollTop = currentTop + (easeProgress * (newTop - currentTop));
-      if (animateLeft) scrollLeft = currentLeft + (easeProgress * (newLeft - currentLeft));
-      if (animateTop && newTop > currentTop && scrollTop >= newTop) {
-        el.scrollTop = newTop;
-        done = true;
-      }
-      if (animateTop && newTop < currentTop && scrollTop <= newTop) {
-        el.scrollTop = newTop;
-        done = true;
-      }
-      if (animateLeft && newLeft > currentLeft && scrollLeft >= newLeft) {
-        el.scrollLeft = newLeft;
-        done = true;
-      }
-      if (animateLeft && newLeft < currentLeft && scrollLeft <= newLeft) {
-        el.scrollLeft = newLeft;
-        done = true;
-      }
-
-      if (done) {
-        if (callback) callback();
-        return;
-      }
-      if (animateTop) el.scrollTop = scrollTop;
-      if (animateLeft) el.scrollLeft = scrollLeft;
-      requestAnimationFrame(render);
-    }
-    requestAnimationFrame(render);
-  });
-}
-// scrollTop(top, duration, easing, callback) {
-function scrollTop(...args) {
-  let [top, duration, easing, callback] = args;
-  if (args.length === 3 && typeof easing === 'function') {
-    [top, duration, callback, easing] = args;
-  }
-  const dom = this;
-  if (typeof top === 'undefined') {
-    if (dom.length > 0) return dom[0].scrollTop;
-    return null;
-  }
-  return dom.scrollTo(undefined, top, duration, easing, callback);
-}
-function scrollLeft(...args) {
-  let [left, duration, easing, callback] = args;
-  if (args.length === 3 && typeof easing === 'function') {
-    [left, duration, callback, easing] = args;
-  }
-  const dom = this;
-  if (typeof left === 'undefined') {
-    if (dom.length > 0) return dom[0].scrollLeft;
-    return null;
-  }
-  return dom.scrollTo(left, undefined, duration, easing, callback);
-}
-
-function animate(initialProps, initialParams) {
-  const els = this;
-  const a = {
-    props: $.extend({}, initialProps),
-    params: $.extend({
-      duration: 300,
-      easing: 'swing', // or 'linear'
-      /* Callbacks
-      begin(elements)
-      complete(elements)
-      progress(elements, complete, remaining, start, tweenValue)
-      */
-    }, initialParams),
-
-    elements: els,
-    animating: false,
-    que: [],
-
-    easingProgress(easing, progress) {
-      if (easing === 'swing') {
-        return 0.5 - (Math.cos(progress * Math.PI) / 2);
-      }
-      if (typeof easing === 'function') {
-        return easing(progress);
-      }
-      return progress;
-    },
-    stop() {
-      if (a.frameId) {
-        cancelAnimationFrame(a.frameId);
-      }
-      a.animating = false;
-      a.elements.each((index, el) => {
-        const element = el;
-        delete element.dom7AnimateInstance;
-      });
-      a.que = [];
-    },
-    done(complete) {
-      a.animating = false;
-      a.elements.each((index, el) => {
-        const element = el;
-        delete element.dom7AnimateInstance;
-      });
-      if (complete) complete(els);
-      if (a.que.length > 0) {
-        const que = a.que.shift();
-        a.animate(que[0], que[1]);
-      }
-    },
-    animate(props, params) {
-      if (a.animating) {
-        a.que.push([props, params]);
-        return a;
-      }
-      const elements = [];
-
-      // Define & Cache Initials & Units
-      a.elements.each((index, el) => {
-        let initialFullValue;
-        let initialValue;
-        let unit;
-        let finalValue;
-        let finalFullValue;
-
-        if (!el.dom7AnimateInstance) a.elements[index].dom7AnimateInstance = a;
-
-        elements[index] = {
-          container: el,
-        };
-        Object.keys(props).forEach((prop) => {
-          initialFullValue = __WEBPACK_IMPORTED_MODULE_0_ssr_window__["b" /* window */].getComputedStyle(el, null).getPropertyValue(prop).replace(',', '.');
-          initialValue = parseFloat(initialFullValue);
-          unit = initialFullValue.replace(initialValue, '');
-          finalValue = parseFloat(props[prop]);
-          finalFullValue = props[prop] + unit;
-          elements[index][prop] = {
-            initialFullValue,
-            initialValue,
-            unit,
-            finalValue,
-            finalFullValue,
-            currentValue: initialValue,
-          };
-        });
-      });
-
-      let startTime = null;
-      let time;
-      let elementsDone = 0;
-      let propsDone = 0;
-      let done;
-      let began = false;
-
-      a.animating = true;
-
-      function render() {
-        time = new Date().getTime();
-        let progress;
-        let easeProgress;
-        // let el;
-        if (!began) {
-          began = true;
-          if (params.begin) params.begin(els);
-        }
-        if (startTime === null) {
-          startTime = time;
-        }
-        if (params.progress) {
-          // eslint-disable-next-line
-          params.progress(els, Math.max(Math.min((time - startTime) / params.duration, 1), 0), ((startTime + params.duration) - time < 0 ? 0 : (startTime + params.duration) - time), startTime);
-        }
-
-        elements.forEach((element) => {
-          const el = element;
-          if (done || el.done) return;
-          Object.keys(props).forEach((prop) => {
-            if (done || el.done) return;
-            progress = Math.max(Math.min((time - startTime) / params.duration, 1), 0);
-            easeProgress = a.easingProgress(params.easing, progress);
-            const { initialValue, finalValue, unit } = el[prop];
-            el[prop].currentValue = initialValue + (easeProgress * (finalValue - initialValue));
-            const currentValue = el[prop].currentValue;
-
-            if (
-              (finalValue > initialValue && currentValue >= finalValue) ||
-              (finalValue < initialValue && currentValue <= finalValue)) {
-              el.container.style[prop] = finalValue + unit;
-              propsDone += 1;
-              if (propsDone === Object.keys(props).length) {
-                el.done = true;
-                elementsDone += 1;
-              }
-              if (elementsDone === elements.length) {
-                done = true;
-              }
-            }
-            if (done) {
-              a.done(params.complete);
-              return;
-            }
-            el.container.style[prop] = currentValue + unit;
-          });
-        });
-        if (done) return;
-        // Then call
-        a.frameId = requestAnimationFrame(render);
-      }
-      a.frameId = requestAnimationFrame(render);
-      return a;
-    },
-  };
-
-  if (a.elements.length === 0) {
-    return els;
-  }
-
-  let animateInstance;
-  for (let i = 0; i < a.elements.length; i += 1) {
-    if (a.elements[i].dom7AnimateInstance) {
-      animateInstance = a.elements[i].dom7AnimateInstance;
-    } else a.elements[i].dom7AnimateInstance = a;
-  }
-  if (!animateInstance) {
-    animateInstance = a;
-  }
-
-  if (initialProps === 'stop') {
-    animateInstance.stop();
-  } else {
-    animateInstance.animate(a.props, a.params);
-  }
-
-  return els;
-}
-
-function stop() {
-  const els = this;
-  for (let i = 0; i < els.length; i += 1) {
-    if (els[i].dom7AnimateInstance) {
-      els[i].dom7AnimateInstance.stop();
-    }
-  }
-}
-
-const noTrigger = ('resize scroll').split(' ');
-function eventShortcut(name, ...args) {
-  if (typeof args[0] === 'undefined') {
-    for (let i = 0; i < this.length; i += 1) {
-      if (noTrigger.indexOf(name) < 0) {
-        if (name in this[i]) this[i][name]();
-        else {
-          $(this[i]).trigger(name);
-        }
-      }
-    }
-    return this;
-  }
-  return this.on(name, ...args);
-}
-
-function click(...args) {
-  return eventShortcut.bind(this)('click', ...args);
-}
-function blur(...args) {
-  return eventShortcut.bind(this)('blur', ...args);
-}
-function focus(...args) {
-  return eventShortcut.bind(this)('focus', ...args);
-}
-function focusin(...args) {
-  return eventShortcut.bind(this)('focusin', ...args);
-}
-function focusout(...args) {
-  return eventShortcut.bind(this)('focusout', ...args);
-}
-function keyup(...args) {
-  return eventShortcut.bind(this)('keyup', ...args);
-}
-function keydown(...args) {
-  return eventShortcut.bind(this)('keydown', ...args);
-}
-function keypress(...args) {
-  return eventShortcut.bind(this)('keypress', ...args);
-}
-function submit(...args) {
-  return eventShortcut.bind(this)('submit', ...args);
-}
-function change(...args) {
-  return eventShortcut.bind(this)('change', ...args);
-}
-function mousedown(...args) {
-  return eventShortcut.bind(this)('mousedown', ...args);
-}
-function mousemove(...args) {
-  return eventShortcut.bind(this)('mousemove', ...args);
-}
-function mouseup(...args) {
-  return eventShortcut.bind(this)('mouseup', ...args);
-}
-function mouseenter(...args) {
-  return eventShortcut.bind(this)('mouseenter', ...args);
-}
-function mouseleave(...args) {
-  return eventShortcut.bind(this)('mouseleave', ...args);
-}
-function mouseout(...args) {
-  return eventShortcut.bind(this)('mouseout', ...args);
-}
-function mouseover(...args) {
-  return eventShortcut.bind(this)('mouseover', ...args);
-}
-function touchstart(...args) {
-  return eventShortcut.bind(this)('touchstart', ...args);
-}
-function touchend(...args) {
-  return eventShortcut.bind(this)('touchend', ...args);
-}
-function touchmove(...args) {
-  return eventShortcut.bind(this)('touchmove', ...args);
-}
-function resize(...args) {
-  return eventShortcut.bind(this)('resize', ...args);
-}
-function scroll(...args) {
-  return eventShortcut.bind(this)('scroll', ...args);
-}
-
-
+/* harmony default export */ var swiper_esm_bundle = __webpack_exports__["default"] = (swiper_esm_bundle_Swiper$1);
 
 
 /***/ }),
-/* 21 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -22254,7 +22134,7 @@ var leafCookie = {
 exports.default = leafCookie;
 
 /***/ }),
-/* 22 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Lity - v2.2.2 - 2017-07-17
@@ -22262,7 +22142,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Lity - v2.2.
 * Copyright (c) 2015-2017 Jan Sorgalla; Licensed MIT */
 (function(window, factory) {
     if (true) {
-        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(23)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($) {
+        !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(21)], __WEBPACK_AMD_DEFINE_RESULT__ = (function($) {
             return factory(window, $);
         }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -22899,7 +22779,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! Lity - v2.2.
 
 
 /***/ }),
-/* 23 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -33270,7 +33150,7 @@ return jQuery;
 
 
 /***/ }),
-/* 24 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var apply = Function.prototype.apply;
@@ -33323,13 +33203,13 @@ exports._unrefActive = exports.active = function(item) {
 };
 
 // setimmediate attaches itself to the global object
-__webpack_require__(25);
+__webpack_require__(23);
 exports.setImmediate = setImmediate;
 exports.clearImmediate = clearImmediate;
 
 
 /***/ }),
-/* 25 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {(function (global, undefined) {
@@ -33519,10 +33399,10 @@ exports.clearImmediate = clearImmediate;
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6), __webpack_require__(26)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5), __webpack_require__(24)))
 
 /***/ }),
-/* 26 */
+/* 24 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -33712,22 +33592,22 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 27 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(28);
+__webpack_require__(26);
 
 /***/ }),
-/* 28 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _vue = __webpack_require__(5);
+var _vue = __webpack_require__(4);
 
 var _vue2 = _interopRequireDefault(_vue);
 
@@ -33743,15 +33623,14 @@ _vue2.default.filter('pluralize', function (number, first, second, five) {
 });
 
 /***/ }),
-/* 29 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var disposed = false
-var normalizeComponent = __webpack_require__(30)
+var normalizeComponent = __webpack_require__(28)
 /* script */
-var __vue_script__ = __webpack_require__(31)
+var __vue_script__ = __webpack_require__(29)
 /* template */
-var __vue_template__ = __webpack_require__(32)
+var __vue_template__ = __webpack_require__(30)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -33768,29 +33647,12 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "assets/js/components/Ped.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-13e38dfe", Component.options)
-  } else {
-    hotAPI.reload("data-v-13e38dfe", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
 
 module.exports = Component.exports
 
 
 /***/ }),
-/* 30 */
+/* 28 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -33899,7 +33761,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 31 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -34185,709 +34047,15 @@ exports.default = {
 };
 
 /***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 30 */
+/***/ (function(module, exports) {
 
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "wrapper filters" }, [
-      _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "flex flex--grid-mini" }, [
-          _c("div", { staticClass: "flex-1 filters__title" }, [
-            _vm._v("\n                    FILTER PONÚK\n                ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex-1-2" }, [
-            _c(
-              "div",
-              {
-                staticClass: "select-box",
-                class: { "select-box--active": _vm.activeSelectBox === 1 }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "select-box__title",
-                    on: {
-                      click: function($event) {
-                        _vm.setActiveSelectBox(1)
-                      }
-                    }
-                  },
-                  [_c("strong", [_vm._v("Expertíza dobrovoľníka")])]
-                ),
-                _vm._v(" "),
-                _c("transition", { attrs: { name: "transition-drop" } }, [
-                  _vm.activeSelectBox === 1
-                    ? _c(
-                        "div",
-                        { staticClass: "select-box__options transition-drop" },
-                        [
-                          _vm._l(_vm.expertise, function(e) {
-                            return _c(
-                              "label",
-                              { staticClass: "select-box__option checkbox" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.checkedExpertise,
-                                      expression: "checkedExpertise"
-                                    }
-                                  ],
-                                  staticClass: "checkbox__input",
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    value: e.id,
-                                    checked: Array.isArray(_vm.checkedExpertise)
-                                      ? _vm._i(_vm.checkedExpertise, e.id) > -1
-                                      : _vm.checkedExpertise
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.checkedExpertise,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = e.id,
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            (_vm.checkedExpertise = $$a.concat([
-                                              $$v
-                                            ]))
-                                        } else {
-                                          $$i > -1 &&
-                                            (_vm.checkedExpertise = $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1)))
-                                        }
-                                      } else {
-                                        _vm.checkedExpertise = $$c
-                                      }
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__box" }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__label" }, [
-                                  _vm._v(_vm._s(e.name))
-                                ])
-                              ]
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "select-box__submit",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.applySelectBox($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    Potvrdiť výber\n                                "
-                              )
-                            ]
-                          )
-                        ],
-                        2
-                      )
-                    : _vm._e()
-                ])
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex-1-2" }, [
-            _c(
-              "div",
-              {
-                staticClass: "select-box",
-                class: { "select-box--active": _vm.activeSelectBox === 2 }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "select-box__title",
-                    on: {
-                      click: function($event) {
-                        _vm.setActiveSelectBox(2)
-                      }
-                    }
-                  },
-                  [_c("strong", [_vm._v("Lokalita")])]
-                ),
-                _vm._v(" "),
-                _c("transition", { attrs: { name: "transition-drop" } }, [
-                  _vm.activeSelectBox === 2
-                    ? _c(
-                        "div",
-                        { staticClass: "select-box__options transition-drop" },
-                        [
-                          _vm._l(_vm.location, function(e, key, i) {
-                            return _c(
-                              "label",
-                              { staticClass: "select-box__option checkbox" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.checkedLocation,
-                                      expression: "checkedLocation"
-                                    }
-                                  ],
-                                  staticClass: "checkbox__input",
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    value: e.id,
-                                    checked: Array.isArray(_vm.checkedLocation)
-                                      ? _vm._i(_vm.checkedLocation, e.id) > -1
-                                      : _vm.checkedLocation
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.checkedLocation,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = e.id,
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            (_vm.checkedLocation = $$a.concat([
-                                              $$v
-                                            ]))
-                                        } else {
-                                          $$i > -1 &&
-                                            (_vm.checkedLocation = $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1)))
-                                        }
-                                      } else {
-                                        _vm.checkedLocation = $$c
-                                      }
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__box" }),
-                                _vm._v(" "),
-                                i === 0
-                                  ? _c(
-                                      "strong",
-                                      { staticClass: "checkbox__label" },
-                                      [_vm._v(_vm._s(e.name))]
-                                    )
-                                  : _vm._e(),
-                                _vm._v(" "),
-                                i > 0
-                                  ? _c(
-                                      "span",
-                                      { staticClass: "checkbox__label" },
-                                      [_vm._v(_vm._s(e.name))]
-                                    )
-                                  : _vm._e()
-                              ]
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "select-box__submit",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.applySelectBox($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    Potvrdiť výber\n                                "
-                              )
-                            ]
-                          )
-                        ],
-                        2
-                      )
-                    : _vm._e()
-                ])
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex-1-3" }, [
-            _c(
-              "div",
-              {
-                staticClass: "select-box",
-                class: { "select-box--active": _vm.activeSelectBox === 3 }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "select-box__title",
-                    on: {
-                      click: function($event) {
-                        _vm.setActiveSelectBox(3)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            Zameranie organizácie\n                        "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("transition", { attrs: { name: "transition-drop" } }, [
-                  _vm.activeSelectBox === 3
-                    ? _c(
-                        "div",
-                        { staticClass: "select-box__options transition-drop" },
-                        [
-                          _vm._l(_vm.focus, function(e) {
-                            return _c(
-                              "label",
-                              { staticClass: "select-box__option checkbox" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.checkedFocus,
-                                      expression: "checkedFocus"
-                                    }
-                                  ],
-                                  staticClass: "checkbox__input",
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    value: e.id,
-                                    checked: Array.isArray(_vm.checkedFocus)
-                                      ? _vm._i(_vm.checkedFocus, e.id) > -1
-                                      : _vm.checkedFocus
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.checkedFocus,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = e.id,
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            (_vm.checkedFocus = $$a.concat([
-                                              $$v
-                                            ]))
-                                        } else {
-                                          $$i > -1 &&
-                                            (_vm.checkedFocus = $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1)))
-                                        }
-                                      } else {
-                                        _vm.checkedFocus = $$c
-                                      }
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__box" }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__label" }, [
-                                  _vm._v(_vm._s(e.name))
-                                ])
-                              ]
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "select-box__submit",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.applySelectBox($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    Potvrdiť výber\n                                "
-                              )
-                            ]
-                          )
-                        ],
-                        2
-                      )
-                    : _vm._e()
-                ])
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex-1-3" }, [
-            _c(
-              "div",
-              {
-                staticClass: "select-box",
-                class: { "select-box--active": _vm.activeSelectBox === 4 }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "select-box__title",
-                    on: {
-                      click: function($event) {
-                        _vm.setActiveSelectBox(4)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            Druh organizácie\n                        "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("transition", { attrs: { name: "transition-drop" } }, [
-                  _vm.activeSelectBox === 4
-                    ? _c(
-                        "div",
-                        { staticClass: "select-box__options transition-drop" },
-                        [
-                          _vm._l(_vm.kind, function(e) {
-                            return _c(
-                              "label",
-                              { staticClass: "select-box__option checkbox" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.checkedKind,
-                                      expression: "checkedKind"
-                                    }
-                                  ],
-                                  staticClass: "checkbox__input",
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    value: e.id,
-                                    checked: Array.isArray(_vm.checkedKind)
-                                      ? _vm._i(_vm.checkedKind, e.id) > -1
-                                      : _vm.checkedKind
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.checkedKind,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = e.id,
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            (_vm.checkedKind = $$a.concat([
-                                              $$v
-                                            ]))
-                                        } else {
-                                          $$i > -1 &&
-                                            (_vm.checkedKind = $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1)))
-                                        }
-                                      } else {
-                                        _vm.checkedKind = $$c
-                                      }
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__box" }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__label" }, [
-                                  _vm._v(_vm._s(e.name))
-                                ])
-                              ]
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "select-box__submit",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.applySelectBox($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    Potvrdiť výber\n                                "
-                              )
-                            ]
-                          )
-                        ],
-                        2
-                      )
-                    : _vm._e()
-                ])
-              ],
-              1
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex-1-3" }, [
-            _c(
-              "div",
-              {
-                staticClass: "select-box",
-                class: { "select-box--active": _vm.activeSelectBox === 5 }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "select-box__title",
-                    on: {
-                      click: function($event) {
-                        _vm.setActiveSelectBox(5)
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(
-                      "\n                            Dĺžka projektu\n                        "
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c("transition", { attrs: { name: "transition-drop" } }, [
-                  _vm.activeSelectBox === 5
-                    ? _c(
-                        "div",
-                        { staticClass: "select-box__options transition-drop" },
-                        [
-                          _vm._l(_vm.period, function(e) {
-                            return _c(
-                              "label",
-                              { staticClass: "select-box__option checkbox" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.checkedPeriod,
-                                      expression: "checkedPeriod"
-                                    }
-                                  ],
-                                  staticClass: "checkbox__input",
-                                  attrs: { type: "checkbox" },
-                                  domProps: {
-                                    value: e.id,
-                                    checked: Array.isArray(_vm.checkedPeriod)
-                                      ? _vm._i(_vm.checkedPeriod, e.id) > -1
-                                      : _vm.checkedPeriod
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      var $$a = _vm.checkedPeriod,
-                                        $$el = $event.target,
-                                        $$c = $$el.checked ? true : false
-                                      if (Array.isArray($$a)) {
-                                        var $$v = e.id,
-                                          $$i = _vm._i($$a, $$v)
-                                        if ($$el.checked) {
-                                          $$i < 0 &&
-                                            (_vm.checkedPeriod = $$a.concat([
-                                              $$v
-                                            ]))
-                                        } else {
-                                          $$i > -1 &&
-                                            (_vm.checkedPeriod = $$a
-                                              .slice(0, $$i)
-                                              .concat($$a.slice($$i + 1)))
-                                        }
-                                      } else {
-                                        _vm.checkedPeriod = $$c
-                                      }
-                                    }
-                                  }
-                                }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__box" }),
-                                _vm._v(" "),
-                                _c("span", { staticClass: "checkbox__label" }, [
-                                  _vm._v(_vm._s(e.name))
-                                ])
-                              ]
-                            )
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass: "select-box__submit",
-                              attrs: { href: "" },
-                              on: {
-                                click: function($event) {
-                                  $event.preventDefault()
-                                  _vm.applySelectBox($event)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                                    Potvrdiť výber\n                                "
-                              )
-                            ]
-                          )
-                        ],
-                        2
-                      )
-                    : _vm._e()
-                ])
-              ],
-              1
-            )
-          ])
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "ped" }, [
-      _c("div", { staticClass: "page-content entry-content" }, [
-        _c("div", { staticClass: "ped__content" }, [
-          _c("div", { staticClass: "ped__result-count" }, [
-            _vm._v("\n                    Našli sme "),
-            _c("span", { staticClass: "text-primary" }, [
-              _vm._v(_vm._s(_vm.filteredPosts.length))
-            ]),
-            _vm._v(
-              " " +
-                _vm._s(
-                  _vm._f("pluralize")(
-                    _vm.filteredPosts.length,
-                    "ponuku",
-                    "ponuky",
-                    "ponúk"
-                  )
-                ) +
-                "\n                "
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "flex flex--grid-mini" },
-            _vm._l(_vm.filteredPosts, function(post) {
-              return _c("div", { staticClass: "flex-1-3" }, [
-                _c("div", { staticClass: "card card--ped" }, [
-                  _c("div", { staticClass: "card__header" }, [
-                    _c("div", { staticClass: "card__title" }, [
-                      _vm._v(
-                        "\n                                    " +
-                          _vm._s(post.title) +
-                          "\n                                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "card__subtitle" },
-                      _vm._l(post.ped_expertise, function(e) {
-                        return _c("span", [_vm._v(_vm._s(e.name))])
-                      })
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card__body" }, [
-                    _c(
-                      "div",
-                      {},
-                      _vm._l(post.ped_kind, function(e) {
-                        return _c("span", [_vm._v(_vm._s(e.name))])
-                      })
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "card__subtitle card__subtitle--light" },
-                      _vm._l(post.ped_period, function(e) {
-                        return _c("span", [_vm._v(_vm._s(e.name))])
-                      })
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "card__excerpt" }, [
-                      _vm._v(
-                        "\n                                    " +
-                          _vm._s(post.ped_excerpt) +
-                          "\n                                "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn--block btn--blank",
-                        attrs: { href: post.link }
-                      },
-                      [_vm._v("VIAC INFORMÁCIÍ")]
-                    )
-                  ])
-                ])
-              ])
-            })
-          )
-        ])
-      ])
-    ])
-  ])
-}
+var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"wrapper filters"},[_c('div',{staticClass:"container"},[_c('div',{staticClass:"flex flex--grid-mini"},[_c('div',{staticClass:"flex-1 filters__title"},[_vm._v("\n                    FILTER PONÚK\n                ")]),_vm._v(" "),_c('div',{staticClass:"flex-1-2"},[_c('div',{staticClass:"select-box",class:{'select-box--active': _vm.activeSelectBox === 1}},[_c('div',{staticClass:"select-box__title",on:{"click":function($event){_vm.setActiveSelectBox(1)}}},[_c('strong',[_vm._v("Expertíza dobrovoľníka")])]),_vm._v(" "),_c('transition',{attrs:{"name":"transition-drop"}},[(_vm.activeSelectBox === 1)?_c('div',{staticClass:"select-box__options transition-drop"},[_vm._l((_vm.expertise),function(e){return _c('label',{staticClass:"select-box__option checkbox"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.checkedExpertise),expression:"checkedExpertise"}],staticClass:"checkbox__input",attrs:{"type":"checkbox"},domProps:{"value":e.id,"checked":Array.isArray(_vm.checkedExpertise)?_vm._i(_vm.checkedExpertise,e.id)>-1:(_vm.checkedExpertise)},on:{"change":function($event){var $$a=_vm.checkedExpertise,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=e.id,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.checkedExpertise=$$a.concat([$$v]))}else{$$i>-1&&(_vm.checkedExpertise=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.checkedExpertise=$$c}}}}),_vm._v(" "),_c('span',{staticClass:"checkbox__box"}),_vm._v(" "),_c('span',{staticClass:"checkbox__label"},[_vm._v(_vm._s(e.name))])])}),_vm._v(" "),_c('a',{staticClass:"select-box__submit",attrs:{"href":""},on:{"click":function($event){$event.preventDefault();_vm.applySelectBox($event)}}},[_vm._v("\n                                    Potvrdiť výber\n                                ")])],2):_vm._e()])],1)]),_vm._v(" "),_c('div',{staticClass:"flex-1-2"},[_c('div',{staticClass:"select-box",class:{'select-box--active': _vm.activeSelectBox === 2}},[_c('div',{staticClass:"select-box__title",on:{"click":function($event){_vm.setActiveSelectBox(2)}}},[_c('strong',[_vm._v("Lokalita")])]),_vm._v(" "),_c('transition',{attrs:{"name":"transition-drop"}},[(_vm.activeSelectBox === 2)?_c('div',{staticClass:"select-box__options transition-drop"},[_vm._l((_vm.location),function(e,key,i){return _c('label',{staticClass:"select-box__option checkbox"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.checkedLocation),expression:"checkedLocation"}],staticClass:"checkbox__input",attrs:{"type":"checkbox"},domProps:{"value":e.id,"checked":Array.isArray(_vm.checkedLocation)?_vm._i(_vm.checkedLocation,e.id)>-1:(_vm.checkedLocation)},on:{"change":function($event){var $$a=_vm.checkedLocation,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=e.id,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.checkedLocation=$$a.concat([$$v]))}else{$$i>-1&&(_vm.checkedLocation=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.checkedLocation=$$c}}}}),_vm._v(" "),_c('span',{staticClass:"checkbox__box"}),_vm._v(" "),(i === 0)?_c('strong',{staticClass:"checkbox__label"},[_vm._v(_vm._s(e.name))]):_vm._e(),_vm._v(" "),(i > 0)?_c('span',{staticClass:"checkbox__label"},[_vm._v(_vm._s(e.name))]):_vm._e()])}),_vm._v(" "),_c('a',{staticClass:"select-box__submit",attrs:{"href":""},on:{"click":function($event){$event.preventDefault();_vm.applySelectBox($event)}}},[_vm._v("\n                                    Potvrdiť výber\n                                ")])],2):_vm._e()])],1)]),_vm._v(" "),_c('div',{staticClass:"flex-1-3"},[_c('div',{staticClass:"select-box",class:{'select-box--active': _vm.activeSelectBox === 3}},[_c('div',{staticClass:"select-box__title",on:{"click":function($event){_vm.setActiveSelectBox(3)}}},[_vm._v("\n                            Zameranie organizácie\n                        ")]),_vm._v(" "),_c('transition',{attrs:{"name":"transition-drop"}},[(_vm.activeSelectBox === 3)?_c('div',{staticClass:"select-box__options transition-drop"},[_vm._l((_vm.focus),function(e){return _c('label',{staticClass:"select-box__option checkbox"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.checkedFocus),expression:"checkedFocus"}],staticClass:"checkbox__input",attrs:{"type":"checkbox"},domProps:{"value":e.id,"checked":Array.isArray(_vm.checkedFocus)?_vm._i(_vm.checkedFocus,e.id)>-1:(_vm.checkedFocus)},on:{"change":function($event){var $$a=_vm.checkedFocus,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=e.id,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.checkedFocus=$$a.concat([$$v]))}else{$$i>-1&&(_vm.checkedFocus=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.checkedFocus=$$c}}}}),_vm._v(" "),_c('span',{staticClass:"checkbox__box"}),_vm._v(" "),_c('span',{staticClass:"checkbox__label"},[_vm._v(_vm._s(e.name))])])}),_vm._v(" "),_c('a',{staticClass:"select-box__submit",attrs:{"href":""},on:{"click":function($event){$event.preventDefault();_vm.applySelectBox($event)}}},[_vm._v("\n                                    Potvrdiť výber\n                                ")])],2):_vm._e()])],1)]),_vm._v(" "),_c('div',{staticClass:"flex-1-3"},[_c('div',{staticClass:"select-box",class:{'select-box--active': _vm.activeSelectBox === 4}},[_c('div',{staticClass:"select-box__title",on:{"click":function($event){_vm.setActiveSelectBox(4)}}},[_vm._v("\n                            Druh organizácie\n                        ")]),_vm._v(" "),_c('transition',{attrs:{"name":"transition-drop"}},[(_vm.activeSelectBox === 4)?_c('div',{staticClass:"select-box__options transition-drop"},[_vm._l((_vm.kind),function(e){return _c('label',{staticClass:"select-box__option checkbox"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.checkedKind),expression:"checkedKind"}],staticClass:"checkbox__input",attrs:{"type":"checkbox"},domProps:{"value":e.id,"checked":Array.isArray(_vm.checkedKind)?_vm._i(_vm.checkedKind,e.id)>-1:(_vm.checkedKind)},on:{"change":function($event){var $$a=_vm.checkedKind,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=e.id,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.checkedKind=$$a.concat([$$v]))}else{$$i>-1&&(_vm.checkedKind=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.checkedKind=$$c}}}}),_vm._v(" "),_c('span',{staticClass:"checkbox__box"}),_vm._v(" "),_c('span',{staticClass:"checkbox__label"},[_vm._v(_vm._s(e.name))])])}),_vm._v(" "),_c('a',{staticClass:"select-box__submit",attrs:{"href":""},on:{"click":function($event){$event.preventDefault();_vm.applySelectBox($event)}}},[_vm._v("\n                                    Potvrdiť výber\n                                ")])],2):_vm._e()])],1)]),_vm._v(" "),_c('div',{staticClass:"flex-1-3"},[_c('div',{staticClass:"select-box",class:{'select-box--active': _vm.activeSelectBox === 5}},[_c('div',{staticClass:"select-box__title",on:{"click":function($event){_vm.setActiveSelectBox(5)}}},[_vm._v("\n                            Dĺžka projektu\n                        ")]),_vm._v(" "),_c('transition',{attrs:{"name":"transition-drop"}},[(_vm.activeSelectBox === 5)?_c('div',{staticClass:"select-box__options transition-drop"},[_vm._l((_vm.period),function(e){return _c('label',{staticClass:"select-box__option checkbox"},[_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.checkedPeriod),expression:"checkedPeriod"}],staticClass:"checkbox__input",attrs:{"type":"checkbox"},domProps:{"value":e.id,"checked":Array.isArray(_vm.checkedPeriod)?_vm._i(_vm.checkedPeriod,e.id)>-1:(_vm.checkedPeriod)},on:{"change":function($event){var $$a=_vm.checkedPeriod,$$el=$event.target,$$c=$$el.checked?(true):(false);if(Array.isArray($$a)){var $$v=e.id,$$i=_vm._i($$a,$$v);if($$el.checked){$$i<0&&(_vm.checkedPeriod=$$a.concat([$$v]))}else{$$i>-1&&(_vm.checkedPeriod=$$a.slice(0,$$i).concat($$a.slice($$i+1)))}}else{_vm.checkedPeriod=$$c}}}}),_vm._v(" "),_c('span',{staticClass:"checkbox__box"}),_vm._v(" "),_c('span',{staticClass:"checkbox__label"},[_vm._v(_vm._s(e.name))])])}),_vm._v(" "),_c('a',{staticClass:"select-box__submit",attrs:{"href":""},on:{"click":function($event){$event.preventDefault();_vm.applySelectBox($event)}}},[_vm._v("\n                                    Potvrdiť výber\n                                ")])],2):_vm._e()])],1)])])])]),_vm._v(" "),_c('div',{staticClass:"ped"},[_c('div',{staticClass:"page-content entry-content"},[_c('div',{staticClass:"ped__content"},[_c('div',{staticClass:"ped__result-count"},[_vm._v("\n                    Našli sme "),_c('span',{staticClass:"text-primary"},[_vm._v(_vm._s(_vm.filteredPosts.length))]),_vm._v(" "+_vm._s(_vm._f("pluralize")(_vm.filteredPosts.length,'ponuku', 'ponuky', 'ponúk'))+"\n                ")]),_vm._v(" "),_c('div',{staticClass:"flex flex--grid-mini"},_vm._l((_vm.filteredPosts),function(post){return _c('div',{staticClass:"flex-1-3"},[_c('div',{staticClass:"card card--ped"},[_c('div',{staticClass:"card__header"},[_c('div',{staticClass:"card__title"},[_vm._v("\n                                    "+_vm._s(post.title)+"\n                                ")]),_vm._v(" "),_c('div',{staticClass:"card__subtitle"},_vm._l((post.ped_expertise),function(e){return _c('span',[_vm._v(_vm._s(e.name))])}))]),_vm._v(" "),_c('div',{staticClass:"card__body"},[_c('div',{},_vm._l((post.ped_kind),function(e){return _c('span',[_vm._v(_vm._s(e.name))])})),_vm._v(" "),_c('div',{staticClass:"card__subtitle card__subtitle--light"},_vm._l((post.ped_period),function(e){return _c('span',[_vm._v(_vm._s(e.name))])})),_vm._v(" "),_c('div',{staticClass:"card__excerpt"},[_vm._v("\n                                    "+_vm._s(post.ped_excerpt)+"\n                                ")]),_vm._v(" "),_c('a',{staticClass:"btn btn--block btn--blank",attrs:{"href":post.link}},[_vm._v("VIAC INFORMÁCIÍ")])])])])}))])])])])}
 var staticRenderFns = []
-render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-13e38dfe", module.exports)
-  }
-}
 
 /***/ }),
-/* 33 */
+/* 31 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
