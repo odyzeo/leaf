@@ -12289,7 +12289,6 @@ var YouTube = {
                 var $el = $(this);
                 var videoId = $el.data('youtube');
 
-                // eslint-disable-next-line
                 new YT.Player('youtube-' + videoId, {
                     height: '100%',
                     width: '100%',

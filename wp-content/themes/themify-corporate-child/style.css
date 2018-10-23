@@ -6998,9 +6998,7 @@ body .themify_builder_content .module-text .banner a {
           order: 10;
 }
 .footer__newsletter .js-checkbox {
-  margin-bottom: 20px;
   color: #fff;
-  font-size: 12px;
 }
 .es_submit_button:disabled {
   background: #DFDFDF !important;
