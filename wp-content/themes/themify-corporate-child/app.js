@@ -12226,6 +12226,7 @@ var Swipers = {
         var $newsSwipers = $('.js-swiper-news');
         if ($newsSwipers.length > 0) {
             $newsSwipers.each(function () {
+                var autoplayTime = +$(this).data('autoplay');
                 var $newsSwiper = $(this);
                 var newsCount = $newsSwiper.find('.swiper-slide').length;
                 $newsSwiper.toggleClass('swiper-container--single', newsCount === 1);
@@ -12250,6 +12251,13 @@ var Swipers = {
                         }
                     }
                 };
+
+                if (!Number.isNaN(autoplayTime) && autoplayTime > 0) {
+                    defaultNewsOptions.autoplay = {
+                        delay: autoplayTime,
+                        disableOnInteraction: true
+                    };
+                }
 
                 if (newsCount === 1) {
                     defaultNewsOptions.loop = false;
@@ -12302,8 +12310,8 @@ var Swipers = {
 
             var transitionEndCircles = function transitionEndCircles() {
                 /**
-                * Progress bar
-                */
+                 * Progress bar
+                 */
                 var $active = $('.js-swiper-stories-circles .swiper-slide-active .js-swiper-timer');
                 var $progress = $('#js-swiper-progress');
                 $progress.remove();
@@ -12322,8 +12330,8 @@ var Swipers = {
                 bar.animate(1.0);
 
                 /**
-                * Prevent slide from another swiper
-                */
+                 * Prevent slide from another swiper
+                 */
                 if (clicked) {
                     clicked = false;
                     return;
@@ -12340,8 +12348,8 @@ var Swipers = {
 
             var transitionEnd = function transitionEnd() {
                 /**
-                * Prevent slide from another swiper
-                */
+                 * Prevent slide from another swiper
+                 */
                 if (clicked) {
                     clicked = false;
                     return;
@@ -22117,7 +22125,6 @@ var leafCookie = {
     showMessage: function showMessage() {
         var self = this;
 
-        console.log('joz');
         this.element.classList.add('cookie-agreement--show');
         this.elementBtn.addEventListener('click', function (e) {
             e.preventDefault();

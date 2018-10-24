@@ -16,7 +16,6 @@ const leafCookie = {
     showMessage: function showMessage() {
         const self = this
 
-        console.log('joz')
         this.element.classList.add('cookie-agreement--show')
         this.elementBtn.addEventListener('click', e => {
             e.preventDefault()
