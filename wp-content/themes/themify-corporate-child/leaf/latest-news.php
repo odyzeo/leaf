@@ -70,7 +70,10 @@ add_shortcode( 'latest-news', 'add_latest_news_shortcode' );
 function add_latest_news_shortcode( $atts ) {
 	$args = shortcode_atts( array(
 		'tags' => '',
+        'autoplay' => '4000'
 	), $atts );
+
+	$autoplay = $args['autoplay'];
 
 	$tags = explode( ',', $args['tags'] );
 
@@ -112,7 +115,7 @@ function add_latest_news_shortcode( $atts ) {
 	}
 
 	$result .= "
-		<div class='swiper-container swiper-container--news js-swiper-news'>
+		<div class='swiper-container swiper-container--news js-swiper-news' data-autoplay='$autoplay'>
             <div class='swiper-wrapper'>
 	";
 

@@ -12345,6 +12345,7 @@ var Swipers = {
         var $newsSwipers = $('.js-swiper-news');
         if ($newsSwipers.length > 0) {
             $newsSwipers.each(function () {
+                var autoplayTime = Number($(this).data('autoplay'));
                 var $newsSwiper = $(this);
                 var newsCount = $newsSwiper.find('.swiper-slide').length;
                 $newsSwiper.toggleClass('swiper-container--single', newsCount === 1);
@@ -12353,6 +12354,7 @@ var Swipers = {
                     loop: true,
                     slidesPerView: 2,
                     spaceBetween: 10,
+
                     pagination: {
                         el: '.js-swiper-news-pagination',
                         type: 'bullets'
@@ -12360,6 +12362,10 @@ var Swipers = {
                     navigation: {
                         nextEl: '.js-swiper-news-next',
                         prevEl: '.js-swiper-news-prev'
+                    },
+                    autoplay: {
+                        delay: autoplayTime,
+                        disableOnInteraction: false
                     },
                     breakpoints: {
                         // when window width is <= 640px
@@ -12369,6 +12375,10 @@ var Swipers = {
                         }
                     }
                 };
+
+                if (autoplayTime === 0) {
+                    defaultNewsOptions.autoplay = false;
+                }
 
                 if (newsCount === 1) {
                     defaultNewsOptions.loop = false;
@@ -22237,7 +22247,6 @@ var leafCookie = {
     showMessage: function showMessage() {
         var self = this;
 
-        console.log('joz');
         this.element.classList.add('cookie-agreement--show');
         this.elementBtn.addEventListener('click', function (e) {
             e.preventDefault();

@@ -13,6 +13,7 @@ const Swipers = {
         const $newsSwipers = $('.js-swiper-news')
         if ($newsSwipers.length > 0) {
             $newsSwipers.each(function () {
+                const autoplayTime = Number($(this).data('autoplay'))
                 const $newsSwiper = $(this)
                 const newsCount = $newsSwiper.find('.swiper-slide').length
                 $newsSwiper.toggleClass('swiper-container--single', newsCount === 1)
@@ -21,6 +22,7 @@ const Swipers = {
                     loop: true,
                     slidesPerView: 2,
                     spaceBetween: 10,
+
                     pagination: {
                         el: '.js-swiper-news-pagination',
                         type: 'bullets',
@@ -29,6 +31,10 @@ const Swipers = {
                         nextEl: '.js-swiper-news-next',
                         prevEl: '.js-swiper-news-prev',
                     },
+                    autoplay: {
+                        delay: autoplayTime,
+                        disableOnInteraction: false,
+                    },
                     breakpoints: {
                         // when window width is <= 640px
                         640: {
@@ -36,6 +42,10 @@ const Swipers = {
                             spaceBetween: 20,
                         },
                     },
+                }
+
+                if (autoplayTime === 0) {
+                    defaultNewsOptions.autoplay = false
                 }
 
                 if (newsCount === 1) {
