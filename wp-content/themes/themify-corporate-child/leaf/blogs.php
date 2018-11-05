@@ -141,7 +141,7 @@ function add_blogs_shortcode( $atts ) {
 
     $result = '';
     $args   = array(
-        'posts_per_page' => 10, // To show on Blog page 10 and load more $posts_per_page = 9
+        'posts_per_page' => $posts_per_page, // 10, // To show on Blog page 10 and load more $posts_per_page = 9
         'post_type'      => $post_type,
         'category__in'   => $category__in,
     );
