@@ -13,13 +13,28 @@
         list-style: none;
         margin: 0;
         padding: 0;
+        border-top: 1px solid #e0e0e0;
     }
 
     a {
         display: block;
         color: @color--default;
         padding: 10px @slide-menu-padding;
-        border-top: 1px solid #e0e0e0;
+    }
+
+    .menu-item--cta > a {
+        display: inline-block;
+        background: @color--primary;
+        border-radius: 25px;
+        padding: 5px 20px;
+        margin: 10px 15px;
+        color: #fff;
+        transition: all .2s ease;
+
+        &:hover {
+            color: #fff;
+            background-color: darken(@color--primary, 5%);
+        }
     }
 
     .sub-menu {

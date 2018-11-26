@@ -1,4 +1,4 @@
-const { mix } = require('laravel-mix')
+const { mix } = require('laravel-mix');
 
 /*
  |--------------------------------------------------------------------------
@@ -31,4 +31,11 @@ mix
     .less('assets/less/style.less', 'style.css')
     .options({
         processCssUrls: false,
-    })
+    });
+
+/*
+Theme Name: Themify Corporate
+Description: Child theme for Themify Corporate
+Author: Themify
+Template: themify-corporate
+*/
