@@ -19,10 +19,10 @@ function ajax_posts() {
     }
 
     // To show on HP 10 posts but load more $args['posts_per_page']
-    if ( isset( $offset ) && $offset === '1' ) {
-        $offset         = ( ( $page - 2 ) * ( $data['posts'] + 1 ) ) + 10;
-        $args['offset'] = $offset;
-    }
+//    if ( isset( $offset ) && $offset === '1' ) {
+//        $offset         = ( ( $page - 2 ) * ( $data['posts'] + 1 ) ) + 10;
+//        $args['offset'] = $offset;
+//    }
 
     $wp_query = new WP_Query( $args );
     $posts    = get_leaf_posts( $wp_query );
