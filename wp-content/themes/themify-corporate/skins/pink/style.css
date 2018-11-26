@@ -35,9 +35,13 @@ a,
 	background-color: #e33b9e;
 }
 
+.woocommerce .woocommerce-error:before,
 .woocommerce .woocommerce-info:before,
-.woocommerce-page .woocommerce-info:before {
-	background-color: #e33b9e;
+.woocommerce .woocommerce-message:before,
+.woocommerce-page .woocommerce-error:before,
+.woocommerce-page .woocommerce-info:before,
+.woocommerce-page .woocommerce-message:before {
+	color: #e33b9e;
 }
 
 .commentlist .comment-reply-link,
@@ -66,8 +70,12 @@ a,
 	color: #e33b9e;
 }
 
+.woocommerce .woocommerce-error,
 .woocommerce .woocommerce-info,
-.woocommerce-page .woocommerce-info {
+.woocommerce .woocommerce-message,
+.woocommerce-page .woocommerce-error,
+.woocommerce-page .woocommerce-info,
+.woocommerce-page .woocommerce-message {
 	border-color: #e33b9e;
 }
 

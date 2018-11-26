@@ -68,8 +68,8 @@ HEADER
 	right: 10px;
 	text-decoration: none;
 	color: #000;
-	font-size: 1.2em;
 }
+.mobile_menu_active.transparent-header #menu-icon,
 .mobile_menu_active.transparent-header #headerwrap.fixed-header #menu-icon {
 	color: #fff;
 }
@@ -122,6 +122,7 @@ MENU PANEL
 }
 
 /* slide menu panel */
+.mobile_menu_active.transparent-header #main-nav > li > a,
 .mobile_menu_active.transparent-header #headerwrap.fixed-header a,
 .mobile_menu_active #sidr a {
 	color: #666;
@@ -298,10 +299,12 @@ SOCIAL LINKS
 	position: static;
 	float: none;
 }
-.mobile_menu_active .social-widget a {
+.mobile_menu_active .sidemenu-on .social-widget div.rss a,
+.mobile_menu_active .sidemenu-on .social-widget a {
 	color: #666;
 }
-.mobile_menu_active .social-widget a:hover {
+.mobile_menu_active .sidemenu-on .social-widget div.rss a:hover,
+.mobile_menu_active .sidemenu-on .social-widget a:hover {
 	color: #000;
 }
 .mobile_menu_active .social-widget .widgettitle {
@@ -333,9 +336,11 @@ SOCIAL LINKS
 	}
 
 	.pagewidth,
-	.full_width .themify_builder_row .row_inner {
+	.full_width .themify_builder_row .row_inner,
+	.full_width .module-layout-part .themify_builder_row.fullwidth_row_container .row_inner {
 		max-width: 96%;
 	}
+	.full_width .module-layout-part .themify_builder_row.fullwidth .row_inner,
 	.full_width .themify_builder_row.fullwidth .row_inner {
 		max-width: 100%;
 	}
@@ -403,7 +408,7 @@ SOCIAL LINKS
 	}
 	/* grid4 items portfolio to display 2 items per row */
 	.loops-wrapper.portfolio.grid4 .post {
-		width: 50%;
+		width: 48.4%;
 	}
 	.loops-wrapper.portfolio.grid4 .post .entry-content {
 		display: block;
@@ -441,7 +446,8 @@ SOCIAL LINKS
 	STRUCTURE
 	*************************************************************************************/
 	.pagewidth,
-	.full_width .themify_builder_row .row_inner {
+	.full_width .themify_builder_row .row_inner,
+	.full_width .module-layout-part .themify_builder_row.fullwidth_row_container .row_inner {
 		max-width: 90%;
 	}
 	#content {
@@ -494,6 +500,18 @@ SOCIAL LINKS
 		margin-left: 0;
 		width: 100%;
 		max-width: 100%;
+	}
+	.woocommerce #content .quantity,
+	.woocommerce .quantity,
+	.woocommerce-page #content .quantity,
+	.woocommerce-page .quantity {
+		width: 100%;
+	}
+	.woocommerce #content table.cart td.actions .coupon .input-text,
+	.woocommerce table.cart td.actions .coupon .input-text,
+	.woocommerce-page #content table.cart td.actions .coupon .input-text,
+	.woocommerce-page table.cart td.actions .coupon .input-text {
+		width: 48%;
 	}
 
 }
@@ -568,6 +586,11 @@ SOCIAL LINKS
 		margin-left: 0;
 		float: none;
 	}
+	.loops-wrapper.grid4 .post img,
+	.loops-wrapper.grid3 .post img,
+	.loops-wrapper.grid2 .post img {
+		width: 100%;
+	}
 
 	/* all post title */
 	.loops-wrapper.list-post .post-title,
@@ -611,9 +634,6 @@ SOCIAL LINKS
 		position: static;
 	}
 	
-	#commentform label {
-		display: block;
-	}
 	.featured-area {
 		height: 475px;
 	}
@@ -811,8 +831,16 @@ SOCIAL LINKS
 		position: static;
 	}
 
-	#commentform label, #contactform label {
+	#commentform label,
+	#contactform label {
 		display: block;
+	}
+	#commentform input[type=text],
+	#commentform input,
+	#commentform textarea {
+		width: 100%;
+		max-width: none;
+		box-sizing: border-box;
 	}
 	
 	/* single post and list-post post Start */
@@ -903,4 +931,88 @@ SOCIAL LINKS
 		font-size: 1.9em;
 	}
 	
+}
+
+/* Responsive Gallery items */
+@media screen and (max-width: 1024px) {
+	.gallery-columns-5 .gallery-item:nth-of-type(5n),
+	.gallery-columns-6 .gallery-item:nth-of-type(6n),
+	.gallery-columns-7 .gallery-item:nth-of-type(7n),
+	.gallery-columns-8 .gallery-item:nth-of-type(8n),
+	.gallery-columns-9 .gallery-item:nth-of-type(9n) {
+		margin-right: 1.5%;
+	}
+	.gallery-columns-5 .gallery-item:nth-of-type(4n+1),
+	.gallery-columns-6 .gallery-item:nth-of-type(4n+1),
+	.gallery-columns-7 .gallery-item:nth-of-type(4n+1),
+	.gallery-columns-8 .gallery-item:nth-of-type(4n+1),
+	.gallery-columns-9 .gallery-item:nth-of-type(4n+1) {
+		clear: left;
+	}
+	.gallery-columns-5 .gallery-item:nth-of-type(4n),
+	.gallery-columns-6 .gallery-item:nth-of-type(4n),
+	.gallery-columns-7 .gallery-item:nth-of-type(4n),
+	.gallery-columns-8 .gallery-item:nth-of-type(4n),
+	.gallery-columns-9 .gallery-item:nth-of-type(4n) {
+		margin-right: 0;
+	}
+	.gallery-columns-5 .gallery-item + br,
+	.gallery-columns-6 .gallery-item + br,
+	.gallery-columns-7 .gallery-item + br,
+	.gallery-columns-8 .gallery-item + br,
+	.gallery-columns-9 .gallery-item + br {
+		display: none;
+	}
+	
+	/* clear none gallery item different sizes */
+	.gallery-columns-5 .gallery-item:nth-of-type(5n + 1),
+	.gallery-columns-6 .gallery-item:nth-of-type(6n + 1),
+	.gallery-columns-7 .gallery-item:nth-of-type(7n + 1),
+	.gallery-columns-8 .gallery-item:nth-of-type(8n + 1),
+	.gallery-columns-9 .gallery-item:nth-of-type(9n + 1) {
+		clear: none;
+	}
+
+	/* gallery column 5,6,7,8 and 9 */
+	.gallery-columns-5 .gallery-item,
+	.gallery-columns-6 .gallery-item,
+	.gallery-columns-7 .gallery-item,
+	.gallery-columns-8 .gallery-item,
+	.gallery-columns-9 .gallery-item {
+		width: 23.8%;
+	}
+}
+@media screen and (max-width: 680px) {
+	.gallery-columns-3 .gallery-item + br {
+		display: none;
+	}
+	.gallery-columns-3 .gallery-item:nth-of-type(3n) {
+		margin-right: 1.5%;
+	}
+
+	.gallery-columns-3 .gallery-item,
+	.gallery-columns-4 .gallery-item,
+	.gallery-columns-5 .gallery-item,
+	.gallery-columns-6 .gallery-item,
+	.gallery-columns-7 .gallery-item,
+	.gallery-columns-8 .gallery-item,
+	.gallery-columns-9 .gallery-item {
+		width: 49.2%;
+	}
+	.gallery-columns-3 .gallery-item:nth-of-type(2n),
+	.gallery-columns-4 .gallery-item:nth-of-type(2n),
+	.gallery-columns-5 .gallery-item:nth-of-type(2n),
+	.gallery-columns-6 .gallery-item:nth-of-type(2n),
+	.gallery-columns-7 .gallery-item:nth-of-type(2n),
+	.gallery-columns-8 .gallery-item:nth-of-type(2n),
+	.gallery-columns-9 .gallery-item:nth-of-type(2n) {
+		margin-right: 0;
+	}
+	
+	/* clear none gallery item different sizes */
+	.gallery-columns-4 .gallery-item:nth-of-type(4n + 1),
+	.gallery-columns-3 .gallery-item:nth-of-type(3n + 1),
+	.gallery-columns-2 .gallery-item:nth-of-type(2n + 1) {
+		clear: none;
+	}
 }
