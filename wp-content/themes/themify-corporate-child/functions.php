@@ -16,7 +16,7 @@ require_once( 'leaf/videostrip.php' );
 /*
 * Define a constant path to our single template folder
 */
-define( 'WP_LEAF_VERSION', '1.1.1' );
+define( 'WP_LEAF_VERSION', '1.1.2' );
 define( 'SINGLE_PATH', get_stylesheet_directory() . '/single' );
 
 function theme_name_setup() {
