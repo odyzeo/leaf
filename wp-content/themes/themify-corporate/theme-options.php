@@ -103,6 +103,7 @@ class Themify {
 	// Sorting Parameters
 	public $order = 'DESC';
 	public $orderby = 'date';
+	public $order_meta_key = false;
 
 	function __construct() {
 		
@@ -136,6 +137,10 @@ class Themify {
 		// Set Order & Order By parameters for post sorting
 		$this->order = themify_check('setting-index_order')? themify_get('setting-index_order'): 'DESC';
 		$this->orderby = themify_check('setting-index_orderby')? themify_get('setting-index_orderby'): 'date';
+
+		if( in_array( $this->orderby, array( 'meta_value', 'meta_value_num' ) ) ) {
+			$this->order_meta_key = themify_get( 'setting-index_meta_key', '' );
+		}
 		
 		$this->display_content = themify_get('setting-default_layout_display');
 		$this->excerpt_length = themify_get( 'setting-default_excerpt_length' );
@@ -272,42 +277,55 @@ class Themify {
 				$this->query_category = $portfolio_query_category;
 				$this->query_taxonomy = 'portfolio-category';
 				$this->query_post_type = 'portfolio';
-				if('default' != themify_get('portfolio_hide_meta_all')){
-					$this->hide_meta = themify_get('portfolio_hide_meta_all');
+
+				if( 'default' != themify_get( 'portfolio_hide_meta_all' ) ) {
+					$this->hide_meta = themify_get( 'portfolio_hide_meta_all' );
 				} else {
-					$this->hide_meta = themify_check('setting-default_portfolio_index_post_meta_category')?
-					themify_get('setting-default_portfolio_index_post_meta_category') : 'yes';
+					$this->hide_meta = themify_check( 'setting-default_portfolio_index_post_meta_category' )
+						? themify_get( 'setting-default_portfolio_index_post_meta_category' ) : 'yes';
 				}
-				if('default' != themify_get('portfolio_hide_date')){
+
+				if( 'default' != themify_get( 'portfolio_hide_date' ) ) {
 					$this->hide_date = themify_get('portfolio_hide_date');
 				} else {
-					$this->hide_date = themify_check('setting-default_portfolio_index_post_date')?
-					themify_get('setting-default_portfolio_index_post_date') : 'yes';
+					$this->hide_date = themify_check( 'setting-default_portfolio_index_post_date' )
+						? themify_get( 'setting-default_portfolio_index_post_date' ) : 'yes';
 				}
 
-				$this->post_layout = themify_get('portfolio_layout') ? themify_get('portfolio_layout') : themify_get('setting-default_portfolio_index_post_layout');
-				if('' == $this->post_layout)
-					$this->post_layout = 'list-post';
+				$this->post_layout = themify_get( 'portfolio_layout' ) 
+					? themify_get( 'portfolio_layout' )
+					: themify_get( 'setting-default_portfolio_index_post_layout' );
+				
+				if( '' == $this->post_layout ) $this->post_layout = 'list-post';
 
-				$this->hide_title = themify_get('portfolio_hide_title');
-				$this->unlink_title = themify_get('portfolio_unlink_title');
-				$this->hide_image = themify_get('portfolio_hide_image');
-				$this->unlink_image = themify_get('portfolio_unlink_image');
-				$this->display_content = themify_get('portfolio_display_content', 'excerpt');
-				$this->post_image_width = themify_get('portfolio_image_width');
-				$this->post_image_height = themify_get('portfolio_image_height');
-				$this->page_navigation = themify_get('portfolio_hide_navigation');
-				$this->posts_per_page = themify_get('portfolio_posts_per_page');
-				$this->order = themify_get('portfolio_order');
-				$this->orderby = themify_get('portfolio_orderby');
-                                $img_width = themify_get('portfolio_image_width');
-                                $img_height = themify_get('portfolio_image_height');
-                                $this->width = $img_width>=0?$img_width:(themify_get('setting-default_portfolio_index_image_post_width')>=0 ?
-								themify_get('setting-default_portfolio_index_image_post_width'):
-								self::$index_portfolio_image_width);
-                                $this->height = $img_height>=0?$img_height:(themify_get('setting-default_portfolio_index_image_post_height')>=0 ?
-								themify_get('setting-default_portfolio_index_image_post_height'):
-								self::$index_portfolio_image_height);
+				$this->hide_title = themify_get( 'portfolio_hide_title' );
+				$this->unlink_title = themify_get( 'portfolio_unlink_title' );
+				$this->hide_image = themify_get( 'portfolio_hide_image' );
+				$this->unlink_image = themify_get( 'portfolio_unlink_image' );
+				$this->display_content = themify_get( 'portfolio_display_content', 'excerpt' );
+				$this->post_image_width = themify_get( 'portfolio_image_width' );
+				$this->post_image_height = themify_get( 'portfolio_image_height' );
+				$this->page_navigation = themify_get( 'portfolio_hide_navigation' );
+				$this->posts_per_page = themify_get( 'portfolio_posts_per_page' );
+				$this->order = themify_get( 'portfolio_order' );
+				$this->orderby = themify_get( 'portfolio_orderby' );
+
+				if( in_array( $this->orderby, array( 'meta_value', 'meta_value_num' ) ) ) {
+					$this->order_meta_key = themify_get( 'portfolio_meta_key', '' );
+				}
+
+				$img_width = themify_get( 'portfolio_image_width' );
+				$img_height = themify_get( 'portfolio_image_height' );
+				$this->width = $img_width >= 0
+					? $img_width
+					: ( themify_get( 'setting-default_portfolio_index_image_post_width' ) >= 0
+						? themify_get( 'setting-default_portfolio_index_image_post_width' )
+						: self::$index_portfolio_image_width );
+				$this->height = $img_height >= 0
+					? $img_height
+					: ( themify_get( 'setting-default_portfolio_index_image_post_height' ) >= 0
+						? themify_get( 'setting-default_portfolio_index_image_post_height' )
+						: self::$index_portfolio_image_height );
 			} else {
 				$this->query_category = $post_query_category;
 				$this->query_taxonomy = 'category';
@@ -316,6 +334,11 @@ class Themify {
 					$this->posts_per_page = themify_get('posts_per_page');
 				$this->order = themify_get( 'order', 'desc' );
 				$this->orderby = themify_get( 'orderby', 'date' );
+
+				if( in_array( $this->orderby, array( 'meta_value', 'meta_value_num' ) ) ) {
+					$this->order_meta_key = themify_get( 'meta_key', '' );
+				}
+
 				if ( 'default' != themify_get( 'hide_date' ) ) {
 					$this->hide_date = themify_get( 'hide_date' );
 				} else {
@@ -326,31 +349,35 @@ class Themify {
 			}
 			
 		}
-		elseif (is_tax('portfolio-category')) {
-			$this->post_layout = themify_check('setting-default_portfolio_index_post_layout')? themify_get('setting-default_portfolio_index_post_layout') : 'list-post';
+		elseif( is_tax( 'portfolio-category' ) || is_post_type_archive( 'portfolio' ) ) {
+			$this->post_layout = themify_check('setting-default_portfolio_index_post_layout')
+				? themify_get('setting-default_portfolio_index_post_layout') : 'list-post';
 
-			$this->layout = themify_check('setting-default_portfolio_index_layout')? themify_get('setting-default_portfolio_index_layout') : 'sidebar-none';
+			$this->layout = themify_check('setting-default_portfolio_index_layout')
+				? themify_get('setting-default_portfolio_index_layout') : 'sidebar-none';
 
-			$this->display_content = themify_check('setting-default_portfolio_index_display') ?
-										themify_get('setting-default_portfolio_index_display'): 'none';
+			$this->display_content = themify_check('setting-default_portfolio_index_display')
+				? themify_get('setting-default_portfolio_index_display') : 'none';
 
-			$this->hide_title = themify_check('setting-default_portfolio_index_title')? themify_get('setting-default_portfolio_index_title'): 'no';
+			$this->hide_title = themify_check('setting-default_portfolio_index_title')
+				? themify_get('setting-default_portfolio_index_title') : 'no';
 
-			$this->unlink_title = themify_check('setting-default_portfolio_index_unlink_post_title')? themify_get('setting-default_portfolio_index_unlink_post_title'): 'no';
+			$this->unlink_title = themify_check('setting-default_portfolio_index_unlink_post_title')
+				? themify_get('setting-default_portfolio_index_unlink_post_title') : 'no';
 
-			$this->hide_meta = themify_check('setting-default_portfolio_index_post_meta_category')?
-					themify_get('setting-default_portfolio_index_post_meta_category') : 'yes';
+			$this->hide_meta = themify_check('setting-default_portfolio_index_post_meta_category')
+				? themify_get('setting-default_portfolio_index_post_meta_category') : 'yes';
 
-			$this->hide_date = themify_check('setting-default_portfolio_index_post_date')?
-					themify_get('setting-default_portfolio_index_post_date') : 'yes';
+			$this->hide_date = themify_check('setting-default_portfolio_index_post_date')
+				? themify_get('setting-default_portfolio_index_post_date') : 'yes';
 
-			$this->width = themify_check('setting-default_portfolio_index_image_post_width') ?
-							themify_get('setting-default_portfolio_index_image_post_width'):
-							self::$index_portfolio_image_width;
+			$this->width = themify_check('setting-default_portfolio_index_image_post_width')
+				? themify_get('setting-default_portfolio_index_image_post_width')
+				: '';
 			
-                        $this->height = themify_get('setting-default_portfolio_index_image_post_height') ?
-							themify_get('setting-default_portfolio_index_image_post_height'):
-							self::$index_portfolio_image_height;
+			$this->height = themify_get('setting-default_portfolio_index_image_post_height')
+				? themify_get('setting-default_portfolio_index_image_post_height')
+				: '';
 		}
 
 		elseif( is_singular('post') || is_singular('portfolio') ) {
@@ -427,6 +454,17 @@ class Themify {
                         if($post_image_height>=0){
                              $this->height = $post_image_height;
                         }
+		}
+		elseif ( is_archive() ) {
+
+			$excluded_types = apply_filters( 'themify_exclude_CPT_for_sidebar', array('post', 'page', 'attachment', 'tbuilder_layout', 'tbuilder_layout_part', 'section'));;
+			$postType = get_post_type();
+			
+			if ( !in_array($postType, $excluded_types) ) {
+				if ( themify_check( 'setting-custom_post_'. $postType .'_archive' ) ) {
+					$this->layout = themify_get( 'setting-custom_post_'. $postType .'_archive' );
+				}
+			}
 		}
 
 		if ( is_single() && $this->hide_image != 'yes' ) {

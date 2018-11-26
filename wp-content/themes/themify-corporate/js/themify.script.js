@@ -1,4 +1,4 @@
-;// Themify Theme Scripts - http://themify.me/
+;// Themify Theme Scripts - https://themify.me/
 
 // Initialize object literals
 var EntryFilter = {};
@@ -22,32 +22,22 @@ $.fn.fixedHeader = function(options){
 			$parent = $this.parent(),
 			thisHeight = $this.height(),
 			$window = $(window),
-			$body = $('body'),
-			resizeId;
+			$body = $('body');
 
 		if(themifyScript.sticky_header){
 			var img = '<img id="sticky_header_logo" src="' + themifyScript.sticky_header.src + '"';
-				if(themifyScript.sticky_header.imgwidth){
-					img+=' width="'+themifyScript.sticky_header.imgwidth+'"';
-				}
-				if(themifyScript.sticky_header.imgheight){
-					img+=' height="'+themifyScript.sticky_header.imgheight+'"';
-				}
 				img+='/>';
 			$('#site-logo a').prepend(img);
 		}
 
 		function onScroll(){
 			var scrollTop = $window.scrollTop();
-			thisHeight = $this.height();
 
 			if(scrollTop > thisHeight) {
 				$this.addClass(settings.fixedClass);
-				$parent.css('padding-top', thisHeight);
 				$body.addClass('fixed-header-on');
 			} else {
 				$this.removeClass(settings.fixedClass);
-				$parent.css('padding-top', '');
 				$body.removeClass('fixed-header-on');
 			}
 		};
@@ -114,6 +104,7 @@ EntryFilter = {
 	filter: function(){
 		var $filter = $('.post-filter');
 		if ( $filter.find('a').length > 0 && 'undefined' !== typeof $.fn.isotope ){
+                        $filter.next('.portfolio').addClass('masonry');
 			$filter.find('li').each(function(){
 				var $li = $(this),
 					$entries = $li.parent().next(),
@@ -147,14 +138,14 @@ EntryFilter = {
 	layout: function(){
 		var $entries = $('.loops-wrapper.portfolio.masonry:not(.fullwidth)');
 
-		if( ! $entries.has( '.grid-sizer' ).length && ! $entries.has( '.gutter-sizer' ).length ) {
-			$entries.prepend('<div class="grid-sizer"></div><div class="gutter-sizer"></div>');
+		if($entries.find( '.grid-sizer' ).length===0) {
+                    $entries.prepend('<div class="grid-sizer"></div><div class="gutter-sizer"></div>');
 		}
 
 		$entries.addClass( 'masonry-done' ).isotope({
 			masonry: {
-				columnWidth: $entries.find( '.grid-sizer' ).length ? '.grid-sizer' : null,
-				gutter: $entries.find('.gutter-sizer').length ? '.gutter-sizer' : null
+				columnWidth:  '.grid-sizer',
+				gutter:  '.gutter-sizer'
 			},
 			transformsEnabled: false,
 			itemSelector : '.portfolio-post',
@@ -169,7 +160,7 @@ $(document).ready(function() {
 	var $body = $('body'),$skills = $('.progress-bar');
 
 	// make portfolio overlay clickable
-	$( 'body' ).on( 'click', '.loops-wrapper.grid4.portfolio.overlay .post-image + .post-content, .loops-wrapper.grid3.portfolio.overlay .post-image + .post-content, .loops-wrapper.grid2.portfolio.overlay .post-image + .post-content', function(e){
+	$body.on( 'click', '.loops-wrapper.grid4.portfolio.overlay .post-image + .post-content, .loops-wrapper.grid3.portfolio.overlay .post-image + .post-content, .loops-wrapper.grid2.portfolio.overlay .post-image + .post-content', function(e){
 		if( $( e.target ).is( 'a' ) || $( e.target ).parent().is( 'a' ) ) return;
 		var $link = $( this ).closest( '.post' ).find( 'a[data-post-permalink]' );
 		if( $link.length > 0 && ! $link.hasClass( 'themify_lightbox' ) ) {
@@ -233,7 +224,7 @@ $(document).ready(function() {
 	/////////////////////////////////////////////
 	// Toggle main nav on mobile
 	/////////////////////////////////////////////
-	if( $( 'body' ).hasClass( 'touch' ) && typeof jQuery.fn.themifyDropdown != 'function' ) {
+	if( $body.hasClass( 'touch' ) && typeof jQuery.fn.themifyDropdown != 'function' ) {
 		Themify.LoadAsync(themify_vars.url + '/js/themify.dropdown.js', function(){
 			$( '#main-nav' ).themifyDropdown();
 		});

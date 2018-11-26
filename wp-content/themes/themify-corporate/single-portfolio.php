@@ -4,9 +4,8 @@
  * @package themify
  * @since 1.0.0
  */
-?>
 
-<?php get_header(); ?>
+get_header(); ?>
 
 <?php
 /** Themify Default Variables

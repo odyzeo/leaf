@@ -386,7 +386,7 @@ if ( ! class_exists( 'Themify_Portfolio' ) ) {
 		 */
 		function parse_category_args( $category, $post_type ) {
 			$tax_query = array();
-			if ( 'all' != $category ) {
+			if ( 'all' !== $category ) {
 				$terms = explode(',', $category);
 				if( preg_match( '#[a-z]#', $category ) ) {
 					$include = array_filter( $terms, array( $this, 'is_positive_string' ) );
@@ -665,12 +665,12 @@ if ( ! class_exists( 'Themify_Portfolio' ) ) {
 				$themify_save = clone $themify; // save a copy
 
 				// override $themify object
-				$themify->hide_title = 'yes' == $title? 'no': 'yes';
-				$themify->unlink_title =  ( '' == $unlink_title || 'no' == $unlink_title )? 'no' : 'yes';
-				$themify->unlink_image =  ( '' == $unlink_image || 'no' == $unlink_image )? 'no' : 'yes';
-				$themify->hide_image = 'yes' == $image? 'no': 'yes';
-				$themify->hide_meta = 'yes' == $post_meta? 'no': 'yes';
-				$themify->hide_date = 'yes' == $post_date? 'no': 'yes';
+				$themify->hide_title = 'yes' === $title? 'no': 'yes';
+				$themify->unlink_title =  ( '' == $unlink_title || 'no' === $unlink_title )? 'no' : 'yes';
+				$themify->unlink_image =  ( '' == $unlink_image || 'no' === $unlink_image )? 'no' : 'yes';
+				$themify->hide_image = 'yes' === $image? 'no': 'yes';
+				$themify->hide_meta = 'yes' === $post_meta? 'no': 'yes';
+				$themify->hide_date = 'yes' === $post_date? 'no': 'yes';
 				if(!$multiple) {
 					if( '' == $image_w || get_post_meta($args['p'], 'image_width', true ) ){
 						$themify->width = get_post_meta($args['p'], 'image_width', true );
@@ -682,7 +682,7 @@ if ( ! class_exists( 'Themify_Portfolio' ) ) {
 					$themify->width = $image_w;
 					$themify->height = $image_h;
 				}
-				$themify->use_original_dimensions = 'yes' == $use_original_dimensions? 'yes': 'no';
+				$themify->use_original_dimensions = 'yes' === $use_original_dimensions? 'yes': 'no';
 				$themify->display_content = $display;
 				$themify->more_link = $more_link;
 				$themify->more_text = $more_text;
@@ -691,13 +691,14 @@ if ( ! class_exists( 'Themify_Portfolio' ) ) {
 				$themify->is_shortcode = true;
 
 				// Output entry filter
-				if ( 'yes' == $filter ) {
+				if ( 'yes' === $filter ) {
 					$themify->shortcode_query_category = $category;
 					$themify->shortcode_query_taxonomy = $this->tax;
 					ob_start();
 					get_template_part( 'includes/filter', $this->post_type );
 					$out .= ob_get_contents();
 					ob_end_clean();
+					$style.=' masonry';
 				}
 
 				$out .= '<div class="loops-wrapper shortcode ' . $post_type  . ' ' . $style . ' '. $cpt_layout_class .'">';
@@ -732,7 +733,7 @@ if ( ! class_exists( 'Themify_Portfolio' ) ) {
 			global $themify;
 			// get default layout
 			$class = $themify->post_layout;
-			if('portfolio' == $themify->query_post_type) {
+			if('portfolio' === $themify->query_post_type) {
 				$class = themify_check('portfolio_layout') ? themify_get('portfolio_layout') : themify_get('setting-default_post_layout');
 			} elseif (is_tax('portfolio-category')) {
 				$class = themify_check('setting-default_portfolio_index_post_layout')? themify_get('setting-default_portfolio_index_post_layout') : 'list-post';

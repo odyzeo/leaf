@@ -1,7 +1,7 @@
 /*
 Theme Name: Themify Corporate
-Theme URI: http://themify.me/themes/corporate
-Version: 1.6.1
+Theme URI: https://themify.me/themes/corporate
+Version: 1.7.6
 Description: Created by <a href="http://www.themify.me">Themify</a>.
 Author: Themify
 Author URI: http://www.themify.me
@@ -226,7 +226,8 @@ STRUCTURE
 
 /* main page width */
 .pagewidth,
-.full_width .themify_builder_row .row_inner {
+.full_width .themify_builder_row .row_inner,
+.full_width .module-layout-part .themify_builder_row.fullwidth_row_container .row_inner {
 	width: 1160px;
 	max-width: 100%;
 	margin: 0 auto;
@@ -239,17 +240,6 @@ STRUCTURE
 #body {
 	max-width: 100%;
 }
-
-.has-fixed-header #pagewrap {
-	padding-top: 120px;
-}
-.has-fixed-header #headerwrap {
-	position: fixed;
-}
-.fixed-header-on #pagewrap {
-	padding-top: 105px;
-}
-
 /* content */
 #content {
 	width: 71%;
@@ -358,6 +348,9 @@ HEADER
 	padding: 40px 0;
 	transition: all .3s;
 }
+.has-fixed-header #headerwrap {
+	position: fixed;
+}
 #headerwrap.fixed-header {
 	position: fixed;
 	top: 0;
@@ -368,7 +361,7 @@ HEADER
 	border-bottom: 1px solid #efefef;
 	border-color: rgba(0,0,0,.1);
 }
-.fixed-header #header {
+#headerwrap.fixed-header #header {
 	padding: 10px 0;
 }
 .admin-bar #headerwrap,
@@ -383,10 +376,6 @@ HEADER
 /* fixed header on */
 .fixed-header-on #header {
 	height: auto;
-}
-.fixed-header-on #site-logo img {
-	max-height: 60px;
-	width: auto;
 }
 
 /* sticky header logo */
@@ -403,8 +392,9 @@ HEADER
 	display:block;
 }
 #headerwrap.fixed-header #site-logo img {
-	max-height: 60px;
-	width: auto;
+	transition: all .3s;
+}
+#headerwrap.fixed-header #site-logo img:not(#sticky_header_logo) {
 	transition: all .3s;
 }
 
@@ -413,13 +403,10 @@ HEADER
 	background: none;
 	color: #fff;	
 }
-.transparent-header #site-logo a,
+.transparent-header #headerwrap #site-logo a,
 .transparent-header .social-widget a,
 .transparent-header #main-nav > li > a {
 	color: #fff;
-}
-.transparent-header .post-content {
-	padding-top: 0 !important;
 }
 .transparent-header #pagewrap {
 	padding-top: 0 !important;
@@ -440,6 +427,7 @@ HEADER
 	color: #fff;
 	border: none;
 }
+.transparent-header #headerwrap.fixed-header #site-logo a,
 .transparent-header #headerwrap.fixed-header a,
 .transparent-header #headerwrap.fixed-header #searchform .icon-search:before {
 	color: #fff;
@@ -456,6 +444,22 @@ HEADER
 }
 .transparent-header #main-nav > li.current_page_item > a:after {
 	background-color: #fff;
+}
+
+/* prevent transparent header overlap builder */
+.themify_builder_active.has-fixed-header #headerwrap {
+	position: static !important;	
+	color: inherit;
+}
+.themify_builder_active.has-fixed-header #pagewrap {
+	padding-top: 0 !important;
+}
+.transparent-header.themify_builder_active #headerwrap {
+	position: static !important;	
+	color: inherit;
+}
+.transparent-header.themify_builder_active #headerwrap a {
+	color: inherit;
 }
 
 /*
@@ -482,9 +486,12 @@ SITE LOGO
 	-o-transition: all 0.5s ease-out;
 	transition: all 0.5s ease-out;
 }
+#site-logo {
+	color: #000;
+}
 #site-logo a {
 	text-decoration: none;
-	color:#000;
+	color: inherit;
 }
 #site-logo a:hover {
 	text-decoration: none;
@@ -882,12 +889,37 @@ MAIN NAVIGATION
 #menu-icon-close {
 	display: none;
 }
-#menu-icon {
-	font-size: .9em;
+.menu-icon-inner {
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	width: 28px;
+	height: 23px;
+	vertical-align: middle;
 }
-#menu-icon:before {
-	content: "\f0c9"; /* fa-bars */
-	font-size: 1.65em;
+.menu-icon-inner:before,
+.menu-icon-inner:after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	width: 100%;
+	transition: all .7s ease;
+	transition-property: transform;
+	box-sizing: border-box;
+}
+.menu-icon-inner:before {
+	top: 0;
+	height: 100%;
+	border-top: 5px solid;
+	border-bottom: 5px solid;
+}
+.menu-icon-inner:after {
+	top: 50%;
+	transform: translateY(-50%);
+	-webkit-transform: translateY(-50%);
+	border-top: 5px solid;
+	-webkit-backface-visibility: hidden;
 }
 body.mobile-menu-visible {
     position: relative;
@@ -1254,6 +1286,7 @@ GENERAL GRID POST STYLING
 	border-radius: 100%;
 	background-color: #654e9c;
 	text-align: center;
+        padding: .3em;
 }
 .loops-wrapper.list-thumb-image .post-date-wrap .post-date,
 .loops-wrapper.grid2 .post-date-wrap .post-date {
@@ -1533,8 +1566,8 @@ PORTFOLIO POST
 .portfolio-post-wrap .post-title a {
 	color: #fff;
 }
-.single-portfolio .post-content {
-	padding-top: 2.5%;
+.single-portfolio .post-image img {
+	margin-bottom: 2em;
 }
 .portfolio-post-wrap .post-meta {
 	margin: 0 0 27px;
@@ -1682,6 +1715,7 @@ ARCHIVE PORTFOLIO POST
 	display: none; /* will be toggle with js */
 	text-align:center;
 	font-family: "montserrat", sans-serif;
+	margin: 0;
 	margin-bottom: 2em;
 }
 .post-filter li {
@@ -1721,11 +1755,6 @@ ARCHIVE PORTFOLIO POST
 	-webkit-transform:	rotate(360deg);
 	-moz-transform:		rotate(360deg);
 	transform:			rotate(360deg);
-}
-.loops-wrapper.portfolio.grid4 .post:nth-of-type(4n+1),
-.loops-wrapper.portfolio.grid3 .post:nth-of-type(3n+1),
-.loops-wrapper.portfolio.grid2 .post:nth-of-type(2n+1) {
-	clear: none;
 }
 .loops-wrapper.portfolio.grid4 .post-date-wrap,
 .loops-wrapper.portfolio.grid3 .post-date-wrap,
@@ -3075,25 +3104,27 @@ img.alignleft, img.aligncenter, img.alignright, img.alignnone {
 /************************************************************************************
 GALLERY
 *************************************************************************************/
-#body .gallery {
+.gallery {
 	margin: 0 0 20px 0;
 }
 
 /* gallery item */
-#body .gallery .gallery-item {
+.gallery .gallery-item {
 	margin: 0 8px 8px 0;
 	vertical-align: top;
 	width: auto;
 	float: left;
 	text-align: center;
 }
-#body .gallery img {
+
+/* gallery image */
+.gallery img {
 	border: none;
 	vertical-align: middle;
 }
 
 /* gallery caption */
-#body .gallery .gallery-caption {
+.gallery .gallery-caption {
 	line-height: 120%;
 	font-size: 90%;
 	text-align: center;
@@ -3103,75 +3134,87 @@ GALLERY
 /* GALLERY COLUMN
 ================================================ */
 /* gallery column 1 (display all in one line) */
-#body .gallery-columns-1 .gallery-item {
+.gallery-columns-1 .gallery-item {
 	width: auto;
 }
-#body .gallery-columns-1 br {
+.gallery-columns-1 br {
 	display: none !important;
 }
 
 /* gallery column 2 */
-#body .gallery-columns-2 .gallery-item {
+.gallery-columns-2 .gallery-item {
 	width: 49.2%;
 }
 
 /* gallery column 3 */
-#body .gallery-columns-3 .gallery-item {
+.gallery-columns-3 .gallery-item {
 	width: 32.3%;
 }
 /* gallery column 4 */
-#body .gallery-columns-4 .gallery-item {
+.gallery-columns-4 .gallery-item {
 	width: 23.8%;
 }
 
 /* gallery column 5 */
-#body .gallery-columns-5 .gallery-item {
+.gallery-columns-5 .gallery-item {
 	width: 18.8%;
 }
 
 /* gallery column 6 */
-#body .gallery-columns-6 .gallery-item {
+.gallery-columns-6 .gallery-item {
 	width: 15.4%;
 }
 
 /* gallery column 7 */
-#body .gallery-columns-7 .gallery-item {
+.gallery-columns-7 .gallery-item {
 	width: 13%;
 }
 
 /* gallery column 8 */
-#body .gallery-columns-8 .gallery-item {
+.gallery-columns-8 .gallery-item {
 	width: 11.18%;
 }
 
 /* gallery column 9 */
-#body .gallery-columns-9 .gallery-item {
+.gallery-columns-9 .gallery-item {
 	width: 9.77%;
 }
 
 /* set gallery item margin-right */
-#body .gallery-columns-1 .gallery-item,
-#body .gallery-columns-2 .gallery-item,
-#body .gallery-columns-3 .gallery-item,
-#body .gallery-columns-4 .gallery-item,
-#body .gallery-columns-5 .gallery-item,
-#body .gallery-columns-6 .gallery-item,
-#body .gallery-columns-7 .gallery-item,
-#body .gallery-columns-8 .gallery-item,
-#body .gallery-columns-9 .gallery-item {
+.gallery-columns-1 .gallery-item,
+.gallery-columns-2 .gallery-item,
+.gallery-columns-3 .gallery-item,
+.gallery-columns-4 .gallery-item,
+.gallery-columns-5 .gallery-item,
+.gallery-columns-6 .gallery-item,
+.gallery-columns-7 .gallery-item,
+.gallery-columns-8 .gallery-item,
+.gallery-columns-9 .gallery-item {
 	margin: 0 1.5% 1.5% 0;
 }
 
 /* clear gallery item margin-right */
-#body .gallery-columns-9 .gallery-item:nth-of-type(9n),
-#body .gallery-columns-8 .gallery-item:nth-of-type(8n),
-#body .gallery-columns-7 .gallery-item:nth-of-type(7n),
-#body .gallery-columns-6 .gallery-item:nth-of-type(6n),
-#body .gallery-columns-5 .gallery-item:nth-of-type(5n),
-#body .gallery-columns-4 .gallery-item:nth-of-type(4n),
-#body .gallery-columns-3 .gallery-item:nth-of-type(3n),
-#body .gallery-columns-2 .gallery-item:nth-of-type(2n) {
+.gallery-columns-9 .gallery-item:nth-of-type(9n),
+.gallery-columns-8 .gallery-item:nth-of-type(8n),
+.gallery-columns-7 .gallery-item:nth-of-type(7n),
+.gallery-columns-6 .gallery-item:nth-of-type(6n),
+.gallery-columns-5 .gallery-item:nth-of-type(5n),
+.gallery-columns-4 .gallery-item:nth-of-type(4n),
+.gallery-columns-3 .gallery-item:nth-of-type(3n),
+.gallery-columns-2 .gallery-item:nth-of-type(2n) {
 	margin-right: 0;
+}
+
+/* clear left gallery item different sizes */
+.gallery-columns-9 .gallery-item:nth-of-type(9n + 1),
+.gallery-columns-8 .gallery-item:nth-of-type(8n + 1),
+.gallery-columns-7 .gallery-item:nth-of-type(7n + 1),
+.gallery-columns-6 .gallery-item:nth-of-type(6n + 1),
+.gallery-columns-5 .gallery-item:nth-of-type(5n + 1),
+.gallery-columns-4 .gallery-item:nth-of-type(4n + 1),
+.gallery-columns-3 .gallery-item:nth-of-type(3n + 1),
+.gallery-columns-2 .gallery-item:nth-of-type(2n + 1) {
+	clear: left;
 }
 
 /************************************************************************************
@@ -3612,6 +3655,7 @@ WooCommerce
 .woocommerce-page table.cart td.actions .coupon .input-text {
 	box-shadow: none;
 	border: none;
+	width: auto;
 }
 .woocommerce table.shop_table,
 .woocommerce-page table.shop_table {
@@ -3671,14 +3715,14 @@ WooCommerce
 }
 
 /* Checkout style */
-/* woocommerce-info */
+/* woocommerce info/error/message */
+.woocommerce .woocommerce-error,
 .woocommerce .woocommerce-info,
-.woocommerce-page .woocommerce-info {
-	border-top: 3px solid #654e9c;
-}
-.woocommerce .woocommerce-info:before,
-.woocommerce-page .woocommerce-info:before {
-	background-color: #654e9c;
+.woocommerce .woocommerce-message,
+.woocommerce-page .woocommerce-error,
+.woocommerce-page .woocommerce-info,
+.woocommerce-page .woocommerce-message {
+	border-top-color: #654e9c;
 }
 .woocommerce .woocommerce-error:before,
 .woocommerce .woocommerce-info:before,
@@ -3690,6 +3734,14 @@ WooCommerce
 	-webkit-border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
 	border-bottom-right-radius: 0;
+	top: 1.5em;
+	color: #654e9c;
+	line-height: normal;
+}
+.woocommerce-error li:last-child,
+.woocommerce-info li:last-child,
+.woocommerce-message li:last-child {
+	margin-bottom: 0;
 }
 .woocommerce .col2-set .col-1 h3,
 .woocommerce-page .col2-set .col-1 h3,
@@ -3715,6 +3767,11 @@ WooCommerce
 	box-shadow: none;
 	border-radius: 0;
 	text-shadow: none;
+}
+#add_payment_method #payment div.payment_box::before,
+.woocommerce-cart #payment div.payment_box::before,
+.woocommerce-checkout #payment div.payment_box::before {
+	border-bottom-color: #f0f0f0;
 }
 
 /* Product image */
@@ -3898,4 +3955,7 @@ LIGHTBOXED POST
 }
 .lightboxed .pagewidth {
 	width: auto;
+}
+.builder-posts-wrap .post-image img{
+	width:100%;
 }

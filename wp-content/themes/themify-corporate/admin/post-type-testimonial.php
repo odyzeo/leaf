@@ -73,7 +73,7 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 			$this->atts = array(
 				'id' => '',
 				'title' => 'no', // no
-				'image' => 'yes', // no
+				'image' => 'no', // no
 				'image_w' => 144,
 				'image_h' => 144,
 				'display' => 'content', // excerpt, none
@@ -207,7 +207,7 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 		 */
 		function remove_quick_edit( $actions ) {
 			global $post;
-			if( $post->post_type == $this->post_type )
+			if( $post->post_type === $this->post_type )
 				unset($actions['inline hide-if-no-js']);
 			return $actions;
 		}
@@ -221,11 +221,7 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 		 * @return string Markup without the button
 		 */
 		function hide_view_post($return, $id, $new_title, $new_slug){
-			if( get_post_type( $id ) == $this->post_type ) {
-				return preg_replace('/<span id=\'view-post-btn\'>.*<\/span>/i', '', $return);
-			} else {
-				return $return;
-			}
+			return get_post_type( $id ) === $this->post_type?preg_replace('/<span id=\'view-post-btn\'>.*<\/span>/i', '', $return):$return;
 		}
 
 		/**
@@ -267,7 +263,7 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 		 */
 		function filter_load() {
 			global $typenow;
-			if ( $typenow == $this->post_type ) {
+			if ( $typenow === $this->post_type ) {
 				add_action( current_filter(), array( $this, 'setup_vars' ), 20 );
 				add_action( 'restrict_manage_posts', array( $this, 'get_select' ) );
 				add_filter( "manage_taxonomies_for_{$this->post_type}_columns", array( $this, 'add_columns' ) );
@@ -311,7 +307,7 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 		 */
 		function parse_category_args( $category, $post_type ) {
 			$tax_query = array();
-			if ( 'all' != $category ) {
+			if ( 'all' !== $category ) {
 				$terms = explode(',', $category);
 				if( preg_match( '#[a-z]#', $category ) ) {
 					$include = array_filter( $terms, array( $this, 'is_positive_string' ) );
@@ -476,15 +472,14 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 					$themify->height = $image_h;
 				}
 
-				$themify->use_original_dimensions = 'yes' == $use_original_dimensions? 'yes': 'no';
+				$themify->use_original_dimensions = 'yes' === $use_original_dimensions? 'yes': 'no';
 				$themify->display_content = $display;
 				$themify->more_link = $more_link;
 				$themify->more_text = $more_text;
 				$themify->post_layout = $style;
-
-				$slider_id = ( 'slider' == $style )? 'id="testimonial-slider-' . $this->instance.'"': '';
+				$slider_id = ( 'slider' === $style )? 'id="testimonial-slider-' . $this->instance.'"': '';
 				$out .= '<div '.$slider_id.' class="loops-wrapper shortcode ' . $post_type  . ' ' . $style . ' '. $cpt_layout_class .'">';
-					if ( 'slider' == $style ) {
+					if ( 'slider' === $style ) {
 						$option = 'setting-testimonial_slider';
 						$out .= sprintf('<div class="slideshow-wrap"><ul class="slideshow" data-id="testimonial-slider-%s" data-autoplay="%s" data-effect="%s" data-speed="%s">',
 							$this->instance,
@@ -494,7 +489,7 @@ if ( ! class_exists( 'Themify_Testimonial' ) ) {
 						);
 					}
 					$out .= themify_get_shortcode_template($posts, 'includes/loop-testimonial', 'index');
-					if ( 'slider' == $style ) {
+					if ( 'slider' === $style ) {
 						$out .= '</ul></div>';
 					}
 					$out .= $this->section_link($more_link, $more_text, $post_type);

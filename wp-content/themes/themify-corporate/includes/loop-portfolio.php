@@ -9,9 +9,13 @@ global $themify; ?>
 <?php
 $categories = wp_get_object_terms(get_the_id(), 'portfolio-category');
 $class = '';
-foreach($categories as $cat){
-	$class .= ' cat-'.$cat->term_id;
+
+foreach( $categories as $cat ) {
+	if( isset( $cat->term_id ) ) {
+		$class .= ' cat-' . $cat->term_id;
+	}
 }
+
 ?>
 <?php themify_post_before(); // hook ?>
 <article id="portfolio-<?php the_id(); ?>" class="<?php echo implode(' ', get_post_class('post clearfix portfolio-post' . $class)); ?>">

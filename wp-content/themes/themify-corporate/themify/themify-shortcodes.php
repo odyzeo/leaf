@@ -42,7 +42,6 @@
  * 		themify_shortcode_post_slider
  * 		themify_shortcode_author_box
  * 		themify_shortcode_box
- *		themify_fix_shortcode_empty_paragraph
  * 
  ***************************************************************************/
 
@@ -181,18 +180,15 @@ function themify_shortcode( $atts, $content = null, $code = '' ) {
 				$height = $height . 'px';
 			}
 
-			if ('yes' === $draggable && 'yes' === $draggable_disable_mobile_map && wp_is_mobile()){
+			if ( 'yes' === $draggable && 'yes' === $draggable_disable_mobile_map && wp_is_mobile() ) {
 				$draggable = 'disable';
 			}
-			$num = rand(0,10000);
-			$data['address'] = $address;
-			$data['zoom'] = $zoom;
-			$data['type'] = $type;
-			$data['scroll'] =  $scroll_wheel ==='yes';
-			$data['drag'] =  $draggable==='yes';
+			$num = rand( 0, 10000 );
+			$draggable = $draggable === 'yes';
+			$scroll = $scroll_wheel === 'yes';
 			return '
 			<div class="shortcode map">
-				<div data-map="'.esc_attr( base64_encode(json_encode( $data) ) ).'" id="themify_map_canvas_' . $num . '" style="display: block;width:' .  $width  . ';height:' . $height . ';" class="map-container themify_map"></div>
+				<div data-address="' . esc_attr( $address ) . '" data-zoom="' . $zoom . '" data-type="' . $type . '" data-scroll="' . $scroll . '" data-drag="' . $draggable . '" id="themify_map_canvas_' . $num . '" style="display: block;width:' .  $width  . ';height:' . $height . ';" class="map-container themify_map"></div>
 			</div>';
 		break;
 		case 'video':
@@ -672,20 +668,6 @@ function themify_shortcode_box( $atts, $content = null ) {
 	. '</div> <!-- /shortcode box -->';
 
 	return $boxstr;
-}
-
-/**
- * Remove paragraphs wrapping shortcodes
- *
- * @param string $content
- *
- * @since 1.9.4
- *
- * @return string
- */
-function themify_fix_shortcode_empty_paragraph( $content ) {
-	$block = join( '|', array_keys( themify_shortcode_list() ) ) . '|themify_' . join( '|themify_', array_keys( themify_shortcode_list() ) );
-	return preg_replace( array( "/(<p>)?\[($block)(\s[^\]]+)?\](<\/p>|<br \/>)?/", "/(<p>)?\[\/($block)](<\/p>|<br \/>)?/" ), array( '[$2$3]', '[/$2]' ), $content );
 }
 
 /**

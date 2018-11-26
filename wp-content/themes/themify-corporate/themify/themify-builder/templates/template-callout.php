@@ -49,7 +49,7 @@ if (TFCache::start_cache($mod_name, self::$post_id, array('ID' => $module_ID))):
     ?>
     <!-- module callout -->
     <div <?php echo self::get_element_attributes($container_props); ?>>
-
+        <!--insert-->
         <?php if ($fields_args['mod_title_callout'] !== ''): ?>
             <?php echo $fields_args['before_title'] . apply_filters('themify_builder_module_title', $fields_args['mod_title_callout'], $fields_args). $fields_args['after_title']; ?>
         <?php endif; ?>
@@ -57,19 +57,21 @@ if (TFCache::start_cache($mod_name, self::$post_id, array('ID' => $module_ID))):
         <div class="callout-inner">
             <div class="callout-content">
                 <h3 class="callout-heading"><?php echo $fields_args['heading_callout'] ?></h3>
+                <p>
                 <?php
                 echo apply_filters('themify_builder_module_content', $fields_args['text_callout']);
                 ?>
+                </p>
             </div>
             <!-- /callout-content -->
 
             <?php if ($fields_args['action_btn_text_callout']) : ?>
                 <div class="callout-button">
-                    <a href="<?php echo esc_url($fields_args['action_btn_link_callout']); ?>" class="<?php echo $ui_class; ?>"<?php echo 'yes' === $fields_args['open_link_new_tab_callout'] ? ' rel="noopener" target="_blank"' : ''; ?>>
-                        <?php echo $fields_args['action_btn_text_callout'] ?>
-                    </a>
-                </div>
-            <?php endif; ?>
+                        <a href="<?php echo esc_url($fields_args['action_btn_link_callout']); ?>" class="<?php echo $ui_class; ?>"<?php echo 'yes' === $fields_args['open_link_new_tab_callout'] ? ' rel="noopener" target="_blank"' : ''; ?>>
+                            <?php echo $fields_args['action_btn_text_callout'] ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
         </div>
         <!-- /callout-content -->
     </div>

@@ -26,9 +26,9 @@ global $themify; ?>
 	<?php else: ?>
 
 		<?php
-		if ( 'yes' == $themify->use_original_dimensions ) {
-			$themify->width = themify_get( 'image_width' );
-			$themify->width = themify_get( 'image_height' );
+		if ( 'yes' !== $themify->use_original_dimensions && is_singular( 'portfolio' ) ) {
+			$themify->width = themify_get( 'image_width', $themify->width );
+			$themify->height = themify_get( 'image_height', themify_get( 'image_width' ) ? '' : $themify->height );
 		}
 		?>
 

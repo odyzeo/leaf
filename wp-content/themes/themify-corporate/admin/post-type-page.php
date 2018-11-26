@@ -27,7 +27,7 @@ function themify_theme_page_meta_box( $args = array() ){
 		array(
 			'name'=> 'content_width',
 			'title' => __('Content Width', 'themify'),
-			'description' => '',
+			'description' => 'Select "Fullwidth" if the page is to be built with the Builder without the sidebar (it will make the Builder content fullwidth).',
 			'type' => 'layout',
 			'show_title' => true,
 			'meta' => array(
@@ -189,7 +189,7 @@ function themify_theme_query_post_meta_box($args = array()) {
 			'description' => '',
 			'type' => 'separator',
 			'meta' => array(
-				'html' => '<div class="themify-info-link">' . sprintf( __( '<a href="%s">Query Posts</a> allows you to query WordPress posts from any category on the page. To use it, select a Query Category.', 'themify' ), 'http://themify.me/docs/query-posts' ) . '</div>'
+				'html' => '<div class="themify-info-link">' . sprintf( __( '<a href="%s">Query Posts</a> allows you to query WordPress posts from any category on the page. To use it, select a Query Category.', 'themify' ), 'https://themify.me/docs/query-posts' ) . '</div>'
 			),
 		),
 		// Query Category
@@ -246,9 +246,20 @@ function themify_theme_query_post_meta_box($args = array()) {
 				array('name' => __('Comments Number', 'themify'), 'value' => 'comment_count'),
 				array('name' => __('Modified Date', 'themify'), 'value' => 'modified'),
 				array('name' => __('Post Slug', 'themify'), 'value' => 'name'),
-				array('name' => __('Post ID', 'themify'), 'value' => 'ID')
+				array('name' => __('Post ID', 'themify'), 'value' => 'ID'),
+				array('name' => __( 'Custom Field String', 'themify' ), 'value' => 'meta_value'),
+				array('name' => __( 'Custom Field Numeric', 'themify' ), 'value' => 'meta_value_num')
 			),
-			'default' => 'date'
+			'default' => 'date',
+			'hide' => 'date|rand|author|title|comment_count|modified|name|ID field-meta-key'
+		),
+		array(
+			'name'			=> 'meta_key',
+			'title'			=> __( 'Custom Field Key', 'themify' ),
+			'description'	=> '',
+			'type'			=> 'textbox',
+			'meta'			=> array('size' => 'medium'),
+			'class'			=> 'field-meta-key'
 		),
 		// Post Layout
 		array(
@@ -425,9 +436,20 @@ function themify_theme_query_portfolio_meta_box($args = array()){
 				array('name' => __('Comments Number', 'themify'), 'value' => 'comment_count'),
 				array('name' => __('Modified Date', 'themify'), 'value' => 'modified'),
 				array('name' => __('Post Slug', 'themify'), 'value' => 'name'),
-				array('name' => __('Post ID', 'themify'), 'value' => 'ID')
+				array('name' => __('Post ID', 'themify'), 'value' => 'ID'),
+				array('name' => __( 'Custom Field String', 'themify' ), 'value' => 'meta_value'),
+				array('name' => __( 'Custom Field Numeric', 'themify' ), 'value' => 'meta_value_num')
 			),
-			'default' => 'date'
+			'default' => 'date',
+			'hide' => 'date|rand|author|title|comment_count|modified|name|ID field-portfolio-meta-key'
+		),
+		array(
+			'name'			=> 'portfolio_meta_key',
+			'title'			=> __( 'Custom Field Key', 'themify' ),
+			'description'	=> '',
+			'type'			=> 'textbox',
+			'meta'			=> array('size' => 'medium'),
+			'class'			=> 'field-portfolio-meta-key'
 		),
 		// Post Layout
 		array(

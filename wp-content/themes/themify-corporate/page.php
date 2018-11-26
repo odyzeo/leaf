@@ -4,9 +4,8 @@
  * @package themify
  * @since 1.0.0
  */
-?>
 
-<?php get_header(); ?>
+get_header(); ?>
 
 <?php
 /** Themify Default Variables
@@ -42,14 +41,14 @@ global $themify; ?>
 			<div id="page-<?php the_ID(); ?>" class="type-page">
 
 			<!-- page-title -->
-			<?php if($themify->page_title != "yes"): ?>
-				<h1 class="page-title"><?php the_title(); ?></h1>
+			<?php if($themify->page_title !== 'yes'): ?>
+				<?php the_title( '<h1 class="page-title">', '</h1>' ); ?>
 			<?php endif; ?>
 			<!-- /page-title -->
 
 			<div class="page-content entry-content">
 
-				<?php if ( $themify->hide_page_image != 'yes' && has_post_thumbnail() ) : ?>
+				<?php if ( $themify->hide_page_image !== 'yes' && has_post_thumbnail() ) : ?>
 					<figure class="post-image"><?php themify_image( "{$themify->auto_featured_image}w={$themify->image_page_single_width}&h={$themify->image_page_single_height}&ignore=true" ); ?></figure>
 				<?php endif; ?>
 
@@ -57,10 +56,10 @@ global $themify; ?>
 
 				<?php wp_link_pages(array('before' => '<p class="post-pagination"><strong>'.__('Pages:','themify').'</strong> ', 'after' => '</p>', 'next_or_number' => 'number')); ?>
 
-				<?php edit_post_link(__('Edit','themify'), '[', ']'); ?>
+				<?php edit_post_link(__('Edit','themify'), '<span class="edit-button">[', ']</span>'); ?>
 
 				<!-- comments -->
-				<?php if(!themify_check('setting-comments_pages') && $themify->query_category == ""): ?>
+				<?php if($themify->query_category == '' && !themify_check('setting-comments_pages')): ?>
 					<?php comments_template(); ?>
 				<?php endif; ?>
 				<!-- /comments -->
@@ -85,7 +84,7 @@ global $themify; ?>
 				/////////////////////////////////////////////
 				// Entry Filter
 				/////////////////////////////////////////////
-				if ( 'portfolio' == $themify->query_post_type && ( count( themify_get_query_categories() ) > 1 ) ) : ?>
+				if ( 'portfolio' === $themify->query_post_type && count( themify_get_query_categories() ) > 1  ) : ?>
 					<?php get_template_part( 'includes/filter', $themify->query_post_type ); ?>
 				<?php endif; // portfolio query ?>
 
@@ -100,7 +99,7 @@ global $themify; ?>
 				<!-- /loops-wrapper -->
 
 				<?php if ( themify_is_query_page() ) : ?>
-					<?php if ( $themify->page_navigation != 'yes' ): ?>
+					<?php if ( $themify->page_navigation !== 'yes' ): ?>
 						<?php get_template_part( 'includes/pagination' ); ?>
 					<?php endif; // show page navigation ?>
 				<?php endif; // is query page ?>
@@ -120,7 +119,7 @@ global $themify; ?>
 	/////////////////////////////////////////////
 	// Sidebar
 	/////////////////////////////////////////////
-	if ($themify->layout != 'sidebar-none'): get_sidebar(); endif; ?>
+	if ($themify->layout !== 'sidebar-none'): get_sidebar(); endif; ?>
 
 </div>
 <!-- /layout-container -->

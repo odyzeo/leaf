@@ -40,11 +40,13 @@
                 if (this.options.doLoop) {
                     this.player.loop = true;
                 }
-                if (this.options.autoPlay) {
+                 if (this.options.autoPlay) {
                     this.player.autoplay = true;
+                    this.options.ambient = true;
                 }
-                if (this.options.ambient) {
+                 if (this.options.ambient) {
                     this.player.muted = true;
+                    this.player.setAttribute('muted', 'muted');
                 }
                 var self = this;
                 if ($.isFunction(this.options.onload)) {
