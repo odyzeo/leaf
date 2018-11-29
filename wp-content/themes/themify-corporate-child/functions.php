@@ -16,7 +16,7 @@ require_once( 'leaf/videostrip.php' );
 /*
 * Define a constant path to our single template folder
 */
-define( 'WP_LEAF_VERSION', '1.1.2' );
+define( 'WP_LEAF_VERSION', '1.1.3' );
 define( 'SINGLE_PATH', get_stylesheet_directory() . '/single' );
 
 function theme_name_setup() {
@@ -195,3 +195,48 @@ function get_leaf_post_primary_category() {
 
 	return $category;
 }
+
+/* Add Google Tag Manager javascript code as close to
+the opening <head> tag as possible
+=====================================================*/
+function google_tag_head(){
+    ?>
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-NCK8LHX');</script>
+    <!-- End Google Tag Manager -->
+
+    <?php
+}
+add_action( 'wp_head', 'google_tag_head', 10 );
+
+/* Add Google Tag Manager noscript codeimmediately after
+the opening <body> tag
+========================================================*/
+function google_tag_body(){
+    ?>
+
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NCK8LHX"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <!-- Facebook -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0]
+            if (d.getElementById(id)) return
+            js = d.createElement(s)
+            js.id = id
+            js.src = '//connect.facebook.net/sk_SK/sdk.js#xfbml=1&version=v2.10'
+            fjs.parentNode.insertBefore(js, fjs)
+        }(document, 'script', 'facebook-jssdk'))</script>
+    <!-- End Facebook -->
+
+    <?php
+}
+add_action( 'after_body_open_tag', 'google_tag_body' );
